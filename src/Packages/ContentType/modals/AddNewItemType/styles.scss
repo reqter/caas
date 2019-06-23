@@ -1,0 +1,53 @@
+.c-category-templates-body {
+  .files-uploaded {
+    .un-icon {
+      font-size: 25px;
+    }
+    .un-text {
+      font-size: 15px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      font-weight: 500;
+      padding-top: 10px;
+      width: 100px
+    }
+  }
+  .fieldsTab {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 300px;
+    justify-content: center;
+    .add-field-types {
+      margin: 20px 10px;
+      width: calc(25% - 20px);
+      display: flex;
+      flex-direction: column;
+      .add-field-icon {
+        height: 100px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: whitesmoke;
+        color: rgb(56, 132, 255);
+        font-size: 40px;
+        box-shadow: 0 0 5px lightgray;
+      }
+      .title {
+        margin-top: 10px;
+        text-align: center;
+      }
+      .description {
+        text-align: center;
+        font-size: 13px;
+        color: gray;
+      }
+    }
+  }
+  .formTab {
+    padding: 3%;
+    .formTab-row {
+    }
+  }
+}

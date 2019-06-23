@@ -1,0 +1,123 @@
+.custoWebhook {
+  display: flex;
+  flex-direction: column;
+  .customWebhook-header {
+    height: 65px;
+    background: whitesmoke;
+    display: flex;
+    .leftSide {
+      display: flex;
+      padding-left: 15px;
+      align-items: center;
+      span {
+        font-weight: 600;
+        font-size: 20px;
+      }
+    }
+
+    .rightSide {
+      flex: 1;
+      display: flex;
+      flex-direction: row-reverse;
+      .webhhookTabs {
+        display: flex;
+        .webhookTabItem {
+          display: flex;
+          cursor: pointer;
+          align-items: center;
+          justify-content: center;
+          padding: 0 20px;
+          font-weight: 500;
+          font-size: 13px;
+          &.active {
+            background: white;
+          }
+        }
+      }
+    }
+  }
+  .customWebhook-body {
+    min-height: 300px;
+    padding: 15px 20px;
+    .urlMethods {
+      .urlMethods-btns {
+        button {
+          margin: 5px;
+        }
+      }
+    }
+    .customTriggerEvents {
+      margin-top: 20px;
+      table {
+        border: 1px solid whitesmoke;
+        thead {
+          th {
+            border-width: 1px;
+            border-color: whitesmoke;
+            border-right: 1px solid whitesmoke;
+            font-size: 13px;
+            font-weight: 400;
+          }
+          & th:first-child {
+            background: whitesmoke;
+          }
+        }
+        tbody {
+          .title {
+            font-size: 13px;
+            font-weight: 500;
+          }
+          .custom_checkbox {
+            margin-top: 0;
+            display: flex;
+            justify-content: center;
+          }
+          tr td {
+            border-right: 1px solid whitesmoke;
+            height: 45px;
+          }
+        }
+      }
+    }
+    .customWebhook-filters {
+      margin-top: 20px;
+      background: whitesmoke;
+      padding: 5px;
+      .customWebhook-filters-header {
+        position: relative;
+        cursor: pointer;
+        .filters-title {
+          font-weight: 500;
+        }
+        .filters-message {
+          font-size: 13px;
+          padding-top: 5px;
+        }
+        .icon {
+        position: absolute;
+        right: 20px;
+        top: 5px;
+        font-size: 25px;
+        color: gray
+      }
+      }
+      .filter-content {
+        border-top: 0.5px solid lightgray;
+        padding: 10px;
+        margin-top: 10px;
+      }
+      
+    }
+    .headerContentType {
+      margin: 30px 0;
+      margin-bottom: 30px;
+    }
+  }
+}
+.triggerType {
+  padding-top: 10px;
+  .title {
+    font-size: 15px;
+    font-weight: 400;
+  }
+}

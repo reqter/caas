@@ -1,0 +1,93 @@
+.se-wrapper {
+  flex: 1;
+  margin: 3% 3% 1%;
+  display: flex;
+  flex-direction: column;
+  .se-header {
+    height: 80px;
+    display: flex;
+    .se-header-left {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      flex: 1;
+      .se-header-title {
+        font-size: 25px;
+        font-weight: 500;
+      }
+      .se-header-description {
+        font-size: 11px;
+        color: gray;
+      }
+    }
+    .se-header-right {
+      display: flex;
+      align-items: center;
+    }
+  }
+  .se-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    border-radius: 4px;
+    .tabs {
+      display: flex;
+      border-bottom: 0.5px solid lightgray;
+      background: white;
+      box-shadow: 0 0 2px lightgray;
+      .tabItem {
+        min-width: 120px;
+        padding: 20px 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 500;
+        position: relative;
+        cursor: pointer;
+        &::before {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          width: 90%;
+          margin: auto;
+          height: 4px;
+          background: rgb(126, 182, 255);
+          opacity: 0;
+          transition-duration: 0.2s;
+          width: 0;
+        }
+        &:hover::before {
+          width: 90%;
+          opacity: 1;
+          transition-duration: 0.2s;
+        }
+      }
+      .active {
+        position: relative;
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          width: 90%;
+          margin: auto;
+          height: 4px;
+          background: rgb(86, 132, 255);
+        }
+      }
+    }
+  }
+}
+.settings-modal-body {
+  padding: 5px 10px;
+}
+
+.apiKeyResult {
+  input[readOnly] {
+    background: white;
+  }
+}

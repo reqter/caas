@@ -1,0 +1,83 @@
+.wrapper {
+  height: 100vh;
+  background-color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.center {
+  //width: 460px;
+  background-color: white;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  font-size: 90%;
+}
+.header {
+  border-bottom: 0.5px solid lightgray;
+  display: flex;
+  height: 100px;
+  align-items: center;
+  padding: 0 20px;
+  justify-content: space-between;
+}
+.header-title {
+  font-size: 2em;
+  font-weight: 400;
+}
+.header-icon {
+  font-size: 35px;
+  color: #1890ff;
+}
+.formBody {
+  max-width: 550px;
+  padding: 1.5em 2em;
+  .message{
+    padding-bottom: 10px
+  }
+}
+.btn-submit {
+  margin-top: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.divider {
+  margin-top: 6%;
+}
+.social {
+  display: flex;
+}
+.social .btn {
+  width: 100%;
+  margin: 10px;
+}
+.social .icon {
+  margin-right: 10px;
+}
+.icon-google {
+  color: red;
+}
+
+.divider .no-span {
+  display: table;
+  white-space: nowrap;
+  &:before,
+  &:after {
+    border-top: 1px solid lightgray;
+    content: "";
+    display: table-cell;
+    position: relative;
+    top: 0.7em;
+    width: 45%;
+  }
+  &:before {
+    right: 1.5%;
+  }
+  &:after {
+    left: 1.5%;
+  }
+}

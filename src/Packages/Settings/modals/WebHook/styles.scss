@@ -1,0 +1,74 @@
+.webhooksBody {
+  .fristTab {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    .webhookItem {
+      width: calc(20% - 10px);
+      margin: 0 10px 15px 0;
+      -webkit-filter: grayscale(100%);
+      -moz-filter: grayscale(100%);
+      -ms-filter: grayscale(100%);
+      -o-filter: grayscale(100%);
+      filter: gray; /* IE 6-9 */
+      &:first-child {
+        cursor: pointer;
+        opacity: 1;
+        -webkit-filter: grayscale(0);
+        -moz-filter: grayscale(0);
+        -ms-filter: grayscale(0);
+        -o-filter: grayscale(0);
+        filter: none; /* IE 6-9 */
+      }
+      .w-top {
+        height: 100px;
+        background: whitesmoke;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+          width: 60px;
+          height: 60px;
+        }
+      }
+      .w-bottom {
+        padding-top: 10px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        font-size: 12px;
+        & span:first-child {
+          font-size: 15px;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+.templatesHeader {
+  img {
+    width: 40px;
+    height: 40px;
+  }
+  span {
+    margin-left: 10px;
+  }
+}
+.webhookTemplates {
+  .webhookTemplates-body {
+    padding: 0 10px;
+    ul {
+      padding-left: 15px;
+    }
+  }
+  .webhookTemplates-footer {
+    display: flex;
+    flex-direction: row-reverse;
+    border-top: 0.5px solid lightgray;
+    align-items: center;
+    padding-top: 20px;
+    button {
+      margin-left: 5px;
+    }
+  }
+}

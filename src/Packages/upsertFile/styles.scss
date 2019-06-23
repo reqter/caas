@@ -1,0 +1,101 @@
+.up-file-wrapper {
+  background: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  .up-file-header {
+    height: 60px;
+    background: white;
+    top: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0px 0px 3px lightgray;
+    display: flex;
+    padding: 0 3%;
+    align-items: center;
+    .btn {
+      i {
+        margin-right: 10px;
+      }
+    }
+    .tabItems {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .item {
+        cursor: pointer;
+        font-size: 14px;
+        margin: 0 10px;
+        color: gray;
+        width: auto;
+        &.active {
+          font-size: 15px;
+          color: black;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+  .up-file-content {
+    flex: 1;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    overflow-y: auto;
+    main {
+      width: 768px;
+      margin: auto;
+      .up-file-content-title {
+        font-size: 25px;
+        font-weight: 500;
+        margin: 10px 0;
+        color: gray;
+      }
+
+      .up-file-formInputs {
+        background: white;
+        border-radius: 3px;
+        background: white;
+        box-shadow: 0 0 2px lightgray;
+        padding: 4%;
+        input[readonly],
+        textarea[readonly],
+        select[disabled] {
+          background: white;
+        }
+        .rowItem {
+          margin: 20px 0;
+        }
+        .upf-actions {
+          display: flex;
+          flex-direction: row-reverse;
+          button {
+            margin-left: 10px;
+          }
+        }
+        .shortDesc textarea {
+          min-height: 100px;
+        }
+        .longDesc textarea {
+          min-height: 200px;
+        }
+      }
+      .errorsBox {
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        .actions {
+          flex: 1;
+          display: flex;
+          align-items: flex-end;
+        }
+      }
+      .up-file-error-section {
+        min-height: 250px;
+        background: white;
+        box-shadow: 0 0 3px lightgray;
+        border-radius: 3px;
+      }
+    }
+  }
+}

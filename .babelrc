@@ -1,0 +1,36 @@
+{
+    "plugins": [
+        [
+            "transform-imports",
+            {
+                "lodash": {
+                    "transform": "lodash/${member}",
+                    "preventFullImport": true
+                },
+                "reactStrap": {
+                    "transform": "reactStrap/${member}",
+                    "preventFullImport": true
+                }
+            }
+        ],
+        [
+            "module-resolver",
+            {
+                "root": [
+                    "./src"
+                ],
+                "alias": {
+                    "@components": "./src/components",
+                    "@services": "./src/services"
+                }
+            }
+        ]
+    ],
+    "env": {
+        "production": {
+            "presets": [
+                "react-optimize"
+            ]
+        }
+    }
+}
