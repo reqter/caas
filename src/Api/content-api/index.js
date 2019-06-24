@@ -94,6 +94,7 @@ export function filterContents () {
 
       if (url[url.length - 1] === '&') url = url.substring(0, url.length - 1)
       const token = storageManager.getItem('token')
+      debugger
       var rawResponse = await fetch(url, {
         method: 'GET',
         headers: {
@@ -110,21 +111,26 @@ export function filterContents () {
           _onOk(result)
           break
         case 400:
+          console.log(result)
           _onBadRequest()
           break
         case 401:
           _unAuthorized()
           break
         case 404:
+          console.log(result)
           _notFound()
           break
         case 500:
+          console.log(result)
           _onServerError()
           break
         default:
           break
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return {
@@ -610,7 +616,7 @@ export function addContent () {
         headers: {
           authorization: 'Bearer ' + token,
           'Content-Type': 'application/json',
-          spaceId: spaceId
+          spaceid: spaceId
         },
         body: JSON.stringify(content)
       })

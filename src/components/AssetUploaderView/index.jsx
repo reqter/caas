@@ -7,21 +7,61 @@ const UploaderView = props => {
   const currentLang = languageManager.getCurrentLanguage().name;
 
   const { field, formData } = props;
-  const [dropZoneViewBox, toggleDropZoneViewBox] = useState(false);
   const [dropZoneFile, setDropZoneFile] = useState();
 
-  const [files, setFiles] = useState([{}]);
-
   useEffect(() => {
-    if (formData[field.name]) {
-      setDropZoneFile({
-        id: Math.random(),
-        url: formData[field.name],
-      });
+    if (formData) {
+      setDropZoneFile(formData);
     }
   }, [formData]);
   function download() {
-    window.open(dropZoneFile.url[currentLang], );
+    window.open(dropZoneFile.url[currentLang]);
+  }
+  const imgs = ["jpg", "jpeg", "gif", "bmp", "png"];
+  const videos = ["mp4", "3gp", "ogg", "wmv", "flv", "avi"];
+  const audios = ["wav", "mp3", "ogg"];
+  function getAssetComponentByType(file, customClass) {
+    const url = file.url[currentLang];
+    if (url) {
+      const ext = url
+        .split("/")
+        .pop()
+        .split(".")
+        .pop();
+      const cls = "unkownFileType " + customClass;
+
+      if (!ext) {
+        return (
+          <div className={cls}>
+            <i className="icon-file-text un-icon" />
+            <span className="un-text">uknown</span>
+          </div>
+        );
+      } else {
+        if (imgs.indexOf(ext.toLowerCase()) !== -1) {
+          return <img src={url} alt="" />;
+        } else if (videos.indexOf(ext.toLowerCase()) !== -1) {
+          return (
+            <video controls>
+              <source src={url} />
+            </video>
+          );
+        } else if (audios.indexOf(ext.toLowerCase()) !== -1) {
+          return (
+            <audio controls>
+              <source src={url} />
+            </audio>
+          );
+        } else {
+          return (
+            <div className={cls}>
+              <i className="icon-file-text un-icon" />
+              <span className="un-text">{file.name}</span>
+            </div>
+          );
+        }
+      }
+    }
   }
   return (
     <div className="ad-uploader">
@@ -42,14 +82,11 @@ const UploaderView = props => {
           </button>
         </div>
       </div>
-     
+
       <div className="dropBox">
         {dropZoneFile ? (
           <div className="dropbox-uploadedFile">
-            {utility.getRequestMediaComponentByURL(
-              dropZoneFile.url[currentLang],
-              "unknowIcon"
-            )}
+            {getAssetComponentByType(dropZoneFile, "unknowIcon")}
           </div>
         ) : (
           <div className="dropbox-content">

@@ -16,32 +16,47 @@ const filters = [
   {
     id: "0",
     name: "all",
+    title: {
+      en: "All Assets",
+      fa: "همه",
+    },
     icon: "icon-folder",
   },
   {
     id: "1",
     name: "image",
+    title: {
+      en: "Image",
+      fa: "تصاویر",
+    },
     icon: "icon-images",
   },
   {
     id: "2",
     name: "video",
+    title: {
+      en: "Video",
+      fa: "ویدیو",
+    },
     icon: "icon-video",
   },
   {
     id: "3",
     name: "audio",
+    title: {
+      en: "Audio",
+      fa: "فایل صوتی",
+    },
     icon: "icon-audio",
   },
   {
     id: "4",
-    name: "pdf",
+    name: "application/pdf",
+    title: {
+      en: "PDF",
+      fa: "پی دی اف",
+    },
     icon: "icon-pdf",
-  },
-  {
-    id: "5",
-    name: "spreadsheet",
-    icon: "icon-spreadsheet",
   },
 ];
 
@@ -515,7 +530,9 @@ const Assets = props => {
                     }}
                   >
                     <i className={["icon", f.icon].join(" ")} />
-                    <span className="name">{translate(f.name)}</span>
+                    <span className="name">
+                      {f.title && f.title[currentLang]}
+                    </span>
                     <span
                       className="icon-circle-o iconSelected"
                       style={{

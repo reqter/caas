@@ -196,7 +196,13 @@ const UpsertFile = props => {
           en: value["en"],
           fa: value["fa"],
         };
-        f.fileType = value.fileType.split("/")[0];
+        if (
+          value.fileType.includes("image") ||
+          value.fileType.includes("video") ||
+          value.fileType.includes("audio")
+        ) {
+          f.fileType = value.fileType.split("/")[0];
+        } else f.fileType = value.fileType;
         f.name = value["name"];
         f["title"] = {
           en: value["name"],

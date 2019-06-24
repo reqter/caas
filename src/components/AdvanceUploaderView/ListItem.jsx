@@ -43,7 +43,7 @@ const ListItem = props => {
           <i className="icon-checkmark" />
         </div>
       )}
-      <div className="listItem-name">{props.file.name || "File name"}</div>
+      <div className="listItem-name">{props.file.name || ""}</div>
     </div>
   );
 };
