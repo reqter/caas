@@ -82,13 +82,17 @@ const Products = props => {
           <div className="p-name">
             <span>
               {props.value &&
-                props.value["name"] &&
-                props.value["name"][currentLang]}
+              props.value["name"] &&
+              props.value["name"][currentLang]
+                ? props.value["name"][currentLang]
+                : props.value["name"]}
             </span>
             <span>
               {props.value &&
-                props.value["shortDesc"] &&
-                props.value["shortDesc"][currentLang]}
+              props.value["shortDesc"] &&
+              props.value["shortDesc"][currentLang]
+                ? props.value["shortDesc"][currentLang]
+                : props.value["shortDesc"]}
             </span>
           </div>
         );

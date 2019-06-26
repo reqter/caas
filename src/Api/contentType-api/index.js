@@ -369,8 +369,7 @@ export function updateContentType () {
           media: contentType.media,
           fields: contentType.fields,
           allowCustomFields: contentType.allowCustomFields,
-          accessRight: contentType.accessRight,
-          categorization: contentType.categorization
+          accessRight: contentType.accessRight
         })
       })
 
@@ -396,9 +395,7 @@ export function updateContentType () {
         default:
           break
       }
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   }
 
   return {

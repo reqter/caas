@@ -4,6 +4,7 @@ import AsyncCreatableSelect from "react-select/lib/AsyncCreatable";
 import "./styles.scss";
 import { languageManager, useGlobalState } from "../../services";
 import { filterContents } from "./../../Api/content-api";
+import DateFormater from "./../DateFormater";
 const currentLang = languageManager.getCurrentLanguage().name;
 
 const ReferenceInput = props => {
@@ -174,14 +175,16 @@ const MultiValueLabel = props => {
   const { data } = props;
   return (
     <components.MultiValueLabel {...props}>
-      <div className="custome-select-selected" key={data.sys.id}>
+      <div className="custome-select-selected" key={data._id}>
         {data.fields["thumbnail"] && data.fields["thumbnail"].length > 0 && (
           <div className="selectedItemImage">
             <img src={data.fields["thumbnail"][0][currentLang]} alt="" />
           </div>
         )}
         <div className="selectedItemName">
-          {data.fields.name && data.fields.name[currentLang]}
+          {data.fields.name && data.fields.name[currentLang]
+            ? data.fields.name[currentLang]
+            : data.fields.name}
         </div>
       </div>
     </components.MultiValueLabel>
@@ -200,14 +203,22 @@ const CustomOption = ({ innerProps, isDisabled, data }) => {
           )}
         </div>
         <div className="itemName">
-          <span>{data.fields.name && data.fields.name[currentLang]}</span>
           <span>
-            {data.fields.shortDesc && data.fields.shortDesc[currentLang]}
+            {data.fields.name && data.fields.name[currentLang]
+              ? data.fields.name[currentLang]
+              : data.fields.name}
+          </span>
+          <span>
+            {data.fields.shortDesc && data.fields.shortDesc[currentLang]
+              ? data.fields.shortDesc[currentLang]
+              : data.fields.shortDesc}
           </span>
         </div>
         <div className="itemBy">
           <span>{data.sys.issuer && data.sys.issuer.fullName}</span>
-          <span>{data.sys.issueDate && data.sys.issueDate}</span>
+          <span>
+            {data.sys.issueDate && <DateFormater data={data.sys.issueDate} />}
+          </span>
         </div>
         <div className="itemStatus">
           <span>
