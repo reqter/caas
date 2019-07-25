@@ -152,19 +152,28 @@ const ReferenceInput = props => {
 };
 
 export default ReferenceInput;
+
 const SingleValue = props => {
   const { data } = props;
   return (
     <components.SingleValue {...props}>
       <div className="options-single-selected">
         <div className="custome-select-selected">
-          {data.fields["thumbnail"] && data.fields["thumbnail"].length > 0 && (
+          {data.contentType["media"] && data.contentType["media"].length > 0 && (
             <div className="selectedItemImage">
-              <img src={data.fields["thumbnail"][0][currentLang]} alt="" />
+              <img src={data.contentType["media"][0][currentLang]} alt="" />
             </div>
           )}
           <div className="selectedItemName">
-            {data.fields.name && data.fields.name[currentLang]}
+            {data.fields
+              ? data.fields.name
+                ? data.fields.name[currentLang]
+                  ? data.fields.name[currentLang]
+                  : Object.keys(data.fields.name).length === 0
+                  ? data.fields.name
+                  : ""
+                : ""
+              : ""}
           </div>
         </div>
       </div>
@@ -176,15 +185,21 @@ const MultiValueLabel = props => {
   return (
     <components.MultiValueLabel {...props}>
       <div className="custome-select-selected" key={data._id}>
-        {data.fields["thumbnail"] && data.fields["thumbnail"].length > 0 && (
+        {data.contentType["media"] && data.contentType["media"].length > 0 && (
           <div className="selectedItemImage">
-            <img src={data.fields["thumbnail"][0][currentLang]} alt="" />
+            <img src={data.contentType["media"][0][currentLang]} alt="" />
           </div>
         )}
         <div className="selectedItemName">
-          {data.fields.name && data.fields.name[currentLang]
-            ? data.fields.name[currentLang]
-            : data.fields.name}
+          {data.fields
+            ? data.fields.name
+              ? data.fields.name[currentLang]
+                ? data.fields.name[currentLang]
+                : Object.keys(data.fields.name).length === 0
+                ? data.fields.name
+                : ""
+              : ""
+            : ""}
         </div>
       </div>
     </components.MultiValueLabel>
@@ -196,22 +211,34 @@ const CustomOption = ({ innerProps, isDisabled, data }) => {
     return (
       <div {...innerProps} className="custom-select-item">
         <div className="imageItem">
-          {data.fields["thumbnail"] && data.fields["thumbnail"].length > 0 ? (
-            <img src={data.fields["thumbnail"][0][currentLang]} alt="" />
+          {data.contentType["media"] && data.contentType["media"].length > 0 ? (
+            <img src={data.contentType["media"][0][currentLang]} alt="" />
           ) : (
             <div className="imageItem-empty">No Image</div>
           )}
         </div>
         <div className="itemName">
           <span>
-            {data.fields.name && data.fields.name[currentLang]
-              ? data.fields.name[currentLang]
-              : data.fields.name}
+            {data.fields
+              ? data.fields.name
+                ? data.fields.name[currentLang]
+                  ? data.fields.name[currentLang]
+                  : Object.keys(data.fields.name).length === 0
+                  ? data.fields.name
+                  : ""
+                : ""
+              : ""}
           </span>
           <span>
-            {data.fields.shortDesc && data.fields.shortDesc[currentLang]
-              ? data.fields.shortDesc[currentLang]
-              : data.fields.shortDesc}
+            {data.fields
+              ? data.fields.shortDesc
+                ? data.fields.shortDesc[currentLang]
+                  ? data.fields.shortDesc[currentLang]
+                  : Object.keys(data.fields.shortDesc).length === 0
+                  ? data.fields.shortDesc
+                  : ""
+                : ""
+              : ""}
           </span>
         </div>
         <div className="itemBy">
@@ -222,7 +249,8 @@ const CustomOption = ({ innerProps, isDisabled, data }) => {
         </div>
         <div className="itemStatus">
           <span>
-            {data.fields.status &&
+            {data.fields &&
+              data.fields.status &&
               languageManager.translate(data.fields.status)}
           </span>
         </div>

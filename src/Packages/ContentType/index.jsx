@@ -10,7 +10,7 @@ import {
   deleteContentType,
   removeContentTypeField,
   setAccessRight,
-  updateContentType,
+  updateContentType
 } from "./../../Api/contentType-api";
 import { Alert, RowSkeleton } from "../../components";
 
@@ -27,7 +27,7 @@ const ItemTypes = props => {
           setSpinner(false);
           dispatch({
             type: "SET_CONTENT_TYPES",
-            value: result,
+            value: result
           });
         }
       })
@@ -38,10 +38,8 @@ const ItemTypes = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate(
-                "CONTENT_TYPE_ON_SERVER_ERROR"
-              ),
-            },
+              message: languageManager.translate("CONTENT_TYPE_ON_SERVER_ERROR")
+            }
           });
         }
       })
@@ -52,8 +50,8 @@ const ItemTypes = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate("CONTENT_TYPE_ON_BAD_REQUEST"),
-            },
+              message: languageManager.translate("CONTENT_TYPE_ON_BAD_REQUEST")
+            }
           });
         }
       })
@@ -64,8 +62,8 @@ const ItemTypes = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "warning",
-              message: languageManager.translate("CONTENT_TYPE_UN_AUTHORIZED"),
-            },
+              message: languageManager.translate("CONTENT_TYPE_UN_AUTHORIZED")
+            }
           });
         }
       })
@@ -117,14 +115,14 @@ const ItemTypes = props => {
               toggleRightContent(false);
             dispatch({
               type: "DELETE_CONTENT_TYPE",
-              value: selected,
+              value: selected
             });
             dispatch({
               type: "ADD_NOTIFY",
               value: {
                 type: "success",
-                message: languageManager.translate("CONTENT_TYPE_REMOVE_ON_OK"),
-              },
+                message: languageManager.translate("CONTENT_TYPE_REMOVE_ON_OK")
+              }
             });
           })
           .onServerError(result => {
@@ -135,8 +133,8 @@ const ItemTypes = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE_ON_SERVER_ERROR"
-                ),
-              },
+                )
+              }
             });
           })
           .onBadRequest(result => {
@@ -147,8 +145,8 @@ const ItemTypes = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE_ON_BAD_REQUEST"
-                ),
-              },
+                )
+              }
             });
           })
           .unAuthorized(result => {
@@ -159,8 +157,8 @@ const ItemTypes = props => {
                 type: "warning",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE_UN_AUTHORIZED"
-                ),
-              },
+                )
+              }
             });
           })
           .notFound(result => {
@@ -171,14 +169,14 @@ const ItemTypes = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE__NOT_FOUND"
-                ),
-              },
+                )
+              }
             });
           })
           .call(spaceInfo.id, selected._id),
       onCancel: () => {
         setAlertData();
-      },
+      }
     });
   }
   function closeRightContent() {
@@ -228,13 +226,13 @@ const ItemTypes = props => {
                 type: "success",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE_FIELD_ON_OK"
-                ),
-              },
+                )
+              }
             });
             setFields(f);
             dispatch({
               type: "UPDATE_CONTENT_TYPE",
-              value: result,
+              value: result
             });
           })
           .onServerError(result => {
@@ -245,8 +243,8 @@ const ItemTypes = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE_FIELD_ON_SERVER_ERROR"
-                ),
-              },
+                )
+              }
             });
           })
           .onBadRequest(result => {
@@ -257,8 +255,8 @@ const ItemTypes = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE_FIELD_ON_BAD_REQUEST"
-                ),
-              },
+                )
+              }
             });
           })
           .unAuthorized(result => {
@@ -269,8 +267,8 @@ const ItemTypes = props => {
                 type: "warning",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE_FIELD_UN_AUTHORIZED"
-                ),
-              },
+                )
+              }
             });
           })
           .notFound(result => {
@@ -281,15 +279,15 @@ const ItemTypes = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE_FIELD_NOT_FOUND"
-                ),
-              },
+                )
+              }
             });
           })
           .call(spaceInfo.id, newContentType);
       },
       onCancel: () => {
         setAlertData();
-      },
+      }
     });
   }
   function closeFieldConfigModal(updatedField) {
@@ -421,16 +419,12 @@ const ItemTypes = props => {
                         <div className="fieldItem-title">{field.name}</div>
 
                         <div className="fieldItem-actions">
-                          {(field.allowEdit === undefined ||
-                            field.allowEdit) && (
-                            <button
-                              className="btn btn-link"
-                              size="xs"
-                              onClick={() => showAdvanceConfig(field)}
-                            >
-                              Settings
-                            </button>
-                          )}
+                          <button
+                            className="btn btn-link"
+                            onClick={() => showAdvanceConfig(field)}
+                          >
+                            Settings
+                          </button>
                           {field.isBase === undefined || !field.isBase ? (
                             <>
                               <button

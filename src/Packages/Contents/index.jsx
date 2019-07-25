@@ -3,7 +3,7 @@ import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
-  DropdownToggle,
+  DropdownToggle
 } from "reactstrap";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
@@ -15,14 +15,14 @@ import {
   publish,
   unPublish,
   archive,
-  unArchive,
+  unArchive
 } from "./../../Api/content-api";
 import "./styles.scss";
 
 import { Alert, CircleSpinner, DateFormater } from "./../../components";
 import {
   ContentTypesFilter,
-  StatusFilter,
+  StatusFilter
 } from "./../../components/Commons/ContentFilters";
 
 const Products = props => {
@@ -35,7 +35,7 @@ const Products = props => {
       //show: false,
       width: 70,
       headerStyle: {
-        display: "none",
+        display: "none"
       },
       Cell: props => {
         return (
@@ -43,14 +43,14 @@ const Products = props => {
             <div className="p-number-value">{props.index + 1}</div>
           </div>
         );
-      },
+      }
     },
     {
       width: 100,
       Header: () => <div className="p-header-td">Thumbnail</div>,
       //show: false,
       headerStyle: {
-        display: "none",
+        display: "none"
       },
       accessor: "contentType",
       Cell: props => {
@@ -68,42 +68,50 @@ const Products = props => {
             )}
           </div>
         );
-      },
+      }
     },
     {
       Header: () => <div className="p-header-td">Name</div>,
       //show: false,
       headerStyle: {
-        display: "none",
+        display: "none"
       },
       accessor: "fields",
       Cell: props => {
         return (
           <div className="p-name">
             <span>
-              {props.value &&
-              props.value["name"] &&
-              props.value["name"][currentLang]
-                ? props.value["name"][currentLang]
-                : props.value["name"]}
+              {props.value
+                ? props.value["name"]
+                  ? props.value["name"][currentLang]
+                    ? props.value["name"][currentLang]
+                    : Object.keys(props.value["name"]).length === 0
+                    ? props.value["name"]
+                    : ""
+                  : ""
+                : ""}
             </span>
             <span>
-              {props.value &&
-              props.value["shortDesc"] &&
-              props.value["shortDesc"][currentLang]
-                ? props.value["shortDesc"][currentLang]
-                : props.value["shortDesc"]}
+              {props.value
+                ? props.value["shortDesc"]
+                  ? props.value["shortDesc"][currentLang]
+                    ? props.value["shortDesc"][currentLang]
+                    : Object.keys(props.value["shortDesc"]).length === 0
+                    ? props.value["shortDesc"]
+                    : ""
+                  : ""
+                : ""}
             </span>
           </div>
         );
-      },
+      }
     },
     {
       Header: () => <div className="p-header-td">Issuer</div>,
       width: 130,
       //show: false,
       headerStyle: {
-        display: "none",
+        display: "none"
       },
       accessor: "sys",
       Cell: props => (
@@ -113,14 +121,14 @@ const Products = props => {
             <DateFormater date={props.value.issueDate} />
           </span>
         </div>
-      ),
+      )
     },
     {
       Header: () => <div className="p-header-td">Content Type</div>,
       width: 110,
       //show: false,
       headerStyle: {
-        display: "none",
+        display: "none"
       },
       accessor: "contentType",
       Cell: props => {
@@ -128,19 +136,21 @@ const Products = props => {
           <div className="p-contentType">
             <span className="badge badge-light">
               {props.value &&
-                props.value.title &&
-                props.value.title[currentLang]}
+              props.value.title &&
+              props.value.title[currentLang]
+                ? props.value.title[currentLang]
+                : props.value.title}
             </span>
           </div>
         );
-      },
+      }
     },
     {
       Header: () => <div className="p-header-td">Status</div>,
       width: 110,
       //show: false,
       headerStyle: {
-        display: "none",
+        display: "none"
       },
       accessor: "status",
       Cell: props => (
@@ -149,13 +159,13 @@ const Products = props => {
             {languageManager.translate(props.value)}
           </span>
         </div>
-      ),
+      )
     },
     {
       Header: "Actions",
       //show: false,
       headerStyle: {
-        display: "none",
+        display: "none"
       },
       clickable: false,
       Cell: props => {
@@ -225,15 +235,15 @@ const Products = props => {
             )}
           </div>
         );
-      },
-    },
+      }
+    }
   ];
   const { name: pageTitle, desc: pageDescription } = props.component;
 
   // variables
   const [
     { contents, categories, contentTypes, spaceInfo },
-    dispatch,
+    dispatch
   ] = useGlobalState();
 
   const tableBox = useRef(null);
@@ -266,7 +276,7 @@ const Products = props => {
         if (!didCancel) {
           dispatch({
             type: "SET_CONTENTS",
-            value: result,
+            value: result
           });
           toggleSpinner(false);
         }
@@ -278,8 +288,8 @@ const Products = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate("CONTENTS_ON_SERVER_ERROR"),
-            },
+              message: languageManager.translate("CONTENTS_ON_SERVER_ERROR")
+            }
           });
         }
       })
@@ -290,8 +300,8 @@ const Products = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate("CONTENTS_ON_BAD_REQUEST"),
-            },
+              message: languageManager.translate("CONTENTS_ON_BAD_REQUEST")
+            }
           });
         }
       })
@@ -302,8 +312,8 @@ const Products = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "warning",
-              message: languageManager.translate("CONTENTS_UN_AUTHORIZED"),
-            },
+              message: languageManager.translate("CONTENTS_UN_AUTHORIZED")
+            }
           });
         }
       })
@@ -363,7 +373,7 @@ const Products = props => {
   }
   function openNewItemBox(contentType) {
     props.history.push({
-      pathname: "/contents/new",
+      pathname: "/contents/new"
       // search: "?sort=name",
       //hash: "#the-hash",
       //params: { contentType, hasContentType }
@@ -373,8 +383,8 @@ const Products = props => {
     props.history.push({
       pathname: "/requests/new",
       params: {
-        requestFromContents: true,
-      },
+        requestFromContents: true
+      }
     });
   }
   function makeTableFieldView(type, props) {
@@ -414,9 +424,9 @@ const Products = props => {
     if (searchText.length !== 0)
       f.push({
         sys: {
-          type: "text",
+          type: "text"
         },
-        title: searchText,
+        title: searchText
       });
     setFilters(f);
 
@@ -456,7 +466,7 @@ const Products = props => {
   function handleStatusSelected(selected) {
     let f = dataFilters.filter(item => item.sys.type !== "status");
     selected.sys = {
-      type: "status",
+      type: "status"
     };
     f.push(selected);
     setFilters(f);
@@ -477,7 +487,7 @@ const Products = props => {
         toggleSpinner(false);
         dispatch({
           type: "SET_CONTENTS",
-          value: result,
+          value: result
         });
         if (dataStatus) toggleDataStatus(false);
       })
@@ -487,8 +497,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("CONTENTS_ON_SERVER_ERROR"),
-          },
+            message: languageManager.translate("CONTENTS_ON_SERVER_ERROR")
+          }
         });
       })
       .onBadRequest(result => {
@@ -497,8 +507,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("CONTENTS_ON_BAD_REQUEST"),
-          },
+            message: languageManager.translate("CONTENTS_ON_BAD_REQUEST")
+          }
         });
       })
       .unAuthorized(result => {
@@ -507,8 +517,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "warning",
-            message: languageManager.translate("CONTENTS_UN_AUTHORIZED"),
-          },
+            message: languageManager.translate("CONTENTS_UN_AUTHORIZED")
+          }
         });
       })
       .call(
@@ -534,14 +544,14 @@ const Products = props => {
             setAlertData();
             dispatch({
               type: "DELETE_CONTENT",
-              value: deleted,
+              value: deleted
             });
             dispatch({
               type: "ADD_NOTIFY",
               value: {
                 type: "success",
-                message: languageManager.translate("CONTENTS_DELETE_ON_OK"),
-              },
+                message: languageManager.translate("CONTENTS_DELETE_ON_OK")
+              }
             });
           })
           .onServerError(result => {
@@ -552,8 +562,8 @@ const Products = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENTS_DELETE_ON_SERVER_ERROR"
-                ),
-              },
+                )
+              }
             });
           })
           .onBadRequest(result => {
@@ -564,8 +574,8 @@ const Products = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENTS_DELETE_ON_BAD_REQUEST"
-                ),
-              },
+                )
+              }
             });
           })
           .unAuthorized(result => {
@@ -576,8 +586,8 @@ const Products = props => {
                 type: "warning",
                 message: languageManager.translate(
                   "CONTENTS_DELETE_UN_AUTHORIZED"
-                ),
-              },
+                )
+              }
             });
           })
           .notFound(result => {
@@ -586,27 +596,27 @@ const Products = props => {
               type: "ADD_NOTIFY",
               value: {
                 type: "error",
-                message: languageManager.translate("CONTENTS_DELETE_NOT_FOUND"),
-              },
+                message: languageManager.translate("CONTENTS_DELETE_NOT_FOUND")
+              }
             });
           })
           .call(spaceInfo.id, row.original._id);
       },
       onCancel: () => {
         setAlertData();
-      },
+      }
     });
   }
 
   function handleEditRow(row) {
     props.history.push({
-      pathname: `/contents/edit/${row.original._id}`,
+      pathname: `/contents/edit/${row.original._id}`
     });
   }
   function viewContent(row) {
     props.history.push({
       pathname: `/contents/view/${row._id}`,
-      viewMode: true,
+      viewMode: true
     });
   }
 
@@ -627,8 +637,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "success",
-            message: languageManager.translate("The content is archived"),
-          },
+            message: languageManager.translate("The content is archived")
+          }
         });
         toggleDataStatus(true);
         // dispatch({
@@ -641,8 +651,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Internal server error"),
-          },
+            message: languageManager.translate("Internal server error")
+          }
         });
       })
       .onBadRequest(result => {
@@ -650,8 +660,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Bad request"),
-          },
+            message: languageManager.translate("Bad request")
+          }
         });
       })
       .unAuthorized(result => {
@@ -659,8 +669,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Un Authorized"),
-          },
+            message: languageManager.translate("Un Authorized")
+          }
         });
       })
       .notFound(result => {
@@ -668,8 +678,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Asset not found"),
-          },
+            message: languageManager.translate("Asset not found")
+          }
         });
       })
       .call(spaceInfo.id, row.original._id);
@@ -681,8 +691,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "success",
-            message: languageManager.translate("The content is unarchived"),
-          },
+            message: languageManager.translate("The content is unarchived")
+          }
         });
         toggleDataStatus(true);
         // dispatch({
@@ -695,8 +705,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Internal server error"),
-          },
+            message: languageManager.translate("Internal server error")
+          }
         });
       })
       .onBadRequest(result => {
@@ -704,8 +714,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Bad request"),
-          },
+            message: languageManager.translate("Bad request")
+          }
         });
       })
       .unAuthorized(result => {
@@ -713,8 +723,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Un Authorized"),
-          },
+            message: languageManager.translate("Un Authorized")
+          }
         });
       })
       .notFound(result => {
@@ -722,8 +732,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Asset not found"),
-          },
+            message: languageManager.translate("Asset not found")
+          }
         });
       })
       .call(spaceInfo.id, row.original._id);
@@ -735,8 +745,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "success",
-            message: languageManager.translate("The content is published"),
-          },
+            message: languageManager.translate("The content is published")
+          }
         });
         toggleDataStatus(true);
 
@@ -750,8 +760,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Internal server error"),
-          },
+            message: languageManager.translate("Internal server error")
+          }
         });
       })
       .onBadRequest(result => {
@@ -759,8 +769,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Bad request"),
-          },
+            message: languageManager.translate("Bad request")
+          }
         });
       })
       .unAuthorized(result => {
@@ -768,8 +778,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Un Authorized"),
-          },
+            message: languageManager.translate("Un Authorized")
+          }
         });
       })
       .notFound(result => {
@@ -777,8 +787,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Asset not found"),
-          },
+            message: languageManager.translate("Asset not found")
+          }
         });
       })
       .call(spaceInfo.id, row.original._id);
@@ -790,8 +800,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "success",
-            message: languageManager.translate("The content is unpublished"),
-          },
+            message: languageManager.translate("The content is unpublished")
+          }
         });
         toggleDataStatus(true);
         // dispatch({
@@ -804,8 +814,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Internal server error"),
-          },
+            message: languageManager.translate("Internal server error")
+          }
         });
       })
       .onBadRequest(result => {
@@ -813,8 +823,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Bad request"),
-          },
+            message: languageManager.translate("Bad request")
+          }
         });
       })
       .unAuthorized(result => {
@@ -822,8 +832,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Un Authorized"),
-          },
+            message: languageManager.translate("Un Authorized")
+          }
         });
       })
       .notFound(result => {
@@ -831,8 +841,8 @@ const Products = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Asset not found"),
-          },
+            message: languageManager.translate("Asset not found")
+          }
         });
       })
       .call(spaceInfo.id, row.original._id);
@@ -937,7 +947,7 @@ const Products = props => {
                 style={{
                   border: "none",
                   overflow: "auto",
-                  height: "100%", // This will force the table body to overflow and scroll, since there is not enough room
+                  height: "100%" // This will force the table body to overflow and scroll, since there is not enough room
                 }}
                 getTdProps={(state, rowInfo, column, instance) => {
                   return {
@@ -946,7 +956,7 @@ const Products = props => {
                         if (column.clickable === undefined)
                           viewContent(rowInfo.original);
                       }
-                    },
+                    }
                   };
                 }}
               />

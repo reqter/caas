@@ -510,6 +510,7 @@ const FieldConfig = props => {
       obj["description"] = utility.applyeLangs(description);
       obj["isTranslate"] = translation;
       obj["isRequired"] = isRequired;
+      obj["inVisible"] = inVisible;
       obj["appearance"] = !fieldsUI
         ? selectedField.appearance
           ? selectedField.appearance
@@ -913,30 +914,30 @@ const FieldConfig = props => {
                   </div>
                 </div>
               )}
-              {selectedField.type !== "media" &&
-                selectedField.type !== "richText" && (
-                  <div className="custom_checkbox">
-                    <div className="left">
-                      <label className="checkBox">
-                        <input
-                          type="checkbox"
-                          id="invisible"
-                          checked={inVisible}
-                          onChange={handleToggleInVisible}
-                        />
-                        <span className="checkmark" />
-                      </label>
-                    </div>
-                    <div className="right">
-                      <label htmlFor="invisible">
-                        {languageManager.translate("FIELD_INVISIBLE")}
-                      </label>
-                      <label htmlFor="invisible">
-                        {languageManager.translate("FIELD_INVISIBLE_INFO")}
-                      </label>
-                    </div>
-                  </div>
-                )}
+              {/* {selectedField.type !== "media" &&
+                selectedField.type !== "richText" && ( */}
+              <div className="custom_checkbox">
+                <div className="left">
+                  <label className="checkBox">
+                    <input
+                      type="checkbox"
+                      id="invisible"
+                      checked={inVisible}
+                      onChange={handleToggleInVisible}
+                    />
+                    <span className="checkmark" />
+                  </label>
+                </div>
+                <div className="right">
+                  <label htmlFor="invisible">
+                    {languageManager.translate("FIELD_INVISIBLE")}
+                  </label>
+                  <label htmlFor="invisible">
+                    {languageManager.translate("FIELD_INVISIBLE_INFO")}
+                  </label>
+                </div>
+              </div>
+              {/*  )} */}
               {translatableFields.indexOf(selectedField.type) > -1 && (
                 <div className="custom_checkbox">
                   <div className="left">
