@@ -10,6 +10,27 @@ import Notifies from "./components/Notifies";
 import Routes from "./routes";
 import PrivateRoute from "./PrivateRoute";
 //
+import withResolver from "./hoc/withResolver";
+
+import Login from "./Packages/Login";
+import Signup from "./Packages/Signup";
+import ForgotPassword from "./Packages/ForgotPassword";
+import HomeComponent from "./Packages/Home";
+import ContentType from "./Packages/ContentType";
+import Contents from "./Packages/Contents";
+import UpsertContent from "./Packages/UpsertContent";
+import Assets from "./Packages/Assets";
+import UpdateFile from "./Packages/upsertFile";
+import Profile from "./Packages/Profile";
+import Settings from "./Packages/Settings";
+
+const Home = withResolver(HomeComponent);
+const AddAsset = withResolver(UpdateFile);
+const EditAsset = withResolver(UpdateFile);
+const AddContent = withResolver(UpsertContent);
+const EditContent = withResolver(UpsertContent);
+const ViewContent = withResolver(UpsertContent);
+//
 const App = () => {
   return (
     <StateProvider>

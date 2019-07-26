@@ -85,7 +85,7 @@ const Products = props => {
                 ? props.value["name"]
                   ? props.value["name"][currentLang]
                     ? props.value["name"][currentLang]
-                    : Object.keys(props.value["name"]).length === 0
+                    : typeof props.value["name"] === "string"
                     ? props.value["name"]
                     : ""
                   : ""
@@ -96,7 +96,7 @@ const Products = props => {
                 ? props.value["shortDesc"]
                   ? props.value["shortDesc"][currentLang]
                     ? props.value["shortDesc"][currentLang]
-                    : Object.keys(props.value["shortDesc"]).length === 0
+                    : typeof props.value["shortDesc"] === "string"
                     ? props.value["shortDesc"]
                     : ""
                   : ""

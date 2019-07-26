@@ -10,33 +10,33 @@ const acceptedMediaTypes = [
   {
     id: 1,
     name: "all",
-    title: "All Files",
+    title: "All Files"
   },
   {
     id: 2,
     name: "image",
-    title: "Image",
+    title: "Image"
   },
   {
     id: 3,
     name: "video",
-    title: "Video",
+    title: "Video"
   },
   {
     id: 4,
     name: "audio",
-    title: "Audio",
+    title: "Audio"
   },
   {
     id: 5,
     name: "pdf",
-    title: "PDF",
+    title: "PDF"
   },
   {
     id: 6,
     name: "spreadsheet",
-    title: "Spreadsheet",
-  },
+    title: "Spreadsheet"
+  }
 ];
 const translatableFields = ["string", "media", "richText"];
 const fieldsApearance = {
@@ -45,16 +45,16 @@ const fieldsApearance = {
     { name: "email", title: { en: "Email" }, apearance: "" },
     { name: "password", title: { en: "Password" }, apearance: "" },
     { name: "url", title: { en: "URL" }, apearance: "" },
-    { name: "phoneNumber", title: { en: "Phone Number" }, apearance: "" },
+    { name: "phoneNumber", title: { en: "Phone Number" }, apearance: "" }
   ],
   number: [
     { name: "number", title: { en: "Number" }, apearance: "", selected: true },
     {
       name: "rangeSlider",
       title: { en: "Range Slider", fa: "" },
-      apearance: "",
-    },
-  ],
+      apearance: ""
+    }
+  ]
 };
 
 const FieldConfig = props => {
@@ -98,7 +98,7 @@ const FieldConfig = props => {
     checked: selectedField.limit ? true : false,
     type: selectedField.limit ? selectedField.limit.type : "between",
     min: selectedField.limit ? selectedField.limit.min : undefined,
-    max: selectedField.limit ? selectedField.limit.max : undefined,
+    max: selectedField.limit ? selectedField.limit.max : undefined
   });
   const [numberLimitChecked, toggleNumberLimitChecked] = useState(
     selectedField.limit ? true : false
@@ -467,7 +467,7 @@ const FieldConfig = props => {
     let opts = [...options];
     opts.push({
       value: "",
-      selected: false,
+      selected: false
     });
     setOptions(opts);
   }
@@ -504,7 +504,7 @@ const FieldConfig = props => {
     if (!spinner) {
       toggleSpinner(true);
       let obj = {
-        ...selectedField,
+        ...selectedField
       };
       obj["title"] = utility.applyeLangs(title);
       obj["description"] = utility.applyeLangs(description);
@@ -529,18 +529,18 @@ const FieldConfig = props => {
             obj["limit"] = {
               type: textLimit.type,
               min: textLimit.min,
-              max: textLimit.max,
+              max: textLimit.max
             };
           } else {
             if (textLimit.type === "atLeast") {
               obj["limit"] = {
                 type: textLimit.type,
-                min: textLimit.min,
+                min: textLimit.min
               };
             } else {
               obj["limit"] = {
                 type: textLimit.type,
-                max: textLimit.max,
+                max: textLimit.max
               };
             }
           }
@@ -561,18 +561,18 @@ const FieldConfig = props => {
             obj["limit"] = {
               type: numberLimitType,
               min: numberLimitMin,
-              max: numberLimitMax,
+              max: numberLimitMax
             };
           } else {
             if (textLimit.type === "greatEqual") {
               obj["limit"] = {
                 type: numberLimitType,
-                min: numberLimitMin,
+                min: numberLimitMin
               };
             } else {
               obj["limit"] = {
                 type: numberLimitType,
-                max: numberLimitMax,
+                max: numberLimitMax
               };
             }
           }
@@ -594,7 +594,7 @@ const FieldConfig = props => {
         if (latitude.length > 0 && longitude.length > 0) {
           obj["defaultValue"] = {
             latitude: latitude,
-            longitude: longitude,
+            longitude: longitude
           };
         }
       }
@@ -644,12 +644,12 @@ const FieldConfig = props => {
               type: "success",
               message: languageManager.translate(
                 "CONTENT_TYPE_UPDATE_FIELD_ON_OK"
-              ),
-            },
+              )
+            }
           });
           dispatch({
             type: "UPDATE_CONTENT_TYPE",
-            value: result,
+            value: result
           });
           props.onCloseModal(obj);
         })
@@ -661,8 +661,8 @@ const FieldConfig = props => {
               type: "error",
               message: languageManager.translate(
                 "CONTENT_TYPE_UPDATE_FIELD_ON_BAD_REQUEST"
-              ),
-            },
+              )
+            }
           });
         })
         .onBadRequest(result => {
@@ -673,8 +673,8 @@ const FieldConfig = props => {
               type: "error",
               message: languageManager.translate(
                 "CONTENT_TYPE_UPDATE_FIELD_UN_AUTHORIZED"
-              ),
-            },
+              )
+            }
           });
         })
         .unAuthorized(result => {
@@ -685,8 +685,8 @@ const FieldConfig = props => {
               type: "warning",
               message: languageManager.translate(
                 "CONTENT_TYPE_UPDATE_FIELD_UN_AUTHORIZED"
-              ),
-            },
+              )
+            }
           });
         })
         .notFound(result => {
@@ -697,8 +697,8 @@ const FieldConfig = props => {
               type: "warning",
               message: languageManager.translate(
                 "CONTENT_TYPE_UPDATE_FIELD_NOT_FOUND"
-              ),
-            },
+              )
+            }
           });
         })
         .call(spaceInfo.id, newContentType);
@@ -738,7 +738,7 @@ const FieldConfig = props => {
             <div
               className="tabItem"
               style={{
-                background: tab === 1 ? "white" : "whitesmoke",
+                background: tab === 1 ? "white" : "whitesmoke"
               }}
               onClick={() => changeTab(1)}
             >
@@ -747,7 +747,7 @@ const FieldConfig = props => {
             <div
               className="tabItem"
               style={{
-                background: tab === 2 ? "white" : "whitesmoke",
+                background: tab === 2 ? "white" : "whitesmoke"
               }}
               onClick={() => changeTab(2)}
             >
@@ -756,7 +756,7 @@ const FieldConfig = props => {
             <div
               className="tabItem"
               style={{
-                background: tab === 3 ? "white" : "whitesmoke",
+                background: tab === 3 ? "white" : "whitesmoke"
               }}
               onClick={() => changeTab(3)}
             >
@@ -881,7 +881,7 @@ const FieldConfig = props => {
                 <div
                   className="inputSwitch"
                   style={{
-                    marginBottom: 20,
+                    marginBottom: 20
                   }}
                 >
                   <span>
@@ -914,8 +914,30 @@ const FieldConfig = props => {
                   </div>
                 </div>
               )}
+              {/* <div className="custom_checkbox">
+                <div className="left">
+                  <label className="checkBox">
+                    <input
+                      type="checkbox"
+                      id="invisible"
+                      checked={inVisible}
+                      onChange={handleToggleInVisible}
+                    />
+                    <span className="checkmark" />
+                  </label>
+                </div>
+                <div className="right">
+                  <label htmlFor="isName">
+                    {languageManager.translate("Is Name")}
+                  </label>
+                  <label htmlFor="invisible">
+                    {languageManager.translate("")}
+                  </label>
+                </div>
+              </div> */}
               {/* {selectedField.type !== "media" &&
                 selectedField.type !== "richText" && ( */}
+
               <div className="custom_checkbox">
                 <div className="left">
                   <label className="checkBox">
@@ -1564,7 +1586,7 @@ const FieldConfig = props => {
                             <i
                               className="icon-checkmark"
                               style={{
-                                opacity: item.selected ? "1" : ".2",
+                                opacity: item.selected ? "1" : ".2"
                               }}
                             />
                           </button>

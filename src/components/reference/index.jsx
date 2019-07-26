@@ -169,7 +169,7 @@ const SingleValue = props => {
               ? data.fields.name
                 ? data.fields.name[currentLang]
                   ? data.fields.name[currentLang]
-                  : Object.keys(data.fields.name).length === 0
+                  : typeof data.fields.name === "string"
                   ? data.fields.name
                   : ""
                 : ""
@@ -195,7 +195,7 @@ const MultiValueLabel = props => {
             ? data.fields.name
               ? data.fields.name[currentLang]
                 ? data.fields.name[currentLang]
-                : Object.keys(data.fields.name).length === 0
+                : typeof data.fields.name === "string"
                 ? data.fields.name
                 : ""
               : ""
@@ -223,7 +223,7 @@ const CustomOption = ({ innerProps, isDisabled, data }) => {
               ? data.fields.name
                 ? data.fields.name[currentLang]
                   ? data.fields.name[currentLang]
-                  : Object.keys(data.fields.name).length === 0
+                  : typeof data.fields.name === "string"
                   ? data.fields.name
                   : ""
                 : ""
@@ -234,7 +234,7 @@ const CustomOption = ({ innerProps, isDisabled, data }) => {
               ? data.fields.shortDesc
                 ? data.fields.shortDesc[currentLang]
                   ? data.fields.shortDesc[currentLang]
-                  : Object.keys(data.fields.shortDesc).length === 0
+                  : typeof data.fields.shortDesc === "string"
                   ? data.fields.shortDesc
                   : ""
                 : ""
