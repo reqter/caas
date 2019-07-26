@@ -2,17 +2,17 @@ import { languageManager } from "./services";
 
 import withResolver from "./hoc/withResolver";
 
-import Login from "./Packages/Login";
-import Signup from "./Packages/Signup";
-import ForgotPassword from "./Packages/ForgotPassword";
-import HomeComponent from "./Packages/Home";
-import ContentType from "./Packages/ContentType";
-import Contents from "./Packages/Contents";
-import UpsertContent from "./Packages/UpsertContent";
-import Assets from "./Packages/Assets";
-import UpdateFile from "./Packages/upsertFile";
-import Profile from "./Packages/Profile";
-import Settings from "./Packages/Settings";
+import Login from "./screens/Login";
+import Signup from "./screens/Signup";
+import ForgotPassword from "./screens/ForgotPassword";
+import HomeComponent from "./screens/MainPage";
+import ContentType from "./screens/ContentType";
+import Contents from "./screens/Contents";
+import UpsertContent from "./screens/UpsertContent";
+import Assets from "./screens/Assets";
+import UpdateFile from "./screens/upsertFile";
+import Profile from "./screens/Profile";
+import Settings from "./screens/Settings";
 
 const Home = withResolver(HomeComponent);
 const AddAsset = withResolver(UpdateFile);

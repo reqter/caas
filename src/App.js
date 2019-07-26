@@ -7,26 +7,21 @@ import StateProvider from "./services/stateManager/stateProvider";
 import "./styles/app.scss";
 import Notifies from "./components/Notifies";
 //
-import Routes from "./routes";
 import PrivateRoute from "./PrivateRoute";
 //
 import withResolver from "./hoc/withResolver";
 
-import Login from "./Packages/Login";
-import Signup from "./Packages/Signup";
-import ForgotPassword from "./Packages/ForgotPassword";
-import HomeComponent from "./Packages/Home";
-import ContentType from "./Packages/ContentType";
-import Contents from "./Packages/Contents";
-import UpsertContent from "./Packages/UpsertContent";
-import Assets from "./Packages/Assets";
-import UpdateFile from "./Packages/upsertFile";
-import Profile from "./Packages/Profile";
-import Settings from "./Packages/Settings";
+import Login from "./screens/Login";
+import Signup from "./screens/Signup";
+import ForgotPassword from "./screens/ForgotPassword";
+import MainPageComponent from "./screens/MainPage";
+import UpsertContent from "./screens/UpsertContent";
+import UpdateFile from "./screens/upsertFile";
 
-const Home = withResolver(HomeComponent);
+const MainPage = withResolver(MainPageComponent);
 const AddAsset = withResolver(UpdateFile);
 const EditAsset = withResolver(UpdateFile);
+const ViewAsset = withResolver(UpdateFile);
 const AddContent = withResolver(UpsertContent);
 const EditContent = withResolver(UpsertContent);
 const ViewContent = withResolver(UpsertContent);
@@ -37,80 +32,61 @@ const App = () => {
       <BrowserRouter>
         <div>
           <Switch>
-            {Routes.map(route => {
-              if (route.isPublic) {
-                return (
-                  <Route
-                    key={route.path}
-                    path={route.path}
-                    render={props => {
-                      const Component = route.component;
-                      let nestedRoutes;
-                      if (route.routes) {
-                        nestedRoutes = (
-                          <>
-                            {route.routes.map(nestedRoute => (
-                              <Route
-                                exact
-                                key={nestedRoute.path}
-                                path={nestedRoute.path}
-                                render={props => {
-                                  const NestedComponent = nestedRoute.component;
-                                  const p = {
-                                    ...props,
-                                    component: nestedRoute
-                                  };
-                                  return <NestedComponent {...p} />;
-                                }}
-                              />
-                            ))}
-                          </>
-                        );
-                      }
-                      return <Component {...props} routes={nestedRoutes} />;
-                    }}
-                  />
-                );
-              } else {
-                return (
-                  <PrivateRoute
-                    key={route.path}
-                    path={route.path}
-                    render={props => {
-                      const Component = route.component;
-                      let nestedRoutes;
-                      if (route.routes) {
-                        nestedRoutes = (
-                          <>
-                            {route.routes.map(nestedRoute => (
-                              <Route
-                                exact
-                                key={nestedRoute.path}
-                                path={nestedRoute.path}
-                                render={props => {
-                                  const NestedComponent = nestedRoute.component;
+            <Route
+              exact
+              key="login"
+              path="/login"
+              render={props => <Login {...props} />}
+            />
+            <Route
+              key="signup"
+              path="/signup"
+              render={props => <Signup {...props} />}
+            />
+            <Route
+              key="forgotPassword"
+              path="/forgotPassword"
+              render={props => <ForgotPassword {...props} />}
+            />
+            <PrivateRoute
+              key="panel"
+              path="/panel"
+              render={props => <MainPage {...props} />}
+            />
+            <PrivateRoute
+              key="addAsset"
+              path="/asset/new"
+              render={props => <AddAsset {...props} />}
+            />
+            <PrivateRoute
+              key="editAsset"
+              path="/asset/edit/:id"
+              render={props => <EditAsset {...props} />}
+            />
+            <PrivateRoute
+              key="viewAsset"
+              path="/asset/view/:id"
+              render={props => <ViewAsset {...props} />}
+            />
+            <PrivateRoute
+              key="addContent"
+              path="/contents/new"
+              render={props => <AddContent {...props} />}
+            />
+            <PrivateRoute
+              key="editContent"
+              path="/contents/edit/:id"
+              render={props => <EditContent {...props} />}
+            />
+            <PrivateRoute
+              key="viewContent"
+              path="/contents/view/:id"
+              render={props => <ViewContent {...props} />}
+            />
 
-                                  const p = {
-                                    ...props,
-                                    component: nestedRoute
-                                  };
-                                  return <NestedComponent {...p} />;
-                                }}
-                              />
-                            ))}
-                          </>
-                        );
-                      }
-
-                      return <Component {...props} routes={nestedRoutes} />;
-                    }}
-                  />
-                );
-              }
-            })}
             {/* <Route to="/not-found" render={props=><NoutFound/>}/> */}
             {/* اگه دقیقا / رو زد برو لاگین */}
-            <Redirect from="/" to="/panel" exact />
+            <Redirect from="/" to="/panel/home" exact />
             {/* اگه هیچی نزد یا چرت و پرت زد برو اون روتی که نات فاند هست */}
             {/* <Redirect to="/not-found"/> */}
           </Switch>
