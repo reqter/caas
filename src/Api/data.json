@@ -12,9 +12,25 @@
         "fa": "ایجاد محتوا با فیلد های سفارشی"
       },
       "icon": "icon-database",
+      "allowCustomFields": true,
       "fields": [
-      ],
-      "allowCustomFields": true
+        {
+          "name": "name",
+          "title": {
+            "en": "Name",
+            "fa": "Name"
+          },
+          "description": {
+            "fa": "توضیحات مربوط به فیلد نام",
+            "en": "name field description"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": true,
+          "isRequired": true,
+          "allowEdit": false
+        }
+      ]
     },
     {
       "id": "2",
@@ -34,8 +50,8 @@
             "fa": "Name"
           },
           "description": {
-            "fa": "name of each product",
-            "en": "name of each product"
+            "fa": "name",
+            "en": "name"
           },
           "type": "string",
           "isBase": true,
@@ -107,8 +123,8 @@
             "fa": "Name"
           },
           "description": {
-            "fa": "name of each product",
-            "en": "name of each product"
+            "fa": "name field",
+            "en": "name field"
           },
           "type": "string",
           "isBase": true,
@@ -265,8 +281,8 @@
             "fa": "Name"
           },
           "description": {
-            "fa": "name of each product",
-            "en": "name of each product"
+            "fa": "name field",
+            "en": "name field"
           },
           "type": "string",
           "isBase": true,
@@ -423,8 +439,8 @@
             "fa": "Name"
           },
           "description": {
-            "fa": "name of each product",
-            "en": "name of each product"
+            "fa": "name field",
+            "en": "name field"
           },
           "type": "string",
           "isBase": true,
