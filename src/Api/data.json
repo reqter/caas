@@ -32,6 +32,70 @@
         }
       ]
     },
+     {
+      "id": "11",
+      "name": "requestform",
+      "title": {
+        "en": "Request Form",
+        "fa": "فرم درخواست"
+      },
+      "description": {
+        "en": "Create a request form",
+        "fa": "ایجاد یک فرم درخواست"
+      },
+      "icon": "icon-file-text",
+      "allowCustomFields": true,
+      "fields": [
+        {
+          "name": "name",
+          "title": {
+            "en": "Name",
+            "fa": "Name"
+          },
+          "description": {
+            "fa": "توضیحات مربوط به فیلد نام",
+            "en": "name field description"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": true,
+          "isRequired": true,
+          "allowEdit": false
+        }
+      ]
+    },
+        {
+      "id": "12",
+      "name": "quoteform",
+      "title": {
+        "en": "Quote Form",
+        "fa": "فرم پیشنهاد"
+      },
+      "description": {
+        "en": "Create a quote form",
+        "fa": "ایجاد یک فرم پیشنهاد"
+      },
+      "icon": "icon-file-text",
+      "allowCustomFields": true,
+      "fields": [
+        {
+          "name": "name",
+          "title": {
+            "en": "Name",
+            "fa": "Name"
+          },
+          "description": {
+            "fa": "توضیحات مربوط به فیلد نام",
+            "en": "name field description"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": true,
+          "isRequired": true,
+          "allowEdit": false
+        }
+      ]
+    },
     {
       "id": "2",
       "name": "blog",
