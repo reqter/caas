@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "animate.css";
@@ -10,13 +10,12 @@ import Notifies from "./components/Notifies";
 import PrivateRoute from "./PrivateRoute";
 //
 import withResolver from "./hoc/withResolver";
-
-import Login from "./screens/Login";
-import Signup from "./screens/Signup";
-import ForgotPassword from "./screens/ForgotPassword";
 import MainPageComponent from "./screens/MainPage";
-import UpsertContent from "./screens/UpsertContent";
-import UpdateFile from "./screens/upsertFile";
+const Login = lazy(() => import("./screens/Login"));
+const Signup = lazy(() => import("./screens/Signup"));
+const ForgotPassword = lazy(() => import("./screens/ForgotPassword"));
+const UpsertContent = lazy(() => import("./screens/UpsertContent"));
+const UpdateFile = lazy(() => import("./screens/upsertFile"));
 
 const MainPage = withResolver(MainPageComponent);
 const AddAsset = withResolver(UpdateFile);
@@ -30,7 +29,7 @@ const App = () => {
   return (
     <StateProvider>
       <BrowserRouter>
-        <div>
+        <Suspense fallback={<div />}>
           <Switch>
             <Route
               exact
@@ -90,7 +89,7 @@ const App = () => {
             {/* اگه هیچی نزد یا چرت و پرت زد برو اون روتی که نات فاند هست */}
             {/* <Redirect to="/not-found"/> */}
           </Switch>
-        </div>
+        </Suspense>
       </BrowserRouter>
       <Notifies />
     </StateProvider>

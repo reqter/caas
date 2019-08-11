@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
+import Select, { components } from "react-select";
 import { Modal, ModalFooter } from "reactstrap";
 import { languageManager, useGlobalState, utility } from "../../../../services";
-import { useDebounce } from "../../../../hooks";
 import { updateContentType } from "../../../../Api/contentType-api";
 import "./styles.scss";
 import { CircleSpinner } from "../../../../components";
@@ -57,10 +57,10 @@ const fieldsApearance = {
   ]
 };
 
+const currentLang = languageManager.getCurrentLanguage().name;
 const FieldConfig = props => {
   //#region variables
   const { selectedContentType } = props;
-  const currentLang = languageManager.getCurrentLanguage().name;
   const [{ contentTypes, spaceInfo }, dispatch] = useGlobalState();
   const { selectedField } = props;
 
@@ -169,7 +169,7 @@ const FieldConfig = props => {
       : false
   );
 
-  const [refContentTypes, setRefContentTypes] = useState(
+  const [selectedRefContentType, setRefContentType] = useState(
     selectedField.type === "reference"
       ? () => {
           let d = [];
@@ -177,22 +177,48 @@ const FieldConfig = props => {
             selectedField.references === undefined ||
             selectedField.references.length === 0
           ) {
-            return JSON.parse(JSON.stringify(contentTypes));
+            return;
           } else {
-            let referencesData = JSON.parse(JSON.stringify(contentTypes));
-            for (let j = 0; j < referencesData.length; j++) {
+            for (let j = 0; j < contentTypes.length; j++) {
               for (let i = 0; i < selectedField.references.length; i++) {
                 const r_id = selectedField.references[i];
-                if (referencesData[j]._id === r_id) {
-                  referencesData[j].selected = true;
+                if (contentTypes[j]._id === r_id) {
+                  return contentTypes[j];
                 }
               }
             }
-            return referencesData;
           }
         }
-      : {}
+      : undefined
   );
+  const [selectedRefContentTypeFields, setRefFields] = useState(
+    selectedField.type === "reference"
+      ? () => {
+          let d = [];
+          if (
+            selectedField.references === undefined ||
+            selectedField.references.length === 0
+          ) {
+            return;
+          } else {
+            for (let j = 0; j < contentTypes.length; j++) {
+              for (let i = 0; i < selectedField.references.length; i++) {
+                const r_id = selectedField.references[i];
+                if (contentTypes[j]._id === r_id) {
+                  const item = contentTypes[j];
+                  return item.fields.map(f => {
+                    f.value = f.name;
+                    return f;
+                  });
+                }
+              }
+            }
+          }
+        }
+      : undefined
+  );
+  const [refVisibleFields, setRefVisibleFields] = useState();
+  const [refValue, setRefValue] = useState();
 
   const [helpText, setHelpText] = useState(
     selectedField.helpText ? selectedField.helpText : ""
@@ -419,14 +445,52 @@ const FieldConfig = props => {
   function handleReferenceChk(e) {
     toggleReferenceContentType(e.target.checked);
   }
-  function handleRefSelect(item) {
-    const conts = refContentTypes.map(c => {
-      if (item._id === c._id) {
-        c.selected = !c.selected;
+  function getRefDefaults() {
+    let arr = [];
+    if (!selectedField.references || selectedField.references.length === 0)
+      return;
+    else {
+      if (
+        !selectedField.refVisibleFields ||
+        selectedField.refVisibleFields.length === 0
+      )
+        return;
+      for (let j = 0; j < contentTypes.length; j++) {
+        for (let i = 0; i < selectedField.references.length; i++) {
+          const r_id = selectedField.references[i];
+          if (contentTypes[j]._id === r_id) {
+            const item = contentTypes[j];
+            for (let k = 0; k < selectedField.refVisibleFields.length; k++) {
+              for (let l = 0; l < item.fields.length; l++) {
+                if (selectedField.refVisibleFields[k] === item.fields[l].name) {
+                  const obj = {
+                    value: item.fields[l].name,
+                    ...item.fields[l]
+                  };
+                  arr.push(obj);
+                  break;
+                }
+              }
+            }
+          }
+        }
       }
-      return c;
-    });
-    setRefContentTypes(conts);
+    }
+    return arr;
+  }
+  function handleRefSelect(item) {
+    if (!selectedRefContentType || selectedRefContentType._id !== item._id) {
+      setRefContentType(item);
+      const fields = item.fields.map(f => {
+        f.value = f.name;
+        return f;
+      });
+      setRefFields(fields);
+      setRefValue(null);
+    }
+  }
+  function handleRefVisibleFieldsChange(items) {
+    setRefVisibleFields(items);
   }
   function handleHelpTextchanged(e) {
     setHelpText(e.target.value);
@@ -621,14 +685,25 @@ const FieldConfig = props => {
         }
       } else if (selectedField.type === "reference") {
         obj["isList"] = referenceChooseType === "single" ? false : true;
-        let arr = [];
-        for (let i = 0; i < refContentTypes.length; i++) {
-          const item = refContentTypes[i];
-          if (item.selected === true) {
-            arr.push(item._id);
+        if (selectedRefContentType) {
+          let arr = [];
+          // for (let i = 0; i < refContentTypes.length; i++) {
+          //   const item = refContentTypes[i];
+          //   if (item.selected === true) {
+          //     arr.push(item._id);
+          //   }
+          // }
+          arr.push(selectedRefContentType._id);
+          obj["references"] = arr;
+          if (refVisibleFields && refVisibleFields.length > 0) {
+            let arr_fields = [];
+            for (let i = 0; i < refVisibleFields.length; i++) {
+              const item = refVisibleFields[i];
+              arr_fields.push(item.value);
+            }
+            obj["refVisibleFields"] = arr_fields;
           }
         }
-        obj["references"] = arr;
       }
       const newContentType = { ...selectedContentType };
       const newFields = newContentType.fields.map(f => {
@@ -1443,18 +1518,46 @@ const FieldConfig = props => {
                     </label>
                     {referenceContentTypeChk && (
                       <div className="validation-configs">
-                        {refContentTypes.map((item, index) => (
+                        {contentTypes.map((item, index) => (
                           <button
                             className={
                               "btn btn-sm " +
-                              (item.selected ? "btn-primary" : "btn-light")
+                              (selectedRefContentType &&
+                              selectedRefContentType._id === item._id
+                                ? "btn-primary"
+                                : "btn-light")
                             }
                             key={item._id}
                             onClick={() => handleRefSelect(item)}
+                            title={item.title[currentLang]}
                           >
                             {item.title[currentLang]}
                           </button>
                         ))}
+                        {selectedRefContentType && (
+                          <div className="form-group" style={{ marginTop: 10 }}>
+                            <label>Visible Fields</label>
+                            <Select
+                              // menuPlacement="top"
+                              closeMenuOnScroll={true}
+                              closeMenuOnSelect={false}
+                              value={refValue}
+                              defaultValue={true && getRefDefaults()}
+                              onChange={handleRefVisibleFieldsChange}
+                              options={selectedRefContentTypeFields}
+                              isMulti={true}
+                              isSearchable={true}
+                              components={{
+                                Option: CustomOption,
+                                MultiValueLabel,
+                                SingleValue
+                              }}
+                            />
+                            {/* <small className="form-text text-muted">
+                              {field.description[currentLang]}
+                            </small> */}
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -1626,3 +1729,46 @@ const FieldConfig = props => {
 };
 
 export default FieldConfig;
+
+const SingleValue = props => {
+  const { data } = props;
+  return (
+    <components.SingleValue {...props}>
+      <div className="options-single-selected">
+        {data.title
+          ? data.title[currentLang]
+            ? data.title[currentLang]
+            : ""
+          : ""}
+      </div>
+    </components.SingleValue>
+  );
+};
+const MultiValueLabel = props => {
+  const { data } = props;
+  return (
+    <components.MultiValueLabel {...props}>
+      <div className="options-multiple-selected">
+        {data.title
+          ? data.title[currentLang]
+            ? data.title[currentLang]
+            : ""
+          : ""}
+      </div>
+    </components.MultiValueLabel>
+  );
+};
+
+const CustomOption = ({ innerProps, isDisabled, data }) => {
+  if (!isDisabled) {
+    return (
+      <div {...innerProps} className="options-items">
+        {data.title
+          ? data.title[currentLang]
+            ? data.title[currentLang]
+            : ""
+          : ""}
+      </div>
+    );
+  } else return null;
+};
