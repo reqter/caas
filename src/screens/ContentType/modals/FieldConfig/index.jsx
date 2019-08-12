@@ -487,8 +487,10 @@ const FieldConfig = props => {
         return f;
       });
       setRefFields(fields);
-      selectFieldRef.current.select.clearValue();
-      // setRefValue(null);
+      if (selectedRefContentType)
+        if (selectFieldRef.current) {
+          selectFieldRef.current.select.clearValue();
+        }
     }
   }
   function handleRefVisibleFieldsChange(items) {
