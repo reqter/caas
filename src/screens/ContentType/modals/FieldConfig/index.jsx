@@ -489,7 +489,8 @@ const FieldConfig = props => {
       setRefFields(fields);
       if (selectedRefContentType)
         if (selectFieldRef.current) {
-          selectFieldRef.current.select.clearValue();
+          if (selectFieldRef.current.select)
+            selectFieldRef.current.select.clearValue();
         }
     }
   }
