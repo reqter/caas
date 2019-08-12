@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Select, { components } from "react-select";
 import { Modal, ModalFooter } from "reactstrap";
 import { languageManager, useGlobalState, utility } from "../../../../services";
@@ -59,6 +59,7 @@ const fieldsApearance = {
 
 const currentLang = languageManager.getCurrentLanguage().name;
 const FieldConfig = props => {
+  const selectFieldRef = useRef(null);
   //#region variables
   const { selectedContentType } = props;
   const [{ contentTypes, spaceInfo }, dispatch] = useGlobalState();
@@ -486,7 +487,8 @@ const FieldConfig = props => {
         return f;
       });
       setRefFields(fields);
-      setRefValue(null);
+      selectFieldRef.current.select.clearValue();
+      // setRefValue(null);
     }
   }
   function handleRefVisibleFieldsChange(items) {
@@ -1539,9 +1541,10 @@ const FieldConfig = props => {
                             <label>Visible Fields</label>
                             <Select
                               // menuPlacement="top"
+                              ref={selectFieldRef}
                               closeMenuOnScroll={true}
                               closeMenuOnSelect={false}
-                              value={refValue}
+                              // value={refValue}
                               defaultValue={true && getRefDefaults()}
                               onChange={handleRefVisibleFieldsChange}
                               options={selectedRefContentTypeFields}
