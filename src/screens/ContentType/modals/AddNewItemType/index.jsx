@@ -7,13 +7,13 @@ import {
   Button,
   FormGroup,
   Label,
-  Input,
+  Input
 } from "reactstrap";
 import { languageManager, utility, useGlobalState } from "../../../../services";
 import {
   getTemplates,
   addContentType,
-  updateContentType,
+  updateContentType
 } from "../../../../Api/contentType-api";
 import AssetBrowser from "../../../../components/AssetBrowser";
 import "./styles.scss";
@@ -61,7 +61,7 @@ const UpsertTemplate = props => {
       .onOk(result => {
         dispatch({
           type: "SET_CONTENT_TEMPLATES",
-          value: result,
+          value: result
         });
       })
       .onServerError(result => {
@@ -71,8 +71,8 @@ const UpsertTemplate = props => {
             type: "error",
             message: languageManager.translate(
               "CONTENT_TYPE_TEMPLATES_ON_SERVER_ERROR"
-            ),
-          },
+            )
+          }
         });
       })
       .onBadRequest(result => {
@@ -82,8 +82,8 @@ const UpsertTemplate = props => {
             type: "error",
             message: languageManager.translate(
               "CONTENT_TYPE_TEMPLATES_ON_BAD_REQUEST"
-            ),
-          },
+            )
+          }
         });
       })
       .unAuthorized(result => {
@@ -93,8 +93,8 @@ const UpsertTemplate = props => {
             type: "warning",
             message: languageManager.translate(
               "CONTENT_TYPE_TEMPLATES_UN_AUTHORIZED"
-            ),
-          },
+            )
+          }
         });
       })
       .call();
@@ -160,12 +160,12 @@ const UpsertTemplate = props => {
               type: "ADD_NOTIFY",
               value: {
                 type: "success",
-                message: languageManager.translate("CONTENT_TYPE_UPDATE_ON_OK"),
-              },
+                message: languageManager.translate("CONTENT_TYPE_UPDATE_ON_OK")
+              }
             });
             dispatch({
               type: "UPDATE_CONTENT_TYPE",
-              value: result,
+              value: result
             });
             props.onCloseModal(obj);
           })
@@ -176,8 +176,8 @@ const UpsertTemplate = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_UPDATE_ON_SERVER_ERROR"
-                ),
-              },
+                )
+              }
             });
           })
           .onBadRequest(result => {
@@ -187,8 +187,8 @@ const UpsertTemplate = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_UPDATE_ON_BAD_REQUEST"
-                ),
-              },
+                )
+              }
             });
           })
           .unAuthorized(result => {
@@ -198,8 +198,8 @@ const UpsertTemplate = props => {
                 type: "warning",
                 message: languageManager.translate(
                   "CONTENT_TYPE_UPDATE_UN_AUTHORIZED"
-                ),
-              },
+                )
+              }
             });
           })
           .notFound(result => {
@@ -209,8 +209,8 @@ const UpsertTemplate = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_UPDATE_NOT_FOUND"
-                ),
-              },
+                )
+              }
             });
           })
           .call(spaceInfo.id, obj);
@@ -222,7 +222,7 @@ const UpsertTemplate = props => {
           media: media,
           fields: [...selectedTemplate.fields],
           template: selectedTemplate.name,
-          allowCustomFields: selectedTemplate.allowCustomFields,
+          allowCustomFields: selectedTemplate.allowCustomFields
         };
         addContentType()
           .onOk(result => {
@@ -230,12 +230,12 @@ const UpsertTemplate = props => {
               type: "ADD_NOTIFY",
               value: {
                 type: "success",
-                message: languageManager.translate("CONTENT_TYPE_ADD_ON_OK"),
-              },
+                message: languageManager.translate("CONTENT_TYPE_ADD_ON_OK")
+              }
             });
             dispatch({
               type: "ADD_CONTENT_TYPE",
-              value: result,
+              value: result
             });
             props.onCloseModal(obj);
           })
@@ -246,8 +246,8 @@ const UpsertTemplate = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_ADD_ON_SERVER_ERROR"
-                ),
-              },
+                )
+              }
             });
           })
           .onBadRequest(result => {
@@ -257,8 +257,8 @@ const UpsertTemplate = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_ADD_ON_BAD_REQUEST"
-                ),
-              },
+                )
+              }
             });
           })
           .unAuthorized(result => {
@@ -268,8 +268,8 @@ const UpsertTemplate = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_ADD_UN_AUTHORIZED"
-                ),
-              },
+                )
+              }
             });
           })
           .call(spaceInfo.id, obj);
@@ -306,6 +306,14 @@ const UpsertTemplate = props => {
           : languageManager.translate("EDIT") +
             " " +
             (selectedContentType ? selectedContentType.title[currentLang] : "")}
+        {selectedContentType ? (
+          <>
+            <br />
+            <span style={{ fontSize: 12 }}>{selectedContentType._id}</span>
+          </>
+        ) : (
+          ""
+        )}
       </ModalHeader>
       <ModalBody>
         <div className="c-category-templates-body">
@@ -324,7 +332,7 @@ const UpsertTemplate = props => {
                         selectedContentType &&
                         selectedContentType.template === tmp.name
                           ? "lightgray"
-                          : "whitesmoke",
+                          : "whitesmoke"
                     }}
                   >
                     <i className={tmp.icon ? tmp.icon : "icon-item-type"} />

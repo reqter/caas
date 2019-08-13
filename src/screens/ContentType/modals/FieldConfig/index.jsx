@@ -451,19 +451,19 @@ const FieldConfig = props => {
     if (!selectedField.references || selectedField.references.length === 0)
       return;
     else {
-      if (
-        !selectedField.refVisibleFields ||
-        selectedField.refVisibleFields.length === 0
-      )
+      if (!selectedField.fields || selectedField.fields.length === 0)
         return;
       for (let j = 0; j < contentTypes.length; j++) {
         for (let i = 0; i < selectedField.references.length; i++) {
           const r_id = selectedField.references[i];
           if (contentTypes[j]._id === r_id) {
             const item = contentTypes[j];
-            for (let k = 0; k < selectedField.refVisibleFields.length; k++) {
+            for (let k = 0; k < selectedField.fields.length; k++) {
               for (let l = 0; l < item.fields.length; l++) {
-                if (selectedField.refVisibleFields[k] === item.fields[l].name) {
+                if (
+                  selectedField.fields[k] ===
+                  item.fields[l].name
+                ) {
                   const obj = {
                     value: item.fields[l].name,
                     ...item.fields[l]
@@ -706,7 +706,7 @@ const FieldConfig = props => {
               const item = refVisibleFields[i];
               arr_fields.push(item.value);
             }
-            obj["refVisibleFields"] = arr_fields;
+            obj["fields"] = arr_fields;
           }
         }
       }
