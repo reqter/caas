@@ -56,10 +56,15 @@ const Products = props => {
       Cell: props => {
         return (
           <div className="p-image">
-            {props.value &&
-            props.value.media &&
-            props.value.media.length > 0 ? (
-              getAssetUi(props.value.media[0][currentLang])
+            {props.value ? (
+              props.value.media && props.value.media.length > 0 ? (
+                getAssetUi(props.value.media[0][currentLang])
+              ) : (
+                <div className="p-thumbnail-file empty">
+                  {/* <i className="file-text" /> */}
+                  empty
+                </div>
+              )
             ) : (
               <div className="p-thumbnail-file empty">
                 {/* <i className="file-text" /> */}
@@ -132,14 +137,15 @@ const Products = props => {
       },
       accessor: "contentType",
       Cell: props => {
+        debugger;
         return (
           <div className="p-contentType">
             <span className="badge badge-light">
-              {props.value &&
-              props.value.title &&
-              props.value.title[currentLang]
-                ? props.value.title[currentLang]
-                : props.value.title}
+              {props.value
+                ? props.value.title && props.value.title[currentLang]
+                  ? props.value.title[currentLang]
+                  : props.value.title
+                : ""}
             </span>
           </div>
         );

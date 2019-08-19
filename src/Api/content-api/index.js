@@ -94,7 +94,6 @@ export function filterContents () {
 
       if (url[url.length - 1] === '&') url = url.substring(0, url.length - 1)
       const token = storageManager.getItem('token')
-      debugger
       var rawResponse = await fetch(url, {
         method: 'GET',
         headers: {
