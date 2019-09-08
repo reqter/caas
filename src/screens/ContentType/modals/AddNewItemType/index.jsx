@@ -21,7 +21,7 @@ import { CircleSpinner } from "../../../../components";
 
 const UpsertTemplate = props => {
   const currentLang = languageManager.getCurrentLanguage().name;
-  const [{ contentTypeTemlates, spaceInfo }, dispatch] = useGlobalState();
+  const [{ spaceInfo }, dispatch] = useGlobalState();
   const nameInput = useRef(null);
   const [spinner, setSpinner] = useState(false);
   const { updateMode } = props;
@@ -34,6 +34,7 @@ const UpsertTemplate = props => {
     : undefined;
   const [isOpen, toggleModal] = useState(true);
 
+  const [contentTypeTemplates, setTemplates] = useState();
   const [tab, changeTab] = useState(updateMode ? 2 : 1);
   const [selectedTemplate, setTemplate] = useState(
     updateMode ? props.selectedTemplate : {}
@@ -59,10 +60,7 @@ const UpsertTemplate = props => {
   useEffect(() => {
     getTemplates()
       .onOk(result => {
-        dispatch({
-          type: "SET_CONTENT_TEMPLATES",
-          value: result
-        });
+        setTemplates(result);
       })
       .onServerError(result => {
         dispatch({
@@ -317,34 +315,36 @@ const UpsertTemplate = props => {
       </ModalHeader>
       <ModalBody>
         <div className="c-category-templates-body">
-          {tab === 1 ? (
+          {tab === 1 && (
             <div className="fieldsTab">
-              {contentTypeTemlates.map(tmp => (
-                <div
-                  key={tmp.id}
-                  className="add-field-types"
-                  onClick={() => handleChooseTemplate(tmp)}
-                >
+              {contentTypeTemplates &&
+                contentTypeTemplates.map(tmp => (
                   <div
-                    className="add-field-icon"
-                    style={{
-                      backgroundColor:
-                        selectedContentType &&
-                        selectedContentType.template === tmp.name
-                          ? "lightgray"
-                          : "whitesmoke"
-                    }}
+                    key={tmp.id}
+                    className="add-field-types"
+                    onClick={() => handleChooseTemplate(tmp)}
                   >
-                    <i className={tmp.icon ? tmp.icon : "icon-item-type"} />
+                    <div
+                      className="add-field-icon"
+                      style={{
+                        backgroundColor:
+                          selectedContentType &&
+                          selectedContentType.template === tmp.name
+                            ? "lightgray"
+                            : "whitesmoke"
+                      }}
+                    >
+                      <i className={tmp.icon ? tmp.icon : "icon-item-type"} />
+                    </div>
+                    <span className="title">{tmp.title[currentLang]}</span>
+                    <span className="description">
+                      {tmp.description[currentLang]}
+                    </span>
                   </div>
-                  <span className="title">{tmp.title[currentLang]}</span>
-                  <span className="description">
-                    {tmp.description[currentLang]}
-                  </span>
-                </div>
-              ))}
+                ))}
             </div>
-          ) : (
+          )}
+          {tab === 2 && (
             <div style={{ padding: "2%", paddingBottom: 0 }}>
               <div className="row">
                 <div className="form-group col">

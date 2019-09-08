@@ -29,7 +29,7 @@ const Products = props => {
   let didCancel = false;
   //#region controller
   const currentLang = languageManager.getCurrentLanguage().name;
-  let baseFieldColumnsConfig = [
+  let columns = [
     {
       Header: "#",
       //show: false,
@@ -251,7 +251,7 @@ const Products = props => {
 
   // variables
   const [
-    { contents, categories, contentTypes, spaceInfo },
+    { contents, contentTypes, spaceInfo, contentPage },
     dispatch
   ] = useGlobalState();
 
@@ -259,21 +259,36 @@ const Products = props => {
   const [contentActions, toggleContentActions] = useState({});
   const [headerActions, toggleHeaderActions] = useState(false);
   const [spinner, toggleSpinner] = useState(true);
-  const [leftContent, toggleLeftContent] = useState(false);
+  const [leftContent, toggleLeftContent] = useState(contentPage.filterBox);
   const [alertData, setAlertData] = useState();
 
   const [searchText, setSearchText] = useState("");
   const [selectedContentType, setSelectedContentType] = useState({});
   const [selectedNode, setSelectedNode] = useState({});
   const [selectedStatus, setSelectedStatus] = useState({});
-  const [columnsVisibility, toggleColumns] = useState(false);
 
-  const [columns, setColumns] = useState(baseFieldColumnsConfig.slice());
-  const [dataFilters, setFilters] = useState([]);
+  const [dataFilters, setFilters] = useState(contentPage.filters);
   const [dataStatus, toggleDataStatus] = useState(false);
 
   useEffect(() => {
-    loadContents();
+    if (!contentPage.filters || contentPage.filters.length === 0) filterData();
+    else {
+      let text, contentTypeID, status;
+      const c = contentPage.filters.find(
+        item => item.sys.type == "contentType"
+      );
+      if (c) {
+        setSelectedContentType(c);
+        contentTypeID = c._id;
+      }
+      const s = contentPage.filters.find(item => item.sys.type == "status");
+      if (s) {
+        setSelectedStatus(s);
+        status = s.name;
+      }
+      filterData(text, contentTypeID, undefined, status);
+    }
+    // loadContents();
     return () => {
       didCancel = true;
     };
@@ -365,28 +380,9 @@ const Products = props => {
         </div>
       );
   }
-  function initColumns() {
-    if (columnsVisibility) {
-      const cols = baseFieldColumnsConfig.map(col => {
-        let item = col;
-        item.headerStyle.display = "none";
-        return item;
-      });
-      setColumns(cols);
-      toggleColumns(true);
-    }
-  }
 
   function toggleFilterBox() {
     toggleLeftContent(prevState => !prevState);
-  }
-  function openNewItemBox(contentType) {
-    props.history.push({
-      pathname: "/contents/new"
-      // search: "?sort=name",
-      //hash: "#the-hash",
-      //params: { contentType, hasContentType }
-    });
   }
   function newRequest() {
     props.history.push({
@@ -396,14 +392,7 @@ const Products = props => {
       }
     });
   }
-  function makeTableFieldView(type, props) {
-    switch (type) {
-      case "string":
-        return <div className="p-string">{props.value}</div>;
-      default:
-        return <div className="p-string">{props.value}</div>;
-    }
-  }
+
   function removeFilter(filter) {
     let f = dataFilters.filter(item => item.sys.type !== filter.sys.type);
     setFilters(f);
@@ -616,16 +605,42 @@ const Products = props => {
       }
     });
   }
+  function openNewItemBox() {
+    props.history.push({
+      pathname: "/contents/new"
+    });
+    dispatch({
+      type: "SET_CONTENT_PAGE_STATUS",
+      value: {
+        filterBox: leftContent,
+        filters: dataFilters
+      }
+    });
+  }
 
   function handleEditRow(row) {
     props.history.push({
       pathname: `/contents/edit/${row.original._id}`
+    });
+    dispatch({
+      type: "SET_CONTENT_PAGE_STATUS",
+      value: {
+        filterBox: leftContent,
+        filters: dataFilters
+      }
     });
   }
   function viewContent(row) {
     props.history.push({
       pathname: `/contents/view/${row._id}`,
       viewMode: true
+    });
+    dispatch({
+      type: "SET_CONTENT_PAGE_STATUS",
+      value: {
+        filterBox: leftContent,
+        filters: dataFilters
+      }
     });
   }
 

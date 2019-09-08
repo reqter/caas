@@ -32,7 +32,7 @@
         }
       ]
     },
-     {
+    {
       "id": "11",
       "name": "requestform",
       "title": {
@@ -64,7 +64,7 @@
         }
       ]
     },
-        {
+    {
       "id": "12",
       "name": "quoteform",
       "title": {
@@ -151,8 +151,7 @@
           "mediaType": ["image"],
           "isBase": true,
           "isTranslate": true,
-          "allowEdit": false,
-          "isRequired": true
+          "allowEdit": false
         },
         {
           "name": "body",
@@ -165,404 +164,1484 @@
             "fa": ""
           },
           "type": "richText",
-          "isBase": true,
-          "isRequired": true
-        }
-      ]
-    },
-    {
-      "id": "3",
-      "name": "gallery",
-      "title": { "en": "Image Gallery", "fa": "گالری عکس" },
-      "description": {
-        "en": "Making custom gallery collection",
-        "fa": "گالری سفارشی خود را بسازید"
-      },
-      "icon": "icon-images",
-      "fields": [
-        {
-          "name": "name",
-          "title": {
-            "en": "Name",
-            "fa": "Name"
-          },
-          "description": {
-            "fa": "name field",
-            "en": "name field"
-          },
-          "type": "string",
-          "isBase": true,
-          "isTranslate": true,
-          "isRequired": true
-        },
-        {
-          "name": "description",
-          "title": {
-            "en": "Description"
-          },
-          "description": {
-            "fa": "",
-            "en": ""
-          },
-          "type": "string",
-          "isBase": true,
-          "isTranslate": true
-        },
-        {
-          "name": "thumbnail",
-          "title": {
-            "fa": "تصویر گالری",
-            "en": "Cover Image"
-          },
-          "description": {
-            "fa": "",
-            "en": ""
-          },
-          "type": "media",
-          "mediaType": ["image"],
-          "isTranslate": true,
-          "isRequired": true,
-          "isList": false,
-          "isBase": true,
-          "allowEdit": false
-        },
-        {
-          "name": "gallery",
-          "title": {
-            "en": "Gallery",
-            "fa": "گالری"
-          },
-          "description": {
-            "en": "",
-            "fa": ""
-          },
-          "type": "media",
-          "mediaType": ["image"],
-          "isList": false,
-          "isBase": true,
-          "allowEdit": false
-        }
-      ],
-      "allowCustomFields": true
-    },
-    {
-      "id": "4",
-      "name": "socialmediacontent",
-      "title": {
-        "en": "Social Media Content",
-        "fa": "محتوای شبکه اجتماعی"
-      },
-      "description": {
-        "en": "Social media content(image, video , ...)",
-        "fa": " محتوای شبکه اجتماعی عکس ویدیو"
-      },
-      "icon": "icon-request",
-      "allowCustomFields": true,
-      "fields": [
-        {
-          "name": "name",
-          "title": {
-            "en": "Name",
-            "fa": "Name"
-          },
-          "description": {
-            "fa": "",
-            "en": ""
-          },
-          "type": "string",
-          "isBase": true,
-          "isTranslate": true,
-          "isRequired": true,
-          "allowEdit": false
-        },
-        {
-          "name": "description",
-          "title": {
-            "en": "Short Description"
-          },
-          "description": {
-            "fa": "",
-            "en": ""
-          },
-          "type": "string",
-          "isBase": true,
-          "isTranslate": true,
-          "allowEdit": false
-        },
-        {
-          "name": "thumbnail",
-          "title": {
-            "fa": "تصویر نمایشی",
-            "en": "Cover Image"
-          },
-          "description": {
-            "fa": "",
-            "en": ""
-          },
-          "type": "media",
-          "mediaType": ["image"],
-          "isBase": true,
-          "isTranslate": true,
-          "allowEdit": false
-        },
-        {
-          "name": "media",
-          "title": {
-            "fa": "رسانه",
-            "en": "Media"
-          },
-          "description": {
-            "fa": "",
-            "en": ""
-          },
-          "type": "media",
-          "isBase": true,
-          "mediaType": ["video", "audio", "image"],
-          "isTranslate": true,
-          "isMulti": true,
-          "allowEdit": false
+          "isBase": true
         }
       ]
     },
     {
       "id": "5",
-      "name": "videocontent",
+      "name": "users",
       "title": {
-        "en": "Video Content",
-        "fa": "محتوای ویدیویی"
+        "en": "Users",
+        "fa": "کاربران"
       },
       "description": {
-        "en": "ُStoring video contents",
-        "fa": "محتوای ویدیویی "
+        "en": "system users",
+        "fa": "کاربران سیستم"
       },
-      "icon": "icon-video",
+      "icon": "icon-users",
       "allowCustomFields": true,
       "fields": [
         {
           "name": "name",
           "title": {
-            "en": "Name",
-            "fa": "Name"
+            "fa": "نام کاربری",
+            "en": "نام کاربری"
           },
           "description": {
-            "fa": "name field",
-            "en": "name field"
+            "fa": "نام کاربری",
+            "en": "نام کاربری"
           },
           "type": "string",
           "isBase": true,
           "isTranslate": true,
           "isRequired": true,
-          "allowEdit": false
+          "allowEdit": false,
+          "inVisible": false,
+          "appearance": "text",
+          "isMultiLine": false
         },
         {
-          "name": "description",
+          "name": "role",
           "title": {
-            "en": "Short Description"
+            "fa": "نقش کاربر",
+            "en": "نقش کاربر"
           },
           "description": {
-            "fa": "",
-            "en": ""
+            "fa": "نقش کاربر در سیستم",
+            "en": "نقش کاربر در سیستم"
+          },
+          "type": "keyValue",
+          "isTranslate": false,
+          "appearance": "default",
+          "isRequired": true,
+          "inVisible": false,
+          "isBase": true,
+          "isList": false,
+          "options": [
+            {
+              "value": "customer",
+              "selected": true
+            },
+            {
+              "value": "partner"
+            },
+            {
+              "value": "reseller",
+              "selected": false
+            }
+          ]
+        },
+        {
+          "name": "devicetoken",
+          "title": {
+            "fa": "شناسه دستگاه",
+            "en": "شناسه دستگاه"
+          },
+          "description": {
+            "fa": "شناسه دستگاهی که برنامه نصب شده است",
+            "en": "شناسه دستگاهی که برنامه نصب شده است"
           },
           "type": "string",
+          "isTranslate": false,
           "isBase": true,
-          "isTranslate": true,
-          "allowEdit": false
+          "appearance": "text"
         },
         {
-          "name": "thumbnail",
+          "name": "os",
           "title": {
-            "fa": "عکس نمایشی",
-            "en": "Cover Image"
+            "fa": "سیستم عامل",
+            "en": "سیستم عامل"
           },
           "description": {
-            "fa": "",
-            "en": ""
+            "fa": "سیستم عاملی که برنامه در دستگاه نصب شده است",
+            "en": "سیستم عاملی که برنامه در دستگاه نصب شده است"
           },
-          "type": "media",
+          "type": "string",
+          "isTranslate": false,
           "isBase": true,
-          "mediaType": ["image"],
-          "isTranslate": true,
-          "allowEdit": false
+          "appearance": "text"
         },
         {
-          "name": "video",
+          "name": "appversion",
           "title": {
-            "fa": "ویدیو",
-            "en": "Video"
+            "fa": "نسخه نصبی برنامه",
+            "en": "نسخه نصبی برنامه"
           },
           "description": {
-            "fa": "",
-            "en": ""
+            "fa": "نسخه نصبی برنامه در دستگاه",
+            "en": "نسخه نصبی برنامه در دستگاه"
           },
-          "type": "media",
+          "type": "string",
+          "isTranslate": false,
           "isBase": true,
-          "mediaType": ["video"],
-          "isTranslate": true,
-          "allowEdit": false,
-          "isRequired": true
+          "appearance": "text"
+        },
+        {
+          "name": "location",
+          "title": {
+            "fa": "محل جغرافیایی",
+            "en": "محل جغرافیایی"
+          },
+          "description": {
+            "fa": "محل جغرافیایی کاربر در زمان نصب",
+            "en": "محل جغرافیایی کاربر در زمان نصب"
+          },
+          "type": "location",
+          "isTranslate": false,
+          "isBase": true,
+          "appearance": "default"
         }
       ]
     },
     {
       "id": "6",
-      "name": "audiocontent",
+      "name": "categories",
       "title": {
-        "en": "Audio Content",
-        "fa": "محتوای  صوتی"
+        "en": "Categories",
+        "fa": "دسته بندی ها"
       },
       "description": {
-        "en": "Audio types contents",
-        "fa": "محتوای صوتی "
+        "en": "Categories collection",
+        "fa": "دسته بندی دیتا"
       },
-      "icon": "icon-audio",
+      "icon": "icon-list",
       "allowCustomFields": true,
       "fields": [
         {
           "name": "name",
           "title": {
-            "en": "Name",
-            "fa": "Name"
+            "fa": "نام",
+            "en": "نام"
           },
           "description": {
-            "fa": "توضیحات برای فایل صوتی",
-            "en": "short description for audio file"
+            "fa": "نام دسته بندی",
+            "en": "نام دسته بندی"
           },
           "type": "string",
           "isBase": true,
           "isTranslate": true,
           "isRequired": true,
-          "allowEdit": false
+          "allowEdit": false,
+          "inVisible": false,
+          "appearance": "text",
+          "isMultiLine": false
         },
         {
-          "name": "description",
+          "name": "parentid",
           "title": {
-            "en": "Short Description"
+            "fa": "دسته بندی مادر",
+            "en": "دسته بندی مادر"
           },
           "description": {
-            "fa": "",
-            "en": ""
+            "fa": "دسته بندی مادر",
+            "en": "دسته بندی مادر"
           },
-          "type": "string",
+          "type": "reference",
+          "isTranslate": false,
+          "appearance": "default",
+          "isRequired": false,
           "isBase": true,
-          "isTranslate": true,
-          "allowEdit": false
+          "inVisible": false,
+          "isList": false
         },
         {
           "name": "thumbnail",
           "title": {
-            "fa": "تصویر نمایشی",
-            "en": "Cover Image"
+            "fa": "تصویر",
+            "en": "تصویر"
           },
           "description": {
-            "fa": "",
-            "en": ""
+            "fa": "تصویر یا نمایه",
+            "en": "تصویر یا نمایه"
           },
           "type": "media",
+          "isTranslate": false,
+          "appearance": "default",
+          "isRequired": false,
           "isBase": true,
-          "mediaType": ["image"],
-          "isTranslate": true,
-          "allowEdit": false
-        },
-        {
-          "name": "audio",
-          "title": {
-            "fa": "صدا",
-            "en": "Audio"
-          },
-          "description": {
-            "fa": "",
-            "en": ""
-          },
-          "type": "media",
-          "isBase": true,
-          "mediaType": ["audio"],
-          "isTranslate": true,
-          "allowEdit": false,
-          "isRequired": true
+          "inVisible": false,
+          "isList": false,
+          "mediaType": ["image"]
         }
       ]
     },
     {
       "id": "7",
-      "name": "filecontent",
+      "name": "productTypes",
       "title": {
-        "en": "File Content",
-        "fa": "محتوای  فایلی"
+        "en": "Product Types",
+        "fa": "انواع محصول"
       },
       "description": {
-        "en": "Storing file as a content",
-        "fa": "محتوا به صورت فایل"
+        "en": "Product types collection",
+        "fa": "دیتای انواع محصول"
       },
-      "icon": "icon-file-text",
+      "icon": "icon-shield",
       "allowCustomFields": true,
       "fields": [
         {
           "name": "name",
           "title": {
-            "en": "Name",
-            "fa": "Name"
+            "fa": "نام",
+            "en": "نام"
           },
           "description": {
-            "fa": "name field",
-            "en": "name field"
+            "fa": "نام نوع محصول",
+            "en": "نام نوع محصول"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": true,
+          "appearance": "text"
+        },
+        {
+          "name": "thumbnail",
+          "title": {
+            "fa": "تصویر نوع محصول",
+            "en": "تصویر نوع محصول"
+          },
+          "description": {
+            "fa": "تصویر نوع محصول",
+            "en": "تصویر نوع محصول"
+          },
+          "type": "media",
+          "isTranslate": false,
+          "appearance": "default",
+          "isRequired": false,
+          "isBase": true,
+          "inVisible": false,
+          "isList": true,
+          "mediaType": ["image"]
+        }
+      ]
+    },
+    {
+      "id": "9",
+      "name": "products",
+      "title": {
+        "en": "Products",
+        "fa": "محصولات"
+      },
+      "description": {
+        "en": "Products collection",
+        "fa": "دیتای محصولات"
+      },
+      "icon": "icon-filter",
+      "allowCustomFields": true,
+      "fields": [
+        {
+          "name": "partnerid",
+          "title": {
+            "fa": "شناسه همکار",
+            "en": "شناسه همکار"
+          },
+          "description": {
+            "fa": "شناسه همکار تجاری دارنده محصول",
+            "en": "شناسه همکار تجاری دارنده محصول"
+          },
+          "type": "reference",
+          "isTranslate": false,
+          "appearance": "default",
+          "isBase": true,
+          "isRequired": false,
+          "inVisible": false,
+          "isList": false,
+          "references": ["5d358ebc8e6e9a0017c28fc9"]
+        },
+        {
+          "name": "name",
+          "title": {
+            "fa": "نام محصول",
+            "en": "نام محصول"
+          },
+          "description": {
+            "fa": "نام محصول",
+            "en": "نام محصول"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": true,
+          "appearance": "text"
+        },
+        {
+          "name": "description",
+          "title": {
+            "fa": "شرح مختصر",
+            "en": "شرح مختصر"
+          },
+          "description": {
+            "fa": "شرح مختصری درباره محصول",
+            "en": "شرح مختصری درباره محصول"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": true,
+          "appearance": "text"
+        },
+        {
+          "name": "code",
+          "title": {
+            "fa": "کد محصول",
+            "en": "کد محصول"
+          },
+          "description": {
+            "fa": "کد محصول در سیستم",
+            "en": "کد محصول در سیستم"
+          },
+          "type": "string",
+          "isTranslate": false,
+          "isBase": true,
+          "appearance": "text"
+        },
+        {
+          "name": "producttype",
+          "title": {
+            "fa": "نوع محصول",
+            "en": "نوع محصول"
+          },
+          "description": {
+            "fa": "نوع محصول",
+            "en": "نوع محصول"
+          },
+          "type": "reference",
+          "isTranslate": false,
+          "appearance": "default",
+          "isRequired": false,
+          "inVisible": false,
+          "isBase": true,
+          "isList": false,
+          "references": ["5d36a7d18e6e9a0017c28fd6"]
+        },
+        {
+          "name": "media",
+          "title": {
+            "fa": "گالری محصول",
+            "en": "گالری محصول"
+          },
+          "description": {
+            "fa": "گالری معرفی محصول",
+            "en": "گالری معرفی محصول"
+          },
+          "type": "media",
+          "isTranslate": false,
+          "appearance": "default",
+          "isRequired": false,
+          "inVisible": false,
+          "isBase": true,
+          "isList": true,
+          "mediaType": ["image", "video"]
+        },
+        {
+          "name": "count",
+          "title": {
+            "fa": "تعداد",
+            "en": "تعداد"
+          },
+          "description": {
+            "fa": "تعداد",
+            "en": "تعداد"
+          },
+          "type": "number",
+          "isBase": true,
+          "isTranslate": false,
+          "appearance": "default"
+        },
+        {
+          "name": "itemstatus",
+          "title": {
+            "fa": "وضعیت",
+            "en": "وضعیت"
+          },
+          "description": {
+            "fa": "وضعیت",
+            "en": "وضعیت"
+          },
+          "type": "keyValue",
+          "isTranslate": false,
+          "appearance": "default",
+          "isRequired": false,
+          "isBase": true,
+          "inVisible": false,
+          "isList": false,
+          "options": [
+            {
+              "value": "active",
+              "selected": true
+            },
+            {
+              "value": "inactive"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "name": "partnerOpportunites",
+      "title": {
+        "en": "Partner Opportunites",
+        "fa": "درخواست های همگار"
+      },
+      "description": {
+        "en": "Partner opportunites collection",
+        "fa": "درخواست های مربوط به کاربران"
+      },
+      "icon": "icon-user",
+      "allowCustomFields": true,
+      "fields": [
+        {
+          "name": "name",
+          "title": {
+            "fa": "نام",
+            "en": "نام"
+          },
+          "description": {
+            "fa": "name field description",
+            "en": "name field description"
           },
           "type": "string",
           "isBase": true,
           "isTranslate": true,
           "isRequired": true,
-          "allowEdit": false
+          "allowEdit": false,
+          "inVisible": false,
+          "appearance": "text",
+          "isMultiLine": false
         },
         {
-          "name": "description",
+          "name": "partnerid",
           "title": {
-            "en": "Short Description"
+            "fa": "شناسه همکار",
+            "en": "شناسه همکار"
           },
           "description": {
-            "fa": "",
-            "en": ""
+            "fa": "شناسه همکار",
+            "en": "شناسه همکار"
+          },
+          "type": "reference",
+          "isTranslate": false,
+          "appearance": "default",
+          "isBase": true
+        },
+        {
+          "name": "request",
+          "title": {
+            "fa": "شناسه درخواست",
+            "en": "شناسه درخواست"
+          },
+          "description": {
+            "fa": "شناسه درخواست",
+            "en": "شناسه درخواست"
+          },
+          "type": "reference",
+          "isBase": true,
+          "isTranslate": false,
+          "appearance": "default"
+        },
+        {
+          "name": "stage",
+          "title": {
+            "fa": "وضعیت یا مرحله",
+            "en": "وضعیت یا مرحله"
+          },
+          "description": {
+            "fa": "وضعیت یا مرحله",
+            "en": "وضعیت یا مرحله"
+          },
+          "type": "reference",
+          "isTranslate": false,
+          "appearance": "default",
+          "isRequired": false,
+          "inVisible": false,
+          "isList": false,
+          "isBase": true
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "name": "contact",
+      "title": {
+        "en": "Contact",
+        "fa": "تماس"
+      },
+      "description": {
+        "en": "Contact collection",
+        "fa": "دیتای تماس ها"
+      },
+      "icon": "icon-user",
+      "allowCustomFields": true,
+      "fields": [
+        {
+          "name": "name",
+          "title": {
+            "fa": "نام",
+            "en": "نام"
+          },
+          "description": {
+            "fa": "نام",
+            "en": "نام"
           },
           "type": "string",
           "isBase": true,
           "isTranslate": true,
-          "allowEdit": false
+          "isRequired": true,
+          "allowEdit": false,
+          "inVisible": false,
+          "appearance": "text",
+          "isMultiLine": false
+        },
+        {
+          "name": "phonenumber",
+          "title": {
+            "fa": "شماره تماس",
+            "en": "شماره تماس"
+          },
+          "description": {
+            "fa": "شماره تماس",
+            "en": "شماره تماس"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": false,
+          "appearance": "text"
+        },
+        {
+          "name": "email",
+          "title": {
+            "fa": "ایمیل",
+            "en": "ایمیل"
+          },
+          "description": {
+            "fa": "ایمیل",
+            "en": "ایمیل"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": false,
+          "appearance": "email",
+          "isRequired": false,
+          "inVisible": false,
+          "isMultiLine": false
+        },
+        {
+          "name": "message",
+          "title": {
+            "fa": "پیغام",
+            "en": "پیغام"
+          },
+          "description": {
+            "fa": "متن پیغام ارسالی",
+            "en": "متن پیغام ارسالی"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": false,
+          "appearance": "text",
+          "isRequired": false,
+          "inVisible": false,
+          "isMultiLine": true
+        },
+        {
+          "name": "subject",
+          "title": {
+            "fa": "موضوع",
+            "en": "موضوع"
+          },
+          "description": {
+            "fa": "موضوع تماس",
+            "en": "موضوع تماس"
+          },
+          "type": "string",
+          "isTranslate": false,
+          "appearance": "text",
+          "isRequired": false,
+          "isBase": true,
+          "inVisible": false,
+          "isMultiLine": false
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "name": "partners",
+      "title": {
+        "en": "Partners",
+        "fa": "همکاران"
+      },
+      "description": {
+        "en": "My partners",
+        "fa": "همکاران من"
+      },
+      "icon": "icon-database",
+      "allowCustomFields": true,
+      "fields": [
+        {
+          "name": "name",
+          "title": {
+            "fa": "نام شرکت یا مجموعه",
+            "en": "نام شرکت یا مجموعه"
+          },
+          "description": {
+            "fa": "نام شرکت یا مجموعه همکار",
+            "en": "نام شرکت یا مجموعه همکار"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": false,
+          "appearance": "text"
+        },
+        {
+          "name": "regno",
+          "title": {
+            "fa": "شماره ثبت",
+            "en": "شماره ثبت"
+          },
+          "description": {
+            "fa": "شماره ثبت شرکت",
+            "en": "شماره ثبت شرکت"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": false,
+          "appearance": "text"
+        },
+        {
+          "name": "contract",
+          "title": {
+            "fa": "اسکن قرارداد",
+            "en": "اسکن قرارداد"
+          },
+          "description": {
+            "fa": "اسکن قرارداد یا تفاهم نامه فی مابین",
+            "en": "اسکن قرارداد یا تفاهم نامه فی مابین"
+          },
+          "type": "media",
+          "isBase": true,
+          "isTranslate": false,
+          "appearance": "default"
+        },
+        {
+          "name": "logo",
+          "title": {
+            "fa": "لوگو",
+            "en": "لوگو"
+          },
+          "description": {
+            "fa": "لوگو یا آرم همکار",
+            "en": "لوگو یا آرم همکار"
+          },
+          "type": "media",
+          "isTranslate": false,
+          "appearance": "default",
+          "isBase": true,
+          "isRequired": false,
+          "isList": false,
+          "mediaType": ["image"]
+        },
+        {
+          "name": "location",
+          "title": {
+            "fa": "محل روی نقشه",
+            "en": "محل روی نقشه"
+          },
+          "description": {
+            "fa": "محل جغرافیایی روی نقشه",
+            "en": "محل جغرافیایی روی نقشه"
+          },
+          "type": "location",
+          "isTranslate": false,
+          "isBase": true,
+          "appearance": "default"
+        },
+        {
+          "name": "address",
+          "title": {
+            "fa": "آدرس",
+            "en": "آدرس"
+          },
+          "description": {
+            "fa": "آدرس فیزیکی همکار",
+            "en": "آدرس فیزیکی همکار"
+          },
+          "isBase": true,
+          "type": "string",
+          "isTranslate": true,
+          "appearance": "text"
+        },
+        {
+          "name": "email",
+          "title": {
+            "fa": "ایمیل",
+            "en": "ایمیل"
+          },
+          "description": {
+            "fa": "آدرس ایمیل همکار",
+            "en": "آدرس ایمیل همکار"
+          },
+          "isBase": true,
+          "type": "string",
+          "isTranslate": false,
+          "appearance": "email",
+          "isRequired": false,
+          "inVisible": false,
+          "isMultiLine": false
+        },
+        {
+          "name": "joindate",
+          "title": {
+            "fa": "تاریخ ایجاد",
+            "en": "تاریخ ایجاد"
+          },
+          "description": {
+            "fa": "تاریخ ارتباط با همکار",
+            "en": "تاریخ ارتباط با همکار"
+          },
+          "isBase": true,
+          "type": "dateTime",
+          "isTranslate": false,
+          "appearance": "default"
+        },
+        {
+          "name": "overview",
+          "title": {
+            "fa": "درباره همکار",
+            "en": "درباره همکار"
+          },
+          "description": {
+            "fa": "خلاصه ای از همکار",
+            "en": "خلاصه ای از همکار"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": true,
+          "appearance": "text"
+        },
+        {
+          "name": "images",
+          "title": {
+            "fa": "آلبوم عکس",
+            "en": "آلبوم عکس"
+          },
+          "description": {
+            "fa": "آلبوم عکس از همکار",
+            "en": "آلبوم عکس از همکار"
+          },
+          "type": "media",
+          "isTranslate": false,
+          "isBase": true,
+          "appearance": "default",
+          "isRequired": false,
+          "inVisible": false,
+          "isList": true
+        },
+        {
+          "name": "homepage",
+          "title": {
+            "fa": "وبسایت",
+            "en": "وبسایت"
+          },
+          "description": {
+            "fa": "وبسایت همکار",
+            "en": "وبسایت همکار"
+          },
+          "type": "string",
+          "isTranslate": false,
+          "appearance": "text"
+        },
+        {
+          "name": "email",
+          "title": {
+            "fa": "ایمیل",
+            "en": "ایمیل"
+          },
+          "description": {
+            "fa": "آدرس ایمیل همکار",
+            "en": "آدرس ایمیل همکار"
+          },
+          "type": "string",
+          "isTranslate": false,
+          "appearance": "email",
+          "isBase": true,
+          "isRequired": false,
+          "inVisible": false,
+          "isMultiLine": false
+        },
+        {
+          "name": "verified",
+          "title": {
+            "fa": "تایید شده",
+            "en": "تایید شده"
+          },
+          "description": {
+            "fa": "همکار تایید شده",
+            "en": "همکار تایید شده"
+          },
+          "isBase": true,
+          "type": "boolean",
+          "isTranslate": false,
+          "appearance": "default"
+        },
+        {
+          "name": "primarycontact",
+          "title": {
+            "fa": "نام شخص رابط",
+            "en": "نام شخص رابط"
+          },
+          "description": {
+            "fa": "نام شخص رابط از طرف همکار",
+            "en": "نام شخص رابط از طرف همکار"
+          },
+          "isBase": true,
+          "type": "string",
+          "isTranslate": false,
+          "appearance": "text"
+        },
+        {
+          "name": "phonenumber",
+          "title": {
+            "fa": "شماره تماس",
+            "en": "شماره تماس"
+          },
+          "description": {
+            "fa": "شماره تماس شرکت همکار",
+            "en": "شماره تماس شرکت همکار"
+          },
+          "isBase": true,
+          "type": "string",
+          "isTranslate": false,
+          "appearance": "text"
+        },
+        {
+          "name": "primarycontactphone",
+          "title": {
+            "fa": "شماره تماس رابط همکار",
+            "en": "شماره تماس رابط همکار"
+          },
+          "description": {
+            "fa": "شماره تماس رابط همکار",
+            "en": "شماره تماس رابط همکار"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": false,
+          "appearance": "phoneNumber",
+          "isRequired": false,
+          "inVisible": false,
+          "isMultiLine": false
+        },
+        {
+          "name": "state",
+          "title": {
+            "fa": "وضعیت",
+            "en": "وضعیت"
+          },
+          "description": {
+            "fa": "وضعیت همکاری با همکار",
+            "en": "وضعیت همکاری با همکار"
+          },
+          "type": "keyValue",
+          "isBase": true,
+          "isTranslate": false,
+          "appearance": "default",
+          "isRequired": true,
+          "inVisible": false,
+          "isList": false,
+          "options": [
+            {
+              "value": "active",
+              "selected": true
+            },
+            {
+              "value": "inactive",
+              "selected": false
+            },
+            {
+              "value": "hold",
+              "selected": false
+            }
+          ]
+        },
+        {
+          "name": "instagram",
+          "title": {
+            "fa": "لینک اینستاگرام",
+            "en": "لینک اینستاگرام"
+          },
+          "description": {
+            "fa": "لینک اینستاگرام",
+            "en": "لینک اینستاگرام"
+          },
+          "isBase": true,
+          "type": "string",
+          "isTranslate": false,
+          "appearance": "text"
+        },
+        {
+          "name": "linkedin",
+          "title": {
+            "fa": "آدرس لینکدین",
+            "en": "آدرس لینکدین"
+          },
+          "description": {
+            "fa": "آدرس لینکدین",
+            "en": "آدرس لینکدین"
+          },
+          "type": "string",
+          "isTranslate": false,
+          "isBase": true,
+          "appearance": "text"
+        },
+        {
+          "name": "twitter",
+          "title": {
+            "fa": "لینک تويیتر",
+            "en": "لینک تويیتر"
+          },
+          "description": {
+            "fa": "لینک تويیتر",
+            "en": "لینک تويیتر"
+          },
+          "type": "string",
+          "isTranslate": false,
+          "isBase": true,
+          "appearance": "url",
+          "isRequired": false,
+          "inVisible": false,
+          "isMultiLine": false
+        },
+        {
+          "name": "workingfields",
+          "title": {
+            "fa": "حوزه های فعالیت",
+            "en": "حوزه های فعالیت"
+          },
+          "description": {
+            "fa": "حوزه های فعالیت",
+            "en": "حوزه های فعالیت"
+          },
+          "type": "reference",
+          "isTranslate": false,
+          "isBase": true,
+          "appearance": "default",
+          "isRequired": false,
+          "inVisible": false,
+          "isList": true,
+          "references": ["5d3af3a1a9602900177a5056"]
+        },
+        {
+          "name": "country",
+          "title": {
+            "fa": "کشور",
+            "en": "کشور"
+          },
+          "description": {
+            "fa": "کشور محل استقرار",
+            "en": "کشور محل استقرار"
+          },
+          "type": "reference",
+          "isTranslate": false,
+          "appearance": "default",
+          "isBase": true,
+          "isRequired": false,
+          "inVisible": false,
+          "isList": false,
+          "references": ["5d35e6e68e6e9a0017c28fcd"]
+        },
+        {
+          "name": "city",
+          "title": {
+            "fa": "شهر",
+            "en": "شهر"
+          },
+          "description": {
+            "fa": "شهر محل استقرار",
+            "en": "شهر محل استقرار"
+          },
+          "type": "reference",
+          "isTranslate": false,
+          "appearance": "default",
+          "isBase": true,
+          "isRequired": false,
+          "inVisible": false,
+          "isList": false,
+          "references": ["5d35e6fa8e6e9a0017c28fce"]
+        },
+        {
+          "name": "collaborationtypes",
+          "title": {
+            "fa": "زمینه های همکاری",
+            "en": "زمینه های همکاری"
+          },
+          "description": {
+            "fa": "زمینه های همکاری",
+            "en": "زمینه های همکاری"
+          },
+          "type": "reference",
+          "isTranslate": false,
+          "appearance": "default",
+          "isBase": true,
+          "isRequired": false,
+          "inVisible": false,
+          "isList": true,
+          "references": ["5d4169c642afbf00179b0569"]
+        },
+        {
+          "name": "capacity",
+          "title": {
+            "fa": "ظرفیت کل",
+            "en": "ظرفیت کل"
+          },
+          "description": {
+            "fa": "ظرفیت کل",
+            "en": "ظرفیت کل"
+          },
+          "isBase": true,
+          "type": "number",
+          "isTranslate": false,
+          "appearance": "default"
+        },
+        {
+          "name": "discount",
+          "title": {
+            "fa": "درصد تفخیف",
+            "en": "درصد تفخیف"
+          },
+          "description": {
+            "fa": "درصد تفخیف",
+            "en": "درصد تفخیف"
+          },
+          "type": "number",
+          "isBase": true,
+          "isTranslate": false,
+          "appearance": "number",
+          "isRequired": false,
+          "inVisible": false,
+          "limit": {
+            "type": "between",
+            "min": "0",
+            "max": "100"
+          }
+        },
+        {
+          "name": "partnerkey",
+          "title": {
+            "fa": "نام مخصوص همکار",
+            "en": "نام مخصوص همکار"
+          },
+          "description": {
+            "fa": "نام مخصوص همکار",
+            "en": "نام مخصوص همکار"
+          },
+          "isBase": true,
+          "type": "string",
+          "isTranslate": false,
+          "appearance": "text"
+        }
+      ]
+    },
+    {
+      "id": "13",
+      "name": "countries",
+      "title": {
+        "en": "Countries",
+        "fa": "کشورها"
+      },
+      "description": {
+        "en": "Contries collection",
+        "fa": "دیتای کشورها"
+      },
+      "icon": "icon-database",
+      "allowCustomFields": true,
+      "fields": [
+        {
+          "name": "name",
+          "title": {
+            "fa": "نام کشور",
+            "en": "نام کشور"
+          },
+          "description": {
+            "fa": "نام کشور",
+            "en": "نام کشور"
+          },
+          "type": "string",
+          "isTranslate": true,
+          "isBase": true,
+          "appearance": "text",
+          "isRequired": true,
+          "inVisible": false,
+          "isMultiLine": false
+        },
+        {
+          "name": "flag",
+          "title": {
+            "fa": "پرچم",
+            "en": "پرچم"
+          },
+          "description": {
+            "fa": "پرچم کشور",
+            "en": "پرچم کشور"
+          },
+          "type": "media",
+          "isBase": true,
+          "isTranslate": false,
+          "appearance": "default"
+        },
+        {
+          "name": "locale",
+          "title": {
+            "fa": "علامت اختصار زبان",
+            "en": "علامت اختصار زبان"
+          },
+          "description": {
+            "fa": "علامت اختصار زبان کشور",
+            "en": "علامت اختصار زبان کشور"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": false,
+          "appearance": "text"
+        }
+      ]
+    },
+    {
+      "id": "14",
+      "name": "cities",
+      "title": {
+        "en": "Cities",
+        "fa": "شهرها"
+      },
+      "description": {
+        "en": "Cities collection",
+        "fa": "دیتای شهرها"
+      },
+      "icon": "icon-database",
+      "allowCustomFields": true,
+      "fields": [
+        {
+          "name": "name",
+          "title": {
+            "fa": "نام شهر",
+            "en": "نام شهر"
+          },
+          "description": {
+            "fa": "نام شهر",
+            "en": "نام شهر"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": true,
+          "appearance": "text",
+          "isRequired": true,
+          "inVisible": false,
+          "isMultiLine": false
+        },
+        {
+          "name": "country",
+          "title": {
+            "fa": "کشور",
+            "en": "کشور"
+          },
+          "description": {
+            "fa": "نام کشور",
+            "en": "نام کشور"
+          },
+          "type": "reference",
+          "isTranslate": false,
+          "appearance": "default",
+          "isRequired": false,
+          "isBase": true,
+          "inVisible": false,
+          "isList": false,
+          "references": ["5d35e6e68e6e9a0017c28fcd"],
+          "refVisibleFields": ["name", "flag", "locale"]
         },
         {
           "name": "thumbnail",
           "title": {
-            "fa": "تصویر نمایشی",
-            "en": "Cover Image"
+            "fa": "تصویر اصلی",
+            "en": "تصویر اصلی"
           },
           "description": {
-            "fa": "",
-            "en": ""
+            "fa": "تصویر اصلی شهر",
+            "en": "تصویر اصلی شهر"
           },
           "type": "media",
           "isBase": true,
-          "mediaType": ["image"],
-          "isTranslate": true,
-          "allowEdit": false
+          "isTranslate": false,
+          "appearance": "default"
         },
         {
-          "name": "file",
+          "name": "images",
           "title": {
-            "fa": "فایل",
-            "en": "File"
+            "fa": "سایر تصاویر",
+            "en": "سایر تصاویر"
           },
           "description": {
-            "fa": "",
-            "en": ""
+            "fa": "سایر تصاویر",
+            "en": "سایر تصاویر"
           },
           "type": "media",
+          "isTranslate": false,
+          "isBase": true,
+          "appearance": "default",
+          "isRequired": false,
+          "isList": true
+        },
+        {
+          "name": "about",
+          "title": {
+            "fa": "درباره شهر",
+            "en": "درباره شهر"
+          },
+          "description": {
+            "fa": "اطلاعاتی در باره شهر",
+            "en": "اطلاعاتی در باره شهر"
+          },
+          "type": "richText",
           "isBase": true,
           "isTranslate": true,
+          "appearance": "default"
+        },
+        {
+          "name": "location",
+          "title": {
+            "fa": "محل روی نقشه",
+            "en": "محل روی نقشه"
+          },
+          "description": {
+            "fa": "محل روی نقشه",
+            "en": "محل روی نقشه"
+          },
+          "type": "location",
+          "isTranslate": false,
+          "isBase": true,
+          "appearance": "default"
+        }
+      ]
+    },
+    {
+      "id": "15",
+      "name": "workingfields",
+      "title": {
+        "en": "Working Fields",
+        "fa": "زمینه همکاری  تجاری"
+      },
+      "description": {
+        "en": "Working Fields",
+        "fa": "زمینه همکاری  تجاری"
+      },
+      "icon": "icon-database",
+      "allowCustomFields": true,
+      "fields": [
+         {
+           "name": "name",
+           "title": {
+             "fa": "نام",
+             "en": "نام"
+           },
+           "description": {
+             "fa": "نام زمینه همکاری",
+             "en": "نام زمینه همکاری"
+           },
+           "type": "string",
+           "isBase": true,
+           "isTranslate": true,
+           "isRequired": true,
+           "allowEdit": false,
+           "inVisible": false,
+           "appearance": "text",
+           "isMultiLine": false
+         },
+         {
+           "name": "thumbnail",
+           "title": {
+             "fa": "نمایه",
+             "en": "نمایه"
+           },
+           "description": {
+             "fa": "نمایه مربوط به زمینه همکاری",
+             "en": "نمایه مربوط به زمینه همکاری"
+           },
+           "type": "media",
+           "isBase": true,
+           "isTranslate": false,
+           "appearance": "default",
+           "isRequired": false,
+           "inVisible": false,
+           "isList": false,
+           "mediaType": ["image"]
+         }
+      ]
+    },
+    {
+      "id": "16",
+      "name": "reviews",
+      "title": {
+        "en": "Reviews",
+        "fa": "نظرات کاربران"
+      },
+      "description": {
+        "en": "Reviews",
+        "fa": "نظرات کاربران"
+      },
+      "icon": "icon-database",
+      "allowCustomFields": true,
+      "fields": [
+        {
+          "name": "name",
+          "title": {
+            "fa": "عنوان",
+            "en": "عنوان"
+          },
+          "description": {
+            "fa": "عنوان",
+            "en": "عنوان"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": true,
+          "isRequired": true,
           "allowEdit": false,
-          "isRequired": true
+          "inVisible": false,
+          "appearance": "text",
+          "isMultiLine": false
+        },
+        {
+          "name": "body",
+          "title": {
+            "fa": "متن نظر",
+            "en": "متن نظر"
+          },
+          "description": {
+            "fa": "متن نظر کاربر",
+            "en": "متن نظر کاربر"
+          },
+          "type": "string",
+          "isTranslate": false,
+          "isBase": true,
+          "appearance": "text"
+        },
+        {
+          "name": "rate",
+          "title": {
+            "fa": "رتبه پیشنهادی",
+            "en": "رتبه پیشنهادی"
+          },
+          "description": {
+            "fa": "رتبه پیشنهادی به سرویس دهنده",
+            "en": "رتبه پیشنهادی به سرویس دهنده"
+          },
+          "type": "number",
+          "isTranslate": false,
+          "isBase": true,
+          "appearance": "default"
+        },
+        {
+          "name": "partnerid",
+          "title": {
+            "fa": "شناسه همکار",
+            "en": "شناسه همکار"
+          },
+          "description": {
+            "fa": "شناسه همکار",
+            "en": "شناسه همکار"
+          },
+          "type": "reference",
+          "isTranslate": false,
+          "appearance": "default",
+          "isBase": true,
+          "isRequired": false,
+          "inVisible": false,
+          "isList": false
+        }
+      ]
+    },
+    {
+      "id": "17",
+      "name": "requeststages",
+      "title": {
+        "en": "Request Stages",
+        "fa": "مراحل درخواست"
+      },
+      "description": {
+        "en": "Request Stages",
+        "fa": "مراحل درخواست"
+      },
+      "icon": "icon-database",
+      "allowCustomFields": true,
+      "fields": [
+        {
+          "name": "name",
+          "title": {
+            "fa": "نام مرحله",
+            "en": "نام مرحله"
+          },
+          "description": {
+            "fa": "name field description",
+            "en": "name field description"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": false,
+          "isRequired": true,
+          "allowEdit": false,
+          "inVisible": false,
+          "appearance": "text",
+          "isMultiLine": false
+        },
+        {
+          "name": "key",
+          "title": {
+            "fa": "کلید مرحله",
+            "en": "کلید مرحله"
+          },
+          "description": {
+            "fa": "کلید مرحله",
+            "en": "کلید مرحله"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": false,
+          "appearance": "text"
+        }
+      ]
+    },
+    {
+      "id": "18",
+      "name": "offerstages",
+      "title": {
+        "en": "Offer Stages",
+        "fa": "مراحل پیشنهاد"
+      },
+      "description": {
+        "en": "Offer Stages",
+        "fa": "مراحل پیشنهاد"
+      },
+      "icon": "icon-database",
+      "allowCustomFields": true,
+      "fields": [
+        {
+          "name": "name",
+          "title": {
+            "fa": "نام",
+            "en": "نام"
+          },
+          "description": {
+            "fa": "نام مرحله",
+            "en": "نام مرحله"
+          },
+          "type": "string",
+          "isBase": true,
+          "isTranslate": false,
+          "isRequired": true,
+          "allowEdit": false,
+          "inVisible": false,
+          "appearance": "text",
+          "isMultiLine": false
         }
       ]
     }
-  ],
-  "contentTypes": [],
-  "contents": [],
-  "users": [],
-  "assets": []
+  ]
 }

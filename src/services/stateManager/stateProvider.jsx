@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import {
   NotificationBar,
   setNotif,
-  useNotification,
+  useNotification
 } from "./../../components/Commons/NotficationBar";
 import { StateProvider } from "./index";
 import storageManager from "./../storageManager";
@@ -31,51 +31,49 @@ const Provider = props => {
       {
         id: "0",
         name: "draft",
-        icon: "icon-draft",
+        icon: "icon-draft"
       },
       {
         id: "1",
         name: "archived",
-        icon: "icon-archive",
+        icon: "icon-archive"
       },
       {
         id: "2",
         name: "changed",
-        icon: "icon-refresh",
+        icon: "icon-refresh"
       },
       {
         id: "3",
         name: "published",
-        icon: "icon-publish",
-      },
+        icon: "icon-publish"
+      }
     ],
     notifies: [],
     sysLocales: [
       {
         name: "en",
-        title: "English (United State) (en-US)",
+        title: "English (United State) (en-US)"
       },
       {
         name: "fa",
-        title: "فارسی (ایران) (fa)",
+        title: "فارسی (ایران) (fa)"
       },
       {
         name: "de",
-        title: "German (Germany) (de-DE)",
+        title: "German (Germany) (de-DE)"
       },
       {
         name: "sv",
-        title: "Swedish (Sweden) (sw-SV)",
-      },
+        title: "Swedish (Sweden) (sw-SV)"
+      }
     ],
     apiKeys: [],
     webhooks: [],
-    t: {},
-    spinner: true,
-    mp_categories: [],
-    mp_contentTypes: [],
-    mp_requests: [],
-    mp_requestDetail: {},
+    contentPage: {
+      filterBox: false,
+      filters: []
+    }
   };
 
   const reducer = (state, action) => {
@@ -93,13 +91,13 @@ const Provider = props => {
           users: [],
           assets: [],
           apiKeys: [],
-          webhooks: [],
+          webhooks: []
         };
         return logout;
       case "SET_AUTHENTICATED":
         const auth = {
           ...state,
-          isAuthenticated: action.value,
+          isAuthenticated: action.value
         };
         return auth;
       case "SET_USERINFO":
@@ -111,28 +109,27 @@ const Provider = props => {
         // }
         const u = {
           ...state,
-          userInfo: action.value,
+          userInfo: action.value
         };
         return u;
       case "SET_SPACEINFO":
         const s_info = {
           ...state,
-          spaceInfo: action.value,
+          spaceInfo: action.value
         };
         return s_info;
       case "SET_LOCALES":
-        debugger;
         let s_l_info = { ...state.spaceInfo };
         s_l_info["locales"] = action.value;
         const s_locales = {
           ...state,
-          spaceInfo: s_l_info,
+          spaceInfo: s_l_info
         };
         return s_locales;
       case "SET_API_KEYS":
         const apiKeys = {
           ...state,
-          apiKeys: action.value,
+          apiKeys: action.value
         };
         return apiKeys;
       case "ADD_API_KEY":
@@ -140,7 +137,7 @@ const Provider = props => {
         apiKeys_add.push(action.value);
         return {
           ...state,
-          apiKeys: apiKeys_add,
+          apiKeys: apiKeys_add
         };
       case "DELETE_API_KEY":
         const apiKeys_delete = state.apiKeys.filter(
@@ -148,7 +145,7 @@ const Provider = props => {
         );
         return {
           ...state,
-          apiKeys: apiKeys_delete,
+          apiKeys: apiKeys_delete
         };
       case "UPDATE_API_KEY":
         const apiKeys_up = state.apiKeys.map(item => {
@@ -157,18 +154,18 @@ const Provider = props => {
         });
         return {
           ...state,
-          apiKeys: apiKeys_up,
+          apiKeys: apiKeys_up
         };
       case "SET_WEBHOOKS":
         const webhooks = {
           ...state,
-          webhooks: action.value,
+          webhooks: action.value
         };
         return webhooks;
       case "SET_CONTENT_TYPES":
         const s = {
           ...state,
-          contentTypes: action.value,
+          contentTypes: action.value
         };
         return s;
       case "ADD_CONTENT_TYPE":
@@ -176,7 +173,7 @@ const Provider = props => {
         c_add.push(action.value);
         return {
           ...state,
-          contentTypes: c_add,
+          contentTypes: c_add
         };
       case "UPDATE_CONTENT_TYPE":
         const s_up = state.contentTypes.map(item => {
@@ -185,7 +182,7 @@ const Provider = props => {
         });
         return {
           ...state,
-          contentTypes: s_up,
+          contentTypes: s_up
         };
       case "DELETE_CONTENT_TYPE":
         const s_delete = state.contentTypes.filter(
@@ -193,24 +190,24 @@ const Provider = props => {
         );
         return {
           ...state,
-          contentTypes: s_delete,
+          contentTypes: s_delete
         };
       case "SET_CONTENT_TEMPLATES":
         const c_t = {
           ...state,
-          contentTypeTemlates: action.value,
+          contentTypeTemlates: action.value
         };
         return c_t;
       case "SET_FIELDS":
         const f = {
           ...state,
-          fields: action.value,
+          fields: action.value
         };
         return f;
       case "SET_CONTENTS":
         return {
           ...state,
-          contents: action.value,
+          contents: action.value
         };
       case "DELETE_CONTENT":
         const content_delete = state.contents.filter(
@@ -218,7 +215,7 @@ const Provider = props => {
         );
         return {
           ...state,
-          contents: content_delete,
+          contents: content_delete
         };
       case "CHANGE_CONTENT_STATUS":
         const content_status = state.contents.map(item => {
@@ -228,12 +225,12 @@ const Provider = props => {
 
         return {
           ...state,
-          contents: content_status,
+          contents: content_status
         };
       case "SET_ASSETS":
         return {
           ...state,
-          assets: action.value,
+          assets: action.value
         };
       case "DELETE_ASSET":
         const assets_delete = state.assets.filter(
@@ -241,7 +238,7 @@ const Provider = props => {
         );
         return {
           ...state,
-          assets: assets_delete,
+          assets: assets_delete
         };
       case "ARCHIVE_ASSET":
         const assets_archive = state.assets.map(item => {
@@ -251,7 +248,7 @@ const Provider = props => {
 
         return {
           ...state,
-          assets: assets_archive,
+          assets: assets_archive
         };
       case "UN_ARCHIVE_ASSET":
         const assets_unarchive = state.assets.map(item => {
@@ -261,7 +258,7 @@ const Provider = props => {
 
         return {
           ...state,
-          assets: assets_unarchive,
+          assets: assets_unarchive
         };
       case "PUBLISH_ASSET":
         const assets_publish = state.assets.map(item => {
@@ -271,7 +268,7 @@ const Provider = props => {
 
         return {
           ...state,
-          assets: assets_publish,
+          assets: assets_publish
         };
       case "UN_PUBLISH_ASSET":
         const assets_unpublish = state.assets.map(item => {
@@ -281,7 +278,7 @@ const Provider = props => {
 
         return {
           ...state,
-          assets: assets_unpublish,
+          assets: assets_unpublish
         };
       case "ADD_NOTIFY":
         let newItem = { ...action.value };
@@ -290,7 +287,7 @@ const Provider = props => {
         items_n.unshift(newItem);
         return {
           ...state,
-          notifies: items_n,
+          notifies: items_n
         };
       case "REMOVE_NOTIFY":
         const items = state.notifies.filter(
@@ -298,7 +295,12 @@ const Provider = props => {
         );
         return {
           ...state,
-          notifies: items,
+          notifies: items
+        };
+      case "SET_CONTENT_PAGE_STATUS":
+        return {
+          ...state,
+          contentPage: action.value
         };
       default:
         return state;
