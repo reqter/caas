@@ -56,6 +56,20 @@ const fieldsApearance = {
     }
   ]
 };
+const fieldsPermissions = [
+  {
+    name: "admin",
+    title: { en: "Admin", fa: "ادمین" }
+  },
+  {
+    name: "customers",
+    title: { en: "Customers", fa: "مشتریان" }
+  },
+  {
+    name: "partners",
+    title: { en: "Partners", fa: "همکاران" }
+  }
+];
 
 const currentLang = languageManager.getCurrentLanguage().name;
 const FieldConfig = props => {
@@ -159,6 +173,25 @@ const FieldConfig = props => {
         }
       : []
   );
+  const [permissionVisibility, togglePermission] = useState(
+    selectedField.access && selectedField.access.length > 0 ? true : false
+  );
+  const [permissions, setPermissions] = useState(() => {
+    if (selectedField.access === undefined || selectedField.access.length === 0)
+      return fieldsPermissions;
+    else {
+      let m = JSON.parse(JSON.stringify(fieldsPermissions));
+      for (let j = 0; j < m.length; j++) {
+        for (let i = 0; i < selectedField.access.length; i++) {
+          const per = selectedField.access[i];
+          if (m[j].name === per) {
+            m[j].selected = true;
+          }
+        }
+      }
+      return m;
+    }
+  });
 
   const [referenceContentTypeChk, toggleReferenceContentType] = useState(
     selectedField.type === "reference"
@@ -219,8 +252,6 @@ const FieldConfig = props => {
       : undefined
   );
   const [refVisibleFields, setRefVisibleFields] = useState();
-  const [refValue, setRefValue] = useState();
-
   const [helpText, setHelpText] = useState(
     selectedField.helpText ? selectedField.helpText : ""
   );
@@ -451,8 +482,7 @@ const FieldConfig = props => {
     if (!selectedField.references || selectedField.references.length === 0)
       return;
     else {
-      if (!selectedField.fields || selectedField.fields.length === 0)
-        return;
+      if (!selectedField.fields || selectedField.fields.length === 0) return;
       for (let j = 0; j < contentTypes.length; j++) {
         for (let i = 0; i < selectedField.references.length; i++) {
           const r_id = selectedField.references[i];
@@ -460,10 +490,7 @@ const FieldConfig = props => {
             const item = contentTypes[j];
             for (let k = 0; k < selectedField.fields.length; k++) {
               for (let l = 0; l < item.fields.length; l++) {
-                if (
-                  selectedField.fields[k] ===
-                  item.fields[l].name
-                ) {
+                if (selectedField.fields[k] === item.fields[l].name) {
                   const obj = {
                     value: item.fields[l].name,
                     ...item.fields[l]
@@ -532,6 +559,16 @@ const FieldConfig = props => {
     }
     setMediaType(m);
   }
+  function handleSelectPermissionType(per) {
+    let m;
+    m = permissions.map(c => {
+      if (per.name === c.name) {
+        c.selected = !c.selected;
+      }
+      return c;
+    });
+    setPermissions(m);
+  }
   function addNewOption() {
     let opts = [...options];
     opts.push({
@@ -585,6 +622,14 @@ const FieldConfig = props => {
           ? selectedField.appearance
           : "default"
         : fieldsUI.find(ui => ui.selected).name;
+      const p = permissions
+        .filter(item => {
+          if (item.selected === true) return item;
+        })
+        .map(item => item.name);
+
+      if (p && p.length > 0) obj["access"] = p;
+      else delete obj["access"];
       if (helpText.length > 0) obj["helpText"] = utility.applyeLangs(helpText);
       if (selectedField.type !== "media" && selectedField.type !== "richText") {
         obj["inVisible"] = inVisible;
@@ -1500,6 +1545,43 @@ const FieldConfig = props => {
                   </div>
                 </div>
               )}
+              <div className="custom_checkbox">
+                <div className="left">
+                  <label className="checkBox">
+                    <input
+                      type="checkbox"
+                      id="permission"
+                      checked={permissionVisibility}
+                      onChange={() => togglePermission(prevState => !prevState)}
+                    />
+                    <span className="checkmark" />
+                  </label>
+                </div>
+                <div className="right">
+                  <label htmlFor="permission">Enable Permission</label>
+                  <label htmlFor="permission">
+                    Setting permission on this field
+                  </label>
+                  {permissionVisibility && (
+                    <div className="validation-configs">
+                      {permissions.map((per, index) => (
+                        <button
+                          key={"btnType" + index}
+                          className={
+                            "btn btn-sm " +
+                            (per.selected === true
+                              ? "btn-primary"
+                              : "btn-light")
+                          }
+                          onClick={() => handleSelectPermissionType(per)}
+                        >
+                          {per.title[currentLang]}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
               {selectedField.type === "reference" && (
                 <div className="custom_checkbox">
                   <div className="left">

@@ -41,12 +41,13 @@
   .body {
     padding: 25px;
     min-height: 300px;
+
     .secondTab {
       .validation-configs {
         padding-top: 10px;
         button {
           margin-right: 10px;
-          width: calc(20% - 10px);
+          min-width: calc(20% - 10px);
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -144,12 +145,12 @@
     }
   }
 }
-.options-single-selected{
-  font-size: 14px
+.options-single-selected {
+  font-size: 14px;
 }
 .options-multiple-selected {
-  font-size: 14px!important;
+  font-size: 14px !important;
 }
-.options-items{
-font-size: 14px!important
+.options-items {
+  font-size: 14px !important;
 }
