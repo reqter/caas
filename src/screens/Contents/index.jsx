@@ -1,10 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle
-} from "reactstrap";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { useGlobalState, languageManager } from "../../services";

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import {
   Dropdown,
   DropdownToggle,
@@ -6,8 +6,7 @@ import {
   DropdownMenu
 } from "reactstrap";
 import "./styles.scss";
-import { languageManager, useGlobalState, utility } from "../../services";
-import { CircleSpinner } from "../../components";
+import { languageManager, useGlobalState } from "../../services";
 import { Locales, ApiKeys, Webhooks } from "./contents";
 import "./contentStyles.scss";
 import UpsertLocale from "./modals/UpsertLocale";

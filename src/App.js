@@ -16,6 +16,7 @@ const Signup = lazy(() => import("./screens/Signup"));
 const ForgotPassword = lazy(() => import("./screens/ForgotPassword"));
 const UpsertContent = lazy(() => import("./screens/UpsertContent"));
 const UpdateFile = lazy(() => import("./screens/upsertFile"));
+const ContentViewByLink = lazy(() => import("./screens/ViewContent"));
 
 const MainPage = withResolver(MainPageComponent);
 const AddAsset = withResolver(UpdateFile);
@@ -24,6 +25,7 @@ const ViewAsset = withResolver(UpdateFile);
 const AddContent = withResolver(UpsertContent);
 const EditContent = withResolver(UpsertContent);
 const ViewContent = withResolver(UpsertContent);
+
 //
 const App = () => {
   return (
@@ -46,6 +48,11 @@ const App = () => {
               key="forgotPassword"
               path="/forgotPassword"
               render={props => <ForgotPassword {...props} />}
+            />
+            <Route
+              key="contentViewByLink"
+              path="/contentView/:link"
+              render={props => <ContentViewByLink {...props} />}
             />
             <PrivateRoute
               key="panel"
