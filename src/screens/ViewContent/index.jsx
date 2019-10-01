@@ -111,14 +111,11 @@ const ViewRequest = props => {
             };
             setError(obj);
           } else {
-            if (!spaceInfo) {
-              const space = { id: result.sys.spaceId };
-              dispatch({
-                type: "SET_SPACEINFO",
-                value: space
-              });
-            }
-
+            const space = { id: result.sys.spaceId };
+            dispatch({
+              type: "SET_SPACEINFO",
+              value: space
+            });
             result.settings = {
               showHeader: true,
               showRequestInfo: true
@@ -325,12 +322,13 @@ const ViewRequest = props => {
                   <div className="info">
                     <span>
                       <strong>
-                        {item && item.fields && item.fields["name"]}
+                        {item && item.fields && item.fields["name"][currentLang]
+                          ? item.fields["name"][currentLang]
+                          : item.fields["name"]}
                       </strong>
                     </span>
                     <span>{item.title && item.title[currentLang]}</span>
                   </div>
-                 
                 </div>
               )}
               <div
