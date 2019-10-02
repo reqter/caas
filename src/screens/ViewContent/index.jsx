@@ -229,6 +229,14 @@ const ViewRequest = props => {
   }
 
   function showProfile() {
+    dispatch({
+      type: "SET_USERINFO",
+      value: null
+    });
+    // dispatch({
+    //   type: "SET_SPACEINFO",
+    //   value: spaceInfo
+    // });
     props.history.push("/panel/profile");
   }
 
