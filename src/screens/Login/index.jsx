@@ -90,7 +90,7 @@ const Login = props => {
   useEffect(() => {
     if (redirectToReferrer) {
       props.history.replace(
-        !props.location.state ? "panel" : props.location.state.from.pathname
+        !props.location.state ? "/panel/home" : props.location.state.from.pathname
       );
     }
     return () => {
