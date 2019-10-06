@@ -6,10 +6,11 @@ import DropdownMenu from "reactstrap/lib/DropdownMenu";
 //
 import "./styles.scss";
 import { languageManager, useGlobalState } from "services";
-import { Locales, ApiKeys, Webhooks, Roles } from "./contents";
+import { Locales, ApiKeys, Webhooks, Users, Roles } from "./contents";
 import "./contentStyles.scss";
 import UpsertLocale from "./modals/UpsertLocale";
 import UpsertRole from "./modals/UpsertRole";
+import UpsertUser from "./modals/UpsertUser";
 import UpsertApiKey from "./modals/UpsertApiKey";
 import WebHookCreation from "./modals/WebHook";
 import CustomWebhook from "./modals/CustomWebHook";
@@ -27,6 +28,8 @@ const Settings = props => {
   const [selectedLocale, setSelectedLocale] = useState();
   const [upsertRoleModal, toggleRoleModal] = useState(false);
   const [selectedRole, setSelectedRole] = useState();
+  const [selectedUser, setSelectedUser] = useState();
+  const [upsertUserModal, toggleUserModal] = useState(false);
   const [webHookModal, setWebHookModal] = useState(false);
   const [customWebhookModal, setCustomWebHookModal] = useState(false);
   const [selectedApiKey, setSelectedApiKey] = useState();
@@ -60,6 +63,16 @@ const Settings = props => {
   function handleEditRole(role) {
     toggleUpsertRoleModal();
     setSelectedRole(role);
+  }
+  function toggleUpsertUserModal(result) {
+    toggleUserModal(prevState => !prevState);
+    if (selectedUser) setSelectedUser();
+    if (result) {
+    }
+  }
+  function handleEditUser(user) {
+    toggleUpsertUserModal();
+    setSelectedUser(user);
   }
 
   function handleEditApiKey(apiKey) {
@@ -102,12 +115,12 @@ const Settings = props => {
                 New Locale
               </button>
             )}
-            {tabContent === "roles" && (
+            {tabContent === "users" && (
               <button
                 className="btn btn-primary"
-                onClick={toggleUpsertRoleModal}
+                onClick={toggleUpsertUserModal}
               >
-                New Role
+                New User
               </button>
             )}
             {tabContent === "apiKeys" && (
@@ -162,6 +175,12 @@ const Settings = props => {
               Roles
             </div>
             <div
+              className={"tabItem " + (tabContent === "users" ? "active" : "")}
+              onClick={() => toggleTab("users")}
+            >
+              Users
+            </div>
+            <div
               className={
                 "tabItem " + (tabContent === "apiKeys" ? "active" : "")
               }
@@ -182,6 +201,7 @@ const Settings = props => {
             <Locales onEditLocale={handleEditLocale} />
           )}
           {tabContent === "roles" && <Roles onEditRole={handleEditRole} />}
+          {tabContent === "users" && <Users onEditUser={handleEditUser} />}
           {tabContent === "apiKeys" && (
             <ApiKeys onEditApiKey={handleEditApiKey} />
           )}
@@ -202,6 +222,13 @@ const Settings = props => {
           selectedRole={selectedRole}
           isOpen={upsertRoleModal}
           onClose={toggleRoleModal}
+        />
+      )}
+      {upsertUserModal && (
+        <UpsertUser
+          selectedUser={selectedUser}
+          isOpen={upsertUserModal}
+          onClose={toggleUserModal}
         />
       )}
       {upsertApiKeyModal && (
