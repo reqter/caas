@@ -89,12 +89,7 @@ const App = () => {
               path="/contents/view/:id"
               render={props => <ViewContent {...props} />}
             />
-
-            {/* <Route to="/not-found" render={props=><NoutFound/>}/> */}
-            {/* اگه دقیقا / رو زد برو لاگین */}
             <Redirect from="/" to="/panel/home" exact />
-            {/* اگه هیچی نزد یا چرت و پرت زد برو اون روتی که نات فاند هست */}
-            {/* <Redirect to="/not-found"/> */}
           </Switch>
         </Suspense>
       </BrowserRouter>

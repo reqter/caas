@@ -69,6 +69,32 @@ const Provider = props => {
       }
     ],
     apiKeys: [],
+    roleTypes: [
+      {
+        name: "admin",
+        title: {
+          en: "Admin"
+        }
+      },
+      {
+        name: "reader",
+        title: {
+          en: "Reader"
+        }
+      },
+      {
+        name: "manager",
+        title: {
+          en: "Manager"
+        }
+      },
+      {
+        name: "translator",
+        title: {
+          en: "Translator"
+        }
+      }
+    ],
     webhooks: [],
     contentPage: {
       filterBox: false,

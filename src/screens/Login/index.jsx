@@ -31,7 +31,7 @@ const Login = props => {
         .onOk(result => {
           //toggleSpinner(false);
           try {
-            storageManager.setItem("token", result.access_token);
+            storageManager.setItem("@caaser-token", result.access_token);
             dispatch({
               type: "SET_AUTHENTICATED",
               value: true,

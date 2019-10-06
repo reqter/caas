@@ -84,6 +84,16 @@
 }
 .settings-modal-body {
   padding: 5px 10px;
+  .roles {
+    display: flex;
+    flex-direction: column;
+    label{
+      font-size: 15px;
+    }
+    button{
+      margin-right: 5px;
+    }
+  }
 }
 
 .apiKeyResult {

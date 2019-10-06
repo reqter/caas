@@ -1,8 +1,5 @@
-import Locales from './Locales'
+import Locales from "./Locales";
 import ApiKeys from "./ApiKeys";
 import Webhooks from "./Webhooks";
-export  {
-  Locales,
-  ApiKeys,
-  Webhooks
-}
+import Roles from "./Roles";
+export { Roles, Locales, ApiKeys, Webhooks };

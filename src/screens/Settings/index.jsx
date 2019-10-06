@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import {
-  Dropdown,
-  DropdownToggle,
-  DropdownItem,
-  DropdownMenu
-} from "reactstrap";
+import Dropdown from "reactstrap/lib/Dropdown";
+import DropdownToggle from "reactstrap/lib/DropdownToggle";
+import DropdownItem from "reactstrap/lib/DropdownItem";
+import DropdownMenu from "reactstrap/lib/DropdownMenu";
+//
 import "./styles.scss";
-import { languageManager, useGlobalState } from "../../services";
-import { Locales, ApiKeys, Webhooks } from "./contents";
+import { languageManager, useGlobalState } from "services";
+import { Locales, ApiKeys, Webhooks, Roles } from "./contents";
 import "./contentStyles.scss";
 import UpsertLocale from "./modals/UpsertLocale";
+import UpsertRole from "./modals/UpsertRole";
 import UpsertApiKey from "./modals/UpsertApiKey";
 import WebHookCreation from "./modals/WebHook";
 import CustomWebhook from "./modals/CustomWebHook";
@@ -58,6 +58,7 @@ const Settings = props => {
     }
   }
   function handleEditRole(role) {
+
     toggleUpsertRoleModal();
     setSelectedRole(role);
   }
@@ -102,7 +103,11 @@ const Settings = props => {
                 New Locale
               </button>
             )}
-
+            {tabContent === "roles" && (
+              <button className="btn btn-primary" onClick={toggleRoleModal}>
+                New Role
+              </button>
+            )}
             {tabContent === "apiKeys" && (
               <button
                 className="btn btn-primary"
@@ -149,6 +154,12 @@ const Settings = props => {
               Locales
             </div>
             <div
+              className={"tabItem " + (tabContent === "roles" ? "active" : "")}
+              onClick={() => toggleTab("roles")}
+            >
+              Roles
+            </div>
+            <div
               className={
                 "tabItem " + (tabContent === "apiKeys" ? "active" : "")
               }
@@ -168,7 +179,7 @@ const Settings = props => {
           {tabContent === "locales" && (
             <Locales onEditLocale={handleEditLocale} />
           )}
-
+          {tabContent === "roles" && <Roles onEditRole={handleEditRole} />}
           {tabContent === "apiKeys" && (
             <ApiKeys onEditApiKey={handleEditApiKey} />
           )}
@@ -182,6 +193,13 @@ const Settings = props => {
           selectedLocale={selectedLocale}
           isOpen={upsertLocalModal}
           onClose={toggleNewLocaleModal}
+        />
+      )}
+      {upsertRoleModal && (
+        <UpsertRole
+          selectedRole={selectedRole}
+          isOpen={upsertRoleModal}
+          onClose={toggleRoleModal}
         />
       )}
       {upsertApiKeyModal && (

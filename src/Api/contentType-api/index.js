@@ -144,7 +144,7 @@ export function getContentTypes () {
   const _call = async spaceId => {
     try {
       const url = getAllURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'GET',
         headers: {
@@ -245,7 +245,7 @@ export function addContentType () {
   const _call = async (spaceId, contentType) => {
     try {
       const url = addURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'POST',
         headers: {
@@ -350,7 +350,7 @@ export function updateContentType () {
   const _call = async (spaceId, contentType) => {
     try {
       const url = updateURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
 
       var rawResponse = await fetch(url, {
         method: 'PUT',
@@ -466,7 +466,7 @@ export function deleteContentType () {
   const _call = async (spaceId, id) => {
     try {
       const url = removeURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'DELETE',
         headers: {

@@ -52,7 +52,7 @@ export function getWebhooks () {
   const _call = async spaceId => {
     try {
       const url = getWebhooksUrl + '?id=' + spaceId
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'GET',
         headers: {
@@ -160,7 +160,7 @@ export function setWebhooks () {
   const _call = async (spaceId, webhooks) => {
     try {
       const url = setWebhooksUrl
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {

@@ -48,7 +48,7 @@ export function getApiKeys () {
   const _call = async spaceId => {
     try {
       const url = getAllUrl + '?id=' + spaceId
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'GET',
         headers: {
@@ -151,7 +151,7 @@ export function addApiKey () {
     try {
       debugger
       const url = resgisterUrl
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'POST',
         headers: {
@@ -255,7 +255,7 @@ export function deleteApiKey () {
   const _call = async (spaceId, clientId) => {
     try {
       const url = removeUrl
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'DELETE',
         headers: {
@@ -360,7 +360,7 @@ export function updateApiKey () {
   const _call = async (spaceId, apiKey) => {
     try {
       const url = updateUrl
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {

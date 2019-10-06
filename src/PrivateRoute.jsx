@@ -6,7 +6,7 @@ import { getUserInfo } from "./Api/account-api";
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const [{ isAuthenticated, userInfo }, dispatch] = useGlobalState();
 
-  return storageManager.getItem("token") ? (
+  return storageManager.getItem("@caaser-token") ? (
     <Route {...rest} />
   ) : (
     <Route

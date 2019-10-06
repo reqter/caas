@@ -66,7 +66,7 @@ export function filterAssets () {
         if (fileType !== undefined) url = url + '&status=' + assetStatus
         else url = url + '?status=' + assetStatus
       }
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'GET',
         headers: {
@@ -218,7 +218,7 @@ export function getAssets () {
   const _call = async spaceId => {
     try {
       const url = getURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'GET',
         headers: {
@@ -321,7 +321,7 @@ export function addAsset () {
   const _call = async (spaceId, asset) => {
     try {
       const url = addURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'POST',
         headers: {
@@ -425,7 +425,7 @@ export function updateAsset () {
   const _call = async (spaceId, asset) => {
     try {
       const url = updateURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -537,7 +537,7 @@ export function deleteAsset () {
   const _call = async (spaceId, assetId) => {
     try {
       const url = deleteURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'DELETE',
         headers: {
@@ -642,7 +642,7 @@ export function getAssetById () {
   const _call = async (spaceId, assetId) => {
     try {
       const url = getAssetByIdURL + '?id=' + assetId
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'GET',
         headers: {
@@ -745,7 +745,7 @@ export function publish () {
   const _call = async (spaceId, assetId) => {
     try {
       const url = publishURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -851,7 +851,7 @@ export function unPublish () {
   const _call = async (spaceId, assetId) => {
     try {
       const url = unPublishURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -958,7 +958,7 @@ export function archive () {
   const _call = async (spaceId, assetId) => {
     try {
       const url = archiveURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -1065,7 +1065,7 @@ export function unArchive () {
   const _call = async (spaceId, assetId) => {
     try {
       const url = unArchiveURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -1193,7 +1193,7 @@ export function uploadAssetFile () {
     try {
       var xhr = new XMLHttpRequest()
       const url = config.REACT_APP_FILE_UPLOADER_URL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
 
       xhr.open('POST', url)
       xhr.onload = () => {

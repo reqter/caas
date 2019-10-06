@@ -488,7 +488,7 @@ export function getUserInfo () {
   const _call = async () => {
     try {
       const url = getUserInfo_url
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'GET',
         headers: {
@@ -600,7 +600,7 @@ export function updateProfile () {
   const _call = async (first_name, last_name) => {
     try {
       const url = updateProfileURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -708,7 +708,7 @@ export function changeAvatar () {
   const _call = async avatar => {
     try {
       const url = changeAvatarURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -812,7 +812,7 @@ export function changeNotification () {
   const _call = async notification => {
     try {
       const url = changeNotificationURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -915,7 +915,7 @@ export function changePassword () {
   const _call = async (oldPass, newPass) => {
     try {
       const url = changePasswrodURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -1020,7 +1020,7 @@ export function sendEmailConfirmation () {
   const _call = async () => {
     try {
       const url = confirmEmailURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -1137,7 +1137,7 @@ export function deleteAccount () {
   const _call = async () => {
     try {
       const url = deleteAccountURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'DELETE',
         headers: {

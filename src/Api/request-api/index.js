@@ -86,7 +86,7 @@ export function filterRequests () {
       if (url[url.length - 1] === '?') url = url.substring(0, url.length - 1)
 
       if (url[url.length - 1] === '&') url = url.substring(0, url.length - 1)
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'GET',
         headers: {
@@ -304,7 +304,7 @@ export function getRequests () {
   const _call = async spaceId => {
     try {
       const url = getAllURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'GET',
         headers: {
@@ -417,7 +417,7 @@ export function getContentTypes () {
   const _call = async spaceId => {
     try {
       const url = getContentTypesURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'GET',
         headers: {
@@ -518,7 +518,7 @@ export function getCategories () {
   const _call = async spaceId => {
     try {
       const url = getCategoriesURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'GET',
         headers: {
@@ -620,7 +620,7 @@ export function addRequest () {
     try {
       console.log(content)
       const url = addURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'POST',
         headers: {
@@ -729,7 +729,7 @@ export function updateRequest () {
   const _call = async (spaceId, request) => {
     try {
       const url = updateURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -849,7 +849,7 @@ export function deleteRequest () {
   const _call = async (spaceId, contentId) => {
     try {
       const url = deleteURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'DELETE',
         headers: {
@@ -963,7 +963,7 @@ export function getRequestById () {
   const _call = async (spaceId, contentId) => {
     try {
       const url = getByIdURL + '?id=' + contentId
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'GET',
         headers: {
@@ -1185,7 +1185,7 @@ export function publish () {
   const _call = async (spaceId, assetId) => {
     try {
       const url = publishURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -1289,7 +1289,7 @@ export function unPublish () {
   const _call = async (spaceId, contentId) => {
     try {
       const url = unPublishURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -1396,7 +1396,7 @@ export function archive () {
   const _call = async (spaceId, contentId) => {
     try {
       const url = archiveURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -1501,7 +1501,7 @@ export function unArchive () {
   const _call = async (spaceId, contentId) => {
     try {
       const url = unArchiveURL
-      const token = storageManager.getItem('token')
+      const token = storageManager.getItem("@caaser-token")
       var rawResponse = await fetch(url, {
         method: 'PUT',
         headers: {
