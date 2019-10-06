@@ -12,15 +12,27 @@ const Locale = props => {
     setRoles()
       .onOk(result => {
         dispatch({
+          type: "ADD_NOTIFY",
+          value: {
+            type: "success",
+            message: languageManager.translate("SUCCESS_TEXT")
+          }
+        });
+        dispatch({
           type: "SET_SPACEINFO",
           value: s_copy
         });
       })
-      .onServerError(result => {})
-      .onBadRequest(result => {})
-      .unAuthorized(result => {})
-      .notFound(result => {})
-      .call();
+      .unKnownError(result => {
+        dispatch({
+          type: "ADD_NOTIFY",
+          value: {
+            type: "error",
+            message: languageManager.translate("ERROR_TEXT")
+          }
+        });
+      })
+      .call(spaceInfo.id, r);
   }
   function editRole(role) {
     props.onEditRole(role);

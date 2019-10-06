@@ -234,10 +234,10 @@ export function setRoles() {
       _notFoundCallBack(result);
     }
   }
-  let _onConnectionErrorCallBack;
-  function _onConnectionError(result) {
-    if (_onConnectionErrorCallBack) {
-      _onConnectionErrorCallBack(result);
+  let _unKnownErrorCallBack;
+  function _unKnownError(result) {
+    if (_unKnownErrorCallBack) {
+      _unKnownErrorCallBack(result);
     }
   }
   const _call = async (spaceId, roles) => {
@@ -257,26 +257,32 @@ export function setRoles() {
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
-      switch (status) {
-        case 200:
-          _onOk(result);
-          break;
-        case 400:
-          _onBadRequest();
-          break;
-        case 401:
-          _unAuthorized();
-          break;
-        case 404:
-          _notFound();
-          break;
-        case 500:
-          _onServerError();
-          break;
-        default:
-          break;
-      }
-    } catch (error) {}
+      if (status === 200) {
+        _onOk(result);
+      } else _unKnownError();
+
+      // switch (status) {
+      //   case 200:
+      //     _onOk(result);
+      //     break;
+      //   case 400:
+      //     _onBadRequest();
+      //     break;
+      //   case 401:
+      //     _unAuthorized();
+      //     break;
+      //   case 404:
+      //     _notFound();
+      //     break;
+      //   case 500:
+      //     _onServerError();
+      //     break;
+      //   default:
+      //     break;
+      //}
+    } catch (error) {
+      _unKnownError();
+    }
   };
 
   return {
@@ -301,8 +307,8 @@ export function setRoles() {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
-      _onConnectionErrorCallBack = callback;
+    unKnownError: function(callback) {
+      _unKnownErrorCallBack = callback;
       return this;
     }
   };

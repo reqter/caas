@@ -58,7 +58,6 @@ const Settings = props => {
     }
   }
   function handleEditRole(role) {
-
     toggleUpsertRoleModal();
     setSelectedRole(role);
   }
@@ -104,7 +103,10 @@ const Settings = props => {
               </button>
             )}
             {tabContent === "roles" && (
-              <button className="btn btn-primary" onClick={toggleRoleModal}>
+              <button
+                className="btn btn-primary"
+                onClick={toggleUpsertRoleModal}
+              >
                 New Role
               </button>
             )}

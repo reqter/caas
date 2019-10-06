@@ -28,6 +28,7 @@ const UpdateRole = props => {
 
   useEffect(() => {
     inputRef.current.focus();
+    return () => {};
   }, []);
 
   function showNotify(type, msg) {
@@ -121,7 +122,10 @@ const UpdateRole = props => {
     if (!spaceInfo.roles || spaceInfo.roles.length == 0) return true;
     for (let i = 0; i < spaceInfo.roles.length; i++) {
       const role = spaceInfo.roles[i];
-      if (role.name === name) return false;
+      if (updateMode) {
+        if (role.name !== selectedRole.name)
+          if (role.name === name) return false;
+      } else if (role.name === name) return false;
     }
     return true;
   }
