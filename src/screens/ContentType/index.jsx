@@ -4,7 +4,7 @@ import List from "./list";
 import AddNewField from "./modals/AddNewField";
 import FieldConfig from "./modals/FieldConfig";
 import AddNewItemType from "./modals/AddNewItemType";
-import { languageManager, useGlobalState } from "../../services";
+import { languageManager, useGlobalState } from "services";
 import {
   getContentTypes,
   deleteContentType,
@@ -12,7 +12,9 @@ import {
   setAccessRight,
   updateContentType
 } from "../../Api/contentType-api";
-import { Alert, RowSkeleton } from "../../components";
+import Alert from "components/PopupAlert";
+import RowSkeleton from "components/RowSkeleton";
+import AssignRole from "components/AssignRole";
 
 const ItemTypes = props => {
   const currentLang = languageManager.getCurrentLanguage().name;
@@ -87,6 +89,7 @@ const ItemTypes = props => {
   const [selectedField, setSelectedField] = useState();
   const [rightContent, toggleRightContent] = useState(false);
   const [alertData, setAlertData] = useState();
+  const [assignRoleModal, toggleAssignRoleModal] = useState(false);
 
   function translate(key) {
     return languageManager.translate(key);
@@ -308,6 +311,66 @@ const ItemTypes = props => {
     toggleShowFieldConfig(true);
   }
 
+  function openAssignRoleModal(c) {
+    setItemType(c);
+    toggleAssignRoleModal(true);
+  }
+  function closeAssignRoleModal(result) {
+    toggleAssignRoleModal(false);
+    // if (result) {
+    //   setAccessRight()
+    //     .onOk(result => {
+    //       dispatch({
+    //         type: "ADD_NOTIFY",
+    //         value: {
+    //           type: "success",
+    //           message: languageManager.translate("CONTENT_TYPE_ASSIGN_ROLE_ON_OK")
+    //         }
+    //       });
+    //       dispatch({
+    //         type: "SET_USERS",
+    //         value: result
+    //       });
+    //     })
+    //     .onServerError(result => {
+    //       dispatch({
+    //         type: "ADD_NOTIFY",
+    //         value: {
+    //           type: "error",
+    //           message: languageManager.translate("CONTENT_TYPE_ASSIGN_ROLE_SERVER_ERROR")
+    //         }
+    //       });
+    //     })
+    //     .onBadRequest(result => {
+    //       dispatch({
+    //         type: "ADD_NOTIFY",
+    //         value: {
+    //           type: "error",
+    //           message: languageManager.translate("CONTENT_TYPE_ASSIGN_ROLE_ON_BAD_REQUEST")
+    //         }
+    //       });
+    //     })
+    //     .unAuthorized(result => {
+    //       dispatch({
+    //         type: "ADD_NOTIFY",
+    //         value: {
+    //           type: "warning",
+    //           message: languageManager.translate("CONTENT_TYPE_ASSIGN_ROLE_UN_AUTHORIZED")
+    //         }
+    //       });
+    //     })
+    //     .notFound(result => {
+    //       dispatch({
+    //         type: "ADD_NOTIFY",
+    //         value: {
+    //           type: "warning",
+    //           message: languageManager.translate("CONTENT_TYPE_ASSIGN_ROLE_NOT_FOUND")
+    //         }
+    //       });
+    //     })
+    //     .call(selectedContentType._id, result);
+    // }
+  }
   return (
     <>
       <div className="ct-wrapper">
@@ -344,9 +407,10 @@ const ItemTypes = props => {
               <List
                 rightContent={rightContent}
                 data={contentTypes}
-                handleEditType={selected => editItemType(selected)}
-                handleDeleteType={selected => removeItemType(selected)}
-                handleShowFields={selected => showFields(selected)}
+                handleEditType={editItemType}
+                handleDeleteType={removeItemType}
+                handleShowFields={showFields}
+                onVisibleToClicked={openAssignRoleModal}
               />
             )}
           </div>
@@ -485,6 +549,18 @@ const ItemTypes = props => {
         />
       )}
       {alertData && <Alert data={alertData} />}
+      {assignRoleModal && (
+        <AssignRole
+          isOpen={assignRoleModal}
+          onClose={closeAssignRoleModal}
+          headerTitle={
+            languageManager.translate("CONTENT_TYPE_ROLE_MODAL_TITLE") +
+            " " +
+            selectedContentType.title[currentLang]
+          }
+          roles={selectedContentType ? selectedContentType.visibleTo : []}
+        />
+      )}
     </>
   );
 };

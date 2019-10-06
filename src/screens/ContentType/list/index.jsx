@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { ListGroup, ListGroupItem } from "reactstrap";
-import { languageManager, utility } from "../../../services";
+import ListGroup from "reactstrap/lib/ListGroup";
+import ListGroupItem from "reactstrap/lib/ListGroupItem";
+import { languageManager, utility } from "services";
 
 const List = props => {
   const currentLang = languageManager.getCurrentLanguage().name;
@@ -22,7 +23,7 @@ const List = props => {
                 ? selected._id === listItem._id
                   ? "lightgray"
                   : "white"
-                : "white",
+                : "white"
             }}
           >
             <div className="treeItem">
@@ -74,6 +75,17 @@ const List = props => {
               >
                 <span style={{ fontSize: 12 }}>
                   {languageManager.translate("ITEM_TYPES_FIELDS")}
+                </span>
+              </button>
+              <button
+                className="btn btn-light treeItem-action"
+                size="xs"
+                onClick={() => {
+                  props.onVisibleToClicked(listItem);
+                }}
+              >
+                <span style={{ fontSize: 12 }}>
+                  {languageManager.translate("ITEM_TYPES_ACCESS_RIGHT")}
                 </span>
               </button>
             </div>
