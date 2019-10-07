@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import Select, { components } from "react-select";
-import { Modal, ModalFooter } from "reactstrap";
-import { languageManager, useGlobalState, utility } from "../../../../services";
-import { updateContentType } from "../../../../Api/contentType-api";
+import Modal from "reactstrap/lib/Modal";
+import ModalFooter from "reactstrap/lib/ModalFooter";
+import { languageManager, useGlobalState, utility } from "services";
+import { updateContentType } from "Api/contentType-api";
 import "./styles.scss";
-import { CircleSpinner } from "../../../../components";
-
+import { CircleSpinner } from "components";
+//
 const acceptedMediaTypes = [
   {
     id: 1,
@@ -56,20 +57,6 @@ const fieldsApearance = {
     }
   ]
 };
-const fieldsPermissions = [
-  {
-    name: "admin",
-    title: { en: "Admin", fa: "ادمین" }
-  },
-  {
-    name: "customers",
-    title: { en: "Customers", fa: "مشتریان" }
-  },
-  {
-    name: "partners",
-    title: { en: "Partners", fa: "همکاران" }
-  }
-];
 
 const currentLang = languageManager.getCurrentLanguage().name;
 const FieldConfig = props => {
@@ -78,6 +65,7 @@ const FieldConfig = props => {
   const { selectedContentType } = props;
   const [{ contentTypes, spaceInfo }, dispatch] = useGlobalState();
   const { selectedField } = props;
+  const fieldsPermissions = spaceInfo.roles ? spaceInfo.roles : null;
 
   const [spinner, toggleSpinner] = useState(false);
   const [fieldsUI, setFieldsUI] = useState(() => {
@@ -1545,43 +1533,47 @@ const FieldConfig = props => {
                   </div>
                 </div>
               )}
-              <div className="custom_checkbox">
-                <div className="left">
-                  <label className="checkBox">
-                    <input
-                      type="checkbox"
-                      id="permission"
-                      checked={permissionVisibility}
-                      onChange={() => togglePermission(prevState => !prevState)}
-                    />
-                    <span className="checkmark" />
-                  </label>
+              {fieldsPermissions && fieldsPermissions.length > 0 && (
+                <div className="custom_checkbox">
+                  <div className="left">
+                    <label className="checkBox">
+                      <input
+                        type="checkbox"
+                        id="permission"
+                        checked={permissionVisibility}
+                        onChange={() =>
+                          togglePermission(prevState => !prevState)
+                        }
+                      />
+                      <span className="checkmark" />
+                    </label>
+                  </div>
+                  <div className="right">
+                    <label htmlFor="permission">Enable Permission</label>
+                    <label htmlFor="permission">
+                      Setting permission on this field
+                    </label>
+                    {permissionVisibility && (
+                      <div className="validation-configs">
+                        {permissions.map((per, index) => (
+                          <button
+                            key={"btnType" + index}
+                            className={
+                              "btn btn-sm " +
+                              (per.selected === true
+                                ? "btn-primary"
+                                : "btn-light")
+                            }
+                            onClick={() => handleSelectPermissionType(per)}
+                          >
+                            {per.title[currentLang]}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <div className="right">
-                  <label htmlFor="permission">Enable Permission</label>
-                  <label htmlFor="permission">
-                    Setting permission on this field
-                  </label>
-                  {permissionVisibility && (
-                    <div className="validation-configs">
-                      {permissions.map((per, index) => (
-                        <button
-                          key={"btnType" + index}
-                          className={
-                            "btn btn-sm " +
-                            (per.selected === true
-                              ? "btn-primary"
-                              : "btn-light")
-                          }
-                          onClick={() => handleSelectPermissionType(per)}
-                        >
-                          {per.title[currentLang]}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
+              )}
               {selectedField.type === "reference" && (
                 <div className="custom_checkbox">
                   <div className="left">
