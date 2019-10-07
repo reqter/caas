@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./styles.scss";
-import { languageManager, useGlobalState } from "../../services";
-import { AssetFile, Alert, CircleSpinner } from "../../components";
+import { languageManager, useGlobalState } from "services";
+import AssetFile from "components/AssetFile";
+import Alert from "components/PopupAlert";
+import CircleSpinner from "components/CircleSpinner";
 import {
   getAssets,
   deleteAsset,
@@ -10,7 +12,7 @@ import {
   unPublish,
   archive,
   unArchive
-} from "../../Api/asset-api";
+} from "Api/asset-api";
 
 const filters = [
   {

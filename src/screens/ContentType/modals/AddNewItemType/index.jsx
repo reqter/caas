@@ -1,26 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  Modal,
-  ModalBody,
-  ModalHeader,
-  ModalFooter,
-  Button,
-  FormGroup,
-  Label,
-  Input
-} from "reactstrap";
-import { languageManager, utility, useGlobalState } from "../../../../services";
+import Modal from "reactstrap/lib/Modal";
+import ModalBody from "reactstrap/lib/ModalBody";
+import ModalHeader from "reactstrap/lib/ModalHeader";
+import ModalFooter from "reactstrap/lib/ModalFooter";
+import { languageManager, utility, useGlobalState } from "services";
 import {
   getTemplates,
   addContentType,
   updateContentType
-} from "../../../../Api/contentType-api";
-import AssetBrowser from "../../../../components/AssetBrowser";
+} from "Api/contentType-api";
 import "./styles.scss";
-import { CircleSpinner } from "../../../../components";
+import AssetBrowser from "components/AssetBrowser";
+import CircleSpinner from "components/CircleSpinner";
+import Wrong from "components/Commons/ErrorsComponent/Wrong";
 
+const currentLang = languageManager.getCurrentLanguage().name;
+//
 const UpsertTemplate = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
   const [{ spaceInfo }, dispatch] = useGlobalState();
   const nameInput = useRef(null);
   const [spinner, setSpinner] = useState(false);
@@ -32,8 +28,10 @@ const UpsertTemplate = props => {
   const selectedContentType = updateMode
     ? props.selectedContentType
     : undefined;
-  const [isOpen, toggleModal] = useState(true);
 
+  const [isOpen, toggleModal] = useState(true);
+  const [tmpSpinner, toggleTmpSpinner] = useState(updateMode ? false : true);
+  const [error, setError] = useState();
   const [contentTypeTemplates, setTemplates] = useState();
   const [tab, changeTab] = useState(updateMode ? 2 : 1);
   const [selectedTemplate, setTemplate] = useState(
@@ -58,44 +56,17 @@ const UpsertTemplate = props => {
   const [assetBrowser, toggleAssetBrowser] = useState(false);
 
   useEffect(() => {
-    getTemplates()
-      .onOk(result => {
-        setTemplates(result);
-      })
-      .onServerError(result => {
-        dispatch({
-          type: "ADD_NOTIFY",
-          value: {
-            type: "error",
-            message: languageManager.translate(
-              "CONTENT_TYPE_TEMPLATES_ON_SERVER_ERROR"
-            )
-          }
-        });
-      })
-      .onBadRequest(result => {
-        dispatch({
-          type: "ADD_NOTIFY",
-          value: {
-            type: "error",
-            message: languageManager.translate(
-              "CONTENT_TYPE_TEMPLATES_ON_BAD_REQUEST"
-            )
-          }
-        });
-      })
-      .unAuthorized(result => {
-        dispatch({
-          type: "ADD_NOTIFY",
-          value: {
-            type: "warning",
-            message: languageManager.translate(
-              "CONTENT_TYPE_TEMPLATES_UN_AUTHORIZED"
-            )
-          }
-        });
-      })
-      .call();
+    if (tab === 1)
+      getTemplates()
+        .onOk(result => {
+          toggleTmpSpinner(false);
+          setTemplates(result);
+        })
+        .unKnownError(result => {
+          toggleTmpSpinner(false);
+          setError(true);
+        })
+        .call();
     return () => {
       if (!props.isOpen) toggleModal(false);
     };
@@ -317,7 +288,26 @@ const UpsertTemplate = props => {
         <div className="c-category-templates-body">
           {tab === 1 && (
             <div className="fieldsTab">
-              {contentTypeTemplates &&
+              {tmpSpinner ? (
+                <div className="tmpSpinner">
+                  <CircleSpinner show={true} size="large" />
+                  <span>Load templates...</span>
+                </div>
+              ) : error ? (
+                <div className="tmpError">
+                  <Wrong width={150} height={150} />
+                  <h4>Error has ocurred!</h4>
+                  <h6>Something getting wrong to load templates</h6>
+                </div>
+              ) : !contentTypeTemplates || contentTypeTemplates.length === 0 ? (
+                <div className="emptyList animated fadeIn">
+                  <i className="icon-empty-box-open icon" />
+                  <span className="title">Empty List!</span>
+                  <span className="info">
+                    There are no templates to show...
+                  </span>
+                </div>
+              ) : (
                 contentTypeTemplates.map(tmp => (
                   <div
                     key={tmp.id}
@@ -341,7 +331,8 @@ const UpsertTemplate = props => {
                       {tmp.description[currentLang]}
                     </span>
                   </div>
-                ))}
+                ))
+              )}
             </div>
           )}
           {tab === 2 && (
@@ -369,13 +360,14 @@ const UpsertTemplate = props => {
                   </small>
                 </div>
 
-                <FormGroup className="col">
-                  <Label>
+                <div className="form-group col">
+                  <label>
                     {languageManager.translate(
                       "CONTENT_TYPE_ADD_FIELD_MODAL_TITLE"
                     )}
-                  </Label>
-                  <Input
+                  </label>
+                  <input
+                    className="form-control"
                     type="string"
                     value={title}
                     placeholder={languageManager.translate(
@@ -388,14 +380,15 @@ const UpsertTemplate = props => {
                       "CONTENT_TYPE_ADD_FIELD_MODAL_TITLE_INFO"
                     )}
                   </small>
-                </FormGroup>
+                </div>
               </div>
 
-              <FormGroup>
-                <Label>
+              <div className="form-group">
+                <label>
                   {languageManager.translate("CONTENT_TYPE_MODAL_DESCRIPTION")}
-                </Label>
-                <Input
+                </label>
+                <input
+                  className="form-control"
                   type="string"
                   placeholder={languageManager.translate(
                     "CONTENT_TYPE_MODAL_DESCRIPTION_PLACEHOLDER"
@@ -403,7 +396,7 @@ const UpsertTemplate = props => {
                   value={description}
                   onChange={handleDescriptionChanged}
                 />
-              </FormGroup>
+              </div>
               <div className="up-uploader">
                 <span className="title">
                   {languageManager.translate("CONTENT_TYPE_MODAL_IMAGES_TITLE")}
@@ -451,9 +444,9 @@ const UpsertTemplate = props => {
             {!spinner && submitBtnText}
           </button>
           {!updateMode && (
-            <Button color="secondary" onClick={backToTemplates}>
+            <button className="btn btn-secondary" onClick={backToTemplates}>
               {languageManager.translate("CONTENT_TYPE_MODAL_TEMPLATE_BTN")}
-            </Button>
+            </button>
           )}
         </ModalFooter>
       ) : (

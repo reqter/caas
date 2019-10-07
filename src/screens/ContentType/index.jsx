@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.scss";
 import List from "./list";
 import AddNewField from "./modals/AddNewField";
@@ -8,10 +8,9 @@ import { languageManager, useGlobalState } from "services";
 import {
   getContentTypes,
   deleteContentType,
-  removeContentTypeField,
   setAccessRight,
   updateContentType
-} from "../../Api/contentType-api";
+} from "Api/contentType-api";
 import Alert from "components/PopupAlert";
 import RowSkeleton from "components/RowSkeleton";
 import AssignRole from "components/AssignRole";

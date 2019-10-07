@@ -5,8 +5,8 @@ const Wrong = props => {
       id="f4dfef0e-e963-4752-8b60-16883a06d9db"
       data-name="Layer 1"
       xmlns="http://www.w3.org/2000/svg"
-      width="300"
-      height="300"
+      width={props.width ? props.width : 300}
+      height={props.height ? props.height : 300}
       viewBox="0 0 1080.0487 748.00219"
     >
       <path
