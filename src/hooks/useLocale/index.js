@@ -1,46 +1,72 @@
-import { useContext } from 'react'
-import { LocaleContext } from './localeContext'
-import en from './locales/en'
-import fa from './locales/fa'
-
+import { useGlobalState } from "services";
+const dataDefaultLang = process.env.REACT_APP_DATA_DEFAULT_LANG || "fa";
+//
 const useLocale = () => {
-  const [state, setState] = useContext(LocaleContext)
+  const [{ spaceInfo, editingLocale }, dispatch] = useGlobalState();
+  function getCurrentLocale() {
+    const { locales } = spaceInfo;
 
-  function setLocale (locale) {
-    switch (locale) {
-      case 'en':
-        setState(state => ({
-          ...state,
-          appLocale: en,
-          currentLang: locale,
-          direction: 'ltr'
-        }))
-        break
-      case 'fa':
-        setState(state => ({
-          ...state,
-          appLocale: fa,
-          currentLang: locale,
-          direction: 'rtl'
-        }))
-        break
-      default:
-        setState(state => ({
-          ...state,
-          appLocale: en,
-          currentLang: locale,
-          direction: 'ltr'
-        }))
-        break
+    if (!locales || locales.length === 0) return dataDefaultLang;
+
+    if (editingLocale) {
+      const d = locales.find(item => item.locale === editingLocale);
+      if (d) return editingLocale;
+      else {
+        const d = locales.find(item => item.default === true);
+        if (d) {
+          _setEditingLocale(d.locale);
+          return d.locale;
+        } else return dataDefaultLang;
+      }
+    } else {
+      const d = locales.find(item => item.default === true);
+      if (d) {
+        _setEditingLocale(d.locale);
+        return d.locale;
+      } else return dataDefaultLang;
     }
   }
-
-  return {
-    setLocale,
-    appLocale: state.appLocale ? state.appLocale : {},
-    direction: state.direction ? state.direction : 'rtl',
-    currentLang: state.currentLang ? state.currentLang : 'fa'
+  function getLocales() {
+    const { locales } = spaceInfo;
+    if (!locales || locales.length === 0) return [dataDefaultLang];
+    else {
+      let l_arr = [];
+      for (let i = 0; i < locales.length; i++) {
+        const l = locales[i];
+        l_arr.push(l.locale);
+      }
+      return l_arr;
+    }
   }
-}
+  function makeLocalesValue(prev = {}, value) {
+    const { locales } = spaceInfo;
+    if (!locales || locales.length === 0) {
+      prev[dataDefaultLang] = value;
+    } else {
+      for (let i = 0; i < locales.length; i++) {
+        const l = locales[i];
+        if (!prev[l.locale] || (editingLocale && l.locale === editingLocale)) {
+          prev[l.locale] = value;
+        }
+      }
+    }
+    return prev;
+  }
+  function _setEditingLocale(lang) {
+    dispatch({
+      type: "SET_EDITING_LOCALE",
+      payload: lang
+    });
+  }
+  function setEditingLocale(loc) {
+    _setEditingLocale(loc);
+  }
+  return {
+    currentLocale: getCurrentLocale(),
+    setEditingLocale,
+    locales: getLocales(),
+    makeLocalesValue
+  };
+};
 
-export default useLocale
+export default useLocale;
