@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import ListGroup from "reactstrap/lib/ListGroup";
 import ListGroupItem from "reactstrap/lib/ListGroupItem";
 import { languageManager, utility } from "services";
+import { useLocale } from "hooks";
+const currentLang = languageManager.getCurrentLanguage().name;
 
 const List = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
   const [selected, setSelected] = useState({});
+  const { currentLocale } = useLocale();
   useEffect(() => {
     if (!props.rightContent) {
       setSelected({});
@@ -36,17 +38,18 @@ const List = props => {
               ) : (
                 <div className="treeItem-img">
                   <div className="treeItem-ext">
-                    {utility.getAssetIconByURL(listItem.media[0][currentLang])}
+                    {utility.getAssetIconByURL(
+                      listItem.media[0][currentLocale]
+                    )}
                   </div>
                 </div>
               )}
               <div className="treeItem-text">
                 <span className="treeItem-name">
-                  {listItem.title[currentLang]}
+                  {listItem.title && listItem.title[currentLocale]}
                 </span>
                 <span className="treeItem-desc">
-                  {listItem.description[currentLang] ||
-                    "Lorem ipsum dolor sit amet, consectetur"}
+                  {listItem.description && listItem.description[currentLocale]}
                 </span>
               </div>
               {listItem.template !== "generic" && (

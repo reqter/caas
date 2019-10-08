@@ -4,6 +4,7 @@ import ModalBody from "reactstrap/lib/ModalBody";
 import ModalHeader from "reactstrap/lib/ModalHeader";
 import ModalFooter from "reactstrap/lib/ModalFooter";
 import { languageManager, utility, useGlobalState } from "services";
+import { useLocale } from "hooks";
 import {
   getTemplates,
   addContentType,
@@ -19,6 +20,8 @@ const currentLang = languageManager.getCurrentLanguage().name;
 const UpsertTemplate = props => {
   const [{ spaceInfo }, dispatch] = useGlobalState();
   const nameInput = useRef(null);
+  const { locales, currentLocale, makeLocalesValue } = useLocale();
+
   const [spinner, setSpinner] = useState(false);
   const { updateMode } = props;
   const submitBtnText = !updateMode
@@ -41,10 +44,10 @@ const UpsertTemplate = props => {
     selectedContentType ? selectedContentType.name : ""
   );
   const [title, setTitle] = useState(
-    selectedContentType ? selectedContentType.title[currentLang] : ""
+    selectedContentType ? selectedContentType.title[currentLocale] : ""
   );
   const [description, setDescription] = useState(
-    selectedContentType ? selectedContentType.description[currentLang] : ""
+    selectedContentType ? selectedContentType.description[currentLocale] : ""
   );
   const [media, setMedia] = useState(
     selectedContentType
@@ -119,8 +122,8 @@ const UpsertTemplate = props => {
           obj[key] = selectedContentType[key];
         }
         obj["name"] = name.toLowerCase();
-        obj["title"] = utility.applyeLangs(title);
-        obj["description"] = utility.applyeLangs(description);
+        obj["title"] = makeLocalesValue(obj["title"], title);
+        obj["description"] = makeLocalesValue(obj["description"], description);
         obj["media"] = media;
 
         updateContentType()
@@ -186,8 +189,8 @@ const UpsertTemplate = props => {
       } else {
         let obj = {
           name: name.toLowerCase(),
-          title: utility.applyeLangs(title),
-          description: utility.applyeLangs(description),
+          title: makeLocalesValue({}, title),
+          description: makeLocalesValue({}, description),
           media: media,
           fields: [...selectedTemplate.fields],
           template: selectedTemplate.name,
@@ -415,7 +418,7 @@ const UpsertTemplate = props => {
                         <i className="icon-bin" />
                       </div>
                       <div className="updatedFileType">
-                        {utility.getAssetIconByURL(url[currentLang])}
+                        {utility.getAssetIconByURL(url[currentLocale])}
                       </div>
                     </div>
                   ))}
@@ -435,7 +438,11 @@ const UpsertTemplate = props => {
             className="btn btn-primary ajax-button"
             onClick={upsertItemType}
             disabled={
-              name.length > 0 && title.length > 0 && !name.includes(" ")
+              name &&
+              name.length > 0 &&
+              title &&
+              title.length > 0 &&
+              !name.includes(" ")
                 ? false
                 : true
             }

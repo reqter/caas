@@ -10,16 +10,17 @@ import {
   changeNotification,
   sendEmailConfirmation,
   deleteAccount
-} from "../../Api/account-api";
+} from "Api/account-api";
 
 import UpdatePassword from "./modals/updatePassword";
+import { useLocale } from "hooks";
 const currentLang = languageManager.getCurrentLanguage().name;
 const pageTitle = languageManager.translate("HOME_SIDE_NAV_PROFILE");
 const pageDescription = languageManager.translate("HOME_SIDE_NAV_PROFILE_DESC");
 
 const Profile = props => {
-  const [{ userInfo, spaceInfo }, dispatch] = useGlobalState();
-
+  const [{ userInfo, spaceInfo, sysLocales }, dispatch] = useGlobalState();
+  const { currentLocale, setEditingLocale } = useLocale();
   const dropRef = useRef(null);
   const [dragging, setDragging] = useState(false);
   const [alertData, setAlertData] = useState();
@@ -448,6 +449,14 @@ const Profile = props => {
       }
     });
   }
+  function getLocaleTitle(localeName, type) {
+    const locale = sysLocales.find(l => l.name === localeName);
+    if (locale !== undefined) return locale.title;
+    return type === "name" ? "" : "none";
+  }
+  function setLang(item) {
+    setEditingLocale(item.locale);
+  }
   return (
     <>
       <div className="pro-wrapper">
@@ -648,6 +657,48 @@ const Profile = props => {
               </div>
             )}
           </div>
+          {spaceInfo && spaceInfo.locales && spaceInfo.locales.length > 0 && (
+            <div className="pro-box">
+              <div
+                className={
+                  "pro-box-header " + (currentBox !== 5 ? "hoverBox" : "")
+                }
+                onClick={() => showBoxContent(5)}
+              >
+                Languages
+              </div>
+              {currentBox === 5 && (
+                <div className="pro-box-content">
+                  {spaceInfo.locales.map(item => (
+                    <div className="languages">
+                      <div className="left">
+                        <span className="title">
+                          {item.locale.toUpperCase()}
+                        </span>
+                        <span className="description">
+                          {getLocaleTitle(item.locale, "name")}
+                        </span>
+                      </div>
+                      <div className="right">
+                        <button
+                          className={
+                            "btn btn-" +
+                            (item.locale === currentLocale
+                              ? "primary"
+                              : "light")
+                          }
+                          onClick={() => setLang(item)}
+                        >
+                          Set As Default
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="pro-box">
             <div
               className={

@@ -118,6 +118,14 @@ const Settings = props => {
             {tabContent === "users" && (
               <button
                 className="btn btn-primary"
+                onClick={toggleUpsertRoleModal}
+              >
+                New Roles
+              </button>
+            )}
+            {tabContent === "roles" && (
+              <button
+                className="btn btn-primary"
                 onClick={toggleUpsertUserModal}
               >
                 New User

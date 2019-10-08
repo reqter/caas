@@ -1,18 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  Modal,
-  ModalBody,
-  ModalHeader,
-  ModalFooter,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-} from "reactstrap";
-import { languageManager, utility, useGlobalState } from "../../../../services";
-import { CheckBox, CircleSpinner } from "../../../../components";
-import { updateContentType } from "../../../../Api/contentType-api";
+import Modal from "reactstrap/lib/Modal";
+import ModalBody from "reactstrap/lib/ModalBody";
+import ModalHeader from "reactstrap/lib/ModalHeader";
+import ModalFooter from "reactstrap/lib/ModalFooter";
+import { languageManager, useGlobalState } from "services";
+import CheckBox from "components/CheckBox";
+import CircleSpinner from "components/CircleSpinner";
+import { updateContentType } from "Api/contentType-api";
+import { useLocale } from "hooks";
 import "./styles.scss";
 
 const fields = [
@@ -21,70 +16,70 @@ const fields = [
     title: languageManager.translate("FIELD_TYPE_TEXT"),
     description: languageManager.translate("FIELD_TYPE_TEXT_INFO"),
     icon: "icon-file-text",
-    appearance: "text",
+    appearance: "text"
   },
   {
     name: "number",
     title: languageManager.translate("FIELD_TYPE_NUMBER"),
     description: languageManager.translate("FIELD_TYPE_NUMBER_INFO"),
     icon: "icon-number",
-    appearance: "default",
+    appearance: "default"
   },
   {
     name: "dateTime",
     title: languageManager.translate("FIELD_TYPE_DATE_TIME"),
     description: languageManager.translate("FIELD_TYPE_DATE_TIME_INFO"),
     icon: "icon-calendar",
-    appearance: "default",
+    appearance: "default"
   },
   {
     name: "location",
     title: languageManager.translate("FIELD_TYPE_LOCATION"),
     description: languageManager.translate("FIELD_TYPE_LOCATION_INFO"),
     icon: "icon-location",
-    appearance: "default",
+    appearance: "default"
   },
   {
     name: "media",
     title: languageManager.translate("FIELD_TYPE_MEDIA"),
     description: languageManager.translate("FIELD_TYPE_MEDIA_INFO"),
     icon: "icon-images",
-    appearance: "default",
+    appearance: "default"
   },
   {
     name: "boolean",
     title: languageManager.translate("FIELD_TYPE_BOOLEAN"),
     description: languageManager.translate("FIELD_TYPE_BOOLEAN_INFO"),
     icon: "icon-boolean",
-    appearance: "default",
+    appearance: "default"
   },
   {
     name: "keyValue",
     title: languageManager.translate("FIELD_TYPE_KEY_VALUE"),
     description: languageManager.translate("FIELD_TYPE_KEY_VALUE_INFO"),
     icon: "icon-combo-box",
-    appearance: "default",
+    appearance: "default"
   },
   {
     name: "richText",
     title: languageManager.translate("FIELD_TYPE_RICH_TEXT"),
     description: languageManager.translate("FIELD_TYPE_RICH_TEXT_INFO"),
     icon: "icon-file-text-o",
-    appearance: "default",
+    appearance: "default"
   },
   {
     name: "jsonObject",
     title: languageManager.translate("FIELD_TYPE_OBJECT"),
     description: languageManager.translate("FIELD_TYPE_OBJECT_INFO"),
-    icon: "icon-json-file",
+    icon: "icon-json-file"
   },
   {
     name: "reference",
     title: languageManager.translate("FIELD_TYPE_REFERENCE"),
     description: languageManager.translate("FIELD_TYPE_REFERENCE_INFO"),
     icon: "icon-reference",
-    appearance: "default",
-  },
+    appearance: "default"
+  }
 ];
 const translatableFields = ["string", "media", "richText"];
 const reservedWords = [
@@ -93,11 +88,12 @@ const reservedWords = [
   "contentType",
   "category",
   "fields",
-  "status",
+  "status"
 ];
 const AddNewField = props => {
-  const [{ spaceInfo }, dispatch] = useGlobalState();
   const { selectedContentType } = props;
+  const [{ spaceInfo }, dispatch] = useGlobalState();
+  const { makeLocalesValue } = useLocale();
 
   const [isOpen, toggleModal] = useState(true);
   const nameInput = useRef(null); //  ref is defined here
@@ -162,11 +158,11 @@ const AddNewField = props => {
       }
       const obj = {
         name: name.toLowerCase(),
-        title: utility.applyeLangs(title),
-        description: utility.applyeLangs(description),
+        title: makeLocalesValue({}, title),
+        description: makeLocalesValue({}, description),
         type: selectedField.name,
         isTranslate: translation,
-        appearance: selectedField.appearance,
+        appearance: selectedField.appearance
       };
       const newContentType = { ...selectedContentType };
       if (newContentType.fields === undefined) newContentType.fields = [];
@@ -177,14 +173,12 @@ const AddNewField = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "success",
-              message: languageManager.translate(
-                "CONTENT_TYPE_ADD_FIELD_ON_OK"
-              ),
-            },
+              message: languageManager.translate("CONTENT_TYPE_ADD_FIELD_ON_OK")
+            }
           });
           dispatch({
             type: "UPDATE_CONTENT_TYPE",
-            value: result,
+            value: result
           });
           props.onCloseModal({ field: obj, showConfig: showConfig });
         })
@@ -200,8 +194,8 @@ const AddNewField = props => {
               type: "error",
               message: languageManager.translate(
                 "CONTENT_TYPE_ADD_FIELD_ON_SERVER_ERROR"
-              ),
-            },
+              )
+            }
           });
         })
         .onBadRequest(result => {
@@ -216,8 +210,8 @@ const AddNewField = props => {
               type: "error",
               message: languageManager.translate(
                 "CONTENT_TYPE_ADD_FIELD_ON_BAD_REQUEST"
-              ),
-            },
+              )
+            }
           });
         })
         .unAuthorized(result => {
@@ -232,8 +226,8 @@ const AddNewField = props => {
               type: "warning",
               message: languageManager.translate(
                 "CONTENT_TYPE_ADD_FIELD_UN_AUTHORIZED"
-              ),
-            },
+              )
+            }
           });
         })
         .call(spaceInfo.id, newContentType);
@@ -270,7 +264,7 @@ const AddNewField = props => {
             </div>
           )}
           {tab === 2 && (
-            <Form className="formTab">
+            <form className="formTab">
               <div className="row">
                 <div className="form-group col">
                   <label>
@@ -296,13 +290,14 @@ const AddNewField = props => {
                   </small>
                 </div>
 
-                <FormGroup className="col">
-                  <Label>
+                <div className="form-group col">
+                  <label>
                     {languageManager.translate(
                       "CONTENT_TYPE_ADD_FIELD_MODAL_TITLE"
                     )}
-                  </Label>
-                  <Input
+                  </label>
+                  <input
+                    className="form-control"
                     type="string"
                     value={title}
                     placeholder={languageManager.translate(
@@ -315,17 +310,18 @@ const AddNewField = props => {
                       "CONTENT_TYPE_ADD_FIELD_MODAL_TITLE_INFO"
                     )}
                   </small>
-                </FormGroup>
+                </div>
               </div>
 
               <div className="formTab-row">
-                <FormGroup>
-                  <Label>
+                <div className="form-group ">
+                  <label>
                     {languageManager.translate(
                       "CONTENT_TYPE_ADD_FIELD_MODAL_DESCRIPTION"
                     )}
-                  </Label>
-                  <Input
+                  </label>
+                  <input
+                    className="form-control"
                     type="string"
                     value={description}
                     placeholder={languageManager.translate(
@@ -338,7 +334,7 @@ const AddNewField = props => {
                       "CONTENT_TYPE_ADD_FIELD_MODAL_DESCRIPTION_INFO"
                     )}
                   </small>
-                </FormGroup>
+                </div>
                 {translatableFields.indexOf(selectedField.name) > -1 && (
                   <CheckBox
                     title={languageManager.translate("TRANSLATION")}
@@ -347,14 +343,14 @@ const AddNewField = props => {
                   />
                 )}
               </div>
-            </Form>
+            </form>
           )}
         </div>
       </ModalBody>
       {tab !== 1 ? (
         <ModalFooter>
-          <Button
-            color="primary"
+          <button
+            className="btn btn-primary"
             onClick={addField}
             disabled={
               name.length > 0 &&
@@ -371,9 +367,9 @@ const AddNewField = props => {
               languageManager.translate(
                 "CONTENT_TYPE_ADD_FIELD_MODAL_CREATE_BTN"
               )}
-          </Button>
-          <Button
-            color="primary"
+          </button>
+          <button
+            className="btn btn-primary"
             onClick={addField_configure}
             disabled={
               name.length > 0 &&
@@ -390,12 +386,12 @@ const AddNewField = props => {
               languageManager.translate(
                 "CONTENT_TYPE_ADD_FIELD_MODAL_CREATE_CONFIG_BTN"
               )}
-          </Button>
-          <Button color="secondary" onClick={backToFields}>
+          </button>
+          <button className="btn btn-secondary" onClick={backToFields}>
             {languageManager.translate(
               "CONTENT_TYPE_ADD_FIELD_MODAL_CHNAGE_FIELD_BTN"
             )}
-          </Button>
+          </button>
         </ModalFooter>
       ) : (
         undefined

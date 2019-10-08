@@ -1,8 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
-import { languageManager, useGlobalState } from "../../../../services";
-import { setLocales } from "../../../../Api/space-api";
-import { CircleSpinner } from "../../../../components";
+import React, { useState, useEffect } from "react";
+import Modal from "reactstrap/lib/Modal";
+import ModalBody from "reactstrap/lib/ModalBody";
+import ModalHeader from "reactstrap/lib/ModalHeader";
+import ModalFooter from "reactstrap/lib/ModalFooter";
+import { languageManager, useGlobalState } from "services";
+import { setLocales } from "Api/space-api";
+import { CircleSpinner } from "components";
 
 const UpsertLocale = props => {
   const [{ sysLocales, spaceInfo }, dispatch] = useGlobalState();
@@ -76,8 +79,8 @@ const UpsertLocale = props => {
       type: "ADD_NOTIFY",
       value: {
         type: type,
-        message: msg,
-      },
+        message: msg
+      }
     });
   }
   function closeModal() {
@@ -120,7 +123,7 @@ const UpsertLocale = props => {
           includeInResponce: includeReaponce,
           editable: editable,
           requiredFields: required,
-          default: defaultLang,
+          default: defaultLang
         };
         newLocales.push(current);
         s.locales = newLocales;
@@ -130,7 +133,7 @@ const UpsertLocale = props => {
         .onOk(result => {
           dispatch({
             type: "SET_LOCALES",
-            value: result["locales"],
+            value: result["locales"]
           });
           showNotify(
             "success",

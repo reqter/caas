@@ -14,10 +14,9 @@ import {
 import Alert from "components/PopupAlert";
 import RowSkeleton from "components/RowSkeleton";
 import AssignRole from "components/AssignRole";
+const currentLang = languageManager.getCurrentLanguage().name;
 
 const ItemTypes = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
-
   const [{ contentTypes, spaceInfo }, dispatch] = useGlobalState();
   const [spinner, setSpinner] = useState(true);
   useEffect(() => {

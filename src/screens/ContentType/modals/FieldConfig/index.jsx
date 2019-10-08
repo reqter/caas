@@ -5,7 +5,8 @@ import ModalFooter from "reactstrap/lib/ModalFooter";
 import { languageManager, useGlobalState, utility } from "services";
 import { updateContentType } from "Api/contentType-api";
 import "./styles.scss";
-import { CircleSpinner } from "components";
+import CircleSpinner from "components/CircleSpinner";
+import { useLocale } from "hooks";
 //
 const acceptedMediaTypes = [
   {
@@ -57,13 +58,14 @@ const fieldsApearance = {
     }
   ]
 };
-
 const currentLang = languageManager.getCurrentLanguage().name;
+//=====================
 const FieldConfig = props => {
   const selectFieldRef = useRef(null);
   //#region variables
   const { selectedContentType } = props;
   const [{ contentTypes, spaceInfo }, dispatch] = useGlobalState();
+  const { currentLocale, makeLocalesValue } = useLocale();
   const { selectedField } = props;
   const fieldsPermissions = spaceInfo.roles ? spaceInfo.roles : null;
 
@@ -86,10 +88,10 @@ const FieldConfig = props => {
   const [tab, changeTab] = useState(1);
   const [name] = useState(selectedField.name);
   const [title, setTitle] = useState(
-    selectedField.title ? selectedField.title[currentLang] : ""
+    selectedField.title ? selectedField.title[currentLocale] : ""
   );
   const [description, setDescription] = useState(
-    selectedField.description ? selectedField.description[currentLang] : ""
+    selectedField.description ? selectedField.description[currentLocale] : ""
   );
   const [translation, toggleTranslation] = useState(selectedField.isTranslate);
 
@@ -241,7 +243,7 @@ const FieldConfig = props => {
   );
   const [refVisibleFields, setRefVisibleFields] = useState();
   const [helpText, setHelpText] = useState(
-    selectedField.helpText ? selectedField.helpText : ""
+    selectedField.helpText ? selectedField.helpText[currentLocale] : ""
   );
   const [inVisible, toggleInVisible] = useState(
     selectedField.inVisible ? selectedField.inVisible : false
@@ -600,8 +602,8 @@ const FieldConfig = props => {
       let obj = {
         ...selectedField
       };
-      obj["title"] = utility.applyeLangs(title);
-      obj["description"] = utility.applyeLangs(description);
+      obj["title"] = makeLocalesValue(obj["title"], title);
+      obj["description"] = makeLocalesValue(obj["description"], description);
       obj["isTranslate"] = translation;
       obj["isRequired"] = isRequired;
       obj["inVisible"] = inVisible;
@@ -618,7 +620,8 @@ const FieldConfig = props => {
 
       if (p && p.length > 0) obj["access"] = p;
       else delete obj["access"];
-      if (helpText.length > 0) obj["helpText"] = utility.applyeLangs(helpText);
+      if (helpText.length > 0)
+        obj["helpText"] = makeLocalesValue(obj["helpText"], helpText);
       if (selectedField.type !== "media" && selectedField.type !== "richText") {
         obj["inVisible"] = inVisible;
       }
@@ -1608,9 +1611,9 @@ const FieldConfig = props => {
                             }
                             key={item._id}
                             onClick={() => handleRefSelect(item)}
-                            title={item.title[currentLang]}
+                            title={item.title[currentLocale]}
                           >
-                            {item.title[currentLang]}
+                            {item.title[currentLocale]}
                           </button>
                         ))}
                         {selectedRefContentType && (
@@ -1633,9 +1636,6 @@ const FieldConfig = props => {
                                 SingleValue
                               }}
                             />
-                            {/* <small className="form-text text-muted">
-                              {field.description[currentLang]}
-                            </small> */}
                           </div>
                         )}
                       </div>
@@ -1811,13 +1811,14 @@ const FieldConfig = props => {
 export default FieldConfig;
 
 const SingleValue = props => {
+  const { currentLocale } = useLocale();
   const { data } = props;
   return (
     <components.SingleValue {...props}>
       <div className="options-single-selected">
         {data.title
-          ? data.title[currentLang]
-            ? data.title[currentLang]
+          ? data.title[currentLocale]
+            ? data.title[currentLocale]
             : ""
           : ""}
       </div>
@@ -1826,12 +1827,13 @@ const SingleValue = props => {
 };
 const MultiValueLabel = props => {
   const { data } = props;
+  const { currentLocale } = useLocale();
   return (
     <components.MultiValueLabel {...props}>
       <div className="options-multiple-selected">
         {data.title
-          ? data.title[currentLang]
-            ? data.title[currentLang]
+          ? data.title[currentLocale]
+            ? data.title[currentLocale]
             : ""
           : ""}
       </div>
@@ -1840,12 +1842,13 @@ const MultiValueLabel = props => {
 };
 
 const CustomOption = ({ innerProps, isDisabled, data }) => {
+  const { currentLocale } = useLocale();
   if (!isDisabled) {
     return (
       <div {...innerProps} className="options-items">
         {data.title
-          ? data.title[currentLang]
-            ? data.title[currentLang]
+          ? data.title[currentLocale]
+            ? data.title[currentLocale]
             : ""
           : ""}
       </div>
