@@ -21,7 +21,6 @@ const LocationInput = props => {
     if (formData[field.name]) {
       if (field.isRequired === true)
         if (props.init) props.init(field.name, true);
-
       setValueToInput(props.formData[field.name]);
     } else {
       if (field.isRequired === true)
@@ -65,16 +64,16 @@ const LocationInput = props => {
   }
   useEffect(() => {
     // Declare Options For Autocomplete
-    var options = { types: [] };
+    // var options = { types: [] };
 
-    // Initialize Google Autocomplete
-    /*global google*/
-    autocomplete = new google.maps.places.Autocomplete(
-      document.getElementById("autocomplete"),
-      { types: ["geocode"] }
-    );
-    // Fire Event when a suggested name is selected
-    autocomplete.addListener("place_changed", handlePlaceSelect);
+    // // Initialize Google Autocomplete
+    // /*global google*/
+    // autocomplete = new google.maps.places.Autocomplete(
+    //   document.getElementById("autocomplete"),
+    //   { types: ["geocode"] }
+    // );
+    // // Fire Event when a suggested name is selected
+    // autocomplete.addListener("place_changed", handlePlaceSelect);
   }, []);
 
   function handlePlaceSelect() {
