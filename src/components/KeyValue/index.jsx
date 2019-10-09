@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import Select, { components } from "react-select";
 import "./styles.scss";
-import { languageManager } from "./../../services";
+import { useLocale } from "hooks";
 
 const KeyValueInput = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
-  const { field, formData } = props;
+  const { currentLocale } = useLocale();
+  const { field, formData, updateMode } = props;
 
   const [cmpKey, setKey] = useState();
   const selectComponent = useRef(null);
@@ -15,7 +15,7 @@ const KeyValueInput = props => {
       if (field.isList) {
         const selected = formData[field.name].map(opt => {
           return {
-            value: opt,
+            value: opt
           };
         });
         return selected;
@@ -82,7 +82,7 @@ const KeyValueInput = props => {
 
   return !field.appearance || field.appearance === "default" ? (
     <div className="form-group">
-      <label>{field.title[currentLang]}</label>
+      <label>{field.title[currentLocale]}</label>
       <Select
         key={cmpKey}
         ref={selectComponent}
@@ -99,16 +99,16 @@ const KeyValueInput = props => {
         components={{
           Option: CustomOption,
           MultiValueLabel,
-          SingleValue,
+          SingleValue
         }}
       />
       <small className="form-text text-muted">
-        {field.description[currentLang]}
+        {field.description[currentLocale]}
       </small>
     </div>
   ) : field.appearance === "radioGroup" ? (
     <>
-      <label>{field.title[currentLang]}</label>
+      <label>{field.title[currentLocale]}</label>
       <div className="up-form-keyvalue-radio">
         {field.options.map(option => (
           <div class="form-check">

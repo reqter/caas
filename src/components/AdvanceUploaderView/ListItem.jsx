@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { utility, languageManager } from "../../services";
-
-const currentLang = languageManager.getCurrentLanguage().name;
+import { utility } from "services";
+import { useLocale } from "hooks";
 
 const ListItem = props => {
+  const { currentLocale } = useLocale();
   const [isActive, setActive] = useState(false);
-
+  const { file } = props;
   useEffect(() => {
     if (props.selectedFile) {
       if (props.selectedFile.id === props.file.id) {
@@ -20,9 +20,9 @@ const ListItem = props => {
     props.onPreview(props.file);
   }
   function getFileByType() {
-    return props.file.url ? (
+    return file.url ? (
       utility.getRequestMediaThumbComponentByURL(
-        props.file.url[currentLang],
+        file.url[currentLocale] ? file.url[currentLocale] : file.url,
         "unkownFile"
       )
     ) : (
@@ -43,7 +43,7 @@ const ListItem = props => {
           <i className="icon-checkmark" />
         </div>
       )}
-      <div className="listItem-name">{props.file.name || ""}</div>
+      <div className="listItem-name">{file.name || ""}</div>
     </div>
   );
 };

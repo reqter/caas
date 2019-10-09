@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./styles.scss";
-import { languageManager, utility } from "services";
+import { useLocale } from "hooks";
 
 var url_pattern = /^(http[s]?|ftp|torrent|image|irc):\/\/(-\.)?([^\s\/?\.#-]+\.?)+(\/[^\s]*)?$/i;
 
 const StringInput = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
+  const { currentLocale, makeLocalesValue } = useLocale();
 
-  const { field, formData } = props;
+  const { field, formData, updateMode } = props;
   const [error, setError] = useState();
   const [input, setInput] = useState("");
 
@@ -17,11 +17,12 @@ const StringInput = props => {
   }, []);
   useEffect(() => {
     if (formData && formData[field.name]) {
-      if (field.isTranslate) setInput(props.formData[field.name][currentLang]);
+      if (field.isTranslate)
+        setInput(props.formData[field.name][currentLocale]);
       else
         setInput(
-          props.formData[field.name][currentLang]
-            ? props.formData[field.name][currentLang]
+          props.formData[field.name][currentLocale]
+            ? props.formData[field.name][currentLocale]
             : props.formData[field.name]
         );
     } else {
@@ -35,8 +36,12 @@ const StringInput = props => {
   function setValueToParentForm(inputValue) {
     if (props.onChangeValue) {
       let value;
-      if (field.isTranslate) value = utility.applyeLangs(inputValue);
-      else value = inputValue;
+      if (field.isTranslate) {
+        value = makeLocalesValue(
+          updateMode && formData ? formData[field.name] : {},
+          inputValue
+        );
+      } else value = inputValue;
 
       let isValid = true;
       let e;
@@ -95,11 +100,11 @@ const StringInput = props => {
   }
   return (
     <div className="form-group">
-      <label>{field.title && field.title[currentLang]}</label>
+      <label>{field.title && field.title[currentLocale]}</label>
       {field.isMultiLine !== undefined && field.isMultiLine ? (
         <textarea
           className="form-control up-form-stringInput-textArea"
-          placeholder={field.title[currentLang]}
+          placeholder={field.title[currentLocale]}
           value={input}
           onChange={handleOnChange}
           readOnly={props.viewMode}
@@ -108,7 +113,7 @@ const StringInput = props => {
         <input
           type={field.appearance ? field.appearance : "text"}
           className="form-control"
-          placeholder={field.title && field.title[currentLang]}
+          placeholder={field.title && field.title[currentLocale]}
           value={input}
           onChange={handleOnChange}
           readOnly={props.viewMode}
@@ -128,7 +133,7 @@ const StringInput = props => {
       )}
       <small className="form-text text-muted">
         {!error ? (
-          field.description && field.description[currentLang]
+          field.description && field.description[currentLocale]
         ) : (
           <span className="error-text">{error}</span>
         )}

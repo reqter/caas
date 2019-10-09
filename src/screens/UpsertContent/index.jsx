@@ -1,17 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./styles.scss";
-import { useGlobalState, languageManager } from "./../../services";
+import { useGlobalState, languageManager } from "services";
 import {
   addContent,
   updateContent,
   getContentById,
-  getContentTypes,
+  getContentTypes
 } from "./../../Api/content-api";
-import {
-  addRequest,
-  updateRequest,
-  getRequestById,
-} from "../../Api/request-api";
+import { addRequest, updateRequest, getRequestById } from "Api/request-api";
 import ContentTypesList from "./ContentTypes";
 import {
   String,
@@ -25,11 +21,13 @@ import {
   Reference,
   CircleSpinner,
   JsonObject,
-  AdvanceUploaderView,
-} from "./../../components";
+  AdvanceUploaderView
+} from "components";
+import { useLocale } from "hooks";
+const currentLang = languageManager.getCurrentLanguage().name;
 
 const UpsertContent = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
+  const { currentLocale } = useLocale();
   const requestBaseLink = process.env.REACT_APP_REQUESTS_DELIVERY_URL;
   const [{ categories, spaceInfo }, dispatch] = useGlobalState();
 
@@ -113,7 +111,7 @@ const UpsertContent = props => {
               errorType: "contentType",
               message: languageManager.translate(
                 "UPSERT_ITEM_GET_BY_ID_CONTENT_TYPE_UNDEFINED"
-              ),
+              )
             };
             setError(obj);
             toggleTab(3);
@@ -131,7 +129,7 @@ const UpsertContent = props => {
           sender: "getItemById",
           message: languageManager.translate(
             "UPSERT_ITEM_GET_BY_ID_ON_SERER_ERROR"
-          ),
+          )
         };
         setError(obj);
       })
@@ -142,7 +140,7 @@ const UpsertContent = props => {
           sender: "getItemById",
           message: languageManager.translate(
             "UPSERT_ITEM_GET_BY_ID_BAD_REQUEST"
-          ),
+          )
         };
         setError(obj);
       })
@@ -153,7 +151,7 @@ const UpsertContent = props => {
           sender: "getItemById",
           message: languageManager.translate(
             "UPSERT_ITEM_GET_BY_ID_UN_AUTHORIZED"
-          ),
+          )
         };
         setError(obj);
       })
@@ -162,7 +160,7 @@ const UpsertContent = props => {
         const obj = {
           type: "ON_SERVER_ERROR",
           sender: "getItemById",
-          message: languageManager.translate("UPSERT_ITEM_GET_BY_ID_NOT_FOUND"),
+          message: languageManager.translate("UPSERT_ITEM_GET_BY_ID_NOT_FOUND")
         };
         setError(obj);
       })
@@ -179,7 +177,7 @@ const UpsertContent = props => {
     if (!formValidation || formValidation[name] !== null) {
       setFormValidation(prevFormValidation => ({
         ...prevFormValidation,
-        [name]: value,
+        [name]: value
       }));
     }
   }
@@ -195,7 +193,7 @@ const UpsertContent = props => {
 
     setFormValidation(prevFormValidation => ({
       ...prevFormValidation,
-      [key]: isValid,
+      [key]: isValid
     }));
   }
   function getFieldItem(field) {
@@ -215,6 +213,7 @@ const UpsertContent = props => {
         return (
           <Number
             viewMode={viewMode}
+            updateMode={updateMode}
             field={field}
             formData={formData}
             init={setNameToFormValidation}
@@ -225,6 +224,7 @@ const UpsertContent = props => {
         return (
           <DateTime
             viewMode={viewMode}
+            updateMode={updateMode}
             field={field}
             formData={formData}
             init={setNameToFormValidation}
@@ -235,6 +235,7 @@ const UpsertContent = props => {
         return (
           <Location
             viewMode={viewMode}
+            updateMode={updateMode}
             field={field}
             formData={formData}
             init={setNameToFormValidation}
@@ -245,6 +246,7 @@ const UpsertContent = props => {
         if (viewMode) {
           return (
             <AdvanceUploaderView
+              updateMode={updateMode}
               viewMode={viewMode}
               formData={formData}
               field={field}
@@ -256,6 +258,7 @@ const UpsertContent = props => {
           return (
             <Media
               viewMode={viewMode}
+              updateMode={updateMode}
               formData={formData}
               field={field}
               init={setNameToFormValidation}
@@ -266,6 +269,7 @@ const UpsertContent = props => {
         return (
           <Boolean
             viewMode={viewMode}
+            updateMode={updateMode}
             field={field}
             formData={formData}
             init={setNameToFormValidation}
@@ -277,6 +281,7 @@ const UpsertContent = props => {
           <KeyValue
             viewMode={viewMode}
             field={field}
+            updateMode={updateMode}
             formData={formData}
             init={setNameToFormValidation}
             onChangeValue={handleOnChangeValue}
@@ -285,6 +290,7 @@ const UpsertContent = props => {
       case "richtext":
         return (
           <RichText
+            updateMode={updateMode}
             viewMode={viewMode}
             field={field}
             formData={formData}
@@ -296,6 +302,7 @@ const UpsertContent = props => {
         return (
           <Reference
             viewMode={viewMode}
+            updateMode={updateMode}
             field={field}
             formData={formData}
             init={setNameToFormValidation}
@@ -307,6 +314,7 @@ const UpsertContent = props => {
           <JsonObject
             viewMode={viewMode}
             field={field}
+            updateMode={updateMode}
             formData={formData}
             init={setNameToFormValidation}
             onChangeValue={handleOnChangeValue}
@@ -369,7 +377,7 @@ const UpsertContent = props => {
       const obj = {
         _id: props.match.params.id,
         contentType: contentType._id,
-        fields: form,
+        fields: form
       };
       updateContent()
         .onOk(result => {
@@ -377,8 +385,8 @@ const UpsertContent = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "success",
-              message: languageManager.translate("UPSERT_ITEM_UPDATE_ON_OK"),
-            },
+              message: languageManager.translate("UPSERT_ITEM_UPDATE_ON_OK")
+            }
           });
           backToProducts();
         })
@@ -391,8 +399,8 @@ const UpsertContent = props => {
               type: "error",
               message: languageManager.translate(
                 "UPSERT_ITEM_UPDATE_ON_SERVER_ERROR"
-              ),
-            },
+              )
+            }
           });
         })
         .onBadRequest(result => {
@@ -404,8 +412,8 @@ const UpsertContent = props => {
               type: "error",
               message: languageManager.translate(
                 "UPSERT_ITEM_UPDATE_ON_BAD_REQUEST"
-              ),
-            },
+              )
+            }
           });
         })
         .unAuthorized(result => {
@@ -417,8 +425,8 @@ const UpsertContent = props => {
               type: "warning",
               message: languageManager.translate(
                 "UPSERT_ITEM_UPDATE_UN_AUTHORIZED"
-              ),
-            },
+              )
+            }
           });
         })
         .notFound(result => {
@@ -428,17 +436,15 @@ const UpsertContent = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "warning",
-              message: languageManager.translate(
-                "UPSERT_ITEM_UPDATE_NOT_FOUND"
-              ),
-            },
+              message: languageManager.translate("UPSERT_ITEM_UPDATE_NOT_FOUND")
+            }
           });
         })
         .call(spaceInfo.id, obj);
     } else {
       const obj = {
         contentType: contentType._id,
-        fields: form,
+        fields: form
       };
       addContent()
         .onOk(result => {
@@ -446,8 +452,8 @@ const UpsertContent = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "success",
-              message: languageManager.translate("UPSERT_ITEM_ADD_ON_OK"),
-            },
+              message: languageManager.translate("UPSERT_ITEM_ADD_ON_OK")
+            }
           });
           if (closePage) {
             backToProducts();
@@ -472,8 +478,8 @@ const UpsertContent = props => {
               type: "error",
               message: languageManager.translate(
                 "UPSERT_ITEM_ADD_ON_SERVER_ERROR"
-              ),
-            },
+              )
+            }
           });
         })
         .onBadRequest(result => {
@@ -485,8 +491,8 @@ const UpsertContent = props => {
               type: "error",
               message: languageManager.translate(
                 "UPSERT_ITEM_ADD_ON_BAD_REQUEST"
-              ),
-            },
+              )
+            }
           });
         })
         .unAuthorized(result => {
@@ -498,8 +504,8 @@ const UpsertContent = props => {
               type: "warning",
               message: languageManager.translate(
                 "UPSERT_ITEM_ADD_UN_AUTHORIZED"
-              ),
-            },
+              )
+            }
           });
         })
         .notFound(result => {
@@ -509,8 +515,8 @@ const UpsertContent = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "warning",
-              message: languageManager.translate("UPSERT_ITEM_ADD_NOT_FOUND"),
-            },
+              message: languageManager.translate("UPSERT_ITEM_ADD_NOT_FOUND")
+            }
           });
         })
         .call(spaceInfo.id, obj);
@@ -527,7 +533,7 @@ const UpsertContent = props => {
           <div className="tabItems">
             {updateMode || viewMode ? (
               <div className="item active">
-                {contentType && contentType.title[currentLang]}
+                {contentType && contentType.title[currentLocale]}
               </div>
             ) : (
               <>
@@ -571,7 +577,7 @@ const UpsertContent = props => {
                 contentType.media &&
                 contentType.media.length > 0 ? (
                   <div className="selectedCategory-img">
-                    <img src={contentType.media[0][currentLang]} alt="" />
+                    <img src={contentType.media[0][currentLocale]} alt="" />
                   </div>
                 ) : (
                   <div className="selectedCategory-icon">
@@ -580,7 +586,7 @@ const UpsertContent = props => {
                     </div>
                   </div>
                 )}
-                <span>{contentType.title[currentLang]}</span>
+                <span>{contentType.title[currentLocale]}</span>
                 {!viewMode && (
                   <button className="btn btn-link" onClick={() => changeTab(1)}>
                     Change content type

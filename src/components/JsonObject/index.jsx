@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from "react";
 import "./styles.scss";
-import { languageManager, utility } from "../../services";
+import { useLocale } from "hooks";
 const util = require("util");
 
 const JsonInput = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
+  const { currentLocale } = useLocale();
 
-  const { field, formData } = props;
+  const { field, formData, updateMode } = props;
   const [error, setError] = useState("");
   const [input, setInput] = useState("");
 
   // set value to input
   useEffect(() => {
-    if (formData[field.name]) {
+    if (formData && formData[field.name]) {
       if (field.isRequired === true)
         if (props.init) props.init(field.name, true);
-
-      if (field.isTranslate) setInput(props.formData[field.name][currentLang]);
-      else setInput(props.formData[field.name]);
+      setInput(props.formData[field.name]);
     } else {
       if (field.isRequired === true)
         if (props.init) props.init(field.name, false);
@@ -31,10 +29,7 @@ const JsonInput = props => {
 
   function setValueToParentForm(inputValue) {
     if (props.onChangeValue) {
-      let value;
-      if (field.isTranslate) value = utility.applyeLangs(inputValue);
-      else value = inputValue;
-
+      let value = inputValue;
       let p;
       try {
         p = JSON.parse(inputValue);
@@ -58,7 +53,7 @@ const JsonInput = props => {
   }
   return (
     <div className="form-group">
-      <label>{field.title && field.title[currentLang]}</label>
+      <label>{field.title && field.title[currentLocale]}</label>
       <textarea
         className="form-control"
         placeholder="example : { 'propName' : 'propValue' }"
@@ -70,7 +65,7 @@ const JsonInput = props => {
         {error ? (
           <span style={{ color: "red" }}>{error}</span>
         ) : (
-          field.description && field.description[currentLang]
+          field.description && field.description[currentLocale]
         )}
       </small>
     </div>

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./styles.scss";
-import { languageManager } from "../../services";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
+import { useLocale } from "hooks";
 var moment = require("moment");
+//
 const StringInput = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
+  const { currentLocale } = useLocale();
 
-  const { field, formData } = props;
+  const { field, formData, updateMode } = props;
   const [cmpKey, setKey] = useState();
 
   function initValue() {
@@ -92,7 +93,7 @@ const StringInput = props => {
   };
   return (
     <div className="form-group">
-      <label>{field.title[currentLang]}</label>
+      <label>{field.title[currentLocale]}</label>
       <Datetime
         key={cmpKey}
         viewMode={
@@ -105,7 +106,7 @@ const StringInput = props => {
         timeFormat={field.format && field.format === "date" ? false : "hh:mm A"}
         inputProps={{
           placeholder: "Click to open picker",
-          disabled: props.viewMode,
+          disabled: props.viewMode
         }}
         dateFormat={
           field.format === undefined || field.format !== "time"
@@ -121,7 +122,7 @@ const StringInput = props => {
         }
       />
       <small className="form-text text-muted">
-        {field.description[currentLang]}
+        {field.description[currentLocale]}
       </small>
     </div>
   );

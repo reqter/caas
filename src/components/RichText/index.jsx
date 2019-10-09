@@ -6,20 +6,20 @@ import {
   contentBlock,
   AtomicBlockUtils,
   Entity,
-  RichUtils,
+  RichUtils
 } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
 import "./../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { useLocale } from "hooks";
 
 import "./styles.scss";
-import { languageManager, utility } from "../../services";
 import AssetBrowser from "./../AssetBrowser";
 
 const RichTextInput = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
-  const { field, formData } = props;
+  const { currentLocale, makeLocalesValue } = useLocale();
+  const { field, formData, updateMode } = props;
 
   const [assetBrowser, toggleAssetBrowser] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -29,7 +29,8 @@ const RichTextInput = props => {
     if (formData[field.name]) {
       if (field.isRequired === true)
         if (props.init) props.init(field.name, true);
-      if (field.isTranslate) initValue(props.formData[field.name][currentLang]);
+      if (field.isTranslate)
+        initValue(props.formData[field.name][currentLocale]);
       else initValue(props.formData[field.name]);
     } else {
       if (field.isRequired === true)
@@ -49,7 +50,11 @@ const RichTextInput = props => {
   }
   function setValueToParentForm(inputValue) {
     let value;
-    if (field.isTranslate) value = utility.applyeLangs(inputValue);
+    if (field.isTranslate)
+      value = makeLocalesValue(
+        updateMode && formData ? formData[field.name] : {},
+        inputValue
+      );
     else value = inputValue;
 
     if (field.isRequired) {
@@ -81,7 +86,7 @@ const RichTextInput = props => {
     );
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     const newEditorState = EditorState.set(editorState, {
-      currentContent: contentStateWithEntity,
+      currentContent: contentStateWithEntity
     });
 
     return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, " ");
@@ -89,14 +94,14 @@ const RichTextInput = props => {
   function handleChooseAsset(asset) {
     toggleAssetBrowser(false);
     if (asset) {
-      handleOnChange(_addMedia(asset.url[currentLang]));
+      handleOnChange(_addMedia(asset.url[currentLocale]));
     }
   }
   function mediaBlockRenderer(block) {
     if (block.getType() === "atomic") {
       return {
         component: Media,
-        editable: false,
+        editable: false
       };
     }
     return null;
@@ -116,7 +121,7 @@ const RichTextInput = props => {
         toolbarCustomButtons={[
           <div className="richText-header-customBtn" onClick={openAssetBrowser}>
             <i className="icon-images" />
-          </div>,
+          </div>
         ]}
         toolbar={{
           options: [
@@ -132,13 +137,13 @@ const RichTextInput = props => {
             "emoji",
             // "image",
             "remove",
-            "history",
+            "history"
           ],
           inline: { inDropdown: true },
           list: { inDropdown: true },
           textAlign: {},
           link: { inDropdown: true },
-          history: {},
+          history: {}
         }}
       />
       {assetBrowser && (

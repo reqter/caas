@@ -10,16 +10,20 @@ import {
   unPublish,
   archive,
   unArchive
-} from "../../Api/content-api";
+} from "Api/content-api";
 import "./styles.scss";
+import { useLocale } from "hooks";
 
-import { Alert, CircleSpinner, DateFormater } from "../../components";
+import Alert from "components/PopupAlert";
+import CircleSpinner from "components/CircleSpinner";
+import DateFormater from "components/DateFormater";
 import {
   ContentTypesFilter,
   StatusFilter
-} from "../../components/Commons/ContentFilters";
+} from "components/Commons/ContentFilters";
 
-const Products = props => {
+const Contents = props => {
+  const { currentLocale } = useLocale();
   let didCancel = false;
   //#region controller
   const currentLang = languageManager.getCurrentLanguage().name;
@@ -52,7 +56,7 @@ const Products = props => {
           <div className="p-image">
             {props.value ? (
               props.value.media && props.value.media.length > 0 ? (
-                getAssetUi(props.value.media[0][currentLang])
+                getAssetUi(props.value.media[0][currentLocale])
               ) : (
                 <div className="p-thumbnail-file empty">
                   {/* <i className="file-text" /> */}
@@ -82,8 +86,8 @@ const Products = props => {
             <span>
               {props.value
                 ? props.value["name"]
-                  ? props.value["name"][currentLang]
-                    ? props.value["name"][currentLang]
+                  ? props.value["name"][currentLocale]
+                    ? props.value["name"][currentLocale]
                     : typeof props.value["name"] === "string"
                     ? props.value["name"]
                     : ""
@@ -93,8 +97,8 @@ const Products = props => {
             <span>
               {props.value
                 ? props.value["shortDesc"]
-                  ? props.value["shortDesc"][currentLang]
-                    ? props.value["shortDesc"][currentLang]
+                  ? props.value["shortDesc"][currentLocale]
+                    ? props.value["shortDesc"][currentLocale]
                     : typeof props.value["shortDesc"] === "string"
                     ? props.value["shortDesc"]
                     : ""
@@ -131,13 +135,12 @@ const Products = props => {
       },
       accessor: "contentType",
       Cell: props => {
-        debugger;
         return (
           <div className="p-contentType">
             <span className="badge badge-light">
               {props.value
-                ? props.value.title && props.value.title[currentLang]
-                  ? props.value.title[currentLang]
+                ? props.value.title && props.value.title[currentLocale]
+                  ? props.value.title[currentLocale]
                   : props.value.title
                 : ""}
             </span>
@@ -916,11 +919,9 @@ const Products = props => {
                         <span className="filterText">
                           {filter.sys.type === "status"
                             ? languageManager.translate(filter.name)
-                            : filter.title !== undefined
-                            ? filter.title.en !== undefined
-                              ? filter.title[currentLang]
-                              : filter.title
-                            : filter.name[currentLang]}
+                            : filter.title
+                            ? filter.title[currentLocale]
+                            : filter.title}
                         </span>
                         <span
                           className="icon-cross icon"
@@ -987,4 +988,4 @@ const Products = props => {
   );
 };
 
-export default Products;
+export default Contents;

@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { languageManager, useGlobalState } from "../../../services";
-import { getContentTypes } from "./../../../Api/content-api";
-import { CircleSpinner } from "../../../components";
-const currentLang = languageManager.getCurrentLanguage().name;
+import { languageManager, useGlobalState } from "services";
+import { getContentTypes } from "Api/content-api";
+import { CircleSpinner } from "components";
+import { useLocale } from "hooks";
+
 
 const ContentTypes = props => {
   const [{ contentTypes, spaceInfo }, dispatch] = useGlobalState();
+  const { currentLocale } = useLocale();
+
   const [spinner, togglepinner] = useState(true);
   function handleSelectContentType(contentType) {
     props.onSelectContentType(contentType);
@@ -19,7 +22,7 @@ const ContentTypes = props => {
         togglepinner(false);
         dispatch({
           type: "SET_CONTENT_TYPES",
-          value: result,
+          value: result
         });
         props.onEndLoading(true);
       })
@@ -28,7 +31,7 @@ const ContentTypes = props => {
         const obj = {
           type: "ON_SERVER_ERROR",
           sender: "contentType",
-          message: languageManager.translate("CONTENT_TYPE_ON_SERVER_ERROR"),
+          message: languageManager.translate("CONTENT_TYPE_ON_SERVER_ERROR")
         };
         props.onEndLoading(false, obj);
       })
@@ -37,7 +40,7 @@ const ContentTypes = props => {
         const obj = {
           type: "ON_SERVER_ERROR",
           sender: "contentType",
-          message: languageManager.translate("CONTENT_TYPE_ON_BAD_REQUEST"),
+          message: languageManager.translate("CONTENT_TYPE_ON_BAD_REQUEST")
         };
         props.onEndLoading(false, obj);
       })
@@ -46,7 +49,7 @@ const ContentTypes = props => {
         const obj = {
           type: "ON_SERVER_ERROR",
           sender: "contentType",
-          message: languageManager.translate("CONTENT_TYPE_UN_AUTHORIZED"),
+          message: languageManager.translate("CONTENT_TYPE_UN_AUTHORIZED")
         };
         props.onEndLoading(false, obj);
       })
@@ -82,14 +85,13 @@ const ContentTypes = props => {
             </div>
           ) : (
             <div className="treeItem-img">
-              <img src={c.media[0][currentLang]} alt="" />
+              <img src={c.media[0][currentLocale]} alt="" />
             </div>
           )}
           <div className="treeItem-text">
-            <span className="treeItem-name">{c.title[currentLang]}</span>
+            <span className="treeItem-name">{c.title[currentLocale]}</span>
             <span className="treeItem-desc">
-              {c.description[currentLang] ||
-                "Lorem ipsum dolor sit amet, consectetur"}
+              {c.description[currentLocale]}
             </span>
           </div>
           <button

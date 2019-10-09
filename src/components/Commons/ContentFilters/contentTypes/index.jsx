@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { languageManager, useGlobalState, utility } from "../../../../services";
-import { getContentTypes } from "./../../../../Api/content-api";
+import { languageManager, useGlobalState, utility } from "services";
+import { getContentTypes } from "Api/content-api";
+import { useLocale } from "hooks";
+//
 const ContentTypeFilter = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
+  const { currentLocale } = useLocale();
   const [{ contentTypes, spaceInfo }, dispatch] = useGlobalState();
   const [selected, setSelected] = useState({});
   useEffect(() => {
@@ -11,7 +13,7 @@ const ContentTypeFilter = props => {
         .onOk(result => {
           dispatch({
             type: "SET_CONTENT_TYPES",
-            value: result,
+            value: result
           });
         })
         .onServerError(result => {
@@ -19,10 +21,8 @@ const ContentTypeFilter = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate(
-                "CONTENT_TYPE_ON_SERVER_ERROR"
-              ),
-            },
+              message: languageManager.translate("CONTENT_TYPE_ON_SERVER_ERROR")
+            }
           });
         })
         .onBadRequest(result => {
@@ -30,8 +30,8 @@ const ContentTypeFilter = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate("CONTENT_TYPE_ON_BAD_REQUEST"),
-            },
+              message: languageManager.translate("CONTENT_TYPE_ON_BAD_REQUEST")
+            }
           });
         })
         .unAuthorized(result => {
@@ -39,8 +39,8 @@ const ContentTypeFilter = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "warning",
-              message: languageManager.translate("CONTENT_TYPE_UN_AUTHORIZED"),
-            },
+              message: languageManager.translate("CONTENT_TYPE_UN_AUTHORIZED")
+            }
           });
         })
         .call(spaceInfo.id);
@@ -74,7 +74,7 @@ const ContentTypeFilter = props => {
             {listItem.media !== undefined && listItem.media.length > 0 ? (
               <div className="treeItem-img treeItem-contentType">
                 <div>
-                  {utility.getAssetIconByURL(listItem.media[0][currentLang])}
+                  {utility.getAssetIconByURL(listItem.media[0][currentLocale])}
                 </div>
               </div>
             ) : (
@@ -88,10 +88,10 @@ const ContentTypeFilter = props => {
               className="item-name"
               style={{
                 color:
-                  selected._id === listItem._id ? "rgb(56,132,255)" : "gray",
+                  selected._id === listItem._id ? "rgb(56,132,255)" : "gray"
               }}
             >
-              {listItem.title[currentLang]}
+              {listItem.title[currentLocale]}
             </div>
           </div>
         ))}

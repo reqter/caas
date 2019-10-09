@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./styles.scss";
-import { languageManager, utility } from "../../services";
-
+import { useLocale } from "hooks";
+//
 const NumberInput = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
+  const { currentLocale, makeLocalesValue } = useLocale();
 
-  const { field, formData } = props;
+  const { field, formData, updateMode } = props;
   const [error, setError] = useState();
   const [input, setInput] = useState(
     field.defaultValue ? field.defaultValue : ""
@@ -29,7 +29,11 @@ const NumberInput = props => {
 
   function setValueToParentForm(inputValue) {
     let value;
-    if (field.isTranslate) value = utility.applyeLangs(inputValue);
+    if (field.isTranslate)
+      value = makeLocalesValue(
+        updateMode && formData ? formData[field.name] : {},
+        inputValue
+      );
     else value = inputValue;
 
     let isValid = true;
@@ -91,11 +95,11 @@ const NumberInput = props => {
   }
   return (
     <div className="form-group">
-      <label>{field.title[currentLang]}</label>
+      <label>{field.title && field.title[currentLocale]}</label>
       <input
         type="number"
         className="form-control"
-        placeholder={field.title[currentLang]}
+        placeholder={field.title && field.title[currentLocale]}
         value={input}
         onChange={handleOnChange}
         readOnly={props.viewMode}
@@ -115,7 +119,7 @@ const NumberInput = props => {
       />
       <small className="form-text text-muted">
         {!error ? (
-          field.description && field.description[currentLang]
+          field.description && field.description[currentLocale]
         ) : (
           <span className="error-text">{error}</span>
         )}

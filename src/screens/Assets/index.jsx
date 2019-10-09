@@ -13,7 +13,7 @@ import {
   archive,
   unArchive
 } from "Api/asset-api";
-
+import { useLocale } from "hooks";
 const filters = [
   {
     id: "0",
@@ -66,10 +66,11 @@ const pageTitle = languageManager.translate("HOME_SIDE_NAV_ASSETS_MANAGER");
 const pageDescription = languageManager.translate(
   "HOME_SIDE_NAV_ASSETS_MANAGER_DESC"
 );
-
+const currentLang = languageManager.getCurrentLanguage().name;
 const Assets = props => {
+  const { currentLocale } = useLocale();
   let didCancel = false;
-  const currentLang = languageManager.getCurrentLanguage().name;
+
   const [{ assets, status, spaceInfo }, dispatch] = useGlobalState();
   const [spinner, toggleSpinner] = useState(true);
 
@@ -605,7 +606,16 @@ const Assets = props => {
                       <td>
                         <div className="as-table-image">
                           {file.fileType.toLowerCase().includes("image") ? (
-                            <img src={file.url[currentLang]} alt="" />
+                            <img
+                              src={
+                                file.url
+                                  ? file.url[currentLocale]
+                                    ? file.url[currentLocale]
+                                    : file.url
+                                  : null
+                              }
+                              alt=""
+                            />
                           ) : file.fileType.toLowerCase().includes("video") ? (
                             <i className="icon-video" />
                           ) : file.fileType.toLowerCase().includes("audio") ? (
@@ -624,7 +634,7 @@ const Assets = props => {
                       <td>
                         <div className="as-table-name">
                           <span className="name">
-                            {file.title && file.title[currentLang]}
+                            {file.title && file.title[currentLocale]}
                           </span>
                           <span>{file.fileType}</span>
                         </div>

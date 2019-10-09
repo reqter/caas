@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.scss";
-import { languageManager, utility } from "../../services";
+import { utility } from "services";
 import AssetBrowser from "./../AssetBrowser";
+import { useLocale } from "hooks";
 
 const MediaInput = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
-  const { field, formData } = props;
+  const { currentLocale, makeLocalesValue } = useLocale();
+  const { field, formData, updateMode } = props;
   const [assetBrowser, toggleAssetBrowser] = useState(false);
   const [files, setFiles] = useState([]);
 
@@ -14,11 +15,10 @@ const MediaInput = props => {
     if (formData[field.name] && formData[field.name].length > 0) {
       if (field.isRequired === true)
         if (props.init) props.init(field.name, true);
-
       const d = formData[field.name].map(item => {
         return {
           id: Math.random(),
-          url: item,
+          url: item
         };
       });
       setFiles(d);
@@ -30,7 +30,7 @@ const MediaInput = props => {
   }, [formData]);
 
   useEffect(() => {
-    // send value to form after updateing
+    // send value to form after updating
     let result = files.map(item => item.url);
     if (result.length === 0) result = [];
     if (field.isRequired === true) {
@@ -47,14 +47,21 @@ const MediaInput = props => {
   function handleChooseAsset(asset) {
     toggleAssetBrowser(false);
     if (asset) {
-      const obj = {
-        id: Math.random(),
-        url: field.isTranslate
-          ? asset.url
-          : {
-              [currentLang]: asset.url[currentLang],
-            },
+      let obj = {
+        id: Math.random()
       };
+      if (field.isTranslate) {
+        obj["url"] = makeLocalesValue(
+          updateMode && formData ? formData[field.name] : {},
+          asset.url && asset.url[currentLocale]
+            ? asset.url[currentLocale]
+            : asset.url
+        );
+      } else
+        obj["url"] =
+          asset.url && asset.url[currentLocale]
+            ? asset.url[currentLocale]
+            : asset.url;
       if (field.isList !== undefined && field.isList) {
         const newFiles = [...files, obj];
         setFiles(newFiles);
@@ -76,10 +83,10 @@ const MediaInput = props => {
   return (
     <>
       <div className="up-uploader">
-        <span className="title">{field.title[currentLang]}</span>
+        <span className="title">{field.title[currentLocale]}</span>
         {field.description && (
           <span className="description">
-            {field.description && field.description[currentLang]}
+            {field.description && field.description[currentLocale]}
           </span>
         )}
         <div className="files">
@@ -102,7 +109,16 @@ const MediaInput = props => {
                 )}
                 <div className="updatedFileType">
                   {field.mediaType === "image" ? (
-                    <img src={file.url[currentLang]} alt="" />
+                    <img
+                      src={
+                        file.url
+                          ? file.url[currentLocale]
+                            ? file.url[currentLocale]
+                            : file.url
+                          : null
+                      }
+                      alt=""
+                    />
                   ) : field.mediaType === "video" ? (
                     <i className="icon-video" />
                   ) : field.mediaType === "audio" ? (
@@ -112,13 +128,18 @@ const MediaInput = props => {
                   ) : field.mediaType === "spreadsheet" ? (
                     <i className="icon-spreadsheet" />
                   ) : (
-                    utility.getAssetIconByURL(file.url[currentLang])
+                    utility.getAssetIconByURL(
+                      file.url
+                        ? file.url[currentLocale]
+                          ? file.url[currentLocale]
+                          : file.url
+                        : null
+                    )
                   )}
                 </div>
               </div>
             ))
           )}
-          {}
           {!props.viewMode && (
             <div className="files-input" onClick={openAssetBrowser}>
               {field.mediaType === "file" ? (

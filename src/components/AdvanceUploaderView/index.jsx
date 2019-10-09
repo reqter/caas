@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import "cropperjs/dist/cropper.css";
 import "./styles.scss";
-import { languageManager, utility } from "../../services";
+import { utility } from "../../services";
 import SVGIcon from "./svg";
 import ListItem from "./ListItem";
+import { useLocale } from "hooks";
 
 const UploaderView = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
+  const { currentLocale } = useLocale();
 
   const { field, formData } = props;
   const [dropZoneViewBox, toggleDropZoneViewBox] = useState(false);
@@ -20,7 +21,7 @@ const UploaderView = props => {
         const d = formData[field.name].map(item => {
           return {
             id: Math.random(),
-            url: item,
+            url: item
           };
         });
         setFiles(d);
@@ -28,7 +29,7 @@ const UploaderView = props => {
       } else {
         setDropZoneFile({
           id: Math.random(),
-          url: formData[field.name][0],
+          url: formData[field.name][0]
         });
       }
     }
@@ -40,7 +41,7 @@ const UploaderView = props => {
     setDropZoneFile(file);
   }
   function download() {
-    window.open(dropZoneFile.url[currentLang]);
+    window.open(dropZoneFile.url[currentLocale]);
   }
   return (
     <>
@@ -48,18 +49,18 @@ const UploaderView = props => {
         <div className="ad-uploader__header">
           <div className="ad-uploader__header__left">
             {field.title && (
-              <span className="title">{field.title[currentLang]}</span>
+              <span className="title">{field.title[currentLocale]}</span>
             )}
 
             <span className="description">
               {field.description && field.description.length > 0
-                ? field.description[currentLang]
+                ? field.description[currentLocale]
                 : "No Description"}
             </span>
           </div>
           <div className="ad-uploader__header__right">
             <button className="btn btn-light btn-sm" onClick={download}>
-              Downlaod
+              Download
             </button>
           </div>
         </div>
@@ -68,7 +69,11 @@ const UploaderView = props => {
           {dropZoneFile ? (
             <div className="dropbox-uploadedFile">
               {utility.getRequestMediaComponentByURL(
-                dropZoneFile.url[currentLang],
+                dropZoneFile.url
+                  ? dropZoneFile.url[currentLocale]
+                    ? dropZoneFile.url[currentLocale]
+                    : dropZoneFile.url
+                  : null,
                 "unknowIcon"
               )}
             </div>

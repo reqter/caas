@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Select, { components } from "react-select";
-import AsyncCreatableSelect from "react-select/lib/AsyncCreatable";
+// import AsyncCreatableSelect from "react-select/lib/AsyncCreatable";
 import "./styles.scss";
-import { languageManager, useGlobalState } from "../../services";
-import { filterContents } from "./../../Api/content-api";
+import { useGlobalState, languageManager } from "services";
+import { filterContents } from "Api/content-api";
 import DateFormater from "./../DateFormater";
-const currentLang = languageManager.getCurrentLanguage().name;
+import { useLocale } from "hooks";
 
 const ReferenceInput = props => {
   const [{ spaceInfo }, dispatch] = useGlobalState();
-  const { field, formData } = props;
+  const { currentLocale } = useLocale();
+  const { field, formData, updateMode } = props;
 
   const [options, setOptions] = useState();
   const [values, setValues] = useState();
@@ -117,7 +118,7 @@ const ReferenceInput = props => {
   }
   return (
     <div className="form-group">
-      <label>{field.title[currentLang]}</label>
+      <label>{field.title && field.title[currentLocale]}</label>
       {/* <AsyncCreatableSelect
         cacheOptions
         defaultOptions
@@ -145,7 +146,7 @@ const ReferenceInput = props => {
         components={{ Option: CustomOption, MultiValueLabel, SingleValue }}
       />
       <small className="form-text text-muted">
-        {field.description[currentLang]}
+        {field.description[currentLocale]}
       </small>
     </div>
   );
@@ -155,20 +156,21 @@ export default ReferenceInput;
 
 const SingleValue = props => {
   const { data } = props;
+  const { currentLocale } = useLocale();
   return (
     <components.SingleValue {...props}>
       <div className="options-single-selected">
         <div className="custome-select-selected">
           {data.contentType["media"] && data.contentType["media"].length > 0 && (
             <div className="selectedItemImage">
-              <img src={data.contentType["media"][0][currentLang]} alt="" />
+              <img src={data.contentType["media"][0][currentLocale]} alt="" />
             </div>
           )}
           <div className="selectedItemName">
             {data.fields
               ? data.fields.name
-                ? data.fields.name[currentLang]
-                  ? data.fields.name[currentLang]
+                ? data.fields.name[currentLocale]
+                  ? data.fields.name[currentLocale]
                   : typeof data.fields.name === "string"
                   ? data.fields.name
                   : ""
@@ -182,19 +184,20 @@ const SingleValue = props => {
 };
 const MultiValueLabel = props => {
   const { data } = props;
+  const { currentLocale } = useLocale();
   return (
     <components.MultiValueLabel {...props}>
       <div className="custome-select-selected" key={data._id}>
         {data.contentType["media"] && data.contentType["media"].length > 0 && (
           <div className="selectedItemImage">
-            <img src={data.contentType["media"][0][currentLang]} alt="" />
+            <img src={data.contentType["media"][0][currentLocale]} alt="" />
           </div>
         )}
         <div className="selectedItemName">
           {data.fields
             ? data.fields.name
-              ? data.fields.name[currentLang]
-                ? data.fields.name[currentLang]
+              ? data.fields.name[currentLocale]
+                ? data.fields.name[currentLocale]
                 : typeof data.fields.name === "string"
                 ? data.fields.name
                 : ""
@@ -207,12 +210,13 @@ const MultiValueLabel = props => {
 };
 
 const CustomOption = ({ innerProps, isDisabled, data }) => {
+  const { currentLocale } = useLocale();
   if (!isDisabled) {
     return (
       <div {...innerProps} className="custom-select-item">
         <div className="imageItem">
           {data.contentType["media"] && data.contentType["media"].length > 0 ? (
-            <img src={data.contentType["media"][0][currentLang]} alt="" />
+            <img src={data.contentType["media"][0][currentLocale]} alt="" />
           ) : (
             <div className="imageItem-empty">No Image</div>
           )}
@@ -221,8 +225,8 @@ const CustomOption = ({ innerProps, isDisabled, data }) => {
           <span>
             {data.fields
               ? data.fields.name
-                ? data.fields.name[currentLang]
-                  ? data.fields.name[currentLang]
+                ? data.fields.name[currentLocale]
+                  ? data.fields.name[currentLocale]
                   : typeof data.fields.name === "string"
                   ? data.fields.name
                   : ""
@@ -232,8 +236,8 @@ const CustomOption = ({ innerProps, isDisabled, data }) => {
           <span>
             {data.fields
               ? data.fields.shortDesc
-                ? data.fields.shortDesc[currentLang]
-                  ? data.fields.shortDesc[currentLang]
+                ? data.fields.shortDesc[currentLocale]
+                  ? data.fields.shortDesc[currentLocale]
                   : typeof data.fields.shortDesc === "string"
                   ? data.fields.shortDesc
                   : ""
@@ -258,45 +262,3 @@ const CustomOption = ({ innerProps, isDisabled, data }) => {
     );
   } else return null;
 };
-
-// import React, { Component } from "react";
-
-// import AsyncCreatableSelect from "react-select/lib/AsyncCreatable";
-// export const colourOptions = [
-//   { value: "ocean", label: "Ocean", color: "#00B8D9", isFixed: true },
-//   { value: "blue", label: "Blue", color: "#0052CC", disabled: true },
-//   { value: "purple", label: "Purple", color: "#5243AA" },
-//   { value: "red", label: "Red", color: "#FF5630", isFixed: true },
-//   { value: "orange", label: "Orange", color: "#FF8B00" },
-//   { value: "yellow", label: "Yellow", color: "#FFC400" },
-//   { value: "green", label: "Green", color: "#36B37E" },
-//   { value: "forest", label: "Forest", color: "#00875A" },
-//   { value: "slate", label: "Slate", color: "#253858" },
-//   { value: "silver", label: "Silver", color: "#666666" }
-// ];
-
-// const filterColors = inputValue => {
-//   return colourOptions.filter(i =>
-//     i.label.toLowerCase().includes(inputValue.toLowerCase())
-//   );
-// };
-
-// const promiseOptions = inputValue =>
-//   new Promise(resolve => {
-//     setTimeout(() => {
-//       resolve(filterColors(inputValue));
-//     }, 1000);
-//   });
-
-// export default class WithPromises extends Component {
-//   render() {
-//     return (
-//       <AsyncCreatableSelect
-//         cacheOptions
-//         defaultOptions
-//         loadOptions={promiseOptions}
-//         isMulti
-//       />
-//     );
-//   }
-// }

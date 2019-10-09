@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./styles.scss";
-import { languageManager, utility } from "./../../services";
+import { useLocale } from "hooks";
 
 const BooleanComponent = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
-  const { field, formData } = props;
+  const { currentLocale } = useLocale();
+  const { field, formData , updateMode } = props;
 
   const [value, setValue] = useState(
     field.defaultValue ? field.defaultValue : false
@@ -67,10 +67,10 @@ const BooleanComponent = props => {
         </label>
       </div>
       <div className="right">
-        <label htmlFor={"chk" + field.name}>{field.title[currentLang]}</label>
+        <label htmlFor={"chk" + field.name}>{field.title[currentLocale]}</label>
         {field.description && (
           <label htmlFor={"chk" + field.name}>
-            {field.description[currentLang]}
+            {field.description[currentLocale]}
           </label>
         )}
       </div>

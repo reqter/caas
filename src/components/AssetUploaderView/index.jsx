@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.scss";
-import { languageManager, utility } from "../../services";
+import { useLocale } from "hooks";
 import SVGIcon from "./svg";
 
 const UploaderView = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
-
-  const { field, formData } = props;
+  const { currentLocale } = useLocale();
+  const { field, formData, updateMode } = props;
   const [dropZoneFile, setDropZoneFile] = useState();
 
   useEffect(() => {
@@ -15,13 +14,13 @@ const UploaderView = props => {
     }
   }, [formData]);
   function download() {
-    window.open(dropZoneFile.url[currentLang]);
+    window.open(dropZoneFile.url[currentLocale]);
   }
   const imgs = ["jpg", "jpeg", "gif", "bmp", "png"];
   const videos = ["mp4", "3gp", "ogg", "wmv", "flv", "avi"];
   const audios = ["wav", "mp3", "ogg"];
   function getAssetComponentByType(file, customClass) {
-    const url = file.url[currentLang];
+    const url = file.url[currentLocale];
     if (url) {
       const ext = url
         .split("/")
@@ -68,17 +67,17 @@ const UploaderView = props => {
       <div className="ad-uploader__header">
         <div className="ad-uploader__header__left">
           {field.title && (
-            <span className="title">{field.title[currentLang]}</span>
+            <span className="title">{field.title[currentLocale]}</span>
           )}
           {field.description && (
             <span className="description">
-              {field.description[currentLang]}
+              {field.description[currentLocale]}
             </span>
           )}
         </div>
         <div className="ad-uploader__header__right">
           <button className="btn btn-light btn-sm" onClick={download}>
-            Downlaod
+            Download
           </button>
         </div>
       </div>

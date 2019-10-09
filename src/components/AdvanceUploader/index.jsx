@@ -5,17 +5,18 @@ import {
   languageManager,
   useGlobalState,
   utility,
-  storageManager,
-} from "../../services";
+  storageManager
+} from "services";
 import ImageEditorModal from "./ImageEditorModal";
-import { uploadAssetFile, addAsset } from "./../../Api/asset-api";
+import { uploadAssetFile, addAsset } from "Api/asset-api";
 import SVGIcon from "./svg";
 import ProgressiveSpinner from "./../ProgressiveSpinner";
 import ListItem from "./ListItem";
+import { useLocale } from "hooks";
 
 let xhr;
 const FileUploaderInput = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
+  const { currentLocale } = useLocale();
   const dropRef = useRef(null);
 
   const [{ spaceInfo }, dispatch] = useGlobalState();
@@ -40,7 +41,7 @@ const FileUploaderInput = props => {
       const d = formData[field.name].map(item => {
         return {
           id: Math.random(),
-          url: item,
+          url: item
         };
       });
       setFiles(d);
@@ -117,8 +118,8 @@ const FileUploaderInput = props => {
             type: "error",
             message: languageManager.translate(
               `You just choose ${field.mediaType.join(" ")}`
-            ),
-          },
+            )
+          }
         });
       }
     }
@@ -141,10 +142,10 @@ const FileUploaderInput = props => {
               title: file.originalname,
               description: "",
               url: {
-                [currentLang]:
-                  process.env.REACT_APP_DOWNLOAD_FILE_BASE_URL + file.url,
+                [currentLocale]:
+                  process.env.REACT_APP_DOWNLOAD_FILE_BASE_URL + file.url
               },
-              fileType: file.mimetype,
+              fileType: file.mimetype
             };
             addAsset()
               .onOk(result => {
@@ -158,8 +159,8 @@ const FileUploaderInput = props => {
                     type: "error",
                     message: languageManager.translate(
                       "UPSERT_ASSET_ADD_ON_SERVER_ERROR"
-                    ),
-                  },
+                    )
+                  }
                 });
               })
               .onBadRequest(result => {
@@ -170,8 +171,8 @@ const FileUploaderInput = props => {
                     type: "error",
                     message: languageManager.translate(
                       "UPSERT_ASSET_ADD_ON_BAD_REQUEST"
-                    ),
-                  },
+                    )
+                  }
                 });
               })
               .unAuthorized(result => {
@@ -182,8 +183,8 @@ const FileUploaderInput = props => {
                     type: "warning",
                     message: languageManager.translate(
                       "UPSERT_ASSET_ADD_UN_AUTHORIZED"
-                    ),
-                  },
+                    )
+                  }
                 });
               })
               .notFound(result => {
@@ -194,8 +195,8 @@ const FileUploaderInput = props => {
                     type: "error",
                     message: languageManager.translate(
                       "UPSERT_ASSET_ADD_NOT_FOUND"
-                    ),
-                  },
+                    )
+                  }
                 });
               })
               .call(spaceInfo.id, obj);
@@ -270,10 +271,7 @@ const FileUploaderInput = props => {
     toggleIsUploading(false);
     const obj = {
       id: Math.random(),
-      url: {
-        [currentLang]:
-          process.env.REACT_APP_DOWNLOAD_FILE_BASE_URL + uploadedFile.url,
-      },
+      url: process.env.REACT_APP_DOWNLOAD_FILE_BASE_URL + uploadedFile.url
     };
     let fs = [];
     fs[0] = obj;
@@ -283,12 +281,9 @@ const FileUploaderInput = props => {
     toggleDroppableBox(false);
     toggleDropZoneViewBox(true);
   }
-
   // is list functions
   function handleUploadEnd(file) {
-    file.url = {
-      [currentLang]: process.env.REACT_APP_DOWNLOAD_FILE_BASE_URL + file.url,
-    };
+    file.url = process.env.REACT_APP_DOWNLOAD_FILE_BASE_URL + file.url;
     setUploadedList(list => [...list, file]);
   }
 
@@ -321,8 +316,8 @@ const FileUploaderInput = props => {
   return (
     <>
       <div className="ad-uploader">
-        <span className="title">{field.title[currentLang]}</span>
-        <span className="description">{field.description[currentLang]}</span>
+        <span className="title">{field.title[currentLocale]}</span>
+        <span className="description">{field.description[currentLocale]}</span>
         <div className="dropBox" ref={dropRef}>
           {dropZoneViewBox && (
             <div className="dropbox-uploadedFile">

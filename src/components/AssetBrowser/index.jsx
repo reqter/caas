@@ -1,65 +1,67 @@
 import React, { useState, useEffect, useRef } from "react";
-import Modal from "reactstrap/es/Modal";
+import Modal from "reactstrap/lib/Modal";
 import String from "./../String";
 import FileUploader from "./../FileUploader";
-import { AssetFile, CircleSpinner } from "./../../components";
-import { languageManager, useGlobalState } from "./../../services";
+import AssetFile from "components/AssetFile";
+import CircleSpinner from "components/CircleSpinner";
+import { languageManager, useGlobalState } from "services";
 import "./styles.scss";
+import { useLocale } from "hooks";
 
-import { filterAssets, addAsset } from "./../../Api/asset-api";
+import { filterAssets, addAsset } from "Api/asset-api";
 const fields = [
   {
     id: "1",
     name: "title",
     title: {
       en: "Title",
-      fa: "عنوان",
+      fa: "عنوان"
     },
     description: {
       en: "this will be apear on assets",
-      fa: "نام فایل برای نمایش در لیست",
+      fa: "نام فایل برای نمایش در لیست"
     },
     type: "string",
     isBase: true,
     isTranslate: true,
-    isRequired: true,
+    isRequired: true
   },
   {
     id: "2",
     name: "description",
     title: {
       en: "Description",
-      fa: "توضیحات",
+      fa: "توضیحات"
     },
     description: {
       en: "Short description of your file",
-      fa: "توضیح کوتاه برای فایل",
+      fa: "توضیح کوتاه برای فایل"
     },
     type: "string",
     isBase: true,
-    isTranslate: true,
+    isTranslate: true
   },
   {
     id: "3",
     name: "url",
     title: {
       fa: "Your File",
-      en: "Your File",
+      en: "Your File"
     },
     description: {
       fa: "",
-      en: "Click on file selector to choose your file",
+      en: "Click on file selector to choose your file"
     },
     type: "fileUploader",
     mediaType: "file",
     isBase: true,
     isTranslate: true,
-    isRequired: true,
-  },
+    isRequired: true
+  }
 ];
 
 const AssetBrowser = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
+  const { currentLocale, makeLocalesValue } = useLocale();
   const [{ assets, spaceInfo }, dispatch] = useGlobalState();
   const [isOpen, toggleModal] = useState(props.isOpen);
   const [tab, changeTab] = useState(1);
@@ -105,7 +107,7 @@ const AssetBrowser = props => {
       .onOk(result => {
         dispatch({
           type: "SET_ASSETS",
-          value: result,
+          value: result
         });
       })
       .onServerError(result => {
@@ -113,8 +115,8 @@ const AssetBrowser = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("ASSET_GET_ON_SERVER_ERROR"),
-          },
+            message: languageManager.translate("ASSET_GET_ON_SERVER_ERROR")
+          }
         });
       })
       .onBadRequest(result => {
@@ -122,8 +124,8 @@ const AssetBrowser = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("ASSET_GET_ON_BAD_REQUEST"),
-          },
+            message: languageManager.translate("ASSET_GET_ON_BAD_REQUEST")
+          }
         });
       })
       .unAuthorized(result => {
@@ -131,8 +133,8 @@ const AssetBrowser = props => {
           type: "ADD_NOTIFY",
           value: {
             type: "warning",
-            message: languageManager.translate("ASSET_GET_UN_AUTHORIZED"),
-          },
+            message: languageManager.translate("ASSET_GET_UN_AUTHORIZED")
+          }
         });
       })
       .notFound(result => {})
@@ -155,7 +157,7 @@ const AssetBrowser = props => {
         title: form.title,
         description: form.shortDesc,
         url: form.url,
-        fileType: form.fileType,
+        fileType: form.fileType
       };
       addAsset()
         .onOk(result => {
@@ -168,8 +170,8 @@ const AssetBrowser = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "success",
-              message: languageManager.translate("UPSERT_ASSET_ADD_ON_OK"),
-            },
+              message: languageManager.translate("UPSERT_ASSET_ADD_ON_OK")
+            }
           });
           if (closePage) {
             changeTab(1);
@@ -193,8 +195,8 @@ const AssetBrowser = props => {
               type: "error",
               message: languageManager.translate(
                 "UPSERT_ASSET_ADD_ON_SERVER_ERROR"
-              ),
-            },
+              )
+            }
           });
         })
         .onBadRequest(result => {
@@ -209,8 +211,8 @@ const AssetBrowser = props => {
               type: "error",
               message: languageManager.translate(
                 "UPSERT_ASSET_ADD_ON_BAD_REQUEST"
-              ),
-            },
+              )
+            }
           });
         })
         .unAuthorized(result => {
@@ -225,8 +227,8 @@ const AssetBrowser = props => {
               type: "warning",
               message: languageManager.translate(
                 "UPSERT_ASSET_ADD_UN_AUTHORIZED"
-              ),
-            },
+              )
+            }
           });
         })
         .notFound(result => {
@@ -239,8 +241,8 @@ const AssetBrowser = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate("UPSERT_ASSET_ADD_NOT_FOUND"),
-            },
+              message: languageManager.translate("UPSERT_ASSET_ADD_NOT_FOUND")
+            }
           });
         })
         .call(spaceInfo.id, obj);
@@ -251,14 +253,14 @@ const AssetBrowser = props => {
     if (!formValidation || formValidation[name] !== null) {
       setFormValidation(prevFormValidation => ({
         [name]: value,
-        ...prevFormValidation,
+        ...prevFormValidation
       }));
     }
   }
   function handleOnChangeValue(field, value, isValid) {
     // add value to form
     let f = {
-      ...form,
+      ...form
     };
     const { name: key } = field;
     if (value === undefined) {
@@ -270,16 +272,10 @@ const AssetBrowser = props => {
       }
     } else {
       if (key === "url" && field.isBase) {
-        f[key] = {
-          en: value["en"],
-          fa: value["fa"],
-        };
+        f["url"] = value["url"];
         f.fileType = value.fileType.split("/")[0];
         f.name = value["name"];
-        f["title"] = {
-          en: value["name"],
-          fa: value["name"],
-        };
+        f["title"] = makeLocalesValue({}, value["name"]);
       } else f[key] = value;
     }
     setForm(f);
@@ -287,7 +283,7 @@ const AssetBrowser = props => {
     // check validation
     setFormValidation(prevFormValidation => ({
       ...prevFormValidation,
-      [key]: isValid,
+      [key]: isValid
     }));
   }
   //#endregion second tab
@@ -299,7 +295,7 @@ const AssetBrowser = props => {
           <div
             className="tabItem"
             style={{
-              background: tab === 1 ? "white" : "whitesmoke",
+              background: tab === 1 ? "white" : "whitesmoke"
             }}
             onClick={() => changeTab(1)}
           >
@@ -308,7 +304,7 @@ const AssetBrowser = props => {
           <div
             className="tabItem"
             style={{
-              background: tab === 2 ? "white" : "whitesmoke",
+              background: tab === 2 ? "white" : "whitesmoke"
             }}
             onClick={() => changeTab(2)}
           >
@@ -331,7 +327,16 @@ const AssetBrowser = props => {
               >
                 <div className="top">
                   {file.fileType.toLowerCase().includes("image") ? (
-                    <img src={file.url[currentLang]} alt="" />
+                    <img
+                      src={
+                        file.url
+                          ? file.url[currentLocale]
+                            ? file.url[currentLocale]
+                            : file.url
+                          : null
+                      }
+                      alt=""
+                    />
                   ) : file.fileType.toLowerCase().includes("video") ? (
                     <i className="icon-video" />
                   ) : file.fileType.toLowerCase().includes("audio") ? (
@@ -345,7 +350,7 @@ const AssetBrowser = props => {
                   )}
                 </div>
                 <div className="bottom">
-                  <div>{file.title[currentLang]}</div>
+                  <div>{file.title[currentLocale]}</div>
                 </div>
               </div>
             ))}

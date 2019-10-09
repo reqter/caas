@@ -1,74 +1,67 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.scss";
-import { useGlobalState, languageManager } from "./../../services";
-import { getAssetById, addAsset, updateAsset } from "./../../Api/asset-api";
+import { useGlobalState, languageManager } from "services";
+import { getAssetById, addAsset, updateAsset } from "Api/asset-api";
 import {
   String,
-  Number,
-  DateTime,
-  Location,
-  Media,
-  Boolean,
-  KeyValue,
-  RichText,
   FileUploader,
   CircleSpinner,
-  AssetUploaderView,
-} from "./../../components";
-
+  AssetUploaderView
+} from "components";
+import { useLocale } from "hooks";
 const fields = [
   {
     id: "1",
     name: "title",
     title: {
       en: "Title",
-      fa: "عنوان",
+      fa: "عنوان"
     },
     description: {
       en: "this will be apear on assets",
-      fa: "نام فایل برای نمایش در لیست",
+      fa: "نام فایل برای نمایش در لیست"
     },
     type: "string",
     isBase: true,
     isTranslate: true,
-    isRequired: true,
+    isRequired: true
   },
   {
     id: "2",
     name: "description",
     title: {
       en: "Description",
-      fa: "توضیحات",
+      fa: "توضیحات"
     },
     description: {
       en: "Short description of your file",
-      fa: "توضیح کوتاه برای فایل",
+      fa: "توضیح کوتاه برای فایل"
     },
     type: "string",
     isBase: true,
-    isTranslate: true,
+    isTranslate: true
   },
   {
     id: "3",
     name: "url",
     title: {
       fa: "Your File",
-      en: "Your File",
+      en: "Your File"
     },
     description: {
       fa: "",
-      en: "Click on file selector to choose your file",
+      en: "Click on file selector to choose your file"
     },
     type: "fileUploader",
     mediaType: "file",
     isBase: true,
-    isTranslate: true,
-    isRequired: true,
-  },
+    isRequired: true
+  }
 ];
 
 const UpsertFile = props => {
   const [{ spaceInfo }, dispatch] = useGlobalState();
+  const { makeLocalesValue } = useLocale();
   // variables
   const [viewMode] = useState(props.match.url.includes("view") ? true : false);
   const [updateMode, toggleUpdateMode] = useState();
@@ -89,7 +82,7 @@ const UpsertFile = props => {
       } else {
         const obj = {
           type: "wrongUrl",
-          message: languageManager.translate("UPSERT_ASSET_WRONG_URL"),
+          message: languageManager.translate("UPSERT_ASSET_WRONG_URL")
         };
         // url is wrong
         changeTab(2);
@@ -114,7 +107,6 @@ const UpsertFile = props => {
     }
     return true;
   }
-
   // methods
   function getAssetItemById(id) {
     getAssetById()
@@ -128,7 +120,7 @@ const UpsertFile = props => {
           type: "ON_SERVER_ERROR",
           message: languageManager.translate(
             "UPSERT_ASSET_GET_BY_ID_ON_SERVER_ERROR"
-          ),
+          )
         };
         changeTab(2);
         setError(obj);
@@ -140,8 +132,8 @@ const UpsertFile = props => {
             type: "error",
             message: languageManager.translate(
               "UPSERT_ASSET_GET_BY_ID_ON_BAD_REQUEST"
-            ),
-          },
+            )
+          }
         });
       })
       .unAuthorized(result => {
@@ -151,16 +143,14 @@ const UpsertFile = props => {
             type: "warning",
             message: languageManager.translate(
               "UPSERT_ASSET_GET_BY_ID_UN_AUTHORIZED"
-            ),
-          },
+            )
+          }
         });
       })
       .notFound(result => {
         const obj = {
           type: "NOT_FOUND",
-          message: languageManager.translate(
-            "UPSERT_ASSET_GET_BY_ID_NOT_FOUND"
-          ),
+          message: languageManager.translate("UPSERT_ASSET_GET_BY_ID_NOT_FOUND")
         };
         changeTab(2);
         setError(obj);
@@ -171,7 +161,7 @@ const UpsertFile = props => {
     if (!formValidation || formValidation[name] !== null) {
       setFormValidation(prevFormValidation => ({
         [name]: value,
-        ...prevFormValidation,
+        ...prevFormValidation
       }));
     }
   }
@@ -181,7 +171,7 @@ const UpsertFile = props => {
 
     // add value to form
     let f = {
-      ...form,
+      ...form
     };
     if (value === undefined) {
       delete f[key];
@@ -192,10 +182,7 @@ const UpsertFile = props => {
       }
     } else {
       if (key === "url" && field.isBase) {
-        f[key] = {
-          en: value["en"],
-          fa: value["fa"],
-        };
+        f["url"] = value["url"];
         if (
           value.fileType.includes("image") ||
           value.fileType.includes("video") ||
@@ -204,17 +191,17 @@ const UpsertFile = props => {
           f.fileType = value.fileType.split("/")[0];
         } else f.fileType = value.fileType;
         f.name = value["name"];
-        f["title"] = {
-          en: value["name"],
-          fa: value["name"],
-        };
+        f["title"] = makeLocalesValue(
+          updateMode ? f["title"] : {},
+          value["name"]
+        );
       } else f[key] = value;
     }
     setForm(f);
 
     setFormValidation(prevFormValidation => ({
       ...prevFormValidation,
-      [key]: isValid,
+      [key]: isValid
     }));
   }
 
@@ -225,36 +212,6 @@ const UpsertFile = props => {
           <String
             viewMode={viewMode}
             updateMode={updateMode}
-            field={field}
-            formData={formData}
-            init={setNameToFormValidation}
-            onChangeValue={handleOnChangeValue}
-          />
-        );
-      case "number":
-        return (
-          <Number
-            viewMode={viewMode}
-            field={field}
-            formData={formData}
-            init={setNameToFormValidation}
-            onChangeValue={handleOnChangeValue}
-          />
-        );
-      case "datetime":
-        return (
-          <DateTime
-            viewMode={viewMode}
-            field={field}
-            formData={formData}
-            init={setNameToFormValidation}
-            onChangeValue={handleOnChangeValue}
-          />
-        );
-      case "location":
-        return (
-          <Location
-            viewMode={viewMode}
             field={field}
             formData={formData}
             init={setNameToFormValidation}
@@ -282,26 +239,6 @@ const UpsertFile = props => {
               onChangeValue={handleOnChangeValue}
             />
           );
-      case "keyvalue":
-        return (
-          <KeyValue
-            viewMode={viewMode}
-            field={field}
-            formData={formData}
-            init={setNameToFormValidation}
-            onChangeValue={handleOnChangeValue}
-          />
-        );
-      case "richtext":
-        return (
-          <RichText
-            viewMode={viewMode}
-            field={field}
-            formData={formData}
-            init={setNameToFormValidation}
-            onChangeValue={handleOnChangeValue}
-          />
-        );
       default:
         break;
     }
@@ -329,8 +266,8 @@ const UpsertFile = props => {
               type: "ADD_NOTIFY",
               value: {
                 type: "success",
-                message: languageManager.translate("UPSERT_ASSET_UPDATE_ON_OK"),
-              },
+                message: languageManager.translate("UPSERT_ASSET_UPDATE_ON_OK")
+              }
             });
             if (closePage) {
               backToAssets();
@@ -351,8 +288,8 @@ const UpsertFile = props => {
                 type: "error",
                 message: languageManager.translate(
                   "UPSERT_ASSET_UPDATE_ON_SERVER_ERROR"
-                ),
-              },
+                )
+              }
             });
           })
           .onBadRequest(result => {
@@ -367,8 +304,8 @@ const UpsertFile = props => {
                 type: "error",
                 message: languageManager.translate(
                   "UPSERT_ASSET_UPDATE_ON_BAD_REQUEST"
-                ),
-              },
+                )
+              }
             });
           })
           .unAuthorized(result => {
@@ -383,8 +320,8 @@ const UpsertFile = props => {
                 type: "warning",
                 message: languageManager.translate(
                   "UPSERT_ASSET_UPDATE_UN_AUTHORIZED"
-                ),
-              },
+                )
+              }
             });
           })
           .notFound(result => {
@@ -399,8 +336,8 @@ const UpsertFile = props => {
                 type: "error",
                 message: languageManager.translate(
                   "UPSERT_ASSET_UPDATE_NOT_FOUND"
-                ),
-              },
+                )
+              }
             });
           })
           .call(spaceInfo.id, form);
@@ -410,7 +347,7 @@ const UpsertFile = props => {
           title: form.title,
           description: form.shortDesc,
           url: form.url,
-          fileType: form.fileType,
+          fileType: form.fileType
         };
         addAsset()
           .onOk(result => {
@@ -423,8 +360,8 @@ const UpsertFile = props => {
               type: "ADD_NOTIFY",
               value: {
                 type: "success",
-                message: languageManager.translate("UPSERT_ASSET_ADD_ON_OK"),
-              },
+                message: languageManager.translate("UPSERT_ASSET_ADD_ON_OK")
+              }
             });
             if (closePage) {
               backToAssets();
@@ -447,8 +384,8 @@ const UpsertFile = props => {
                 type: "error",
                 message: languageManager.translate(
                   "UPSERT_ASSET_ADD_ON_SERVER_ERROR"
-                ),
-              },
+                )
+              }
             });
           })
           .onBadRequest(result => {
@@ -463,8 +400,8 @@ const UpsertFile = props => {
                 type: "error",
                 message: languageManager.translate(
                   "UPSERT_ASSET_ADD_ON_BAD_REQUEST"
-                ),
-              },
+                )
+              }
             });
           })
           .unAuthorized(result => {
@@ -479,8 +416,8 @@ const UpsertFile = props => {
                 type: "warning",
                 message: languageManager.translate(
                   "UPSERT_ASSET_ADD_UN_AUTHORIZED"
-                ),
-              },
+                )
+              }
             });
           })
           .notFound(result => {
@@ -493,10 +430,8 @@ const UpsertFile = props => {
               type: "ADD_NOTIFY",
               value: {
                 type: "error",
-                message: languageManager.translate(
-                  "UPSERT_ASSET_ADD_NOT_FOUND"
-                ),
-              },
+                message: languageManager.translate("UPSERT_ASSET_ADD_NOT_FOUND")
+              }
             });
           })
           .call(spaceInfo.id, obj);

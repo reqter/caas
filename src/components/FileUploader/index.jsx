@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import "cropperjs/dist/cropper.css";
 import "./styles.scss";
-import { languageManager, useGlobalState, utility } from "../../services";
+import { useGlobalState, utility } from "services";
 import AssetFile from "./../AssetFile";
 import ImageEditorModal from "./ImageEditorModal";
-import { uploadAssetFile } from "./../../Api/asset-api";
+import { uploadAssetFile } from "Api/asset-api";
+import { useLocale } from "hooks";
 
 const FileUploaderInput = props => {
-  const currentLang = languageManager.getCurrentLanguage().name;
+  const { currentLocale, makeLocalesValue } = useLocale();
   const [{}, dispatch] = useGlobalState();
 
   const [editorModal, toggleEditorModal] = useState(false);
-  const { field, formData } = props;
+  const { field, formData, updateMode } = props;
   const [image, setEditImage] = useState();
   const [isUploading, toggleIsUploading] = useState(false);
   const [progressPercentage, setPercentage] = useState("0");
@@ -22,9 +23,9 @@ const FileUploaderInput = props => {
       let fs = [];
       fs.push({
         id: Math.random(),
-        url: formData[field.name][currentLang],
+        url: formData[field.name],
         fileType: formData["fileType"],
-        name: formData["name"],
+        name: formData["name"]
       });
       return fs;
     }
@@ -38,9 +39,9 @@ const FileUploaderInput = props => {
       let fs = [];
       fs.push({
         id: Math.random(),
-        url: formData[field.name][currentLang],
+        url: formData[field.name],
         fileType: formData["fileType"],
-        name: formData["name"],
+        name: formData["name"]
       });
       setFiles(fs);
     } else {
@@ -93,9 +94,7 @@ const FileUploaderInput = props => {
         else props.onChangeValue(field, fs, true);
       } else {
         if (fs.length === 0) {
-          if (field.isTranslate) {
-            props.onChangeValue(field, undefined, false);
-          } else props.onChangeValue(field, undefined, false);
+          props.onChangeValue(field, undefined, false);
         }
       }
     } else {
@@ -107,7 +106,7 @@ const FileUploaderInput = props => {
       id: Math.random().toString(),
       url: process.env.REACT_APP_DOWNLOAD_FILE_BASE_URL + file.url,
       name: file.originalname,
-      fileType: file.mimetype,
+      fileType: file.mimetype
     };
     if (field.isList !== undefined && field.isList) {
       let fs = [...files];
@@ -118,12 +117,7 @@ const FileUploaderInput = props => {
       let fs = [];
       fs.push(obj);
       setFiles(fs);
-      let f, l;
-      if (field.isTranslate) {
-        l = utility.applyeLangs(fs[0].url);
-        f = { ...fs[0], ...l };
-      }
-      props.onChangeValue(field, f, true);
+      props.onChangeValue(field, fs[0], true);
     }
   }
   function onCloseEditor(result) {
@@ -135,8 +129,8 @@ const FileUploaderInput = props => {
   return (
     <>
       <div className="up-uploader">
-        <span className="title">{field.title[currentLang]}</span>
-        <span className="description">{field.description[currentLang]}</span>
+        <span className="title">{field.title[currentLocale]}</span>
+        <span className="description">{field.description[currentLocale]}</span>
         <div className="files">
           {files.map(file => (
             <div key={file.id} className="files-uploaded">
