@@ -62,33 +62,18 @@ const LocationInput = props => {
     setLongitude(e.target.value);
     setValueToParentForm(latitude, e.target.value);
   }
-  useEffect(() => {
-    // Declare Options For Autocomplete
-    // var options = { types: [] };
-
-    // // Initialize Google Autocomplete
-    // /*global google*/
-    // autocomplete = new google.maps.places.Autocomplete(
-    //   document.getElementById("autocomplete"),
-    //   { types: ["geocode"] }
-    // );
-    // // Fire Event when a suggested name is selected
-    // autocomplete.addListener("place_changed", handlePlaceSelect);
-  }, []);
 
   function handlePlaceSelect() {
-    let addressObject = autocomplete.getPlace();
-    let address = addressObject.address_components;
-
+    // let addressObject = autocomplete.getPlace();
+    // let address = addressObject.address_components;
     // Check if address is valid
-    if (address) {
-      console.log(address);
-      // Set State
-      // this.setState({
-      //   city: address[0].long_name,
-      //   query: addressObject.formatted_address,
-      // });
-    }
+    // if (address) {
+    //   console.log(address);
+    // Set State
+    // this.setState({
+    //   city: address[0].long_name,
+    //   query: addressObject.formatted_address,
+    // });
   }
   return field.appearance === undefined || field.appearance === "default" ? (
     <div className="form-group">
