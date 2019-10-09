@@ -5,6 +5,7 @@ import AddNewField from "./modals/AddNewField";
 import FieldConfig from "./modals/FieldConfig";
 import AddNewItemType from "./modals/AddNewItemType";
 import { languageManager, useGlobalState } from "services";
+import { useLocale } from "hooks";
 import {
   getContentTypes,
   deleteContentType,
@@ -18,6 +19,7 @@ const currentLang = languageManager.getCurrentLanguage().name;
 
 const ItemTypes = props => {
   const [{ contentTypes, spaceInfo }, dispatch] = useGlobalState();
+  const { currentLocale } = useLocale();
   const [spinner, setSpinner] = useState(true);
   useEffect(() => {
     let didCancel = false;
@@ -479,7 +481,7 @@ const ItemTypes = props => {
                           />
                         </div>
                         <div className="fieldItem-name">
-                          {field.title[currentLang]}
+                          {field.title[currentLocale]}
                         </div>
                         <div className="fieldItem-title">{field.name}</div>
 
