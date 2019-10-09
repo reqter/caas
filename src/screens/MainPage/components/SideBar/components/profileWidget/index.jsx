@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router";
 import "./styles.scss";
-import {
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from "reactstrap";
-import {
-  languageManager,
-  useGlobalState,
-  storageManager,
-} from "../../../../../../services";
+import Dropdown from "reactstrap/lib/Dropdown";
+import DropdownToggle from "reactstrap/lib/DropdownToggle";
+import DropdownMenu from "reactstrap/lib/DropdownMenu";
+import DropdownItem from "reactstrap/lib/DropdownItem";
+import { languageManager, useGlobalState } from "services";
+//
 const ProfileWidget = props => {
   const { match, location, history } = props;
   const [{ userInfo, isAuthenticated }, dispatch] = useGlobalState();
@@ -23,12 +18,12 @@ const ProfileWidget = props => {
   function logout() {
     dispatch({
       type: "LOGOUT",
-      value: false,
+      value: false
     });
     history.replace("/login");
     postMessage(false);
   }
-  
+
   function showProfile() {
     history.push("/panel/profile");
   }

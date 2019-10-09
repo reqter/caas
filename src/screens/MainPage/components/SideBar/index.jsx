@@ -2,13 +2,16 @@ import React from "react";
 import "./styles.scss";
 import ProfileWidget from "./components/profileWidget";
 import SideLinks from "./components/SideLinks";
-import { languageManager } from "../../../../services";
+import { useLocale } from "hooks";
+//
 const SideBar = props => {
+  const { currentLocale } = useLocale();
   return (
     <div className="sideBar">
       <div className="top">
         <i className="icon-logo icon" />
         <span className="title">CAASER</span>
+        <span className="locale">{currentLocale}</span>
       </div>
       <ProfileWidget />
       <SideLinks links={props.links} />
