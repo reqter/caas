@@ -49,7 +49,7 @@ export default {
     }
   },
   getRequestMediaComponentByURL(url, customClass) {
-    if (url) {
+    if (url && typeof url === "string") {
       const ext = url
         .split("/")
         .pop()
@@ -91,7 +91,7 @@ export default {
     }
   },
   getRequestMediaThumbComponentByURL(url, customClass) {
-    if (url) {
+    if (url && typeof url === "string") {
       const ext = url
         .split("/")
         .pop()
@@ -129,8 +129,12 @@ export default {
     }
   },
   getMediaComponentByUrl(file, customClass) {
-    const url = file.url[currentLang];
-    if (url) {
+    const url = file.url
+      ? file.url[currentLang]
+        ? file.url[currentLang]
+        : file.url
+      : null;
+    if (url && typeof url === "string") {
       const ext = url
         .split("/")
         .pop()
@@ -173,7 +177,7 @@ export default {
     }
   },
   getMediaThumbnailByUrl(url, customClass) {
-    if (url) {
+    if (url && typeof url === "string") {
       const ext = url
         .split("/")
         .pop()
