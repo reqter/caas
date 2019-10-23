@@ -39,6 +39,7 @@ const useLocale = () => {
     }
   }
   function makeLocalesValue(prev = {}, value) {
+    if (prev == null) prev = {};
     const { locales } = spaceInfo;
     if (!locales || locales.length === 0) {
       prev[dataDefaultLang] = value;
