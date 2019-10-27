@@ -421,6 +421,7 @@ const Contents = props => {
         sys: {
           type: "text"
         },
+        name: searchText,
         title: searchText
       });
     setFilters(f);
