@@ -268,7 +268,7 @@ const Contents = props => {
   const [dataStatus, toggleDataStatus] = useState(false);
 
   useEffect(() => {
-    if (!contentPage.filters || contentPage.filters.length === 0) filterData();
+    if (!contentPage.filters || contentPage.filters.length === 0) toggleFilterBox();
     else {
       let text, contentTypeID, status;
       const c = contentPage.filters.find(
