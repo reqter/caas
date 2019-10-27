@@ -890,7 +890,7 @@ const Contents = props => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Search name of content"
+                placeholder="Enter content name then click Search button"
                 value={searchText}
                 onChange={e => setSearchText(e.target.value)}
               />
