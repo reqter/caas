@@ -120,7 +120,7 @@ const Settings = props => {
                 className="btn btn-primary"
                 onClick={toggleUpsertUserModal}
               >
-                New Roles
+                New User
               </button>
             )}
             {tabContent === "roles" && (
@@ -128,7 +128,7 @@ const Settings = props => {
                 className="btn btn-primary"
                 onClick={toggleUpsertRoleModal}
               >
-                New User
+                New Role
               </button>
             )}
             {tabContent === "apiKeys" && (
