@@ -138,7 +138,7 @@ const UpdateRole = props => {
         <div className="settings-modal-body">
           <form id="upserRoleForm">
             <div className="form-group">
-              <label>{languageManager.translate("Title")}</label>
+              <label>{languageManager.translate("Name")}</label>
               <input
                 ref={inputRef}
                 type="text"
