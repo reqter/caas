@@ -161,7 +161,7 @@ const SingleValue = props => {
     <components.SingleValue {...props}>
       <div className="options-single-selected">
         <div className="custome-select-selected">
-          {data.contentType["media"] && data.contentType["media"].length > 0 && (
+          {data.contentType && data.contentType["media"] && data.contentType["media"].length > 0 && (
             <div className="selectedItemImage">
               <img src={data.contentType["media"][0][currentLocale]} alt="" />
             </div>
