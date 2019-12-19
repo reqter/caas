@@ -39,7 +39,11 @@ const List = props => {
                 <div className="treeItem-img">
                   <div className="treeItem-ext">
                     {utility.getAssetIconByURL(
-                      listItem.media[0][currentLocale]
+                      listItem.media && listItem.media.length>0
+                      ? listItem.media[0][currentLocale]
+                        ? listItem.media[0][currentLocale].replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
+                        : listItem.media[0].toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
+                      : null
                     )}
                   </div>
                 </div>

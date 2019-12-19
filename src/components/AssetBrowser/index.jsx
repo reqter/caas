@@ -331,8 +331,8 @@ const AssetBrowser = props => {
                       src={
                         file.url
                           ? file.url[currentLocale]
-                            ? file.url[currentLocale]
-                            : file.url
+                            ? file.url[currentLocale].replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
+                            : file.url.toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
                           : null
                       }
                       alt=""

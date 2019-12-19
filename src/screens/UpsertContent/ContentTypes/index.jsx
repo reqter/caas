@@ -85,7 +85,11 @@ const ContentTypes = props => {
             </div>
           ) : (
             <div className="treeItem-img">
-              <img src={c.media[0][currentLocale]} alt="" />
+              <img src={c.media && c.media.length>0
+                      ? c.media[0][currentLocale]
+                        ? c.media[0][currentLocale].replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
+                        : c.media[0].toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
+                      : null} alt="" />
             </div>
           )}
           <div className="treeItem-text">

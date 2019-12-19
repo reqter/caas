@@ -2,7 +2,7 @@ import React from "react";
 import { useLocale } from "hooks";
 const AssetFile = props => {
   const { currentLocale } = useLocale();
-  
+
   const imgs = ["jpg", "jpeg", "gif", "bmp", "png"];
   const videos = ["mp4", "3gp", "ogg", "wmv", "flv", "avi"];
   const audios = ["wav", "mp3", "ogg"];
@@ -23,8 +23,16 @@ const AssetFile = props => {
           src={
             file.url
               ? file.url[currentLocale]
-                ? file.url[currentLocale]
+                ? file.url[currentLocale].replace(
+                    "https://app-spanel.herokuapp.com",
+                    "https://assets.reqter.com"
+                  )
                 : file.url
+                    .toString()
+                    .replace(
+                      "https://app-spanel.herokuapp.com",
+                      "https://assets.reqter.com"
+                    )
               : null
           }
           alt=""
