@@ -55,7 +55,25 @@ const fieldsApearance = {
       name: "rangeSlider",
       title: { en: "Range Slider", fa: "" },
       apearance: ""
+    },
+    {
+      name: "currency",
+      title: { en: "Currency", fa: "" },
+      apearance: ""
+    },
+    {
+      name: "year",
+      title: { en: "Year", fa: "" },
+      apearance: ""
     }
+  ],
+  reference: [
+    { name: "default", title: { en: "Default View" }, apearance: "", selected: true },
+    { name: "cards", title: { en: "Card View" }, apearance: "" }
+  ],
+  keyValue: [
+    { name: "default", title: { en: "Default View" }, apearance: "", selected: true },
+    { name: "buttons", title: { en: "Buttons" }, apearance: "" }
   ]
 };
 const currentLang = languageManager.getCurrentLanguage().name;
@@ -244,6 +262,9 @@ const FieldConfig = props => {
   const [refVisibleFields, setRefVisibleFields] = useState();
   const [helpText, setHelpText] = useState(
     selectedField.helpText ? selectedField.helpText[currentLocale] : ""
+  );
+  const [order, setOrder] = useState(
+    selectedField.order ? selectedField.order : 0
   );
   const [inVisible, toggleInVisible] = useState(
     selectedField.inVisible ? selectedField.inVisible : false
@@ -517,6 +538,10 @@ const FieldConfig = props => {
   function handleHelpTextchanged(e) {
     setHelpText(e.target.value);
   }
+
+  function handleOrderchanged(e) {
+    setOrder(e.target.value);
+  }
   function handleToggleInVisible(e) {
     toggleInVisible(e.target.checked);
   }
@@ -622,6 +647,8 @@ const FieldConfig = props => {
       else delete obj["access"];
       if (helpText.length > 0)
         obj["helpText"] = makeLocalesValue(obj["helpText"], helpText);
+
+      obj["order"] = order;
       if (selectedField.type !== "media" && selectedField.type !== "richText") {
         obj["inVisible"] = inVisible;
       }
@@ -1691,6 +1718,23 @@ const FieldConfig = props => {
                   <small className="form-text text-muted">
                     {languageManager.translate(
                       "This help text will show up below the field"
+                    )}
+                  </small>
+                </div>
+                <div className="form-group">
+                  <label>{languageManager.translate("Order")}</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={order}
+                    placeholder={languageManager.translate(
+                      "Enter field's order here"
+                    )}
+                    onChange={handleOrderchanged}
+                  />
+                  <small className="form-text text-muted">
+                    {languageManager.translate(
+                      "This value is useful for dynamic ui generation"
                     )}
                   </small>
                 </div>

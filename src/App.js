@@ -25,7 +25,9 @@ const ViewAsset = withResolver(UpdateFile);
 const AddContent = withResolver(UpsertContent);
 const EditContent = withResolver(UpsertContent);
 const ViewContent = withResolver(UpsertContent);
-
+console.log("============")
+console.log("NODE ENVIRONMENT: ", process.env.NODE_ENV);
+console.log("============")
 //
 const App = () => {
   return (

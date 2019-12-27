@@ -52,13 +52,13 @@ const MediaInput = props => {
       };
       if (field.isTranslate) {
         obj["url"] = makeLocalesValue(
-          updateMode && formData ? formData[field.name] : {},
+          updateMode && formData ? formData[field.name].length > 0 ? formData[field.name][0] : {} : {},
           asset.url && asset.url[currentLocale]
-            ? asset.url[currentLocale].replace(
+            ? asset.url[currentLocale].toString().replace(
               "https://app-spanel.herokuapp.com",
               "https://assets.reqter.com"
             )
-            : asset.url.replace(
+            : asset.url.toString().replace(
               "https://app-spanel.herokuapp.com",
               "https://assets.reqter.com"
             )
@@ -66,11 +66,11 @@ const MediaInput = props => {
       } else
         obj["url"] =
           asset.url && asset.url[currentLocale]
-            ? asset.url[currentLocale].replace(
+            ? asset.url[currentLocale].toString().replace(
               "https://app-spanel.herokuapp.com",
               "https://assets.reqter.com"
             )
-            : asset.url.replace(
+            : asset.url.toString().replace(
               "https://app-spanel.herokuapp.com",
               "https://assets.reqter.com"
             );
@@ -125,11 +125,11 @@ const MediaInput = props => {
                       src={
                         file.url
                           ? file.url[currentLocale]
-                            ? file.url[currentLocale].replace(
+                            ? file.url[currentLocale].toString().replace(
                               "https://app-spanel.herokuapp.com",
                               "https://assets.reqter.com"
                             )
-                            : file.url.replace(
+                            : file.url.toString().replace(
                               "https://app-spanel.herokuapp.com",
                               "https://assets.reqter.com"
                             )
@@ -149,11 +149,11 @@ const MediaInput = props => {
                     utility.getAssetIconByURL(
                       file.url
                         ? file.url[currentLocale]
-                          ? file.url[currentLocale].replace(
+                          ? file.url[currentLocale].toString().replace(
                             "https://app-spanel.herokuapp.com",
                             "https://assets.reqter.com"
                           )
-                          : file.url.replace(
+                          : file.url.toString().replace(
                             "https://app-spanel.herokuapp.com",
                             "https://assets.reqter.com"
                           )

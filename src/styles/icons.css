@@ -253,3 +253,6 @@
 .icon-file-pdf:before {
   content: "\eadf";
 }
+.icon-arrow-up:before {
+  content: "\f062";
+}
