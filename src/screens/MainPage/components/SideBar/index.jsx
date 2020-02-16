@@ -16,7 +16,7 @@ const SideBar = props => {
       <ProfileWidget />
       <SideLinks links={props.links} />
       <div className="sideBar-info">
-        &#169;Copyright caaser.com
+        &#169;Copyright reqter.com
         {/* <div className="sideBar-info-left">
           <a href="#about">{languageManager.translate("HOME_SIDEAR_ABOUT")}</a>
           <a href="#about">{languageManager.translate("HOME_SIDEBAR_BLOG")}</a>

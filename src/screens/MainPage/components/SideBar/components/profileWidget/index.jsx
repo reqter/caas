@@ -6,11 +6,12 @@ import DropdownToggle from "reactstrap/lib/DropdownToggle";
 import DropdownMenu from "reactstrap/lib/DropdownMenu";
 import DropdownItem from "reactstrap/lib/DropdownItem";
 import { languageManager, useGlobalState } from "services";
+import { useLocale } from "hooks";
 //
 const ProfileWidget = props => {
   const { match, location, history } = props;
   const [{ userInfo, isAuthenticated }, dispatch] = useGlobalState();
-
+  const { currentLocale, setEditingLocale } = useLocale();
   const [dropDownVisibility, toggleVisibility] = useState(false);
   function toggle() {
     toggleVisibility(prevState => !prevState);
@@ -32,9 +33,13 @@ const ProfileWidget = props => {
   }
   return (
     <div className="profile-widget">
-      {userInfo && userInfo.profile && userInfo.profile.avatar ? (
+      {userInfo && userInfo.profile && userInfo.profile.avatar ? userInfo.profile.avatar[currentLocale] ? (
         <div className="userImage">
-          <img src={userInfo.profile.avatar} alt="" />
+          <img src={userInfo.profile.avatar[currentLocale].replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com") } alt="" />
+        </div>
+      ) : (
+        <div className="userImage">
+          <img src={userInfo.profile.avatar.toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com") } alt="" />
         </div>
       ) : (
         <div className="left">

@@ -266,6 +266,9 @@ const FieldConfig = props => {
   const [order, setOrder] = useState(
     selectedField.order ? selectedField.order : 0
   );
+  const [section, setSection] = useState(
+    selectedField.section ? selectedField.section : ""
+  );
   const [inVisible, toggleInVisible] = useState(
     selectedField.inVisible ? selectedField.inVisible : false
   );
@@ -542,6 +545,11 @@ const FieldConfig = props => {
   function handleOrderchanged(e) {
     setOrder(e.target.value);
   }
+
+  function handleSectionchanged(e) {
+    setSection(e.target.value);
+  }
+
   function handleToggleInVisible(e) {
     toggleInVisible(e.target.checked);
   }
@@ -647,7 +655,8 @@ const FieldConfig = props => {
       else delete obj["access"];
       if (helpText.length > 0)
         obj["helpText"] = makeLocalesValue(obj["helpText"], helpText);
-
+      if (section.length > 0)
+        obj["section"] = section;
       obj["order"] = order;
       if (selectedField.type !== "media" && selectedField.type !== "richText") {
         obj["inVisible"] = inVisible;
@@ -1721,7 +1730,8 @@ const FieldConfig = props => {
                     )}
                   </small>
                 </div>
-                <div className="form-group">
+                <div className="row">
+                <div className="form-group col">
                   <label>{languageManager.translate("Order")}</label>
                   <input
                     type="number"
@@ -1737,6 +1747,24 @@ const FieldConfig = props => {
                       "This value is useful for dynamic ui generation"
                     )}
                   </small>
+                </div>
+                <div className="form-group col">
+                  <label>{languageManager.translate("Section")}</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={section}
+                    placeholder={languageManager.translate(
+                      "Enter field's section here"
+                    )}
+                    onChange={handleSectionchanged}
+                  />
+                  <small className="form-text text-muted">
+                    {languageManager.translate(
+                      "This value is useful for dynamic ui generation"
+                    )}
+                  </small>
+                </div>
                 </div>
                 {selectedField.type === "dateTime" && (
                   <div className="inputSwitch">

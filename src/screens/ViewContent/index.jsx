@@ -258,7 +258,7 @@ const ViewRequest = props => {
             />
           </div>
           <div className="header--content-name">
-            <span>REQTER</span>
+            <span>Caaser</span>
           </div>
         </div>
         <div className="header--center" />

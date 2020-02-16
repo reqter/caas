@@ -21,7 +21,7 @@ export default {
   SIGNUP_CONFIRM_PASSWORD_INPUT_PLACEHOLDER: 'تایید رمز عبور',
   SIGNUP_CONFIRM_PASSWORD_INPUT_DESCRIPTION: 'رمز عبور حداقل 6 کاراکتر میباشد',
   // home
-  BRAND_NAME: 'REQTER',
+  BRAND_NAME: 'CAASER',
   HOME_NAVS_TITLE: 'ابزارها و امکانات',
   HOME_SIDE_NAV_MANAGET_USERS: 'مدیریت کاربران',
   HOME_SIDE_NAV_MANAGE_USERS_DESC: 'کاربران اپلیکیشن های خود را مدیریت کنید',

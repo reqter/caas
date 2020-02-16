@@ -43,8 +43,12 @@ const Profile = props => {
     userInfo ? userInfo.profile.last_name : undefined
   );
   const [avatar, setAvatar] = useState(
-    userInfo
-      ? userInfo.profile.avatar
+ userInfo
+      ? userInfo.profile ? userInfo.profile.avatar ? userInfo.profile.avatar[currentLocale] ? 
+      userInfo.profile.avatar[currentLocale].toString().replace("https://app-spanel.herokuapp.com","https://assets.reqter.com") 
+      : userInfo.profile.avatar.toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
+      : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png" 
+      : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png" 
       : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png"
   );
 
@@ -64,7 +68,9 @@ const Profile = props => {
       setLastName(last_name ? last_name : "");
       setAvatar(
         avatar
-          ? avatar
+          ? avatar[currentLocale] ? 
+          avatar[currentLocale].toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com") 
+          : avatar.toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com") 
           : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png"
       );
     }
@@ -605,7 +611,7 @@ const Profile = props => {
                     <div className="left-text">
                       <span className="left-text-title">Password</span>
                       <span className="left-text-description">
-                        Secure your REQTER account with a strong and unique
+                        Secure your Caaser account with a strong and unique
                         password.
                       </span>
                     </div>

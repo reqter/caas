@@ -1,5 +1,5 @@
 export default {
-  REQTER: "REQTER",
+  REQTER: "Caaser",
   // COMMON
   BACK: "Back",
   draft: "Draft",
@@ -39,13 +39,13 @@ export default {
   REMOVE: "Remove",
   DONT_REMOVE: "Don't Remove",
   // login
-  LOGIN_TITLE: "SignIn Reqter",
+  LOGIN_TITLE: "Sign In Caaser",
   LOGIN_EMAIL_INPUT_TITLE: "Email Address",
   LOGIN_EMAIL_INPUT_PLACEHOLDER: "Enter email",
   LOGIN_EMAIL_INPUT_DESCRIPTION: "you can also enter your username",
   LOGIN_PASSWORD_INPUT: "Password",
   LOGIN_PASSWORD_INPUT_PLACEHOLDER: "Enter pssword",
-  LOGIN_PASSWORD_INPUT_DESCRIPTION: "Password must be at least 6 character",
+  LOGIN_PASSWORD_INPUT_DESCRIPTION: "Password must be at least 6 characters",
   LOGIN_SUBMIT_BTN: "Login",
   LOGIN_FORGET_PASS: "Forgot Your Password ?",
   LOGIN_SIGNUP_LINK_TITLE: "New to REQTER ?",
@@ -58,17 +58,17 @@ export default {
   LOGIN_NOT_FOUND: "User not found",
   LOGIN_FORGOT_PASS: "Forgot your password ?",
   // SIGNUP
-  SIGNUP_TITLE: "Sign Up Reqter",
+  SIGNUP_TITLE: "Sign Up Caaser",
   SIGNUP_LOGIN_LINK_TITLE: "Have an account?",
   SIGNUP_LOGIN_LINK: "Login",
   SIGNUP_SUBMIT_BTN: "Sign Up",
   SIGNUP_CONFIRM_PASSWORD_INPUT: "Confirm Password",
   SIGNUP_CONFIRM_PASSWORD_INPUT_PLACEHOLDER: "Confirm your password",
   SIGNUP_CONFIRM_PASSWORD_INPUT_DESCRIPTION:
-    "Password must be at least 6 character",
+    "Password must be at least 6 characters",
   SIGNUP_SUCCESS_TITLE: "Signup Success",
   SIGNUP_SUCCESS_MESSAGE:
-    "Welcome to REQTER.Your account created successfully.back to login page and start editing your project ",
+    "Welcome to Caaser.Your account created successfully.back to login page and start editing your project ",
   SIGNUP_SUCCESS_BTN: "Login",
   SIGNUP_CREATING_TITLE: "Creating your space",
   SIGNUP_CREATING_MESSAGE: "We are creating your space,please wait",
@@ -92,7 +92,7 @@ export default {
   PROFILE_CHANGE_PASS_NOT_FOUND: "Not found",
 
   // home
-  BRAND_NAME: "REQTER",
+  BRAND_NAME: "Caaser",
   HOME_NAVS_TITLE: "Features",
   HOME_SIDE_NAV_PROFILE: "Profile",
   HOME_SIDE_NAV_PROFILE_DESC: "Manage your personal info",
