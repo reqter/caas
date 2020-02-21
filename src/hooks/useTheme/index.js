@@ -1,8 +1,10 @@
-import { useLayoutEffect } from 'react'
+import {
+  useLayoutEffect
+} from 'react'
 import theme1 from './theme1'
 import theme2 from './theme2'
 
-export default function useTheme (theme) {
+export default function useTheme(theme) {
   useLayoutEffect(
     () => {
       const t = theme === 'theme1' ? theme1 : theme2
