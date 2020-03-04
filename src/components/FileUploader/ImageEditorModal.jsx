@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import ReactDOM from "react-dom";
 import ImageEditorRc from "./../ImageEditorRc";
 import "./styles.scss";
 import { languageManager, useGlobalState } from "../../services";
@@ -148,8 +149,9 @@ const ImageEditorModal = props => {
       props.onClose();
     }
   }
-  return (
-    <div className="imageCropper animated fadeIn">
+  return ReactDOM.createPortal(
+    <>
+      <div className="imageCropper animated fadeIn">
       <div className="imageCropper-header">
         <div className="imageCropper-header-left">
           <button className="btn btn-light" onClick={backToUpsertAsset}>
@@ -276,6 +278,8 @@ const ImageEditorModal = props => {
         </div>
       </div>
     </div>
+    </>,
+    document.body
   );
 };
 export default ImageEditorModal;

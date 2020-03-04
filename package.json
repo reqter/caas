@@ -10,7 +10,7 @@
     "draftjs-to-html": "^0.8.4",
     "html-to-draftjs": "^1.4.0",
     "moment-timezone": "^0.5.25",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "react": "^16.8.1",
     "react-cropper-image-editor": "^1.0.9",
     "react-datetime": "^2.16.3",

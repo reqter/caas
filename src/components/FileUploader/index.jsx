@@ -32,7 +32,7 @@ const FileUploaderInput = props => {
     return [];
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (formData[field.name]) {
       if (field.isRequired === true) props.init(field.name, true);
 
@@ -122,9 +122,7 @@ const FileUploaderInput = props => {
   }
   function onCloseEditor(result) {
     toggleEditorModal(false);
-    if (result) {
-      addToList(result);
-    }
+    if (result) addToList(result);
   }
   return (
     <>
