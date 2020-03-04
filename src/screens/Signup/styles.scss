@@ -1,0 +1,96 @@
+.wrapper {
+  height: 100vh;
+  background-color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.center {
+  //width: 460px;
+  background-color: white;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  font-size: 90%;
+  &.signUp-center {
+    height: 75vh !important;
+  }
+}
+.header {
+  border-bottom: 0.5px solid lightgray;
+  display: flex;
+  height: 100px;
+  align-items: center;
+  padding: 0 20px;
+  justify-content: space-between;
+}
+.header-title {
+  font-size: 2em;
+  font-weight: 400;
+}
+.header-icon {
+  font-size: 35px;
+  color: #1890ff;
+}
+.formBody {
+  max-width: 550px;
+  padding: 1.5em 2em;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .message {
+    margin-bottom: 20px;
+  }
+}
+.btn-submit {
+  margin-top: 10%;
+}
+.divider {
+  margin-top: 6%;
+}
+.social {
+  display: flex;
+}
+.social .btn {
+  width: 100%;
+  margin: 10px;
+}
+.social .icon {
+  margin-right: 10px;
+}
+.icon-google {
+  color: red;
+}
+.creatingSpace {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:center;
+  padding: 20px 0;
+
+  flex: 1;
+  span {
+    margin-top: 30px;
+  }
+}
+.signupSuccess {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  .welcomeMessage {
+  }
+  .succssIcon {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    i {
+      font-size: 85px;
+      margin-bottom: 20px;
+    }
+  }
+}

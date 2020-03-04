@@ -1,0 +1,84 @@
+.c-category-templates-body {
+  .tmpSpinner {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    span {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  }
+  .tmpError {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .emptyList {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    .icon {
+      font-size: 100px;
+      margin-bottom: 10px;
+    }
+    .title {
+      font-size: 25px;
+    }
+  }
+  .files-uploaded {
+    .un-icon {
+      font-size: 25px;
+    }
+    .un-text {
+      font-size: 15px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      font-weight: 500;
+      padding-top: 10px;
+      width: 100px;
+    }
+  }
+  .fieldsTab {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 300px;
+    .add-field-types {
+      margin: 20px 10px;
+      width: calc(25% - 20px);
+      display: flex;
+      flex-direction: column;
+      .add-field-icon {
+        height: 100px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: whitesmoke;
+        color: rgb(56, 132, 255);
+        font-size: 40px;
+        box-shadow: 0 0 5px lightgray;
+      }
+      .title {
+        margin-top: 10px;
+        text-align: center;
+      }
+      .description {
+        text-align: center;
+        font-size: 13px;
+        color: gray;
+      }
+    }
+  }
+  .formTab {
+    padding: 3%;
+    .formTab-row {
+    }
+  }
+}

@@ -1,0 +1,156 @@
+.fieldConfig {
+  background: white;
+  .fieldConfig-header {
+    height: 65px;
+    background: whitesmoke;
+    display: flex;
+    .left {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      .icon {
+        color: rgb(56, 132, 255);
+        font-size: 30px;
+        margin-right: 10px;
+      }
+      .fieldName {
+        font-weight: 500;
+        font-size: 18px;
+        margin-right: 10px;
+      }
+      .fieldType {
+        font-size: 13px;
+        color: gray;
+      }
+    }
+    .right {
+      display: flex;
+      .tabItem {
+        min-width: 120px;
+        font-size: 15px;
+        padding: 0 15px;
+        font-weight: 400;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+    }
+  }
+  .body {
+    padding: 25px;
+    min-height: 300px;
+
+    .secondTab {
+      .validation-configs {
+        padding-top: 10px;
+        button {
+          margin-right: 10px;
+          min-width: calc(20% - 10px);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          margin-bottom: 10px;
+        }
+        a {
+          float: left;
+        }
+        &.text-limit-validation {
+          display: flex;
+          align-items: center;
+
+          span {
+            font-size: 16px;
+          }
+          select {
+            width: 170px;
+          }
+          input {
+            margin-left: 10px;
+            margin-right: 10px;
+            width: 100px;
+          }
+        }
+      }
+    }
+    .thirdTab {
+      .thirdTab-title {
+      }
+      .apearanceUiList {
+        display: flex;
+        flex-wrap: wrap;
+        border-bottom: 2px solid whitesmoke;
+        padding-bottom: 40px;
+        .apearanceItem {
+          width: calc(20% - 10px);
+          height: 120px;
+          margin: 10px 10px 0 0;
+          border: 3px solid rgb(230, 230, 230);
+          border-radius: 3px;
+          cursor: pointer;
+          transition-duration: 0.2s;
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          &:hover {
+            transition-duration: 0.2s;
+            border-color: gray;
+          }
+          &.active {
+            border-color: rgb(56, 132, 255);
+          }
+          .activeItem {
+            background-color: rgb(56, 132, 255);
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 100%;
+            color: white;
+            font-size: 14px;
+            transform: translate(50%, 50%);
+            z-index: 100;
+          }
+        }
+      }
+      .form-group {
+        margin-top: 30px;
+      }
+    }
+  }
+}
+.options {
+  display: flex;
+  padding-top: 10px;
+  input {
+    margin-bottom: 10px;
+  }
+  .leftInput {
+    flex: 1;
+    padding-right: 10px;
+  }
+  .centerInput {
+    flex: 1;
+    padding-right: 10px;
+  }
+  .rightInput {
+    button {
+      margin-left: 5px;
+    }
+  }
+}
+.options-single-selected {
+  font-size: 14px;
+}
+.options-multiple-selected {
+  font-size: 14px !important;
+}
+.options-items {
+  font-size: 14px !important;
+}
