@@ -145,20 +145,38 @@ const Assets = props => {
   }
   const prevPage = () => {
     setSkip(prev => prev - 1);
-    doFilter(selectedFileType.name, selectedStatus.name, skip - 1, limit);
+    doFilter(
+      selectedFileType.name,
+      selectedStatus.name,
+      (skip - 1) * limit,
+      limit
+    );
   };
   const nextPage = () => {
     setSkip(prev => prev + 1);
-    doFilter(selectedFileType.name, selectedStatus.name, skip + 1, limit);
+    doFilter(
+      selectedFileType.name,
+      selectedStatus.name,
+      (skip + 1) * limit,
+      limit
+    );
   };
   function doFilter(fileType, status, skip, limit) {
     toggleSpinner(true);
     filterAssets()
       .onOk(result => {
         toggleSpinner(false);
+        const data =
+          result &&
+          result.map((item, index) => {
+            return {
+              ...item,
+              index: skip + parseInt(index) + 1
+            };
+          });
         dispatch({
           type: "SET_ASSETS",
-          value: result
+          value: data
         });
       })
       .onServerError(result => {
@@ -631,7 +649,6 @@ const Assets = props => {
                   {assets.map((file, index) => (
                     <AssetRow
                       key={index}
-                      index={index}
                       file={file}
                       viewAsset={viewAsset}
                       publishAsset={publishAsset}
