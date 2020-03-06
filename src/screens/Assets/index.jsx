@@ -162,6 +162,11 @@ const Assets = props => {
     );
   };
   function doFilter(fileType, status, skip, limit) {
+    if (assets && assets.length > 0)
+      dispatch({
+        type: "SET_ASSETS",
+        value: []
+      });
     toggleSpinner(true);
     filterAssets()
       .onOk(result => {
@@ -616,21 +621,25 @@ const Assets = props => {
               {translate("ASSET_TABLE_HEADER_ALL_ASSETS")}&nbsp;&nbsp;
               <CircleSpinner show={spinner} size="small" />
               <div className="as-content-pagination">
-                <button
-                  className="pagination-btn btn-left"
-                  disabled={skip === 0}
-                  onClick={prevPage}
-                >
-                  <i className="icon-circle-left" />
-                </button>
-                <span className="pagination-text">Page {skip + 1}</span>
-                <button
-                  className="pagination-btn btn-right"
-                  disabled={!assets || assets.length < 50}
-                  onClick={nextPage}
-                >
-                  <i className="icon-circle-right" />
-                </button>
+                {skip === 0 && assets.length < limit ? null : (
+                  <>
+                    <button
+                      className="pagination-btn btn-left"
+                      disabled={skip === 0}
+                      onClick={prevPage}
+                    >
+                      <i className="icon-circle-left" />
+                    </button>
+                    <span className="pagination-text">Page {skip + 1}</span>
+                    <button
+                      className="pagination-btn btn-right"
+                      disabled={!assets || assets.length < 50}
+                      onClick={nextPage}
+                    >
+                      <i className="icon-circle-right" />
+                    </button>
+                  </>
+                )}
               </div>
             </div>
             <div className="rightTable">
