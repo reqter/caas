@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./styles.scss";
 import { languageManager, useGlobalState } from "services";
-import AssetFile from "components/AssetFile";
 import Alert from "components/PopupAlert";
 import CircleSpinner from "components/CircleSpinner";
+import AssetRow from "./AssetRow";
 import {
   getAssets,
   deleteAsset,
@@ -67,80 +67,91 @@ const pageDescription = languageManager.translate(
   "HOME_SIDE_NAV_ASSETS_MANAGER_DESC"
 );
 const currentLang = languageManager.getCurrentLanguage().name;
+const limit = 50;
 const Assets = props => {
   const { currentLocale } = useLocale();
   let didCancel = false;
 
   const [{ assets, status, spaceInfo }, dispatch] = useGlobalState();
   const [spinner, toggleSpinner] = useState(true);
+  const [skip, setSkip] = useState(0);
+
+  const [selectedFileType, setFileType] = useState(filters[0]);
+  const [selectedStatus, setStatus] = useState({});
+  const [alertData, setAlertData] = useState();
 
   useEffect(() => {
-    getAssets()
-      .onOk(result => {
-        if (!didCancel) {
-          toggleSpinner(false);
-          dispatch({
-            type: "SET_ASSETS",
-            value: result
-          });
-        }
-      })
-      .onServerError(result => {
-        if (!didCancel) {
-          toggleSpinner(false);
-          dispatch({
-            type: "ADD_NOTIFY",
-            value: {
-              type: "error",
-              message: languageManager.translate("ASSET_GET_ON_SERVER_ERROR")
-            }
-          });
-        }
-      })
-      .onBadRequest(result => {
-        if (!didCancel) {
-          toggleSpinner(false);
-          dispatch({
-            type: "ADD_NOTIFY",
-            value: {
-              type: "error",
-              message: languageManager.translate("ASSET_GET_ON_BAD_REQUEST")
-            }
-          });
-        }
-      })
-      .unAuthorized(result => {
-        if (!didCancel) {
-          props.history.replace("/login");
-          dispatch({
-            type: "ADD_NOTIFY",
-            value: {
-              type: "warning",
-              message: languageManager.translate("ASSET_GET_UN_AUTHORIZED")
-            }
-          });
-        }
-      })
-      .notFound(result => {
-        if (!didCancel) {
-          toggleSpinner(false);
-        }
-      })
-      .call(spaceInfo.id);
+    doFilter(selectedFileType.name, undefined, skip, limit);
+    //    getAssets()
+    // .onOk(result => {
+    //   if (!didCancel) {
+    //     toggleSpinner(false);
+    //     dispatch({
+    //       type: "SET_ASSETS",
+    //       value: result
+    //     });
+    //   }
+    // })
+    // .onServerError(result => {
+    //   if (!didCancel) {
+    //     toggleSpinner(false);
+    //     dispatch({
+    //       type: "ADD_NOTIFY",
+    //       value: {
+    //         type: "error",
+    //         message: languageManager.translate("ASSET_GET_ON_SERVER_ERROR")
+    //       }
+    //     });
+    //   }
+    // })
+    // .onBadRequest(result => {
+    //   if (!didCancel) {
+    //     toggleSpinner(false);
+    //     dispatch({
+    //       type: "ADD_NOTIFY",
+    //       value: {
+    //         type: "error",
+    //         message: languageManager.translate("ASSET_GET_ON_BAD_REQUEST")
+    //       }
+    //     });
+    //   }
+    // })
+    // .unAuthorized(result => {
+    //   if (!didCancel) {
+    //     props.history.replace("/login");
+    //     dispatch({
+    //       type: "ADD_NOTIFY",
+    //       value: {
+    //         type: "warning",
+    //         message: languageManager.translate("ASSET_GET_UN_AUTHORIZED")
+    //       }
+    //     });
+    //   }
+    // })
+    // .notFound(result => {
+    //   if (!didCancel) {
+    //     toggleSpinner(false);
+    //   }
+    // })
+    // .call(spaceInfo.id);
 
     return () => {
       didCancel = true;
     };
   }, []);
 
-  const [selectedFileType, setFileType] = useState(filters[0]);
-  const [selectedStatus, setStatus] = useState({});
-  const [alertData, setAlertData] = useState();
-
   function translate(key) {
     return languageManager.translate(key);
   }
-  function doFilter(fileType, status) {
+  const prevPage = () => {
+    setSkip(prev => prev - 1);
+    doFilter(selectedFileType.name, selectedStatus.name, skip - 1, limit);
+  };
+  const nextPage = () => {
+    setSkip(prev => prev + 1);
+    doFilter(selectedFileType.name, selectedStatus.name, skip + 1, limit);
+  };
+  function doFilter(fileType, status, skip, limit) {
     toggleSpinner(true);
     filterAssets()
       .onOk(result => {
@@ -183,17 +194,23 @@ const Assets = props => {
       .notFound(result => {
         toggleSpinner(false);
       })
-      .call(spaceInfo.id, fileType === "all" ? undefined : [fileType], [
-        status
-      ]);
+      .call(
+        spaceInfo.id,
+        fileType === "all" ? undefined : [fileType],
+        status ? [status] : undefined,
+        skip,
+        limit
+      );
   }
   function handleFileTypeClick(selected) {
+    setSkip(0);
     setFileType(selected);
-    doFilter(selected.name, selectedStatus.name);
+    doFilter(selected.name, selectedStatus.name, 0, limit);
   }
   function handleStatusClick(selected) {
+    setSkip(0);
     setStatus(selected);
-    doFilter(selectedFileType.name, selected.name);
+    doFilter(selectedFileType.name, selected.name, 0, limit);
   }
   function openUploader() {
     props.history.push("/asset/new");
@@ -580,6 +597,23 @@ const Assets = props => {
             <div className="header">
               {translate("ASSET_TABLE_HEADER_ALL_ASSETS")}&nbsp;&nbsp;
               <CircleSpinner show={spinner} size="small" />
+              <div className="as-content-pagination">
+                <button
+                  className="pagination-btn btn-left"
+                  disabled={skip === 0}
+                  onClick={prevPage}
+                >
+                  <i className="icon-circle-left" />
+                </button>
+                <span className="pagination-text">Page {skip + 1}</span>
+                <button
+                  className="pagination-btn btn-right"
+                  disabled={!assets || assets.length < 50}
+                  onClick={nextPage}
+                >
+                  <i className="icon-circle-right" />
+                </button>
+              </div>
             </div>
             <div className="rightTable">
               <table className="table">
@@ -595,133 +629,19 @@ const Assets = props => {
                 </thead>
                 <tbody>
                   {assets.map((file, index) => (
-                    <tr key={index} onClick={() => viewAsset(file)}>
-                      <td>
-                        <div className="as-table-number">
-                          <div className="as-table-number-value">
-                            {index + 1}
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="as-table-image">
-                          {file.fileType.toLowerCase().includes("image") ? (
-                            <img
-                              src={
-                                file.url
-                                  ? file.url[currentLocale]
-                                    ? file.url[currentLocale].replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
-                                    : file.url.toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
-                                  : null
-                              }
-                              alt=""
-                            />
-                          ) : file.fileType.toLowerCase().includes("video") ? (
-                            <i className="icon-video" />
-                          ) : file.fileType.toLowerCase().includes("audio") ? (
-                            <i className="icon-audio" />
-                          ) : file.fileType.toLowerCase().includes("pdf") ? (
-                            <i className="icon-pdf" />
-                          ) : file.fileType
-                              .toLowerCase()
-                              .includes("spreadsheet") ? (
-                            <i className="icon-spreadsheet" />
-                          ) : (
-                            <AssetFile file={file} class="assetFile" />
-                          )}
-                        </div>
-                      </td>
-                      <td>
-                        <div className="as-table-name">
-                          <span className="name">
-                            {file.title && file.title[currentLocale]}
-                          </span>
-                          <span>{file.fileType}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="as-table-by">
-                          <span>
-                            {file.sys &&
-                              file.sys.issuer &&
-                              file.sys.issuer.fullName}
-                          </span>
-                          <span>{file.sys && file.sys.issueDate}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="as-table-status">
-                          <span className="adge badge-primary">
-                            {languageManager.translate(file.status)}
-                          </span>
-                        </div>
-                      </td>
-                      <td>
-                        {file.status === "draft" ? (
-                          <>
-                            <button
-                              className="btn btn-light btn-sm"
-                              onClick={e => publishAsset(e, file)}
-                            >
-                              {translate("PUBLISH")}
-                            </button>
-                            <button
-                              className="btn btn-light btn-sm"
-                              onClick={e => archiveAsset(e, file)}
-                            >
-                              {translate("ARCHIVE")}
-                            </button>
-                          </>
-                        ) : file.status === "changed" ? (
-                          <>
-                            <button
-                              className="btn btn-light btn-sm"
-                              onClick={e => publishAsset(e, file)}
-                            >
-                              {translate("PUBLISH")}
-                            </button>
-                            <button
-                              className="btn btn-light btn-sm"
-                              onClick={e => archiveAsset(e, file)}
-                            >
-                              {translate("ARCHIVE")}
-                            </button>
-                          </>
-                        ) : file.status === "archived" ? (
-                          <button
-                            className="btn btn-light btn-sm"
-                            onClick={e => unArchiveAsset(e, file)}
-                          >
-                            {translate("UN_ARCHIVE")}
-                          </button>
-                        ) : file.status === "published" ? (
-                          <button
-                            className="btn btn-light btn-sm"
-                            onClick={e => unPublishAsset(e, file)}
-                          >
-                            {translate("UN_PUBLISH")}
-                          </button>
-                        ) : (
-                          ""
-                        )}
-
-                        {file.status !== "published" &&
-                          file.status !== "archived" && (
-                            <button
-                              className="btn btn-light btn-sm"
-                              onClick={e => showRemoveAlert(e, file)}
-                            >
-                              <i className="icon-bin" />
-                            </button>
-                          )}
-                        <button
-                          className="btn btn-light btn-sm"
-                          onClick={e => openUploaderForEdit(e, file)}
-                        >
-                          <i className="icon-pencil" />
-                        </button>
-                      </td>
-                    </tr>
+                    <AssetRow
+                      key={index}
+                      index={index}
+                      file={file}
+                      viewAsset={viewAsset}
+                      publishAsset={publishAsset}
+                      archiveAsset={archiveAsset}
+                      unArchiveAsset={unArchiveAsset}
+                      unPublishAsset={unPublishAsset}
+                      openUploaderForEdit={openUploaderForEdit}
+                      showRemoveAlert={showRemoveAlert}
+                      t={languageManager}
+                    />
                   ))}
                 </tbody>
               </table>
