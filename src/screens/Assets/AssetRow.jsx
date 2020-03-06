@@ -15,8 +15,7 @@ export default ({
   unPublishAsset,
   openUploaderForEdit,
   showRemoveAlert,
-  t,
-  index
+  t
 }) => {
   const { currentLocale } = useLocale();
   const [dropdownOpen, setOpen] = useState(false);
@@ -34,7 +33,7 @@ export default ({
       <td>
         <div className="as-table-number-wrapper">
           <div className="as-table-number">
-            <div className="as-table-number-value">{index + 1}</div>
+            <div className="as-table-number-value">{file.index}</div>
           </div>
         </div>
       </td>
