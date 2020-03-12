@@ -73,7 +73,7 @@ const ItemTypes = props => {
     return () => {
       didCancel = true;
     };
-  }, []);
+  }, [dispatch, spaceInfo.id]);
 
   const pageTitle = languageManager.translate("HOME_SIDE_NAV_CONTENT_TYPE");
   const pageDescription = languageManager.translate(
@@ -220,9 +220,9 @@ const ItemTypes = props => {
       message: translate("CONTENT_TYPE_REMOVE_FIELD_ALERT_MESSAGE"),
       isAjaxCall: true,
       onOk: () => {
-        const newContentType = { ...selectedContentType };
-        const f = fields.filter(item => item.name !== field.name);
-        newContentType.fields = f;
+        let newContentType = { ...selectedContentType };
+        const restFields = fields.filter(item => item.name !== field.name);
+        newContentType.fields = restFields;
         updateContentType()
           .onOk(result => {
             setAlertData();
@@ -235,7 +235,7 @@ const ItemTypes = props => {
                 )
               }
             });
-            setFields(f);
+            setFields(result.fields);
             dispatch({
               type: "UPDATE_CONTENT_TYPE",
               value: result

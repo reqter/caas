@@ -68,11 +68,21 @@ const fieldsApearance = {
     }
   ],
   reference: [
-    { name: "default", title: { en: "Default View" }, apearance: "", selected: true },
+    {
+      name: "default",
+      title: { en: "Default View" },
+      apearance: "",
+      selected: true
+    },
     { name: "cards", title: { en: "Card View" }, apearance: "" }
   ],
   keyValue: [
-    { name: "default", title: { en: "Default View" }, apearance: "", selected: true },
+    {
+      name: "default",
+      title: { en: "Default View" },
+      apearance: "",
+      selected: true
+    },
     { name: "buttons", title: { en: "Buttons" }, apearance: "" }
   ]
 };
@@ -655,8 +665,7 @@ const FieldConfig = props => {
       else delete obj["access"];
       if (helpText.length > 0)
         obj["helpText"] = makeLocalesValue(obj["helpText"], helpText);
-      if (section.length > 0)
-        obj["section"] = section;
+      if (section.length > 0) obj["section"] = section;
       obj["order"] = order;
       if (selectedField.type !== "media" && selectedField.type !== "richText") {
         obj["inVisible"] = inVisible;
@@ -782,9 +791,9 @@ const FieldConfig = props => {
           }
         }
       }
-      const newContentType = { ...selectedContentType };
+      let newContentType = { ...selectedContentType };
       const newFields = newContentType.fields.map(f => {
-        if (f.name === selectedField.name) f = obj;
+        if (f.name === selectedField.name) return obj;
         return f;
       });
       newContentType.fields = newFields;
@@ -1731,40 +1740,40 @@ const FieldConfig = props => {
                   </small>
                 </div>
                 <div className="row">
-                <div className="form-group col">
-                  <label>{languageManager.translate("Order")}</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    value={order}
-                    placeholder={languageManager.translate(
-                      "Enter field's order here"
-                    )}
-                    onChange={handleOrderchanged}
-                  />
-                  <small className="form-text text-muted">
-                    {languageManager.translate(
-                      "This value is useful for dynamic ui generation"
-                    )}
-                  </small>
-                </div>
-                <div className="form-group col">
-                  <label>{languageManager.translate("Section")}</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={section}
-                    placeholder={languageManager.translate(
-                      "Enter field's section here"
-                    )}
-                    onChange={handleSectionchanged}
-                  />
-                  <small className="form-text text-muted">
-                    {languageManager.translate(
-                      "This value is useful for dynamic ui generation"
-                    )}
-                  </small>
-                </div>
+                  <div className="form-group col">
+                    <label>{languageManager.translate("Order")}</label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      value={order}
+                      placeholder={languageManager.translate(
+                        "Enter field's order here"
+                      )}
+                      onChange={handleOrderchanged}
+                    />
+                    <small className="form-text text-muted">
+                      {languageManager.translate(
+                        "This value is useful for dynamic ui generation"
+                      )}
+                    </small>
+                  </div>
+                  <div className="form-group col">
+                    <label>{languageManager.translate("Section")}</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={section}
+                      placeholder={languageManager.translate(
+                        "Enter field's section here"
+                      )}
+                      onChange={handleSectionchanged}
+                    />
+                    <small className="form-text text-muted">
+                      {languageManager.translate(
+                        "This value is useful for dynamic ui generation"
+                      )}
+                    </small>
+                  </div>
                 </div>
                 {selectedField.type === "dateTime" && (
                   <div className="inputSwitch">
