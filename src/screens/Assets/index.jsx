@@ -161,16 +161,17 @@ const Assets = props => {
       limit
     );
   };
+
   function doFilter(fileType, status, skip, limit) {
-    if (assets && assets.length > 0)
-      dispatch({
-        type: "SET_ASSETS",
-        value: []
-      });
     toggleSpinner(true);
     filterAssets()
       .onOk(result => {
         toggleSpinner(false);
+        if (assets && assets.length > 0)
+          dispatch({
+            type: "SET_ASSETS",
+            value: []
+          });
         const data =
           result &&
           result.map((item, index) => {
