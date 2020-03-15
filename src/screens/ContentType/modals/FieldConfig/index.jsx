@@ -92,6 +92,7 @@ const FieldConfig = props => {
   const selectFieldRef = useRef(null);
   //#region variables
   const { selectedContentType } = props;
+  console.log(selectedContentType);
   const [{ contentTypes, spaceInfo }, dispatch] = useGlobalState();
   const { currentLocale, makeLocalesValue } = useLocale();
   const { selectedField } = props;
@@ -812,7 +813,7 @@ const FieldConfig = props => {
             type: "UPDATE_CONTENT_TYPE",
             value: result
           });
-          props.onCloseModal(obj);
+          props.onCloseModal(result, obj);
         })
         .onServerError(result => {
           toggleSpinner(false);

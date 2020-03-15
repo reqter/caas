@@ -236,6 +236,7 @@ const ItemTypes = props => {
               }
             });
             setFields(result.fields);
+            setItemType(newContentType);
             dispatch({
               type: "UPDATE_CONTENT_TYPE",
               value: result
@@ -296,7 +297,8 @@ const ItemTypes = props => {
       }
     });
   }
-  function closeFieldConfigModal(updatedField) {
+  useEffect(() => {}, []);
+  function closeFieldConfigModal(cnType, updatedField) {
     toggleShowFieldConfig(false);
     if (updatedField) {
       const newFields = fields.map(item => {
@@ -304,6 +306,7 @@ const ItemTypes = props => {
         return item;
       });
       setFields(newFields);
+      setItemType(cnType);
     }
   }
   function showAdvanceConfig(field) {
