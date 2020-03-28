@@ -111,15 +111,15 @@ const KeyValueInput = props => {
       <label>{field.title[currentLocale]}</label>
       <div className="up-form-keyvalue-radio">
         {field.options.map(option => (
-          <div class="form-check">
+          <div className="form-check">
             <input
-              class="form-check-input"
+              className="form-check-input"
               type="radio"
               name="exampleRadios"
               id={"radio" + option.key}
               value={option.key}
             />
-            <label class="form-check-label" htmlFor={"radio" + option.key}>
+            <label className="form-check-label" htmlFor={"radio" + option.key}>
               {option.value}
             </label>
           </div>

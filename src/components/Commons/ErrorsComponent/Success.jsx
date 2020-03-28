@@ -18,9 +18,9 @@ const Wrong = props => {
           y2="205.4"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stop-color="gray" stop-opacity="0.25" />
-          <stop offset="0.54" stop-color="gray" stop-opacity="0.12" />
-          <stop offset="1" stop-color="gray" stop-opacity="0.1" />
+          <stop offset="0" stopColor="gray" stop-opacity="0.25" />
+          <stop offset="0.54" stopColor="gray" stop-opacity="0.12" />
+          <stop offset="1" stopColor="gray" stop-opacity="0.1" />
         </linearGradient>
         <linearGradient
           id="5cb8051f-96be-4c7d-9e37-aa3efd21256e"

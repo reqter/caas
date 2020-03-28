@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
-import {
-  languageManager,
-  useGlobalState,
-  storageManager,
-} from "./../../services";
-import { login } from "./../../Api/account-api";
-import { CircleSpinner } from "./../../components";
+import { useGlobalState, storageManager } from "services";
+import { t } from "services/languageManager";
+import { login } from "Api/account-api";
+import CircleSpinner from "components/CircleSpinner";
+import Input from "components/AuthInput";
+import AuthLayout from "components/AuthLayout";
+import SvgImage from "./svgImage";
 import "./styles.scss";
 
-const Login = props => {
+const Login = ({ location, history }) => {
   const [{}, dispatch] = useGlobalState();
   const [spinner, toggleSpinner] = useState(false);
   const [userName, setUserName] = useState();
@@ -34,7 +34,7 @@ const Login = props => {
             storageManager.setItem("@caaser-token", result.access_token);
             dispatch({
               type: "SET_AUTHENTICATED",
-              value: true,
+              value: true
             });
             setRedirectToReferrer(true);
           } catch (error) {
@@ -48,8 +48,8 @@ const Login = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate("LOGIN_ON_SERVER_ERROR"),
-            },
+              message: t("LOGIN_ON_SERVER_ERROR")
+            }
           });
         })
         .onBadRequest(result => {
@@ -58,8 +58,8 @@ const Login = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate("LOGIN_ON_BAD_REQUEST"),
-            },
+              message: t("LOGIN_ON_BAD_REQUEST")
+            }
           });
         })
         .unAuthorized(result => {
@@ -68,8 +68,8 @@ const Login = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate("LOGIN_UN_AUTHORIZED"),
-            },
+              message: t("LOGIN_UN_AUTHORIZED")
+            }
           });
         })
         .notFound(result => {
@@ -78,10 +78,8 @@ const Login = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: result.error
-                ? result.error
-                : languageManager.translate("LOGIN_NOT_FOUND"),
-            },
+              message: result.error ? result.error : t("LOGIN_NOT_FOUND")
+            }
           });
         })
         .call(userName, password);
@@ -89,89 +87,75 @@ const Login = props => {
   }
   useEffect(() => {
     if (redirectToReferrer) {
-      props.history.replace(
-        !props.location.state ? "/panel/home" : props.location.state.from.pathname
+      history.replace(
+        !location.state ? "/panel/home" : location.state.from.pathname
       );
     }
     return () => {
       toggleSpinner(false);
     };
-  }, [redirectToReferrer]);
+  }, [history, location.state, redirectToReferrer]);
 
   return (
-    <div className="wrapper">
-      <div className="center">
-        <div className="header">
-          <span className="header-title">
-            {languageManager.translate("LOGIN_TITLE")}
-          </span>
-        </div>
-        <div className="formBody">
-          <form id="loginForm" onSubmit={loginUser}>
-            <div className="form-group">
-              <label>
-                {languageManager.translate("LOGIN_EMAIL_INPUT_TITLE")}
-              </label>
-              <input
-                type="email"
-                className="form-control"
-                aria-describedby="emailHelp"
-                placeholder={languageManager.translate(
-                  "LOGIN_EMAIL_INPUT_PLACEHOLDER"
-                )}
-                onChange={handleEmailChanged}
-                autoFocus
-              />
-              <small className="form-text text-muted">
-                {languageManager.translate("LOGIN_EMAIL_INPUT_DESCRIPTION")}
-              </small>
-            </div>
-            <div className="form-group">
-              <label>{languageManager.translate("LOGIN_PASSWORD_INPUT")}</label>
-              <input
-                type="password"
-                className="form-control"
-                placeholder={languageManager.translate(
-                  "LOGIN_PASSWORD_INPUT_PLACEHOLDER"
-                )}
-                onChange={handlePasswordChanged}
-              />
-              <small className="form-text text-muted">
-                {languageManager.translate("LOGIN_PASSWORD_INPUT_DESCRIPTION")}
-              </small>
-            </div>
-            <Link to="/forgotPassword">
-              {languageManager.translate("LOGIN_FORGOT_PASS")}
+    <AuthLayout
+      image={<SvgImage />}
+      title={t("LOGIN_TITLE")}
+      description={t("LOGIN_DESCRIPTION")}
+      render={() => {
+        return (
+          <form id="loginForm" onSubmit={loginUser} className="animated fadeIn">
+            <h2 className="login_content_header">{t("LOGIN_CONTENT_TITLE")}</h2>
+            <Input
+              title={t("LOGIN_EMAIL_INPUT_TITLE")}
+              type="email"
+              placeholder={t("LOGIN_EMAIL_INPUT_PLACEHOLDER")}
+              autoFocus
+              required
+              onChange={handleEmailChanged}
+            />
+            <Input
+              title={t("LOGIN_PASSWORD_INPUT")}
+              type="password"
+              placeholder={t("LOGIN_PASSWORD_INPUT_PLACEHOLDER")}
+              required
+              onChange={handlePasswordChanged}
+            />
+            <Link to="/forgotPassword" className="link">
+              {t("LOGIN_FORGET_PASS")}
             </Link>
-            <button
-              type="submit"
-              className="btn btn-primary btn-block btn-submit"
-              form="loginForm"
-              disabled={
-                userName === undefined ||
-                password === undefined ||
-                userName.length === 0 ||
-                password.length === 0
-                  ? true
-                  : false
-              }
-            >
-              <CircleSpinner show={spinner} size="small" />
-              {!spinner ? languageManager.translate("LOGIN_SUBMIT_BTN") : null}
-            </button>
+            <div className="login_content_buttons">
+              <button
+                type="submit"
+                className="btn btn-primary"
+                form="loginForm"
+                disabled={
+                  userName === undefined ||
+                  password === undefined ||
+                  userName.length === 0 ||
+                  password.length === 0
+                    ? true
+                    : false
+                }
+              >
+                {!spinner ? (
+                  t("LOGIN_SUBMIT_BTN")
+                ) : (
+                  <CircleSpinner show={spinner} size="small" />
+                )}
+              </button>
+              <button
+                type="submit"
+                className="btn btn-outline-info"
+                form="loginForm"
+                onClick={() => history.push("/signup")}
+              >
+                {t("LOGIN_SIGNUP_LINK")}
+              </button>
+            </div>
           </form>
-        </div>
-      </div>
-
-      <div className="signUpBox">
-        <span>
-          {languageManager.translate("LOGIN_SIGNUP_LINK_TITLE")}&nbsp;
-        </span>
-        <Link to="/signup">
-          {languageManager.translate("LOGIN_SIGNUP_LINK")}
-        </Link>
-      </div>
-    </div>
+        );
+      }}
+    />
   );
 };
 export default Login;

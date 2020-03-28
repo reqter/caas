@@ -1,16 +1,19 @@
 @import "./icons.css";
 @import "./colors.scss";
 @import "./variables.scss";
-@import "./mixins.scss";
+@import "./mixins";
 
-body {
-  overflow-x: hidden;
-  background: whitesmoke;
+html {
+  // font-size: 62.5%;
 }
 *,
 html,
 body {
   scroll-behavior: smooth;
+}
+body {
+  overflow-x: hidden;
+  background: whitesmoke;
 }
 *::-webkit-scrollbar,
 div::-webkit-scrollbar,
