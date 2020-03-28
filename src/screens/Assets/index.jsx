@@ -618,7 +618,7 @@ const Assets = props => {
             </div>
           </div>
           <div className="as-content-right">
-            <div className="header">
+            <div className="ass__content__header">
               {translate("ASSET_TABLE_HEADER_ALL_ASSETS")}&nbsp;&nbsp;
               <CircleSpinner show={spinner} size="small" />
               <div className="as-content-pagination">

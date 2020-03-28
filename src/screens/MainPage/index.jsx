@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import { Switch } from "react-router-dom";
 import SideBar from "./components/SideBar";
+import Header from "components/Header";
 import "./styles.scss";
 //
 import PrivateRoute from "../../PrivateRoute";
@@ -14,7 +15,7 @@ const Assets = lazy(() => import("../Assets"));
 const MainPage = props => {
   return (
     <div className="page-wrapper">
-      <SideBar links={[]} />
+      <Header />
       <main className="main">
         <Suspense fallback={<div />}>
           <Switch>

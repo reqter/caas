@@ -151,10 +151,10 @@ const FileUploaderInput = props => {
                   ) : file.fileType.toLowerCase().includes("spreadsheet") ? (
                     <i className="icon-spreadsheet" />
                   ) : (
-                    <AssetFile file={file} class="fileUploader" />
+                    <AssetFile file={file} className="fileUploader" />
                   )
                 ) : (
-                  <AssetFile file={file} class="fileUploader" />
+                  <AssetFile file={file} className="fileUploader" />
                 )}
               </div>
             </div>

@@ -1,127 +1,147 @@
-.wrapper {
-  height: 100vh;
-  background-color: whitesmoke;
+@import "./../../styles/mixins";
+.login_content_header {
+  margin: 40px 0;
+}
+
+.login_content_buttons {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-.center {
-  background-color: white;
-  border: 1px solid lightgray;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-  font-size: 90%;
-}
-.header {
-  border-bottom: 0.5px solid lightgray;
-  display: flex;
-  height: 100px;
-  align-items: center;
-  padding: 0 20px;
-  justify-content: space-between;
-}
-.header-title {
-  font-size: 2em;
-  font-weight: 400;
-}
-.header-icon {
-  font-size: 35px;
-  color: #1890ff;
-}
-.formBody {
-  max-width: 550px;
-  padding: 1.5em 2em;
-  .message {
-    padding-bottom: 20px;
+  margin: 40px 0;
+  button {
+    flex: 1;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    &:not(:last-child) {
+      margin-right: 20px;
+    }
   }
-}
-.btn-submit {
-  margin-top: 10%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.divider {
-  margin-top: 6%;
-}
-.social {
-  display: flex;
-}
-.social .btn {
-  width: 100%;
-  margin: 10px;
-}
-.social .icon {
-  margin-right: 10px;
-}
-.icon-google {
-  color: red;
-}
-
-.divider .no-span {
-  display: table;
-  white-space: nowrap;
-  &:before,
-  &:after {
-    border-top: 1px solid lightgray;
-    content: "";
-    display: table-cell;
-    position: relative;
-    top: 0.7em;
-    width: 45%;
-  }
-  &:before {
-    right: 1.5%;
-  }
-  &:after {
-    left: 1.5%;
+  @include respond(tab-land) {
+    margin: 20px 0;
   }
 }
 
-// Small devices (landscape phones, 576px and up)
-@media (max-width: 576px) {
-  .center {
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
-  }
+.login-cls-1 {
+  fill: none;
 }
-@media (min-width: 576px) {
-  .center {
-    width: 100%;
-    margin-left: 5%;
-    margin-right: 5%;
-  }
+.login-cls-2 {
+  isolation: isolate;
 }
-
-// Medium devices (tablets, 768px and up)
-@media (min-width: 768px) {
-  .center {
-    width: 460px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.login-cls-3 {
+  fill: #002d75;
 }
-
-// Large devices (desktops, 992px and up)
-@media (min-width: 992px) {
-  .center {
-    width: 460px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.login-cls-4 {
+  fill: #605aca;
 }
-
-// Extra large devices (large desktops, 1200px and up)
-@media (min-width: 1200px) {
-  .center {
-    width: 460px;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.login-cls-11,
+.login-cls-21,
+.login-cls-27,
+.login-cls-4 {
+  opacity: 0.5;
 }
-
-
+.login-cls-13,
+.login-cls-16,
+.login-cls-20,
+.login-cls-21,
+.login-cls-24,
+.login-cls-25,
+.login-cls-27,
+.login-cls-29,
+.login-cls-33,
+.login-cls-35,
+.login-cls-4,
+.login-cls-9 {
+  mix-blend-mode: multiply;
+}
+.login-cls-5 {
+  fill: #f5f5f5;
+}
+.login-cls-6 {
+  fill: #b0ceff;
+}
+.login-cls-7 {
+  clip-path: url(#clip-path);
+}
+.login-cls-8 {
+  fill: #629eff;
+}
+.login-cls-9 {
+  opacity: 0.09;
+}
+.login-cls-10,
+.login-cls-11 {
+  fill: #94ebff;
+}
+.login-cls-10,
+.login-cls-20,
+.login-cls-24,
+.login-cls-25,
+.login-cls-35 {
+  opacity: 0.3;
+}
+.login-cls-12 {
+  fill: #1a4a46;
+}
+.login-cls-13,
+.login-cls-30,
+.login-cls-35 {
+  fill: #f9714e;
+}
+.login-cls-13,
+.login-cls-16 {
+  opacity: 0.4;
+}
+.login-cls-14 {
+  fill: #29766f;
+}
+.login-cls-15 {
+  fill: #001d4c;
+}
+.login-cls-16 {
+  fill: #ffb255;
+}
+.login-cls-17,
+.login-cls-25 {
+  fill: #ffc2d3;
+}
+.login-cls-18 {
+  fill: #5084da;
+}
+.login-cls-19 {
+  fill: #33938a;
+}
+.login-cls-21 {
+  fill: #2e2c84;
+}
+.login-cls-22 {
+  fill: #001f64;
+}
+.login-cls-23 {
+  fill: #102d2b;
+}
+.login-cls-24 {
+  fill: #8fc2ff;
+}
+.login-cls-26 {
+  fill: #39a298;
+}
+.login-cls-27 {
+  fill: #ffc87c;
+}
+.login-cls-28 {
+  fill: #f9acc8;
+}
+.login-cls-29 {
+  opacity: 0.1;
+}
+.login-cls-31 {
+  fill: #568edb;
+}
+.login-cls-32 {
+  fill: #5e9ce4;
+}
+.login-cls-33 {
+  opacity: 0.16;
+}
+.login-cls-34 {
+  fill: #4e84d9;
+}

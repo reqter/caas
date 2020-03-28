@@ -40,13 +40,19 @@ let currentLanguage = {
   description: "United Kingdom",
   allowEmptyValues: false
 };
-
+export const t = key => {
+  if (translate !== undefined && translate[currentLanguage.name])
+    return translate[currentLanguage.name][key]
+      ? translate[currentLanguage.name][key]
+      : key;
+  else return key;
+};
 const languageManager = {
   translate(key) {
     if (translate !== undefined && translate[currentLanguage.name])
-      return translate[currentLanguage.name][key] ?
-        translate[currentLanguage.name][key] :
-        key;
+      return translate[currentLanguage.name][key]
+        ? translate[currentLanguage.name][key]
+        : key;
     else return key;
   },
   setLanguage(langName) {

@@ -1,10 +1,10 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
+import "./styles/app.scss";
 import "animate.css";
 //
 import StateProvider from "./services/stateManager/stateProvider";
-import "./styles/app.scss";
 import Notifies from "./components/Notifies";
 //
 import PrivateRoute from "./PrivateRoute";
@@ -14,6 +14,7 @@ import MainPageComponent from "./screens/MainPage";
 const Login = lazy(() => import("./screens/Login"));
 const Signup = lazy(() => import("./screens/Signup"));
 const ForgotPassword = lazy(() => import("./screens/ForgotPassword"));
+const ConfirmEmail = lazy(() => import("./screens/ConfirmEmail"));
 const UpsertContent = lazy(() => import("./screens/UpsertContent"));
 const UpdateFile = lazy(() => import("./screens/upsertFile"));
 const ContentViewByLink = lazy(() => import("./screens/ViewContent"));
@@ -50,6 +51,11 @@ const App = () => {
               key="forgotPassword"
               path="/forgotPassword"
               render={props => <ForgotPassword {...props} />}
+            />
+            <Route
+              key="confirmEmail"
+              path="/confirmEmail/:token"
+              render={props => <ConfirmEmail {...props} />}
             />
             <Route
               key="contentViewByLink"

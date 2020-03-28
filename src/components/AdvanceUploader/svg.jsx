@@ -19,9 +19,9 @@ const SVGUpload = props => {
           gradientTransform="translate(29.55 152.11)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stop-color="gray" stop-opacity="0.25" />
-          <stop offset="0.54" stop-color="gray" stop-opacity="0.12" />
-          <stop offset="1" stop-color="gray" stop-opacity="0.1" />
+          <stop offset="0" stopColor="gray" stop-opacity="0.25" />
+          <stop offset="0.54" stopColor="gray" stop-opacity="0.12" />
+          <stop offset="1" stopColor="gray" stop-opacity="0.1" />
         </linearGradient>
         <linearGradient
           id="b45dc65a-d934-4006-b8a5-a3a1dfbcc07e"

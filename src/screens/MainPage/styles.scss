@@ -1,11 +1,11 @@
 .page-wrapper {
   background: whitesmoke;
   height: 100vh;
-  display: flex;
-  overflow: auto;
+  padding-top: 90px;
 }
 .main {
-  margin: 20px 20px 10px 320px;
-  flex: 1;
   display: flex;
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 0 20px;
 }

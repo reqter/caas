@@ -67,7 +67,7 @@ export default ({
           ) : file.fileType.toLowerCase().includes("spreadsheet") ? (
             <i className="icon-spreadsheet" />
           ) : (
-            <AssetFile file={file} class="assetFile" />
+            <AssetFile file={file} className="assetFile" />
           )}
         </div>
       </td>
