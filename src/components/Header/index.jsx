@@ -55,6 +55,7 @@ const Header = () => {
         <div className="header__content">
           {links.map((item, index) => (
             <NavLink
+              key={item.path}
               to={item.path}
               className="linkItem"
               activeClassName="linkItemSelected"

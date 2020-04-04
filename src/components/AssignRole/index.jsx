@@ -50,7 +50,7 @@ const AssignRole = props => {
       <ModalHeader toggle={closeModal}>{props.headerTitle}</ModalHeader>
       <ModalBody>
         {allData.map(item => (
-          <label key={item.name} for={item.name} className="itemTypeModal">
+          <label key={item.name} htmlFor={item.name} className="itemTypeModal">
             <div className="itemTypeModal-left">
               <div className="itemType-icon">
                 <i className="icon-item-type" />

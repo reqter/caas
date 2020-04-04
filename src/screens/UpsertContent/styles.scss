@@ -7,7 +7,7 @@ body {
   .up-header {
     position: fixed;
     height: 60px;
-    background: white;
+    background: var(--primary-color);
     top: 0;
     left: 0;
     right: 0;
@@ -27,14 +27,15 @@ body {
       justify-content: center;
       align-items: center;
       .item {
+        border: 0;
         cursor: pointer;
         font-size: 14px;
         margin: 0 10px;
-        color: gray;
+        color: whitesmoke;
         width: auto;
         &.active {
+          color: white;
           font-size: 15px;
-          color: black;
           font-weight: 600;
         }
       }

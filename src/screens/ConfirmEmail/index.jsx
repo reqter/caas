@@ -6,10 +6,9 @@ import Success from "./success";
 import SvgImage from "./svgImage";
 import "./styles.scss";
 
-const ConfirmEmail = () => {
+const ConfirmEmail = ({ match }) => {
   useEffect(() => {
-    const token = "";
-    confirmEmailFromURL().call(token);
+    // if (match.params.token) confirmEmailFromURL().call(token);
   }, []);
   return (
     <AuthLayout

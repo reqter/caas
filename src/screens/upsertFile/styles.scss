@@ -5,7 +5,7 @@
   height: 100vh;
   .up-file-header {
     height: 60px;
-    background: white;
+    background: var(--primary-color);
     top: 0;
     left: 0;
     right: 0;
@@ -28,11 +28,12 @@
         cursor: pointer;
         font-size: 14px;
         margin: 0 10px;
-        color: gray;
+        color: whitesmoke;
         width: auto;
+        border: 0;
         &.active {
           font-size: 15px;
-          color: black;
+          color: white;
           font-weight: 600;
         }
       }

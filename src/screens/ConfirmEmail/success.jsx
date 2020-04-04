@@ -5,7 +5,7 @@ import { t } from "services/languageManager";
 const SignupSuccess = ({ history }) => {
   //#region second tab
   function navToLogin() {
-    history.push("login");
+    history.push("/login");
   }
   return (
     <div className="signuupSuccess animate fadeIn">

@@ -84,7 +84,8 @@ export const initialState = {
   contentPage: {
     filterBox: false,
     filters: []
-  }
+  },
+  selectedContentType: null
 };
 export const reducer = (state, action) => {
   switch (action.type) {
@@ -307,6 +308,11 @@ export const reducer = (state, action) => {
       return {
         ...state,
         contentPage: action.value
+      };
+    case "SAVE_CONTENT_TYPE":
+      return {
+        ...state,
+        selectedContentType: action.payload
       };
     default:
       return state;

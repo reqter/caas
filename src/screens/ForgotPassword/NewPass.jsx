@@ -25,12 +25,12 @@ const ForgotPassword = ({ history, onSuccessChangePassword, token }) => {
     e.preventDefault();
     if (!spinner) {
       const { newPass } = state;
+      setState(prevState => ({
+        ...prevState,
+        spinner: true
+      }));
       resetPassword()
         .onOk(result => {
-          // setState(prevState => ({
-          //   ...prevState,
-          //   spinner: !prevState.spinner
-          // }));
           if (onSuccessChangePassword) onSuccessChangePassword();
         })
         .onServerError(result => {
@@ -107,7 +107,7 @@ const ForgotPassword = ({ history, onSuccessChangePassword, token }) => {
       </h2>
       <Input
         title={t("NEW_PASS_INPUT")}
-        type="text"
+        type="password"
         placeholder={t("NEW_PASS_PLACEHOLDER")}
         autoFocus
         required
@@ -116,7 +116,7 @@ const ForgotPassword = ({ history, onSuccessChangePassword, token }) => {
       />
       <Input
         title={t("CONFIRM_PASS_INPUT")}
-        type="text"
+        type="password"
         placeholder={t("CONFIRM_PASS_PLACEHOLDER")}
         required
         name="confirmPass"

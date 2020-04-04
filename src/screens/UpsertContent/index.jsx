@@ -6,7 +6,7 @@ import {
   updateContent,
   getContentById,
   getContentTypes
-} from "./../../Api/content-api";
+} from "Api/content-api";
 import { addRequest, updateRequest, getRequestById } from "Api/request-api";
 import ContentTypesList from "./ContentTypes";
 import {

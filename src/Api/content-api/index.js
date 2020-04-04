@@ -2,15 +2,15 @@ import { languageManager, storageManager } from "./../../services";
 const config = process.env;
 // const getAllURL =
 //   config.REACT_APP_CONTENT_TYPE_BASE_URL + config.REACT_APP_CONTENT_TYPE_GET_ALL
-
 const getAllURL =
   config.REACT_APP_CONTENTS_BASE_URL + config.REACT_APP_CONTENTS_GET_ALL;
 const getByIdURL =
   config.REACT_APP_CONTENTS_BASE_URL + config.REACT_APP_CONTENTS_GET_BY_ID;
 const getByIdLINK =
   config.REACT_APP_CONTENTS_BASE_URL + config.REACT_APP_CONTENTS_GET_BY_LINK;
-const filterURL =
-  config.REACT_APP_CONTENTS_BASE_URL + config.REACT_APP_CONTENTS_FILTER;
+const filterURL = config.REACT_APP_CONTENTS_BASE_URL + "/contents/filter";
+const filterURLByRels =
+  config.REACT_APP_CONTENTS_BASE_URL + "/contents/filterbyrels";
 
 const addURL =
   config.REACT_APP_CONTENTS_BASE_URL + config.REACT_APP_CONTENTS_ADD;
@@ -30,6 +30,8 @@ const unPublishURL =
 const getContentTypesURL =
   config.REACT_APP_CONTENT_TYPE_BASE_URL +
   config.REACT_APP_CONTENT_TYPE_GET_ALL;
+const getContentTypeByIdURL =
+  config.REACT_APP_CONTENT_TYPE_BASE_URL + "/ctypes/getbyid";
 const getCategoriesURL =
   config.REACT_APP_CATEGORIES_BASE_URL + config.REACT_APP_CATEGORIES_GET_ALL;
 
@@ -72,26 +74,45 @@ export function filterContents() {
       _onConnectionErrorCallBack(result);
     }
   }
-  const _call = async (spaceId, name, contentType, category, contentStatus) => {
+  const _call = async (
+    spaceId,
+    name,
+    contentType,
+    category,
+    contentStatus,
+    skip,
+    limit
+  ) => {
     try {
       let url = filterURL + "?";
-      if (contentType !== undefined) url = url + "contentType=" + contentType;
+      if (contentType) url = url + "contentType=" + contentType;
 
       if (url[url.length - 1] !== "?") url = url + "&";
 
-      if (category !== undefined) url = url + "category=" + category;
+      if (category) url = url + "category=" + category;
 
       if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
         url = url + "&";
       }
 
-      if (contentStatus !== undefined) url = url + "status=" + contentStatus;
+      if (contentStatus) url = url + "status=" + contentStatus;
 
       if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
         url = url + "&";
       }
 
-      if (name !== undefined && name.length > 0) url = url + "name=" + name;
+      if (name && name.length > 0) url = url + "name=" + name;
+
+      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
+        url = url + "&";
+      }
+      if (skip || skip === 0) url = url + "skip=" + skip;
+
+      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
+        url = url + "&";
+      }
+
+      if (limit) url = url + "limit=" + limit;
 
       if (url[url.length - 1] === "?") url = url.substring(0, url.length - 1);
 
@@ -113,26 +134,21 @@ export function filterContents() {
           _onOk(result);
           break;
         case 400:
-          console.log(result);
           _onBadRequest();
           break;
         case 401:
           _unAuthorized();
           break;
         case 404:
-          console.log(result);
           _notFound();
           break;
         case 500:
-          console.log(result);
           _onServerError();
           break;
         default:
           break;
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return {
@@ -405,7 +421,7 @@ export function getContentTypes() {
       _onConnectionErrorCallBack(result);
     }
   }
-  const _call = async spaceId => {
+  const _call = async ({ spaceId }) => {
     try {
       const url = getContentTypesURL;
       const token = storageManager.getItem("@caaser-token");
@@ -469,7 +485,6 @@ export function getContentTypes() {
     }
   };
 }
-
 export function getCategories() {
   let _onOkCallBack;
   function _onOk(result) {
@@ -571,7 +586,6 @@ export function getCategories() {
     }
   };
 }
-
 export function addContent() {
   let _onOkCallBack;
   function _onOk(result) {
@@ -1002,6 +1016,120 @@ export function getContentById() {
     }
   };
 }
+export function getContentTypeById() {
+  let _onOkCallBack;
+  function _onOk(result) {
+    if (_onOkCallBack) {
+      _onOkCallBack(result);
+    }
+  }
+  let _onServerErrorCallBack;
+  function _onServerError(result) {
+    if (_onServerErrorCallBack) {
+      _onServerErrorCallBack(result);
+    }
+  }
+  let _onBadRequestCallBack;
+  function _onBadRequest(result) {
+    if (_onBadRequestCallBack) {
+      _onBadRequestCallBack(result);
+    }
+  }
+  let _unAuthorizedCallBack;
+  function _unAuthorized(result) {
+    if (_unAuthorizedCallBack) {
+      _unAuthorizedCallBack(result);
+    }
+  }
+  let _notFoundCallBack;
+  function _notFound(result) {
+    if (_notFoundCallBack) {
+      _notFoundCallBack(result);
+    }
+  }
+  let _onRequestErrorCallBack;
+  function _onRequestError(result) {
+    if (_onRequestErrorCallBack) {
+      _onRequestErrorCallBack(result);
+    }
+  }
+  let _unKnownErrorCallBack;
+  function _unKnownError(result) {
+    if (_unKnownErrorCallBack) {
+      _unKnownErrorCallBack(result);
+    }
+  }
+
+  const _call = async (spaceId, contentTypeId) => {
+    try {
+      const url = getContentTypeByIdURL + "?id=" + contentTypeId;
+      const token = storageManager.getItem("@caaser-token");
+      var rawResponse = await fetch(url, {
+        method: "GET",
+        headers: {
+          authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+          spaceId: spaceId
+        }
+      });
+
+      const status = rawResponse.status;
+      const result = await rawResponse.json();
+      switch (status) {
+        case 200:
+          _onOk(result);
+          break;
+        case 400:
+          _onBadRequest();
+          break;
+        case 401:
+          _unAuthorized();
+          break;
+        case 404:
+          _notFound();
+          break;
+        case 500:
+          _onServerError();
+          break;
+        default:
+          break;
+      }
+    } catch (error) {}
+  };
+
+  return {
+    call: _call,
+    onOk: function(callback) {
+      _onOkCallBack = callback;
+      return this;
+    },
+    onServerError: function(callback) {
+      _onServerErrorCallBack = callback;
+      return this;
+    },
+    onBadRequest: function(callback) {
+      _onBadRequestCallBack = callback;
+      return this;
+    },
+    notFound: function(callback) {
+      _notFoundCallBack = callback;
+      return this;
+    },
+    unAuthorized: function(callback) {
+      _unAuthorizedCallBack = callback;
+      return this;
+    },
+    onRequestError: function(callback) {
+      _onRequestErrorCallBack = callback;
+      return this;
+    },
+    unKnownError: function(callback) {
+      _unKnownErrorCallBack = callback;
+      return this;
+    }
+  };
+}
+
 export function getContentByLink() {
   let _onOkCallBack;
   function _onOk(result) {

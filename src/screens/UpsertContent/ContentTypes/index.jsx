@@ -4,7 +4,6 @@ import { getContentTypes } from "Api/content-api";
 import { CircleSpinner } from "components";
 import { useLocale } from "hooks";
 
-
 const ContentTypes = props => {
   const [{ contentTypes, spaceInfo }, dispatch] = useGlobalState();
   const { currentLocale } = useLocale();
@@ -53,7 +52,7 @@ const ContentTypes = props => {
         };
         props.onEndLoading(false, obj);
       })
-      .call(spaceInfo.id);
+      .call({ spaceId: spaceInfo.id });
   }, []);
 
   return spinner ? (
@@ -85,11 +84,24 @@ const ContentTypes = props => {
             </div>
           ) : (
             <div className="treeItem-img">
-              <img src={c.media && c.media.length>0
-                      ? c.media[0][currentLocale]
-                        ? c.media[0][currentLocale].replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
-                        : c.media[0].toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
-                      : null} alt="" />
+              <img
+                src={
+                  c.media && c.media.length > 0
+                    ? c.media[0][currentLocale]
+                      ? c.media[0][currentLocale].replace(
+                          "https://app-spanel.herokuapp.com",
+                          "https://assets.reqter.com"
+                        )
+                      : c.media[0]
+                          .toString()
+                          .replace(
+                            "https://app-spanel.herokuapp.com",
+                            "https://assets.reqter.com"
+                          )
+                    : null
+                }
+                alt=""
+              />
             </div>
           )}
           <div className="treeItem-text">
