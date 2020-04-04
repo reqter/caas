@@ -832,7 +832,6 @@ export function removeContentTypeField() {
     }
   };
 }
-
 export function setAccessRight() {
   let _onOkCallBack;
   function _onOk(result) {

@@ -1,5 +1,5 @@
 import { useGlobalState } from "services";
-const dataDefaultLang = process.env.REACT_APP_DATA_DEFAULT_LANG || "fa";
+const dataDefaultLang = process.env.REACT_APP_DATA_DEFAULT_LANG || "en";
 //
 const useLocale = () => {
   const [{ spaceInfo, editingLocale }, dispatch] = useGlobalState();

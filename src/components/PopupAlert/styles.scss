@@ -1,6 +1,15 @@
 .popup {
   padding: 15px;
   padding-top: 5px;
+  position: relative;
+  .closeIcon {
+    position: absolute;
+    right: 10px;
+    top: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    color: gray;
+  }
   .popup-icon {
     color: rgb(56, 132, 255);
     font-size: 45px;

@@ -7,6 +7,7 @@ const signup_url = baseUrl + config.REACT_APP_ACCOUNT_SIGNUP_URL;
 const forgotPass_url = baseUrl + "/auth/forgotpassword";
 const verifyCode_url = baseUrl + "/auth/verifycode";
 const resetPass_url = baseUrl + "/auth/resetpassword";
+const confirmEmailFromUrl_url = baseUrl + "/auth/confirmemail";
 const getUserInfo_url = baseUrl + config.REACT_APP_ACCOUNT_GET_USER_INFO;
 const updateProfileURL = baseUrl + config.REACT_APP_ACCOUNT_UPDATE_PROFILE;
 const confirmEmailURL = baseUrl + config.REACT_APP_ACCOUNT_CONFIRM_EMAIL;
@@ -578,17 +579,16 @@ export function confirmEmailFromURL() {
       _onConnectionErrorCallBack(result);
     }
   }
-  const _call = async email => {
+  const _call = async token => {
     try {
-      const url = forgotPass_url;
+      const url = confirmEmailFromUrl_url;
       var rawResponse = await fetch(url, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          authorization: "Bearer " + token
         },
-        body: JSON.stringify({
-          email
-        })
+        body: JSON.stringify({})
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();

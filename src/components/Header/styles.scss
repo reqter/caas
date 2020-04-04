@@ -37,7 +37,7 @@
   margin-right: 25px;
   text-decoration: none !important;
   color: black;
-
+  cursor: pointer;
   &:hover:not(.linkItemSelected) {
     color: gray;
     // border-bottom: 1px solid lightgray;

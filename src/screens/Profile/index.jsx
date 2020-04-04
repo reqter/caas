@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-
 import "./styles.scss";
-import { languageManager, useGlobalState } from "../../services";
-import { AssetBrowser, CircleSpinner, Alert } from "../../components";
-import { uploadAssetFile, addAsset } from "../../Api/asset-api";
+import useGlobalState from "services/stateManager";
+import { t } from "services/languageManager";
+import AssetBrowser from "components/AssetBrowser";
+import CircleSpinner from "components/CircleSpinner";
+import Alert from "components/PopupAlert";
+import { uploadAssetFile, addAsset } from "Api/asset-api";
 import {
   updateProfile,
   changeAvatar,
@@ -13,10 +15,9 @@ import {
 } from "Api/account-api";
 
 import UpdatePassword from "./modals/updatePassword";
-import { useLocale } from "hooks";
-const currentLang = languageManager.getCurrentLanguage().name;
-const pageTitle = languageManager.translate("HOME_SIDE_NAV_PROFILE");
-const pageDescription = languageManager.translate("HOME_SIDE_NAV_PROFILE_DESC");
+import useLocale from "hooks/useLocale";
+const pageTitle = t("HOME_SIDE_NAV_PROFILE");
+const pageDescription = t("HOME_SIDE_NAV_PROFILE_DESC");
 
 const Profile = props => {
   const [{ userInfo, spaceInfo, sysLocales }, dispatch] = useGlobalState();
@@ -43,12 +44,24 @@ const Profile = props => {
     userInfo ? userInfo.profile.last_name : undefined
   );
   const [avatar, setAvatar] = useState(
- userInfo
-      ? userInfo.profile ? userInfo.profile.avatar ? userInfo.profile.avatar[currentLocale] ? 
-      userInfo.profile.avatar[currentLocale].toString().replace("https://app-spanel.herokuapp.com","https://assets.reqter.com") 
-      : userInfo.profile.avatar.toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
-      : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png" 
-      : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png" 
+    userInfo
+      ? userInfo.profile
+        ? userInfo.profile.avatar
+          ? userInfo.profile.avatar[currentLocale]
+            ? userInfo.profile.avatar[currentLocale]
+                .toString()
+                .replace(
+                  "https://app-spanel.herokuapp.com",
+                  "https://assets.reqter.com"
+                )
+            : userInfo.profile.avatar
+                .toString()
+                .replace(
+                  "https://app-spanel.herokuapp.com",
+                  "https://assets.reqter.com"
+                )
+          : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png"
+        : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png"
       : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png"
   );
 
@@ -68,9 +81,19 @@ const Profile = props => {
       setLastName(last_name ? last_name : "");
       setAvatar(
         avatar
-          ? avatar[currentLocale] ? 
-          avatar[currentLocale].toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com") 
-          : avatar.toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com") 
+          ? avatar[currentLocale]
+            ? avatar[currentLocale]
+                .toString()
+                .replace(
+                  "https://app-spanel.herokuapp.com",
+                  "https://assets.reqter.com"
+                )
+            : avatar
+                .toString()
+                .replace(
+                  "https://app-spanel.herokuapp.com",
+                  "https://assets.reqter.com"
+                )
           : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png"
       );
     }
@@ -147,7 +170,7 @@ const Profile = props => {
   function handleChooseAsset(asset) {
     toggleAssetBrowser(false);
     if (asset) {
-      uploadAvatar(asset["url"][currentLang]);
+      uploadAvatar(asset["url"][currentLocale]);
     }
   }
   function updateProfileInfo() {
@@ -189,7 +212,7 @@ const Profile = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "success",
-              message: languageManager.translate(
+              message: t(
                 "Image uploaded successfully.now it is changing avatar"
               )
             }
@@ -200,7 +223,7 @@ const Profile = props => {
             title: file.originalname,
             description: "",
             url: {
-              [currentLang]:
+              [currentLocale]:
                 process.env.REACT_APP_DOWNLOAD_FILE_BASE_URL + file.url
             },
             fileType: file.mimetype
@@ -229,7 +252,7 @@ const Profile = props => {
                 .notFound(result => {
                   toggleIsUploading(false);
                 })
-                .call(result.url[currentLang]);
+                .call(result.url[currentLocale]);
             })
             .onServerError(result => {
               toggleIsUploading(false);
@@ -237,9 +260,7 @@ const Profile = props => {
                 type: "ADD_NOTIFY",
                 value: {
                   type: "error",
-                  message: languageManager.translate(
-                    "UPSERT_ASSET_ADD_ON_SERVER_ERROR"
-                  )
+                  message: t("UPSERT_ASSET_ADD_ON_SERVER_ERROR")
                 }
               });
             })
@@ -249,9 +270,7 @@ const Profile = props => {
                 type: "ADD_NOTIFY",
                 value: {
                   type: "error",
-                  message: languageManager.translate(
-                    "UPSERT_ASSET_ADD_ON_BAD_REQUEST"
-                  )
+                  message: t("UPSERT_ASSET_ADD_ON_BAD_REQUEST")
                 }
               });
             })
@@ -261,9 +280,7 @@ const Profile = props => {
                 type: "ADD_NOTIFY",
                 value: {
                   type: "warning",
-                  message: languageManager.translate(
-                    "UPSERT_ASSET_ADD_UN_AUTHORIZED"
-                  )
+                  message: t("UPSERT_ASSET_ADD_UN_AUTHORIZED")
                 }
               });
             })
@@ -273,9 +290,7 @@ const Profile = props => {
                 type: "ADD_NOTIFY",
                 value: {
                   type: "error",
-                  message: languageManager.translate(
-                    "UPSERT_ASSET_ADD_NOT_FOUND"
-                  )
+                  message: t("UPSERT_ASSET_ADD_NOT_FOUND")
                 }
               });
             })
@@ -333,9 +348,7 @@ const Profile = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "success",
-              message: languageManager.translate(
-                "PROFILE_EMAIL_CONFRIMATION_ON_OK"
-              )
+              message: t("PROFILE_EMAIL_CONFRIMATION_ON_OK")
             }
           });
           toggleConfirmEmailSpinner(false);
@@ -345,9 +358,7 @@ const Profile = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate(
-                "PROFILE_EMAIL_CONFRIMATION_ON_SERVER_ERROR"
-              )
+              message: t("PROFILE_EMAIL_CONFRIMATION_ON_SERVER_ERROR")
             }
           });
           toggleConfirmEmailSpinner(false);
@@ -358,9 +369,7 @@ const Profile = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate(
-                "PROFILE_EMAIL_CONFRIMATION_BAD_REQUEST"
-              )
+              message: t("PROFILE_EMAIL_CONFRIMATION_BAD_REQUEST")
             }
           });
         })
@@ -373,9 +382,7 @@ const Profile = props => {
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate(
-                "PROFILE_EMAIL_CONFRIMATION_NOT_FOUND"
-              )
+              message: t("PROFILE_EMAIL_CONFRIMATION_NOT_FOUND")
             }
           });
         })
@@ -434,7 +441,7 @@ const Profile = props => {
               type: "LOGOUT",
               value: false
             });
-            props.history.replace("login");
+            props.history.replace("/login");
           })
           .onServerError(result => {
             showNotify("success", "Internal server error");
@@ -640,7 +647,7 @@ const Profile = props => {
             </div>
             {currentBox === 3 && (
               <div className="pro-box-content">
-                <label for="notify" className="text-switch">
+                <label htmlFor="notify" className="text-switch">
                   <div className="left-text">
                     <span className="left-text-title">Emails</span>
                     <span className="left-text-description">

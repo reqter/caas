@@ -82,59 +82,6 @@ const Assets = props => {
 
   useEffect(() => {
     doFilter(selectedFileType.name, undefined, skip, limit);
-    //    getAssets()
-    // .onOk(result => {
-    //   if (!didCancel) {
-    //     toggleSpinner(false);
-    //     dispatch({
-    //       type: "SET_ASSETS",
-    //       value: result
-    //     });
-    //   }
-    // })
-    // .onServerError(result => {
-    //   if (!didCancel) {
-    //     toggleSpinner(false);
-    //     dispatch({
-    //       type: "ADD_NOTIFY",
-    //       value: {
-    //         type: "error",
-    //         message: languageManager.translate("ASSET_GET_ON_SERVER_ERROR")
-    //       }
-    //     });
-    //   }
-    // })
-    // .onBadRequest(result => {
-    //   if (!didCancel) {
-    //     toggleSpinner(false);
-    //     dispatch({
-    //       type: "ADD_NOTIFY",
-    //       value: {
-    //         type: "error",
-    //         message: languageManager.translate("ASSET_GET_ON_BAD_REQUEST")
-    //       }
-    //     });
-    //   }
-    // })
-    // .unAuthorized(result => {
-    //   if (!didCancel) {
-    //     props.history.replace("/login");
-    //     dispatch({
-    //       type: "ADD_NOTIFY",
-    //       value: {
-    //         type: "warning",
-    //         message: languageManager.translate("ASSET_GET_UN_AUTHORIZED")
-    //       }
-    //     });
-    //   }
-    // })
-    // .notFound(result => {
-    //   if (!didCancel) {
-    //     toggleSpinner(false);
-    //   }
-    // })
-    // .call(spaceInfo.id);
-
     return () => {
       didCancel = true;
     };

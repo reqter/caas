@@ -233,10 +233,10 @@ const UpsertLocale = props => {
                 </label>
               </div>
               <div className="right">
-                <label for="include">
+                <label htmlFor="include">
                   {languageManager.translate("Include in responce")}
                 </label>
-                <label for="include">
+                <label htmlFor="include">
                   {languageManager.translate(
                     "Including responce data for this locale"
                   )}
@@ -256,10 +256,10 @@ const UpsertLocale = props => {
                 </label>
               </div>
               <div className="right">
-                <label for="editable">
+                <label htmlFor="editable">
                   {languageManager.translate("Editable")}
                 </label>
-                <label for="editable">
+                <label htmlFor="editable">
                   {languageManager.translate("This locale can be edited")}
                 </label>
               </div>
@@ -277,10 +277,10 @@ const UpsertLocale = props => {
                 </label>
               </div>
               <div className="right">
-                <label for="required">
+                <label htmlFor="required">
                   {languageManager.translate("Required Fields")}
                 </label>
-                <label for="required">
+                <label htmlFor="required">
                   {languageManager.translate(
                     "This locale should be filled in entry data"
                   )}
@@ -303,10 +303,10 @@ const UpsertLocale = props => {
                   </label>
                 </div>
                 <div className="right">
-                  <label for="default">
+                  <label htmlFor="default">
                     {languageManager.translate("Set as default")}
                   </label>
-                  <label for="default">
+                  <label htmlFor="default">
                     {languageManager.translate(
                       "This language can not be deleted"
                     )}

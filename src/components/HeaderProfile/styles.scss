@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   &__img {
+    cursor: pointer;
     img {
       width: 100%;
       height: 100%;
@@ -14,6 +15,7 @@
     overflow: hidden;
   }
   &__noUserImg {
+    cursor: pointer;
     margin: 0 5px;
     width: 40px;
     height: 40px;
@@ -29,9 +31,10 @@
     color: white;
     font-weight: 500;
     margin: 0 5px;
+    cursor: pointer;
   }
   &__actions {
-    button {
+    .btn:first-child {
       background: transparent;
       border: none;
       i {

@@ -36,7 +36,7 @@ const HeaderProfile = ({ history }) => {
     <div className="headerProfile">
       {userInfo && userInfo.profile && userInfo.profile.avatar ? (
         userInfo.profile.avatar[currentLocale] ? (
-          <div className="headerProfile__img">
+          <div className="headerProfile__img" onClick={showProfile}>
             <img
               src={userInfo.profile.avatar[currentLocale].replace(
                 "https://app-spanel.herokuapp.com",
@@ -46,7 +46,7 @@ const HeaderProfile = ({ history }) => {
             />
           </div>
         ) : (
-          <div className="headerProfile__img">
+          <div className="headerProfile__img" onClick={showProfile}>
             <img
               src={userInfo.profile.avatar
                 .toString()
@@ -59,11 +59,11 @@ const HeaderProfile = ({ history }) => {
           </div>
         )
       ) : (
-        <div className="headerProfile__noUserImg">
+        <div className="headerProfile__noUserImg" onClick={showProfile}>
           <i className="icon-user" />
         </div>
       )}
-      <span className="headerProfile__username">
+      <span className="headerProfile__username" onClick={toggle}>
         {(!userInfo.profile.first_name ||
           userInfo.profile.first_name.length === 0) &&
         (!userInfo.profile.last_name || userInfo.profile.last_name.length)
