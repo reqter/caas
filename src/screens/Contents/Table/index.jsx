@@ -24,7 +24,10 @@ import styles from "./styles.module.scss";
 const limit = 50;
 const DataTable = ({ match, history }) => {
   const boxRef = useRef(null);
-  const [{ spaceInfo, selectedContentType }] = useGlobalState();
+  const [
+    { spaceInfo, selectedContentType, contentFilter },
+    dispatch,
+  ] = useGlobalState();
   const { currentLocale } = useLocale();
   const [state, setState] = useState({
     loading: selectedContentType ? false : true,
@@ -33,10 +36,10 @@ const DataTable = ({ match, history }) => {
     allData: [],
     tableData: [],
     contentType: selectedContentType ? selectedContentType : undefined,
-    skip: 0,
-    status: null,
-    text: null,
-    category: null
+    skip: contentFilter ? contentFilter.skip : 0,
+    status: contentFilter ? contentFilter.status : null,
+    text: contentFilter ? contentFilter.text : null,
+    category: null,
   });
   const {
     loading,
@@ -48,10 +51,20 @@ const DataTable = ({ match, history }) => {
     skip,
     text,
     status,
-    category
+    category,
   } = state;
-  const updateState = changes => {
-    setState(prevState => ({ ...prevState, ...changes }));
+  const updateState = (changes) => {
+    setState((prevState) => ({ ...prevState, ...changes }));
+  };
+  const saveFilter = () => {
+    dispatch({
+      type: "SAVE_CONTENT_FILTER",
+      payload: {
+        status,
+        text,
+        skip,
+      },
+    });
   };
   useEffect(() => {
     if (selectedContentType) {
@@ -63,57 +76,68 @@ const DataTable = ({ match, history }) => {
   }, []);
   const getContentTypeColumns = () => {
     getContentTypeById()
-      .onOk(result => {
+      .onOk((result) => {
         updateState({
           loading: false,
           tableLoading: true,
-          contentType: result
+          contentType: result,
         });
         getData(text, result, category, status, skip, limit);
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         updateState({ loading: false, error: true });
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         updateState({ loading: false, error: true });
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         updateState({ loading: false, error: true });
       })
       .call(spaceInfo.id, match.params.id);
   };
   const getData = (text, cType, category, status, skip, limit) => {
     filterContents()
-      .onOk(result => {
+      .onOk((result) => {
+        const sum = skip * limit;
         const d = result.map((item, index) => {
           return {
-            index: skip + parseInt(index) + 1,
-            ...item
+            index: sum + parseInt(index) + 1,
+            ...item,
           };
         });
         updateState({
           tableLoading: false,
           allData: d,
           tableData: d,
-          error: false
+          error: false,
         });
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         updateState({ tableLoading: false, error: true });
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         updateState({ tableLoading: false, error: true });
       })
-      .notFound(result => {
+      .notFound((result) => {
         updateState({ tableLoading: false, error: true });
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         updateState({ tableLoading: false, error: true });
       })
-      .call(spaceInfo.id, text, cType._id, category, status, skip, limit);
+      .call(
+        spaceInfo.id,
+        text,
+        cType._id,
+        category,
+        status,
+        skip * limit,
+        limit
+      );
   };
-  function handleStartAction() {
-    updateState({ tableLoading: true });
+  function handleStartAction(sender) {
+    if (sender === "edit") {
+      saveFilter();
+    } else updateState({ tableLoading: true });
   }
   function handleEndAction(result) {
     updateState({ tableLoading: false });
@@ -134,41 +158,33 @@ const DataTable = ({ match, history }) => {
   };
   const prevPage = () => {
     updateState({ tableLoading: true, skip: skip - 1 });
-    getData(text, contentType, category, status, (skip - 1) * limit, limit);
+    getData(text, contentType, category, status, skip - 1, limit);
   };
   const nextPage = () => {
-    updateState({ tableLoading: true, skip: skip + 1 });
-    getData(text, contentType, category, status, (skip + 1) * limit, limit);
+    if (!tableLoading && !loading) {
+      updateState({ tableLoading: true, skip: skip + 1 });
+      getData(text, contentType, category, status, skip + 1, limit);
+    }
   };
-  const handleChangedStatus = s => {
-    updateState({ tableLoading: true, status: s });
-    getData(text, contentType, category, s, skip, limit);
+  const handleChangedStatus = (s) => {
+    if (!tableLoading && !loading) {
+      updateState({ tableLoading: true, status: s, skip: 0 });
+      getData(text, contentType, category, s, 0, limit);
+    }
   };
-  const handleChangedSearchInput = txt => {
-    updateState({ tableLoading: true, text: txt });
-    getData(txt, contentType, category, status, skip, limit);
-    // const d = allData.filter(item => {
-    //   const { fields } = item;
-    //   const name = fields["name"]
-    //     ? fields["name"][currentLocale]
-    //       ? fields["name"][currentLocale]
-    //       : typeof fields["name"] === "string"
-    //       ? fields["name"]
-    //       : null
-    //     : null;
-    //   if (name && name.includes(txt)) return true;
-    //   return false;
-    // });
-    // updateState({ tableData: d });
+  const handleChangedSearchInput = (txt) => {
+    updateState({ tableLoading: true, text: txt, skip: 0 });
+    getData(txt, contentType, category, status, 0, limit);
   };
-  const viewRowData = data => {
+  const viewRowData = (data) => {
     history.push({
-      pathname: `/contents/view/${data._id}`,
-      viewMode: true
+      pathname: `/contents/view/${data._id}?ref=list`,
+      viewMode: true,
     });
   };
   function newContent() {
-    history.push("/contents/new");
+    history.push(`/contents/new/${contentType._id}?ref=list`);
+    saveFilter();
   }
   function viewNewTab(e, data) {
     e.preventDefault();
@@ -190,6 +206,7 @@ const DataTable = ({ match, history }) => {
       <Filters
         onChangeStatus={handleChangedStatus}
         onChangeInput={handleChangedSearchInput}
+        contentFilter={contentFilter}
       />
       <BoxLayout ref={boxRef}>
         <div className={styles.boxTop}>
@@ -223,22 +240,22 @@ const DataTable = ({ match, history }) => {
             <Column width={70} fixed="left">
               <HeaderCell>#</HeaderCell>
               <Cell>
-                {rowData => {
+                {(rowData) => {
                   return <div className={styles.rowIndex}>{rowData.index}</div>;
                 }}
               </Cell>
             </Column>
-            <Column width={250} resizable>
+            <Column width={340} resizable>
               <HeaderCell>Name</HeaderCell>
               <Cell>
-                {rowData => {
+                {(rowData) => {
                   const { fields } = rowData;
                   return (
                     <a
                       href=""
                       target="_blank"
                       className={styles.name}
-                      onClick={e => viewNewTab(e, rowData)}
+                      onClick={(e) => viewNewTab(e, rowData)}
                     >
                       {fields["name"]
                         ? fields["name"][currentLocale]
@@ -253,28 +270,9 @@ const DataTable = ({ match, history }) => {
               </Cell>
             </Column>
             <Column width={150}>
-              <HeaderCell>Description</HeaderCell>
-              <Cell>
-                {rowData => {
-                  const { fields } = rowData;
-                  return (
-                    <div className={styles.description}>
-                      {fields["shortDesc"]
-                        ? fields["shortDesc"][currentLocale]
-                          ? fields["shortDesc"][currentLocale]
-                          : typeof fields["shortDesc"] === "string"
-                          ? fields["shortDesc"]
-                          : ""
-                        : ""}
-                    </div>
-                  );
-                }}
-              </Cell>
-            </Column>
-            <Column width={150}>
               <HeaderCell>Issuer</HeaderCell>
               <Cell>
-                {rowData => {
+                {(rowData) => {
                   const { sys } = rowData;
                   return (
                     <div className={styles.date}>
@@ -290,7 +288,7 @@ const DataTable = ({ match, history }) => {
             <Column width={150}>
               <HeaderCell>Status</HeaderCell>
               <Cell>
-                {rowData => {
+                {(rowData) => {
                   const { status } = rowData;
                   return (
                     <div className="p-contentType">
@@ -300,11 +298,10 @@ const DataTable = ({ match, history }) => {
                 }}
               </Cell>
             </Column>
-
             <Column width={300} fixed="right" align="center">
               <HeaderCell>Action</HeaderCell>
               <Cell>
-                {rowData => (
+                {(rowData) => (
                   <Actions
                     row={rowData}
                     onStartAction={handleStartAction}

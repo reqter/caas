@@ -11,7 +11,7 @@ import {
   publish,
   unPublish,
   archive,
-  unArchive
+  unArchive,
 } from "Api/asset-api";
 import { useLocale } from "hooks";
 const filters = [
@@ -20,46 +20,46 @@ const filters = [
     name: "all",
     title: {
       en: "All Assets",
-      fa: "همه"
+      fa: "همه",
     },
-    icon: "icon-folder"
+    icon: "icon-folder",
   },
   {
     id: "1",
     name: "image",
     title: {
       en: "Image",
-      fa: "تصاویر"
+      fa: "تصاویر",
     },
-    icon: "icon-images"
+    icon: "icon-images",
   },
   {
     id: "2",
     name: "video",
     title: {
       en: "Video",
-      fa: "ویدیو"
+      fa: "ویدیو",
     },
-    icon: "icon-video"
+    icon: "icon-video",
   },
   {
     id: "3",
     name: "audio",
     title: {
       en: "Audio",
-      fa: "فایل صوتی"
+      fa: "فایل صوتی",
     },
-    icon: "icon-audio"
+    icon: "icon-audio",
   },
   {
     id: "4",
     name: "application/pdf",
     title: {
       en: "PDF",
-      fa: "پی دی اف"
+      fa: "پی دی اف",
     },
-    icon: "icon-pdf"
-  }
+    icon: "icon-pdf",
+  },
 ];
 
 const pageTitle = languageManager.translate("HOME_SIDE_NAV_ASSETS_MANAGER");
@@ -67,8 +67,8 @@ const pageDescription = languageManager.translate(
   "HOME_SIDE_NAV_ASSETS_MANAGER_DESC"
 );
 const currentLang = languageManager.getCurrentLanguage().name;
-const limit = 50;
-const Assets = props => {
+const limit = 20;
+const Assets = (props) => {
   const { currentLocale } = useLocale();
   let didCancel = false;
 
@@ -91,7 +91,7 @@ const Assets = props => {
     return languageManager.translate(key);
   }
   const prevPage = () => {
-    setSkip(prev => prev - 1);
+    setSkip((prev) => prev - 1);
     doFilter(
       selectedFileType.name,
       selectedStatus.name,
@@ -100,7 +100,7 @@ const Assets = props => {
     );
   };
   const nextPage = () => {
-    setSkip(prev => prev + 1);
+    setSkip((prev) => prev + 1);
     doFilter(
       selectedFileType.name,
       selectedStatus.name,
@@ -112,57 +112,57 @@ const Assets = props => {
   function doFilter(fileType, status, skip, limit) {
     toggleSpinner(true);
     filterAssets()
-      .onOk(result => {
+      .onOk((result) => {
         toggleSpinner(false);
         if (assets && assets.length > 0)
           dispatch({
             type: "SET_ASSETS",
-            value: []
+            value: [],
           });
         const data =
           result &&
           result.map((item, index) => {
             return {
               ...item,
-              index: skip + parseInt(index) + 1
+              index: skip + parseInt(index) + 1,
             };
           });
         dispatch({
           type: "SET_ASSETS",
-          value: data
+          value: data,
         });
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         toggleSpinner(false);
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("ASSET_GET_ON_SERVER_ERROR")
-          }
+            message: languageManager.translate("ASSET_GET_ON_SERVER_ERROR"),
+          },
         });
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         toggleSpinner(false);
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("ASSET_GET_ON_BAD_REQUEST")
-          }
+            message: languageManager.translate("ASSET_GET_ON_BAD_REQUEST"),
+          },
         });
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         toggleSpinner(false);
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "warning",
-            message: languageManager.translate("ASSET_GET_UN_AUTHORIZED")
-          }
+            message: languageManager.translate("ASSET_GET_UN_AUTHORIZED"),
+          },
         });
       })
-      .notFound(result => {
+      .notFound((result) => {
         toggleSpinner(false);
       })
       .call(
@@ -204,7 +204,7 @@ const Assets = props => {
       onOk: () => removeAsset(e, item),
       onCancel: () => {
         setAlertData();
-      }
+      },
     });
     e.stopPropagation();
   }
@@ -212,58 +212,58 @@ const Assets = props => {
     e.stopPropagation();
     const deletedItem = item;
     deleteAsset()
-      .onOk(result => {
+      .onOk((result) => {
         setAlertData();
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "success",
-            message: languageManager.translate("ASSET_DELETE_ON_OK")
-          }
+            message: languageManager.translate("ASSET_DELETE_ON_OK"),
+          },
         });
         dispatch({
           type: "DELETE_ASSET",
-          value: deletedItem
+          value: deletedItem,
         });
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         setAlertData();
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("ASSET_DELETE_ON_SERVER_ERROR")
-          }
+            message: languageManager.translate("ASSET_DELETE_ON_SERVER_ERROR"),
+          },
         });
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         setAlertData();
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("ASSET_DELETE_ON_BAD_REQUEST")
-          }
+            message: languageManager.translate("ASSET_DELETE_ON_BAD_REQUEST"),
+          },
         });
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         setAlertData();
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "warning",
-            message: languageManager.translate("ASSET_DELETE_UN_AUTHORIZED")
-          }
+            message: languageManager.translate("ASSET_DELETE_UN_AUTHORIZED"),
+          },
         });
       })
-      .notFound(result => {
+      .notFound((result) => {
         setAlertData();
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("ASSET_DELETE_NOT_FOUND")
-          }
+            message: languageManager.translate("ASSET_DELETE_NOT_FOUND"),
+          },
         });
       })
       .call(spaceInfo ? spaceInfo.id : undefined, item._id);
@@ -271,54 +271,54 @@ const Assets = props => {
   function archiveAsset(e, file) {
     e.stopPropagation();
     archive()
-      .onOk(result => {
+      .onOk((result) => {
         doFilter(selectedFileType.name, selectedStatus.name);
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "success",
-            message: languageManager.translate("The asset is archived")
-          }
+            message: languageManager.translate("The asset is archived"),
+          },
         });
         dispatch({
           type: "ARCHIVE_ASSET",
-          value: result
+          value: result,
         });
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Internal server error")
-          }
+            message: languageManager.translate("Internal server error"),
+          },
         });
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Bad request")
-          }
+            message: languageManager.translate("Bad request"),
+          },
         });
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Un Authorized")
-          }
+            message: languageManager.translate("Un Authorized"),
+          },
         });
       })
-      .notFound(result => {
+      .notFound((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Asset not found")
-          }
+            message: languageManager.translate("Asset not found"),
+          },
         });
       })
       .call(spaceInfo.id, file._id);
@@ -326,54 +326,54 @@ const Assets = props => {
   function unArchiveAsset(e, file) {
     e.stopPropagation();
     unArchive()
-      .onOk(result => {
+      .onOk((result) => {
         doFilter(selectedFileType.name, selectedStatus.name);
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "success",
-            message: languageManager.translate("The asset is unarchived")
-          }
+            message: languageManager.translate("The asset is unarchived"),
+          },
         });
         dispatch({
           type: "UN_ARCHIVE_ASSET",
-          value: result
+          value: result,
         });
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Internal server error")
-          }
+            message: languageManager.translate("Internal server error"),
+          },
         });
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Bad request")
-          }
+            message: languageManager.translate("Bad request"),
+          },
         });
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Un Authorized")
-          }
+            message: languageManager.translate("Un Authorized"),
+          },
         });
       })
-      .notFound(result => {
+      .notFound((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Asset not found")
-          }
+            message: languageManager.translate("Asset not found"),
+          },
         });
       })
       .call(spaceInfo.id, file._id);
@@ -381,54 +381,54 @@ const Assets = props => {
   function publishAsset(e, file) {
     e.stopPropagation();
     publish()
-      .onOk(result => {
+      .onOk((result) => {
         doFilter(selectedFileType.name, selectedStatus.name);
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "success",
-            message: languageManager.translate("The asset is published")
-          }
+            message: languageManager.translate("The asset is published"),
+          },
         });
         dispatch({
           type: "PUBLISH_ASSET",
-          value: result
+          value: result,
         });
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Internal server error")
-          }
+            message: languageManager.translate("Internal server error"),
+          },
         });
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Bad request")
-          }
+            message: languageManager.translate("Bad request"),
+          },
         });
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Un Authorized")
-          }
+            message: languageManager.translate("Un Authorized"),
+          },
         });
       })
-      .notFound(result => {
+      .notFound((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Asset not found")
-          }
+            message: languageManager.translate("Asset not found"),
+          },
         });
       })
       .call(spaceInfo.id, file._id);
@@ -436,54 +436,54 @@ const Assets = props => {
   function unPublishAsset(e, file) {
     e.stopPropagation();
     unPublish()
-      .onOk(result => {
+      .onOk((result) => {
         doFilter(selectedFileType.name, selectedStatus.name);
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "success",
-            message: languageManager.translate("The asset is unpublished")
-          }
+            message: languageManager.translate("The asset is unpublished"),
+          },
         });
         dispatch({
           type: "UN_PUBLISH_ASSET",
-          value: result
+          value: result,
         });
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Internal server error")
-          }
+            message: languageManager.translate("Internal server error"),
+          },
         });
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Bad request")
-          }
+            message: languageManager.translate("Bad request"),
+          },
         });
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Un Authorized")
-          }
+            message: languageManager.translate("Un Authorized"),
+          },
         });
       })
-      .notFound(result => {
+      .notFound((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Asset not found")
-          }
+            message: languageManager.translate("Asset not found"),
+          },
         });
       })
       .call(spaceInfo.id, file._id);
@@ -512,7 +512,7 @@ const Assets = props => {
                 <div className="title">
                   {translate("ASSET_FILTER_BY_TYPE_TITLE")}
                 </div>
-                {filters.map(f => (
+                {filters.map((f) => (
                   <div
                     className="filter"
                     key={f.id}
@@ -521,7 +521,7 @@ const Assets = props => {
                       color:
                         f.id === selectedFileType.id
                           ? "rgb(56,132,255)"
-                          : "black"
+                          : "black",
                     }}
                   >
                     <i className={["icon", f.icon].join(" ")} />
@@ -531,7 +531,8 @@ const Assets = props => {
                     <span
                       className="icon-circle-o iconSelected"
                       style={{
-                        display: f.id === selectedFileType.id ? "block" : "none"
+                        display:
+                          f.id === selectedFileType.id ? "block" : "none",
                       }}
                     />
                   </div>
@@ -541,14 +542,16 @@ const Assets = props => {
                 <div className="title">
                   {translate("ASSET_FILTER_BY_STATUS_TITLE")}
                 </div>
-                {status.map(f => (
+                {status.map((f) => (
                   <div
                     className="filter"
                     key={f.id}
                     onClick={() => handleStatusClick(f)}
                     style={{
                       color:
-                        f.id === selectedStatus.id ? "rgb(56,132,255)" : "black"
+                        f.id === selectedStatus.id
+                          ? "rgb(56,132,255)"
+                          : "black",
                     }}
                   >
                     <i className={["icon", f.icon].join(" ")} />
@@ -556,7 +559,7 @@ const Assets = props => {
                     <span
                       className="icon-circle-o iconSelected"
                       style={{
-                        display: f.id === selectedStatus.id ? "block" : "none"
+                        display: f.id === selectedStatus.id ? "block" : "none",
                       }}
                     />
                   </div>

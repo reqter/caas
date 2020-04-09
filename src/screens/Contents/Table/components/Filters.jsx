@@ -6,22 +6,34 @@ const Filters = ({
   currentFilter,
   onChangeStatus,
   onChangeInput,
-  onPageingStart
+  onPagingStart,
+  contentFilter,
 }) => {
   const inputRef = useRef(null);
   const [{ status }] = useGlobalState();
-  const [selectedStatus, setStatus] = useState();
-  const [searchInput, setSearchText] = useState("");
+  const [selectedStatus, setStatus] = useState(() => {
+    if (
+      contentFilter &&
+      contentFilter.status &&
+      contentFilter.status !== "all"
+    ) {
+      const s = status.find((item) => item.name === contentFilter.status);
+      return s;
+    }
+    return undefined;
+  });
+  const [searchInput, setSearchText] = useState(
+    contentFilter && contentFilter.text ? contentFilter.text : ""
+  );
   const [isSearched, toggleIsSearched] = useState(false);
 
   useEffect(() => {
-    if (onPageingStart) if (searchInput.length > 0) setSearchText("");
-  }, [onPageingStart]);
+    if (onPagingStart) if (searchInput.length > 0) setSearchText("");
+  }, [onPagingStart]);
 
-  const changeStatus = s => {
+  const changeStatus = (s) => {
     if (onChangeStatus) onChangeStatus(s.name === "all" ? null : s.name);
     setStatus(s);
-    if (searchInput.length > 0) setSearchText("");
   };
   const search = () => {
     if (inputRef.current) {
@@ -54,7 +66,7 @@ const Filters = ({
         >
           <span>All</span>
         </button>
-        {status.map(s => {
+        {status.map((s) => {
           return (
             <button
               key={s.name}

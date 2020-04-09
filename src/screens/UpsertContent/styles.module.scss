@@ -1,0 +1,262 @@
+.wrapper {
+  overflow: auto;
+}
+.header {
+  position: fixed;
+  height: 60px;
+  background: var(--primary-color);
+  top: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0px 0px 8px 2px lightgray;
+  display: flex;
+  padding: 0 3%;
+  align-items: center;
+  z-index: 100;
+  button {
+    i {
+      margin-right: 10px;
+    }
+  }
+  .tabItems {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: 600;
+    font-size: 22px;
+    div {
+      transform: translateX(-40%);
+    }
+  }
+}
+.content {
+  padding-top: 80px;
+  padding-bottom: 30px;
+  width: 768px;
+  margin: auto;
+
+  .content_itemTypes {
+    background: white;
+    min-height: 300px;
+    padding: 20px;
+    box-shadow: 0 0 3px lightgray;
+    border-radius: 4px;
+    .listGroupItem {
+      border-bottom: 1px solid whitesmoke;
+      padding: 10px 0;
+      .treeItem {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        .treeItem-img {
+          width: 70px;
+          height: 60px;
+          margin-right: 10px;
+          border: 1px solid rgb(220, 220, 220);
+          padding: 3px;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+        .treeItem-icon {
+          width: 70px;
+          height: 60px;
+          margin-right: 10px;
+          padding: 3px;
+          border: 1px solid rgb(220, 220, 220);
+          .contentIcon {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            background: rgb(56, 132, 255);
+            i {
+              font-size: 35px;
+              color: white;
+            }
+          }
+        }
+        .btnCategoryCollapse {
+          margin-right: 5px;
+          font-size: 14px;
+          width: 30px;
+          height: 30px;
+          color: rgb(56, 132, 255);
+          font-size: 23px;
+          font-weight: bolder;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .btnCategoryLeaf {
+          width: 30px;
+          height: 25px;
+          font-size: 6px;
+          margin-right: 5px;
+        }
+        .treeItem-text {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        .treeItem-name {
+          font-weight: 600;
+        }
+        .treeItem-desc {
+          font-size: 10px;
+        }
+        .treeItem-action {
+          margin-left: 5px;
+          display: flex;
+        }
+        .hoverAction {
+          display: none;
+        }
+      }
+    }
+  }
+  .getItem_content_itemTypes {
+    margin-top: 10px;
+    .listGroupItem {
+      border-bottom: 1px solid whitesmoke;
+      padding: 10px 0;
+    }
+  }
+  .content_title {
+    font-size: 25px;
+    font-weight: 500;
+    margin: 10px 0;
+    color: gray;
+  }
+  .categoryBox {
+    height: 100px;
+    box-shadow: 0 0 3px lightgray;
+    margin-bottom: 10px;
+    background: white;
+    border-radius: 3px;
+    display: flex;
+    justify-content: flex-start !important;
+    align-items: center;
+    padding: 0 5%;
+    span {
+      flex: 1;
+      font-size: 20px;
+      font-weight: 500;
+    }
+    .selectedCategory_img {
+      width: 80px;
+      height: 70px;
+      margin-right: 10px;
+      border: 1px solid rgb(220, 220, 220);
+      padding: 3px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .selectedCategory_icon {
+      width: 80px;
+      height: 70px;
+      margin-right: 10px;
+      padding: 3px;
+      border: 1px solid rgb(220, 220, 220);
+      .contentIcon {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        background: rgb(56, 132, 255);
+        i {
+          font-size: 35px;
+          color: white;
+        }
+      }
+    }
+    .linkBox {
+      height: 80px;
+      box-shadow: 0 0 3px lightgray;
+      margin-bottom: 10px;
+      background: white;
+      border-radius: 3px;
+      padding: 0 5%;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .linkmsg {
+        padding-bottom: 10px !important;
+      }
+      a {
+        margin-left: 5px;
+      }
+    }
+    .up_formInputs {
+      border-radius: 3px;
+      background: white;
+      box-shadow: 0 0 3px lightgray;
+      padding: 2% 4%;
+      input[readonly],
+      textarea[readonly],
+      select[disabled] {
+        background: white;
+      }
+      .rowItem {
+        margin: 20px 0;
+      }
+
+      .actions {
+        .btns {
+          display: flex;
+          flex-direction: row-reverse;
+          .btn {
+            margin-left: 10px;
+          }
+        }
+      }
+
+      .shortDesc textarea {
+        min-height: 100px;
+      }
+      .longDesc textarea {
+        min-height: 200px;
+      }
+    }
+    .up-error-section {
+      min-height: 250px;
+      background: white;
+      box-shadow: 0 0 3px lightgray;
+      border-radius: 3px;
+    }
+  }
+  .up_formInputs {
+    background-color: white;
+    padding: 5%;
+    box-shadow: 0 0 4px lightgray;
+    border-radius: 4px;
+  }
+  .form_submit_btns {
+    display: flex;
+    flex-direction: row-reverse;
+    button {
+      margin-left: 10px;
+      margin-top: 10px;
+    }
+  }
+}
+.loadingContainer {
+  margin-top: 100px;
+}
+
+.richText-header-customBtn {
+  padding: 0 10px;
+  color: gray;
+  cursor: pointer;
+}

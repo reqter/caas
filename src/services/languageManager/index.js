@@ -4,7 +4,7 @@ let systemDefaultLang = {
   title: "فارسی",
   direction: "rtl",
   name: "fa",
-  description: "جمهوری اسلامی ایران"
+  description: "جمهوری اسلامی ایران",
 };
 
 let languages = {
@@ -12,18 +12,18 @@ let languages = {
     title: "فارسی",
     direction: "rtl",
     name: "fa",
-    description: "جمهوری اسلامی ایران"
+    description: "جمهوری اسلامی ایران",
   },
   en: {
     title: "English",
     name: "en",
     direction: "ltr",
-    description: "United Kingdom"
-  }
+    description: "United Kingdom",
+  },
 };
 let translate = {
   en,
-  fa
+  fa,
 };
 
 // let currentLanguage = {
@@ -38,15 +38,16 @@ let currentLanguage = {
   name: "en",
   direction: "ltr",
   description: "United Kingdom",
-  allowEmptyValues: false
+  allowEmptyValues: false,
 };
-export const t = key => {
+export const t = (key) => {
   if (translate !== undefined && translate[currentLanguage.name])
     return translate[currentLanguage.name][key]
       ? translate[currentLanguage.name][key]
       : key;
   else return key;
 };
+export const currentLang = currentLanguage.name;
 const languageManager = {
   translate(key) {
     if (translate !== undefined && translate[currentLanguage.name])
@@ -86,6 +87,6 @@ const languageManager = {
   },
   get isRTL() {
     return currentLanguage.direction === "rtl" ? true : false;
-  }
+  },
 };
 export default languageManager;
