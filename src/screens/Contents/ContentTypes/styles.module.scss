@@ -15,6 +15,9 @@
   display: flex;
   align-items: center;
   padding: 10px 0;
+  button:last-child {
+    margin-left: 5px;
+  }
 }
 .contentTypeItem__img {
   width: 50px;

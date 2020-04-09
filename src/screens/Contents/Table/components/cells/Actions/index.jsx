@@ -10,7 +10,7 @@ import {
   publish,
   unPublish,
   archive,
-  unArchive
+  unArchive,
 } from "Api/content-api";
 
 const Actions = ({ row, onStartAction, onEndAction, history }) => {
@@ -24,117 +24,118 @@ const Actions = ({ row, onStartAction, onEndAction, history }) => {
       type: "ADD_NOTIFY",
       value: {
         type,
-        message
-      }
+        message,
+      },
     });
-  const _publish = e => {
+  const _publish = (e) => {
     e.stopPropagation();
     if (onStartAction) onStartAction();
     publish()
-      .onOk(result => {
+      .onOk((result) => {
         showwMsg("Published Successfully", "success");
         if (onEndAction) onEndAction("success");
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         showwMsg("Error occurred", "error");
         if (onEndAction) onEndAction("error");
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         showwMsg("Error occurred", "error");
         if (onEndAction) onEndAction("error");
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         history.push("/login");
       })
-      .notFound(result => {
+      .notFound((result) => {
         showwMsg("Error occurred", "error");
         if (onEndAction) onEndAction("error");
       })
       .call(spaceInfo.id, row._id);
   };
-  const _archive = e => {
+  const _archive = (e) => {
     e.stopPropagation();
     if (onStartAction) onStartAction();
     archive()
-      .onOk(result => {
+      .onOk((result) => {
         showwMsg("Archived Successfully", "success");
         if (onEndAction) onEndAction("success");
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         showwMsg("Error occurred", "error");
         if (onEndAction) onEndAction("error");
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         showwMsg("Error occurred", "error");
         if (onEndAction) onEndAction("error");
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         history.push("/login");
       })
-      .notFound(result => {
+      .notFound((result) => {
         showwMsg("Error occurred", "error");
         if (onEndAction) onEndAction("error");
       })
       .call(spaceInfo.id, row._id);
   };
-  const _unPublish = e => {
+  const _unPublish = (e) => {
     e.stopPropagation();
     if (onStartAction) onStartAction();
     unPublish()
-      .onOk(result => {
+      .onOk((result) => {
         showwMsg("UnPublished Successfully", "success");
         if (onEndAction) onEndAction("success");
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         showwMsg("Error occurred", "error");
         if (onEndAction) onEndAction("error");
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         showwMsg("Error occurred", "error");
         if (onEndAction) onEndAction("error");
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         history.push("/login");
       })
-      .notFound(result => {
+      .notFound((result) => {
         showwMsg("Error occurred", "error");
         if (onEndAction) onEndAction("error");
       })
       .call(spaceInfo.id, row._id);
   };
-  const _unArchive = e => {
+  const _unArchive = (e) => {
     e.stopPropagation();
     if (onStartAction) onStartAction();
     unArchive()
-      .onOk(result => {
+      .onOk((result) => {
         showwMsg("UnArchived Successfully", "success");
         if (onEndAction) onEndAction("success");
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         showwMsg("Error occurred", "error");
         if (onEndAction) onEndAction("error");
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         showwMsg("Error occurred", "error");
         if (onEndAction) onEndAction("error");
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         history.push("/login");
       })
-      .notFound(result => {
+      .notFound((result) => {
         showwMsg("Error occurred", "error");
         if (onEndAction) onEndAction("error");
       })
       .call(spaceInfo.id, row._id);
   };
-  const showRemoveAlert = e => {};
-  const edit = e => {
+  const showRemoveAlert = (e) => {};
+  const edit = (e) => {
+    if (onStartAction) onStartAction("edit");
     e.stopPropagation();
     history.push({
-      pathname: `/contents/edit/${row._id}`
+      pathname: `/contents/edit/${row._id}?ref=list`,
     });
   };
-  const remove = e => {
+  const remove = (e) => {
     e.stopPropagation();
     setAlertData({
       type: "error",
@@ -146,27 +147,27 @@ const Actions = ({ row, onStartAction, onEndAction, history }) => {
       onOk: () => {
         e.stopPropagation();
         deleteContent()
-          .onOk(result => {
+          .onOk((result) => {
             setAlertData();
             showwMsg("Item removed succefully", "success");
             if (onEndAction) onEndAction("success");
           })
-          .onServerError(result => {
+          .onServerError((result) => {
             setAlertData();
             showwMsg("Failed to remove item", "error");
             if (onEndAction) onEndAction("error");
           })
-          .onBadRequest(result => {
+          .onBadRequest((result) => {
             setAlertData();
             showwMsg("Failed to remove item", "error");
             if (onEndAction) onEndAction("error");
           })
-          .unAuthorized(result => {
+          .unAuthorized((result) => {
             setAlertData();
             showwMsg("Failed to remove item", "error");
             if (onEndAction) onEndAction("error");
           })
-          .notFound(result => {
+          .notFound((result) => {
             setAlertData();
             showwMsg("Failed to remove item", "error");
             if (onEndAction) onEndAction("error");
@@ -175,18 +176,18 @@ const Actions = ({ row, onStartAction, onEndAction, history }) => {
       },
       onCancel: () => {
         setAlertData();
-      }
+      },
     });
   };
   return (
     <div className={styles.content_actions}>
-      <button className="btn btn-outline-info btn-sm" onClick={e => edit(e)}>
+      <button className="btn btn-outline-info btn-sm" onClick={(e) => edit(e)}>
         Edit
       </button>
       {status !== "published" && status !== "archived" && (
         <button
           className="btn btn-outline-info btn-sm"
-          onClick={e => remove(e)}
+          onClick={(e) => remove(e)}
         >
           <i className="icon-bin" />
         </button>
@@ -195,13 +196,13 @@ const Actions = ({ row, onStartAction, onEndAction, history }) => {
         <>
           <button
             className="btn btn-outline-info btn-sm"
-            onClick={e => _publish(e)}
+            onClick={(e) => _publish(e)}
           >
             {t("PUBLISH")}
           </button>
           <button
             className="btn btn-outline-info btn-sm"
-            onClick={e => _archive(e)}
+            onClick={(e) => _archive(e)}
           >
             {t("ARCHIVE")}
           </button>
@@ -210,13 +211,13 @@ const Actions = ({ row, onStartAction, onEndAction, history }) => {
         <>
           <button
             className="btn btn-outline-info btn-sm"
-            onClick={e => _publish(e)}
+            onClick={(e) => _publish(e)}
           >
             {t("PUBLISH")}
           </button>
           <button
             className="btn btn-outline-info btn-sm"
-            onClick={e => _archive(e)}
+            onClick={(e) => _archive(e)}
           >
             {t("ARCHIVE")}
           </button>
@@ -224,14 +225,14 @@ const Actions = ({ row, onStartAction, onEndAction, history }) => {
       ) : status === "archived" ? (
         <button
           className="btn btn-outline-info btn-sm"
-          onClick={e => _unArchive(e)}
+          onClick={(e) => _unArchive(e)}
         >
           {t("UN_ARCHIVE")}
         </button>
       ) : status === "published" ? (
         <button
           className="btn btn-outline-info btn-sm"
-          onClick={e => _unPublish(e)}
+          onClick={(e) => _unPublish(e)}
         >
           {t("UN_PUBLISH")}
         </button>

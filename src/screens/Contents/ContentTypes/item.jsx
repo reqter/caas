@@ -13,9 +13,12 @@ const ContentTypeItem = ({ contentType, history }) => {
   const browseData = () => {
     dispatch({
       type: "SAVE_CONTENT_TYPE",
-      payload: contentType
+      payload: contentType,
     });
     history.push(`/panel/contents/${contentType._id}`);
+  };
+  const newContent = () => {
+    history.push(`/contents/new/${contentType._id}`);
   };
   return (
     <div className={styles.contentTypeItem + " animated fadeIn"}>
@@ -54,6 +57,9 @@ const ContentTypeItem = ({ contentType, history }) => {
           {description && description[currentLocale]}
         </span>
       </div>
+      <button className="btn btn-light btn-sm" onClick={newContent}>
+        New Item
+      </button>
       <button className="btn btn-light btn-sm" onClick={browseData}>
         Browse
       </button>
