@@ -4,6 +4,7 @@ import Dropdown from "reactstrap/lib/Dropdown";
 import DropdownToggle from "reactstrap/lib/DropdownToggle";
 import DropdownMenu from "reactstrap/lib/DropdownMenu";
 import DropdownItem from "reactstrap/lib/DropdownItem";
+import storageManager from "services/storageManager";
 import useGlobalState from "services/stateManager";
 import { t } from "services/languageManager";
 import { useLocale } from "hooks";
@@ -17,12 +18,12 @@ const HeaderProfile = ({ history }) => {
     toggleVisibility(prevState => !prevState);
   }
   function logout() {
+    storageManager.removeItem("@caaser-token")
     dispatch({
       type: "LOGOUT",
       value: false
     });
     history.replace("/login");
-    postMessage(false);
   }
 
   function showProfile() {

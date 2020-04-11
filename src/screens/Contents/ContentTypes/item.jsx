@@ -17,11 +17,20 @@ const ContentTypeItem = ({ contentType, history }) => {
     });
     history.push(`/panel/contents/${contentType._id}`);
   };
-  const newContent = () => {
+  const newContent = (e) => {
+    e.stopPropagation();
     history.push(`/contents/new/${contentType._id}`);
   };
+  const openContentNewTab = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    window.open(window.origin + `/panel/contents/${contentType._id}`, "_blank");
+  };
   return (
-    <div className={styles.contentTypeItem + " animated fadeIn"}>
+    <div
+      className={styles.contentTypeItem + " animated fadeIn"}
+      onClick={browseData}
+    >
       {media === undefined || media.length === 0 ? (
         <div className={styles.contentTypeItem__icon}>
           <div className={styles.contentIcon}>
@@ -50,9 +59,13 @@ const ContentTypeItem = ({ contentType, history }) => {
         </div>
       )}
       <div className={styles.contentTypeItem__text}>
-        <span className={styles.contentTypeItem__name}>
-          {title && title[currentLocale]}
-        </span>
+        <a
+          href=""
+          className={styles.contentTypeItem__name}
+          onClick={openContentNewTab}
+        >
+          {title && title[currentLocale] ? title[currentLocale] : ""}
+        </a>
         <span className={styles.contentTypeItem__desc}>
           {description && description[currentLocale]}
         </span>
@@ -60,9 +73,7 @@ const ContentTypeItem = ({ contentType, history }) => {
       <button className="btn btn-light btn-sm" onClick={newContent}>
         New Item
       </button>
-      <button className="btn btn-light btn-sm" onClick={browseData}>
-        Browse
-      </button>
+      <button className="btn btn-light btn-sm">Browse</button>
     </div>
   );
 };
