@@ -1,11 +1,17 @@
+.lds-rippleWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .lds-ripple {
   display: inline-block;
   position: relative;
   width: 80px;
   height: 80px;
-  left: 50%;
+  // left: 50%;
   margin-top: 20px;
-  transform: translateX(-50%);
 }
 .lds-ripple div {
   position: absolute;
