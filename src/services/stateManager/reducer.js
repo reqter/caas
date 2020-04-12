@@ -1,9 +1,8 @@
-import storageManager from "./../storageManager";
+import storageManager from "./../storageManager"
 
-const token = storageManager.getItem("token");
+const token = storageManager.getItem("@caaser-token");
 export const initialState = {
-  isAuthenticated:
-    token !== undefined && token !== null && token.length > 0 ? true : false,
+  isAuthenticated: token ? true : false,
   spaceInfo: undefined,
   userInfo: undefined,
   contentTypes: [],
@@ -87,7 +86,6 @@ export const initialState = {
 export const reducer = (state, action) => {
   switch (action.type) {
     case "LOGOUT":
-      storageManager.removeItem("token");
       const logout = {
         ...state,
         isAuthenticated: false,

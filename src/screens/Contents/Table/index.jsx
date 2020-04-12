@@ -177,6 +177,7 @@ const DataTable = ({ match, history }) => {
     getData(txt, contentType, category, status, 0, limit);
   };
   const viewRowData = (data) => {
+    saveFilter();
     history.push({
       pathname: `/contents/view/${data._id}?ref=list`,
       viewMode: true,

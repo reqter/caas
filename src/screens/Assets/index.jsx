@@ -584,7 +584,7 @@ const Assets = (props) => {
                     <span className="pagination-text">Page {skip + 1}</span>
                     <button
                       className="pagination-btn btn-right"
-                      disabled={!assets || assets.length < 50}
+                      disabled={!assets || assets.length < limit}
                       onClick={nextPage}
                     >
                       <i className="icon-circle-right" />

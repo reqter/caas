@@ -70,12 +70,14 @@
 .contentTypeItem__text {
   flex: 1;
   padding: 0 20px;
+
   .contentTypeItem__name {
-    display: block;
+    display: inline-block;
     font-weight: 500;
     font-size: 13px;
   }
   .contentTypeItem__desc {
     font-size: 12px;
+    display: block;
   }
 }
