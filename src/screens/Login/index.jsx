@@ -28,58 +28,56 @@ const Login = ({ location, history }) => {
     if (!spinner) {
       toggleSpinner(true);
       login()
-        .onOk(result => {
+        .onOk((result) => {
           //toggleSpinner(false);
           try {
             storageManager.setItem("@caaser-token", result.access_token);
             dispatch({
               type: "SET_AUTHENTICATED",
-              value: true
+              value: true,
             });
             setRedirectToReferrer(true);
-          } catch (error) {
-            console.log(error);
-          }
+          } catch (error) {}
           //localStorage.setItem("token", result.access_token);
         })
-        .onServerError(result => {
+        .onServerError((result) => {
           toggleSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: t("LOGIN_ON_SERVER_ERROR")
-            }
+              message: t("LOGIN_ON_SERVER_ERROR"),
+            },
           });
         })
-        .onBadRequest(result => {
+        .onBadRequest((result) => {
           toggleSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: t("LOGIN_ON_BAD_REQUEST")
-            }
+              message: t("LOGIN_ON_BAD_REQUEST"),
+            },
           });
         })
-        .unAuthorized(result => {
+        .unAuthorized((result) => {
           toggleSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: t("LOGIN_UN_AUTHORIZED")
-            }
+              message: t("LOGIN_UN_AUTHORIZED"),
+            },
           });
         })
-        .notFound(result => {
+        .notFound((result) => {
           toggleSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: result.error ? result.error : t("LOGIN_NOT_FOUND")
-            }
+              message: result.error ? result.error : t("LOGIN_NOT_FOUND"),
+            },
           });
         })
         .call(userName, password);
