@@ -8,6 +8,7 @@ const getByIdURL = baseUrl + config.REACT_APP_CONTENTS_GET_BY_ID;
 const getByIdLINK = baseUrl + config.REACT_APP_CONTENTS_GET_BY_LINK;
 const filterURL = baseUrl + "/contents/filter";
 const filterURLByRels = baseUrl + "/contents/filterbyrels";
+const filter_new_url = baseUrl + "/contents/search";
 
 const addURL = baseUrl + config.REACT_APP_CONTENTS_ADD;
 const updateURL = baseUrl + config.REACT_APP_CONTENTS_UPDATE;
@@ -29,7 +30,7 @@ const getCategoriesURL =
 
 const data = require("./../data.json");
 
-export function filterContents() {
+export function filterContents_old() {
   let _onOkCallBack;
   function _onOk(result) {
     if (_onOkCallBack) {
@@ -141,6 +142,168 @@ export function filterContents() {
           break;
       }
     } catch (error) {}
+  };
+
+  return {
+    call: _call,
+    onOk: function (callback) {
+      _onOkCallBack = callback;
+      return this;
+    },
+    onServerError: function (callback) {
+      _onServerErrorCallBack = callback;
+      return this;
+    },
+    onBadRequest: function (callback) {
+      _onBadRequestCallBack = callback;
+      return this;
+    },
+    notFound: function (callback) {
+      _notFoundCallBack = callback;
+      return this;
+    },
+    unAuthorized: function (callback) {
+      _unAuthorizedCallBack = callback;
+      return this;
+    },
+    onConnectionError: function (callback) {
+      _onConnectionErrorCallBack = callback;
+      return this;
+    },
+  };
+}
+
+export function filterContents() {
+  let _onOkCallBack;
+  function _onOk(result) {
+    if (_onOkCallBack) {
+      _onOkCallBack(result);
+    }
+  }
+  let _onServerErrorCallBack;
+  function _onServerError(result) {
+    if (_onServerErrorCallBack) {
+      _onServerErrorCallBack(result);
+    }
+  }
+  let _onBadRequestCallBack;
+  function _onBadRequest(result) {
+    if (_onBadRequestCallBack) {
+      _onBadRequestCallBack(result);
+    }
+  }
+  let _unAuthorizedCallBack;
+  function _unAuthorized(result) {
+    if (_unAuthorizedCallBack) {
+      _unAuthorizedCallBack(result);
+    }
+  }
+  let _notFoundCallBack;
+  function _notFound(result) {
+    if (_notFoundCallBack) {
+      _notFoundCallBack(result);
+    }
+  }
+  let _onConnectionErrorCallBack;
+  function _onConnectionError(result) {
+    if (_onConnectionErrorCallBack) {
+      _onConnectionErrorCallBack(result);
+    }
+  }
+  const _call = async (
+    spaceId,
+    name,
+    contentType,
+    category,
+    contentStatus,
+    skip,
+    limit,
+    advanceFilters = {}
+  ) => {
+    try {
+      let url = filter_new_url + "?";
+      if (contentType) url = url + "contentType=" + contentType;
+
+      if (url[url.length - 1] !== "?") url = url + "&";
+
+      if (category) url = url + "category=" + category;
+
+      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
+        url = url + "&";
+      }
+
+      if (contentStatus) url = url + "status=" + contentStatus;
+
+      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
+        url = url + "&";
+      }
+
+      if (name && name.length > 0) url = url + "name=" + name;
+
+      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
+        url = url + "&";
+      }
+      if (skip || skip === 0) url = url + "skip=" + skip;
+
+      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
+        url = url + "&";
+      }
+      if (limit) url = url + "limit=" + limit;
+
+      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
+        url = url + "&";
+      }
+
+      if (url[url.length - 1] === "?") url = url.substring(0, url.length - 1);
+
+      if (url[url.length - 1] === "&") url = url.substring(0, url.length - 1);
+
+      const searchArray = Object.keys(advanceFilters);
+      const search = searchArray.reduce((obj, key) => {
+        if (advanceFilters[key] && advanceFilters[key].length > 0) {
+          obj["fields." + key] = advanceFilters[key];
+        }
+        // obj = url + `field.${key}:${advanceFilters[key]}`;
+        return obj;
+      }, {});
+
+      const token = storageManager.getItem("@caaser-token");
+      var rawResponse = await fetch(url, {
+        method: "POST",
+        headers: {
+          authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+          spaceid: spaceId,
+        },
+        body: JSON.stringify({
+          search: search,
+        }),
+      });
+
+      const status = rawResponse.status;
+      const result = await rawResponse.json();
+      switch (status) {
+        case 200:
+          _onOk(result);
+          break;
+        case 400:
+          _onBadRequest();
+          break;
+        case 401:
+          _unAuthorized();
+          break;
+        case 404:
+          _notFound();
+          break;
+        case 500:
+          _onServerError();
+          break;
+        default:
+          break;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return {

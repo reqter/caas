@@ -1,0 +1,17 @@
+.customForm {
+  display: flex;
+  flex-wrap: wrap;
+  // direction: rtl;
+  // text-align: right;
+  padding: 0 20px;
+}
+
+.options-single-selected {
+  font-size: 14px;
+}
+.options-multiple-selected {
+  font-size: 14px !important;
+}
+.options-items {
+  font-size: 14px !important;
+}

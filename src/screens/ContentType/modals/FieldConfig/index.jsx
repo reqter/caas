@@ -240,7 +240,9 @@ const FieldConfig = (props) => {
       : false
   );
   const [allowFilter, toggleAllowFilter] = useState(() => {
-    return selectedField.type === "string"
+    return selectedField.type === "string" ||
+      selectedField.type === "keyValue" ||
+      selectedField.type === "reference"
       ? selectedField.allowFilter
         ? selectedField.allowFilter
         : false
@@ -693,6 +695,7 @@ const FieldConfig = (props) => {
       if (selectedField.type === "keyValue") {
         obj["isList"] = pickerType === "single" ? false : true;
         obj["options"] = options.filter((item) => item.value.length > 0);
+        obj["allowFilter"] = allowFilter;
       }
       if (selectedField.type === "media") {
         obj["isList"] = imageUploadMethod === "oneFile" ? false : true;
@@ -709,6 +712,7 @@ const FieldConfig = (props) => {
           obj["mediaType"] = undefined;
         }
       } else if (selectedField.type === "reference") {
+        obj["allowFilter"] = allowFilter;
         obj["isList"] = referenceChooseType === "single" ? false : true;
         if (selectedRefContentType) {
           let arr = [];
@@ -1033,51 +1037,53 @@ const FieldConfig = (props) => {
                   </div>
                 </>
               )}
+              {(selectedField.type === "string" ||
+                selectedField.type === "keyValue" ||
+                selectedField.type === "reference") && (
+                <div className="custom_checkbox">
+                  <div className="left">
+                    <label className="checkBox">
+                      <input
+                        type="checkbox"
+                        id="allowFilter"
+                        checked={allowFilter}
+                        onChange={(e) => toggleAllowFilter(e.target.checked)}
+                      />
+                      <span className="checkmark" />
+                    </label>
+                  </div>
+                  <div className="right">
+                    <label htmlFor="allowFilter">
+                      {t("FIELD_ALLOW_FILTER")}
+                    </label>
+                    <label htmlFor="allowFilter">
+                      {t("FIELD_ALLOW_FILTER_INFO")}
+                    </label>
+                  </div>
+                </div>
+              )}
               {selectedField.type === "string" && (
-                <>
-                  <div className="custom_checkbox">
-                    <div className="left">
-                      <label className="checkBox">
-                        <input
-                          type="checkbox"
-                          id="allowFilter"
-                          checked={allowFilter}
-                          onChange={(e) => toggleAllowFilter(e.target.checked)}
-                        />
-                        <span className="checkmark" />
-                      </label>
-                    </div>
-                    <div className="right">
-                      <label htmlFor="allowFilter">
-                        {t("FIELD_ALLOW_FILTER")}
-                      </label>
-                      <label htmlFor="invisible">
-                        {t("FIELD_ALLOW_FILTER_INFO")}
-                      </label>
-                    </div>
+                <div className="custom_checkbox">
+                  <div className="left">
+                    <label className="checkBox">
+                      <input
+                        type="checkbox"
+                        id="multiLine"
+                        checked={isMultiLine}
+                        onChange={handleMultiLineChanged}
+                      />
+                      <span className="checkmark" />
+                    </label>
                   </div>
-                  <div className="custom_checkbox">
-                    <div className="left">
-                      <label className="checkBox">
-                        <input
-                          type="checkbox"
-                          id="multiLine"
-                          checked={isMultiLine}
-                          onChange={handleMultiLineChanged}
-                        />
-                        <span className="checkmark" />
-                      </label>
-                    </div>
-                    <div className="right">
-                      <label htmlFor="multiLine">
-                        {t("FIELD_STRING_MULTILINE")}
-                      </label>
-                      <label htmlFor="multiLine">
-                        {t("FIELD_STRING_MULTILINE_INFO")}
-                      </label>
-                    </div>
+                  <div className="right">
+                    <label htmlFor="multiLine">
+                      {t("FIELD_STRING_MULTILINE")}
+                    </label>
+                    <label htmlFor="multiLine">
+                      {t("FIELD_STRING_MULTILINE_INFO")}
+                    </label>
                   </div>
-                </>
+                </div>
               )}
               {selectedField.type === "media" && (
                 <>
