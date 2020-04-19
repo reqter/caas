@@ -1,0 +1,80 @@
+.columnWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+// =======================
+// $grid-width: 100%;
+// .row {
+//   max-width: $grid-width;
+//   margin: 0 auto;
+//   @include clearfix;
+
+//   &:not(:last-child) {
+//     margin-bottom: $gutter-vertical;
+//     @include respond(tab-port) {
+//       margin-bottom: $gutter-vertical-small;
+//     }
+//   }
+//   @include respond(tab-port) {
+//     max-width: 50rem;
+//     padding: 0 3rem;
+//   }
+//   [class^="col-"] {
+//     float: left;
+//     &:not(:last-child) {
+//       margin-right: $gutter-horizontal;
+//       @include respond(tab-port) {
+//         margin-right: 0;
+//         margin-bottom: $gutter-vertical-small;
+//       }
+//     }
+
+//     @include respond(tab-port) {
+//       width: 100% !important;
+//     }
+//   }
+// }
+$gutter-horizontal: 20px;
+.col_1_of_1 {
+  width: 100%;
+}
+.col_1_of_2 {
+  margin-right: 10px;
+  width: calc((100% - #{$gutter-horizontal}) / 2);
+}
+.col_2_of_2 {
+  width: 100%;
+}
+.col_1_of_3 {
+  margin-right: 10px;
+  width: calc((100% - 2 * (#{$gutter-horizontal})) / 3);
+}
+.col_2_of_3 {
+  margin-right: 10px;
+  width: calc(
+    2 * ((100% - 2 * (#{$gutter-horizontal})) / 3) + (#{$gutter-horizontal})
+  );
+}
+.col_3_of_3 {
+  width: 100%;
+}
+.col_1_of_4 {
+  margin-right: 10px;
+  width: calc((100% - 3 * (#{$gutter-horizontal})) / 4);
+}
+.col_2_of_4 {
+  margin-right: 10px;
+  width: calc(
+    2 * ((100% - 3 * (#{$gutter-horizontal})) / 4) + (#{$gutter-horizontal})
+  );
+}
+.col_3_of_4 {
+  margin-right: 10px;
+  width: calc(
+    3 * ((100% - 3 * (#{$gutter-horizontal})) / 4) + 2 * (#{$gutter-horizontal})
+  );
+}
+.col_4_of_4 {
+  width: 100%;
+}

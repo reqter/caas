@@ -3,96 +3,22 @@ import Select, { components } from "react-select";
 import Modal from "reactstrap/lib/Modal";
 import ModalFooter from "reactstrap/lib/ModalFooter";
 import { languageManager, useGlobalState, utility } from "services";
+import { t, currentLang } from "services/languageManager";
 import { updateContentType } from "Api/contentType-api";
 import "./styles.scss";
 import CircleSpinner from "components/CircleSpinner";
 import { useLocale } from "hooks";
-//
-const acceptedMediaTypes = [
-  {
-    id: 1,
-    name: "all",
-    title: "All Files"
-  },
-  {
-    id: 2,
-    name: "image",
-    title: "Image"
-  },
-  {
-    id: 3,
-    name: "video",
-    title: "Video"
-  },
-  {
-    id: 4,
-    name: "audio",
-    title: "Audio"
-  },
-  {
-    id: 5,
-    name: "pdf",
-    title: "PDF"
-  },
-  {
-    id: 6,
-    name: "spreadsheet",
-    title: "Spreadsheet"
-  }
-];
-const translatableFields = ["string", "media", "richText"];
-const fieldsApearance = {
-  string: [
-    { name: "text", title: { en: "Text" }, apearance: "", selected: true },
-    { name: "email", title: { en: "Email" }, apearance: "" },
-    { name: "password", title: { en: "Password" }, apearance: "" },
-    { name: "url", title: { en: "URL" }, apearance: "" },
-    { name: "phoneNumber", title: { en: "Phone Number" }, apearance: "" }
-  ],
-  number: [
-    { name: "number", title: { en: "Number" }, apearance: "", selected: true },
-    {
-      name: "rangeSlider",
-      title: { en: "Range Slider", fa: "" },
-      apearance: ""
-    },
-    {
-      name: "currency",
-      title: { en: "Currency", fa: "" },
-      apearance: ""
-    },
-    {
-      name: "year",
-      title: { en: "Year", fa: "" },
-      apearance: ""
-    }
-  ],
-  reference: [
-    {
-      name: "default",
-      title: { en: "Default View" },
-      apearance: "",
-      selected: true
-    },
-    { name: "cards", title: { en: "Card View" }, apearance: "" }
-  ],
-  keyValue: [
-    {
-      name: "default",
-      title: { en: "Default View" },
-      apearance: "",
-      selected: true
-    },
-    { name: "buttons", title: { en: "Buttons" }, apearance: "" }
-  ]
-};
-const currentLang = languageManager.getCurrentLanguage().name;
+import Header from "./components/Header";
+import {
+  translatableFields,
+  fieldsAppearance,
+  acceptedMediaTypes,
+} from "./../helper";
 //=====================
-const FieldConfig = props => {
+const FieldConfig = (props) => {
   const selectFieldRef = useRef(null);
   //#region variables
   const { selectedContentType } = props;
-  console.log(selectedContentType);
   const [{ contentTypes, spaceInfo }, dispatch] = useGlobalState();
   const { currentLocale, makeLocalesValue } = useLocale();
   const { selectedField } = props;
@@ -100,8 +26,10 @@ const FieldConfig = props => {
 
   const [spinner, toggleSpinner] = useState(false);
   const [fieldsUI, setFieldsUI] = useState(() => {
-    if (fieldsApearance[selectedField.type] === undefined) return undefined;
-    let items = JSON.parse(JSON.stringify(fieldsApearance[selectedField.type]));
+    if (fieldsAppearance[selectedField.type] === undefined) return undefined;
+    let items = JSON.parse(
+      JSON.stringify(fieldsAppearance[selectedField.type])
+    );
     if (
       selectedField.appearance === undefined ||
       selectedField.appearance === "default"
@@ -132,7 +60,7 @@ const FieldConfig = props => {
     checked: selectedField.limit ? true : false,
     type: selectedField.limit ? selectedField.limit.type : "between",
     min: selectedField.limit ? selectedField.limit.min : undefined,
-    max: selectedField.limit ? selectedField.limit.max : undefined
+    max: selectedField.limit ? selectedField.limit.max : undefined,
   });
   const [numberLimitChecked, toggleNumberLimitChecked] = useState(
     selectedField.limit ? true : false
@@ -259,7 +187,7 @@ const FieldConfig = props => {
                 const r_id = selectedField.references[i];
                 if (contentTypes[j]._id === r_id) {
                   const item = contentTypes[j];
-                  return item.fields.map(f => {
+                  return item.fields.map((f) => {
                     f.value = f.name;
                     return f;
                   });
@@ -311,6 +239,15 @@ const FieldConfig = props => {
         : false
       : false
   );
+  const [allowFilter, toggleAllowFilter] = useState(() => {
+    return selectedField.type === "string" ||
+      selectedField.type === "keyValue" ||
+      selectedField.type === "reference"
+      ? selectedField.allowFilter
+        ? selectedField.allowFilter
+        : false
+      : false;
+  });
   const [isMultiLine, toggleMultiLine] = useState(
     selectedField.type === "string"
       ? selectedField.isMultiLine
@@ -318,6 +255,7 @@ const FieldConfig = props => {
         : false
       : false
   );
+
   const [dateTimeFormat, toggleDateFormat] = useState(
     selectedField.type === "dateTime"
       ? selectedField.format
@@ -364,6 +302,7 @@ const FieldConfig = props => {
   });
 
   //#region methods
+  const handleChangedTab = (tabNumber) => changeTab(tabNumber);
   function closeModal(params) {
     props.onCloseModal();
   }
@@ -491,7 +430,7 @@ const FieldConfig = props => {
     setPickerType(e.target.value);
     if (options.length > 0) {
       let isFind = false;
-      const op = options.map(opt => {
+      const op = options.map((opt) => {
         if (isFind) delete opt.selected;
         else if (opt.selected === true) isFind = true;
         return opt;
@@ -518,7 +457,7 @@ const FieldConfig = props => {
                 if (selectedField.fields[k] === item.fields[l].name) {
                   const obj = {
                     value: item.fields[l].name,
-                    ...item.fields[l]
+                    ...item.fields[l],
                   };
                   arr.push(obj);
                   break;
@@ -534,7 +473,7 @@ const FieldConfig = props => {
   function handleRefSelect(item) {
     if (!selectedRefContentType || selectedRefContentType._id !== item._id) {
       setRefContentType(item);
-      const fields = item.fields.map(f => {
+      const fields = item.fields.map((f) => {
         f.value = f.name;
         return f;
       });
@@ -565,7 +504,7 @@ const FieldConfig = props => {
     toggleInVisible(e.target.checked);
   }
   function setAppearance(ui) {
-    const f_uis = fieldsUI.map(item => {
+    const f_uis = fieldsUI.map((item) => {
       item.selected = false;
       if (item.name === ui.name) item.selected = true;
       return item;
@@ -575,7 +514,7 @@ const FieldConfig = props => {
   function handleSelectMediaType(type) {
     let m;
     if (type.name === "all") {
-      m = mediaType.map(c => {
+      m = mediaType.map((c) => {
         c.selected = false;
         if (type.name === c.name) {
           c.selected = !c.selected;
@@ -583,7 +522,7 @@ const FieldConfig = props => {
         return c;
       });
     } else {
-      m = mediaType.map(c => {
+      m = mediaType.map((c) => {
         if (type.name === c.name) {
           c.selected = !c.selected;
         }
@@ -595,7 +534,7 @@ const FieldConfig = props => {
   }
   function handleSelectPermissionType(per) {
     let m;
-    m = permissions.map(c => {
+    m = permissions.map((c) => {
       if (per.name === c.name) {
         c.selected = !c.selected;
       }
@@ -607,7 +546,7 @@ const FieldConfig = props => {
     let opts = [...options];
     opts.push({
       value: "",
-      selected: false
+      selected: false,
     });
     setOptions(opts);
   }
@@ -644,7 +583,7 @@ const FieldConfig = props => {
     if (!spinner) {
       toggleSpinner(true);
       let obj = {
-        ...selectedField
+        ...selectedField,
       };
       obj["title"] = makeLocalesValue(obj["title"], title);
       obj["description"] = makeLocalesValue(obj["description"], description);
@@ -655,12 +594,12 @@ const FieldConfig = props => {
         ? selectedField.appearance
           ? selectedField.appearance
           : "default"
-        : fieldsUI.find(ui => ui.selected).name;
+        : fieldsUI.find((ui) => ui.selected).name;
       const p = permissions
-        .filter(item => {
+        .filter((item) => {
           if (item.selected === true) return item;
         })
-        .map(item => item.name);
+        .map((item) => item.name);
 
       if (p && p.length > 0) obj["access"] = p;
       else delete obj["access"];
@@ -674,24 +613,25 @@ const FieldConfig = props => {
       if (selectedField.type === "string") {
         if (textDefaultValue.length > 0) obj["defaultValue"] = textDefaultValue;
         obj["isMultiLine"] = isMultiLine;
+        obj["allowFilter"] = allowFilter;
 
         if (textLimit.checked) {
           if (textLimit.type === "between") {
             obj["limit"] = {
               type: textLimit.type,
               min: textLimit.min,
-              max: textLimit.max
+              max: textLimit.max,
             };
           } else {
             if (textLimit.type === "atLeast") {
               obj["limit"] = {
                 type: textLimit.type,
-                min: textLimit.min
+                min: textLimit.min,
               };
             } else {
               obj["limit"] = {
                 type: textLimit.type,
-                max: textLimit.max
+                max: textLimit.max,
               };
             }
           }
@@ -712,18 +652,18 @@ const FieldConfig = props => {
             obj["limit"] = {
               type: numberLimitType,
               min: numberLimitMin,
-              max: numberLimitMax
+              max: numberLimitMax,
             };
           } else {
             if (textLimit.type === "greatEqual") {
               obj["limit"] = {
                 type: numberLimitType,
-                min: numberLimitMin
+                min: numberLimitMin,
               };
             } else {
               obj["limit"] = {
                 type: numberLimitType,
-                max: numberLimitMax
+                max: numberLimitMax,
               };
             }
           }
@@ -745,7 +685,7 @@ const FieldConfig = props => {
         if (latitude.length > 0 && longitude.length > 0) {
           obj["defaultValue"] = {
             latitude: latitude,
-            longitude: longitude
+            longitude: longitude,
           };
         }
       }
@@ -754,7 +694,8 @@ const FieldConfig = props => {
       }
       if (selectedField.type === "keyValue") {
         obj["isList"] = pickerType === "single" ? false : true;
-        obj["options"] = options.filter(item => item.value.length > 0);
+        obj["options"] = options.filter((item) => item.value.length > 0);
+        obj["allowFilter"] = allowFilter;
       }
       if (selectedField.type === "media") {
         obj["isList"] = imageUploadMethod === "oneFile" ? false : true;
@@ -771,6 +712,7 @@ const FieldConfig = props => {
           obj["mediaType"] = undefined;
         }
       } else if (selectedField.type === "reference") {
+        obj["allowFilter"] = allowFilter;
         obj["isList"] = referenceChooseType === "single" ? false : true;
         if (selectedRefContentType) {
           let arr = [];
@@ -793,74 +735,64 @@ const FieldConfig = props => {
         }
       }
       let newContentType = { ...selectedContentType };
-      const newFields = newContentType.fields.map(f => {
+      const newFields = newContentType.fields.map((f) => {
         if (f.name === selectedField.name) return obj;
         return f;
       });
       newContentType.fields = newFields;
       updateContentType()
-        .onOk(result => {
+        .onOk((result) => {
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "success",
-              message: languageManager.translate(
-                "CONTENT_TYPE_UPDATE_FIELD_ON_OK"
-              )
-            }
+              message: t("CONTENT_TYPE_UPDATE_FIELD_ON_OK"),
+            },
           });
           dispatch({
             type: "UPDATE_CONTENT_TYPE",
-            value: result
+            value: result,
           });
           props.onCloseModal(result, obj);
         })
-        .onServerError(result => {
+        .onServerError((result) => {
           toggleSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate(
-                "CONTENT_TYPE_UPDATE_FIELD_ON_BAD_REQUEST"
-              )
-            }
+              message: t("CONTENT_TYPE_UPDATE_FIELD_ON_BAD_REQUEST"),
+            },
           });
         })
-        .onBadRequest(result => {
+        .onBadRequest((result) => {
           toggleSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate(
-                "CONTENT_TYPE_UPDATE_FIELD_UN_AUTHORIZED"
-              )
-            }
+              message: t("CONTENT_TYPE_UPDATE_FIELD_UN_AUTHORIZED"),
+            },
           });
         })
-        .unAuthorized(result => {
+        .unAuthorized((result) => {
           toggleSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "warning",
-              message: languageManager.translate(
-                "CONTENT_TYPE_UPDATE_FIELD_UN_AUTHORIZED"
-              )
-            }
+              message: t("CONTENT_TYPE_UPDATE_FIELD_UN_AUTHORIZED"),
+            },
           });
         })
-        .notFound(result => {
+        .notFound((result) => {
           toggleSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "warning",
-              message: languageManager.translate(
-                "CONTENT_TYPE_UPDATE_FIELD_NOT_FOUND"
-              )
-            }
+              message: t("CONTENT_TYPE_UPDATE_FIELD_NOT_FOUND"),
+            },
           });
         })
         .call(spaceInfo.id, newContentType);
@@ -870,68 +802,13 @@ const FieldConfig = props => {
   return (
     <Modal isOpen={isOpen} toggle={closeModal} size="lg">
       <div className="fieldConfig">
-        <div className="fieldConfig-header">
-          <div className="left">
-            <i
-              className={
-                selectedField.type === "string"
-                  ? "icon-file-text icon"
-                  : selectedField.type === "number"
-                  ? "icon-number icon"
-                  : selectedField.type === "dateTime"
-                  ? "icon-calendar icon"
-                  : selectedField.type === "location"
-                  ? "icon-location icon"
-                  : selectedField.type === "media"
-                  ? "icon-images icon"
-                  : selectedField.type === "jsonObject"
-                  ? "icon-json-file icon"
-                  : selectedField.type === "reference"
-                  ? "icon-reference icon"
-                  : selectedField.type === "boolean"
-                  ? "icon-boolean icon"
-                  : "icon-file-text icon"
-              }
-            />
-            <span className="fieldName">{selectedField.name}</span>
-            <span className="fieldType">{selectedField.type}</span>
-          </div>
-          <div className="right">
-            <div
-              className="tabItem"
-              style={{
-                background: tab === 1 ? "white" : "whitesmoke"
-              }}
-              onClick={() => changeTab(1)}
-            >
-              Settings
-            </div>
-            <div
-              className="tabItem"
-              style={{
-                background: tab === 2 ? "white" : "whitesmoke"
-              }}
-              onClick={() => changeTab(2)}
-            >
-              Validations
-            </div>
-            <div
-              className="tabItem"
-              style={{
-                background: tab === 3 ? "white" : "whitesmoke"
-              }}
-              onClick={() => changeTab(3)}
-            >
-              Appearance
-            </div>
-          </div>
-        </div>
+        <Header selectedField={selectedField} onTabChanged={handleChangedTab} />
         <div className="body">
           {tab === 1 && (
             <div className="firstTab">
               <div className="row">
                 <div className="form-group col">
-                  <label>{languageManager.translate("NAME")}</label>
+                  <label>{t("NAME")}</label>
                   <input
                     type="text"
                     className="form-control"
@@ -939,13 +816,11 @@ const FieldConfig = props => {
                     readOnly
                   />
                   <small className="form-text text-muted">
-                    {languageManager.translate(
-                      "CONTENT_TYPE_ADD_FIELD_MODAL_NAME_INFO"
-                    )}
+                    {t("CONTENT_TYPE_ADD_FIELD_MODAL_NAME_INFO")}
                   </small>
                 </div>
                 <div className="form-group col">
-                  <label>{languageManager.translate("TITLE")}</label>
+                  <label>{t("TITLE")}</label>
                   <input
                     type="text"
                     className="form-control"
@@ -953,13 +828,13 @@ const FieldConfig = props => {
                     onChange={handleChangeTitle}
                   />
                   <small className="form-text text-muted">
-                    {languageManager.translate("TITLE_INFO")}
+                    {t("TITLE_INFO")}
                   </small>
                 </div>
               </div>
               <div className="row">
                 <div className="form-group col">
-                  <label>{languageManager.translate("Description")}</label>
+                  <label>{t("Description")}</label>
                   <input
                     type="text"
                     className="form-control"
@@ -967,16 +842,14 @@ const FieldConfig = props => {
                     onChange={handleDescriptionChanged}
                   />
                   <small className="form-text text-muted">
-                    {languageManager.translate("field description")}
+                    {t("field description")}
                   </small>
                 </div>
               </div>
               {selectedField.type === "location" && (
                 <div className="row">
                   <div className="form-group col">
-                    <label>
-                      {languageManager.translate("FIELD_LOCATION_LATITUDE")}
-                    </label>
+                    <label>{t("FIELD_LOCATION_LATITUDE")}</label>
                     <input
                       type="number"
                       className="form-control"
@@ -984,15 +857,11 @@ const FieldConfig = props => {
                       onChange={handleLatitudeChange}
                     />
                     <small className="form-text text-muted">
-                      {languageManager.translate(
-                        "FIELD_LOCATION_LATITUDE_INFO"
-                      )}
+                      {t("FIELD_LOCATION_LATITUDE_INFO")}
                     </small>
                   </div>
                   <div className="form-group col">
-                    <label>
-                      {languageManager.translate("FIELD_LOCATION_LONGITUDE")}
-                    </label>
+                    <label>{t("FIELD_LOCATION_LONGITUDE")}</label>
                     <input
                       type="number"
                       className="form-control"
@@ -1000,18 +869,14 @@ const FieldConfig = props => {
                       onChange={handleLongitudeChange}
                     />
                     <small className="form-text text-muted">
-                      {languageManager.translate(
-                        "FIELD_LOCATION_LONGITUDE_INFO"
-                      )}
+                      {t("FIELD_LOCATION_LONGITUDE_INFO")}
                     </small>
                   </div>
                 </div>
               )}
               {selectedField.type === "string" && (
                 <div className="form-group">
-                  <label>
-                    {languageManager.translate("DEFAULT_VALUE_TEXT")}
-                  </label>
+                  <label>{t("DEFAULT_VALUE_TEXT")}</label>
                   <input
                     type="text"
                     className="form-control"
@@ -1019,15 +884,13 @@ const FieldConfig = props => {
                     onChange={handleTextDefaultValue}
                   />
                   <small className="form-text text-muted">
-                    {languageManager.translate("DEFAULT_VALUE_TEXT_INFO")}
+                    {t("DEFAULT_VALUE_TEXT_INFO")}
                   </small>
                 </div>
               )}
               {selectedField.type === "number" && (
                 <div className="form-group">
-                  <label>
-                    {languageManager.translate("DEFAULT_VALUE_NUMBER")}
-                  </label>
+                  <label>{t("DEFAULT_VALUE_NUMBER")}</label>
                   <input
                     type="number"
                     className="form-control"
@@ -1035,7 +898,7 @@ const FieldConfig = props => {
                     onChange={handleNumberDefaultValue}
                   />
                   <small className="form-text text-muted">
-                    {languageManager.translate("DEFAULT_VALUE_NUMBER_INFO")}
+                    {t("DEFAULT_VALUE_NUMBER_INFO")}
                   </small>
                 </div>
               )}
@@ -1043,17 +906,11 @@ const FieldConfig = props => {
                 <div
                   className="inputSwitch"
                   style={{
-                    marginBottom: 20
+                    marginBottom: 20,
                   }}
                 >
-                  <span>
-                    {languageManager.translate("FIELD_BOOLEAN_DEFAULT_VALUE")}
-                  </span>
-                  <span>
-                    {languageManager.translate(
-                      "FIELD_BOOLEAN_DEFAULT_VALUE_INFO"
-                    )}
-                  </span>
+                  <span>{t("FIELD_BOOLEAN_DEFAULT_VALUE")}</span>
+                  <span>{t("FIELD_BOOLEAN_DEFAULT_VALUE_INFO")}</span>
                   <div className="inputSwitch-content">
                     <button
                       className={
@@ -1062,7 +919,7 @@ const FieldConfig = props => {
                       }
                       onClick={() => setBooleanDefaultValue(true)}
                     >
-                      {languageManager.translate("TRUE")}
+                      {t("TRUE")}
                     </button>
                     <button
                       className={
@@ -1071,7 +928,7 @@ const FieldConfig = props => {
                       }
                       onClick={() => setBooleanDefaultValue(false)}
                     >
-                      {languageManager.translate("FALSE")}
+                      {t("FALSE")}
                     </button>
                   </div>
                 </div>
@@ -1090,10 +947,10 @@ const FieldConfig = props => {
                 </div>
                 <div className="right">
                   <label htmlFor="isName">
-                    {languageManager.translate("Is Name")}
+                    {t("Is Name")}
                   </label>
                   <label htmlFor="invisible">
-                    {languageManager.translate("")}
+                    {t("")}
                   </label>
                 </div>
               </div> */}
@@ -1113,15 +970,10 @@ const FieldConfig = props => {
                   </label>
                 </div>
                 <div className="right">
-                  <label htmlFor="invisible">
-                    {languageManager.translate("FIELD_INVISIBLE")}
-                  </label>
-                  <label htmlFor="invisible">
-                    {languageManager.translate("FIELD_INVISIBLE_INFO")}
-                  </label>
+                  <label htmlFor="invisible">{t("FIELD_INVISIBLE")}</label>
+                  <label htmlFor="invisible">{t("FIELD_INVISIBLE_INFO")}</label>
                 </div>
               </div>
-              {/*  )} */}
               {translatableFields.indexOf(selectedField.type) > -1 && (
                 <div className="custom_checkbox">
                   <div className="left">
@@ -1136,12 +988,8 @@ const FieldConfig = props => {
                     </label>
                   </div>
                   <div className="right">
-                    <label htmlFor="localization">
-                      {languageManager.translate("TRANSLATION")}
-                    </label>
-                    <label>
-                      {languageManager.translate("TRANSLATION_INFO")}
-                    </label>
+                    <label htmlFor="localization">{t("TRANSLATION")}</label>
+                    <label>{t("TRANSLATION_INFO")}</label>
                   </div>
                 </div>
               )}
@@ -1161,13 +1009,9 @@ const FieldConfig = props => {
                     </div>
                     <div className="right">
                       <label htmlFor="dateShowCurrent">
-                        {languageManager.translate("FIELD_DATE_SHOW_CURRENT")}
+                        {t("FIELD_DATE_SHOW_CURRENT")}
                       </label>
-                      <label>
-                        {languageManager.translate(
-                          "FIELD_DATE_SHOW_CURRENT_INFO"
-                        )}
-                      </label>
+                      <label>{t("FIELD_DATE_SHOW_CURRENT_INFO")}</label>
                     </div>
                   </div>
                   <div className="custom_checkbox">
@@ -1184,16 +1028,39 @@ const FieldConfig = props => {
                     </div>
                     <div className="right">
                       <label htmlFor="dateDisablePast">
-                        {languageManager.translate("FIELD_DATE_DISABLE_PAST")}
+                        {t("FIELD_DATE_DISABLE_PAST")}
                       </label>
                       <label htmlFor="dateDisablePast">
-                        {languageManager.translate(
-                          "FIELD_DATE_DISABLE_PAST_INFO"
-                        )}
+                        {t("FIELD_DATE_DISABLE_PAST_INFO")}
                       </label>
                     </div>
                   </div>
                 </>
+              )}
+              {(selectedField.type === "string" ||
+                selectedField.type === "keyValue" ||
+                selectedField.type === "reference") && (
+                <div className="custom_checkbox">
+                  <div className="left">
+                    <label className="checkBox">
+                      <input
+                        type="checkbox"
+                        id="allowFilter"
+                        checked={allowFilter}
+                        onChange={(e) => toggleAllowFilter(e.target.checked)}
+                      />
+                      <span className="checkmark" />
+                    </label>
+                  </div>
+                  <div className="right">
+                    <label htmlFor="allowFilter">
+                      {t("FIELD_ALLOW_FILTER")}
+                    </label>
+                    <label htmlFor="allowFilter">
+                      {t("FIELD_ALLOW_FILTER_INFO")}
+                    </label>
+                  </div>
+                </div>
               )}
               {selectedField.type === "string" && (
                 <div className="custom_checkbox">
@@ -1210,10 +1077,10 @@ const FieldConfig = props => {
                   </div>
                   <div className="right">
                     <label htmlFor="multiLine">
-                      {languageManager.translate("FIELD_STRING_MULTILINE")}
+                      {t("FIELD_STRING_MULTILINE")}
                     </label>
                     <label htmlFor="multiLine">
-                      {languageManager.translate("FIELD_STRING_MULTILINE_INFO")}
+                      {t("FIELD_STRING_MULTILINE_INFO")}
                     </label>
                   </div>
                 </div>
@@ -1548,7 +1415,7 @@ const FieldConfig = props => {
                         id="mediaType"
                         checked={mediaTypeVisibility}
                         onChange={() =>
-                          toggleMediaType(prevState => !prevState)
+                          toggleMediaType((prevState) => !prevState)
                         }
                       />
                       <span className="checkmark" />
@@ -1591,7 +1458,7 @@ const FieldConfig = props => {
                         id="permission"
                         checked={permissionVisibility}
                         onChange={() =>
-                          togglePermission(prevState => !prevState)
+                          togglePermission((prevState) => !prevState)
                         }
                       />
                       <span className="checkmark" />
@@ -1679,7 +1546,7 @@ const FieldConfig = props => {
                               components={{
                                 Option: CustomOption,
                                 MultiValueLabel,
-                                SingleValue
+                                SingleValue,
                               }}
                             />
                           </div>
@@ -1698,7 +1565,7 @@ const FieldConfig = props => {
               </span>
               <div className="apearanceUiList">
                 {fieldsUI ? (
-                  fieldsUI.map(ui => (
+                  fieldsUI.map((ui) => (
                     <div
                       className={
                         "apearanceItem " + (ui.selected ? "active" : "")
@@ -1724,68 +1591,50 @@ const FieldConfig = props => {
               </div>
               <div>
                 <div className="form-group">
-                  <label>{languageManager.translate("Help Text")}</label>
+                  <label>{t("Help Text")}</label>
                   <input
                     type="text"
                     className="form-control"
                     value={helpText}
-                    placeholder={languageManager.translate(
-                      "Try to enter maximum 255 char"
-                    )}
+                    placeholder={t("Try to enter maximum 255 char")}
                     onChange={handleHelpTextchanged}
                   />
                   <small className="form-text text-muted">
-                    {languageManager.translate(
-                      "This help text will show up below the field"
-                    )}
+                    {t("This help text will show up below the field")}
                   </small>
                 </div>
                 <div className="row">
                   <div className="form-group col">
-                    <label>{languageManager.translate("Order")}</label>
+                    <label>{t("Order")}</label>
                     <input
                       type="number"
                       className="form-control"
                       value={order}
-                      placeholder={languageManager.translate(
-                        "Enter field's order here"
-                      )}
+                      placeholder={t("Enter field's order here")}
                       onChange={handleOrderchanged}
                     />
                     <small className="form-text text-muted">
-                      {languageManager.translate(
-                        "This value is useful for dynamic ui generation"
-                      )}
+                      {t("This value is useful for dynamic ui generation")}
                     </small>
                   </div>
                   <div className="form-group col">
-                    <label>{languageManager.translate("Section")}</label>
+                    <label>{t("Section")}</label>
                     <input
                       type="text"
                       className="form-control"
                       value={section}
-                      placeholder={languageManager.translate(
-                        "Enter field's section here"
-                      )}
+                      placeholder={t("Enter field's section here")}
                       onChange={handleSectionchanged}
                     />
                     <small className="form-text text-muted">
-                      {languageManager.translate(
-                        "This value is useful for dynamic ui generation"
-                      )}
+                      {t("This value is useful for dynamic ui generation")}
                     </small>
                   </div>
                 </div>
                 {selectedField.type === "dateTime" && (
                   <div className="inputSwitch">
-                    <span>
-                      {languageManager.translate("FIELD_DATE_FORMAT_TITLE")}
-                    </span>
-                    <span>
-                      {languageManager.translate(
-                        "FIELD_DATE_FORMAT_TITLE_INFO"
-                      )}
-                    </span>
+                    <span>{t("FIELD_DATE_FORMAT_TITLE")}</span>
+                    <span>{t("FIELD_DATE_FORMAT_TITLE_INFO")}</span>
                     <div className="inputSwitch-content">
                       <button
                         className={
@@ -1796,9 +1645,7 @@ const FieldConfig = props => {
                         }
                         onClick={() => toggleDateFormat("dateTime")}
                       >
-                        {languageManager.translate(
-                          "FIELD_DATE_FORMAT_DATE_TIME"
-                        )}
+                        {t("FIELD_DATE_FORMAT_DATE_TIME")}
                       </button>
                       <button
                         className={
@@ -1809,7 +1656,7 @@ const FieldConfig = props => {
                         }
                         onClick={() => toggleDateFormat("date")}
                       >
-                        {languageManager.translate("FIELD_DATE_FORMAT_DATE")}
+                        {t("FIELD_DATE_FORMAT_DATE")}
                       </button>
                       <button
                         className={
@@ -1820,27 +1667,23 @@ const FieldConfig = props => {
                         }
                         onClick={() => toggleDateFormat("time")}
                       >
-                        {languageManager.translate("FIELD_DATE_FORMAT_TIME")}
+                        {t("FIELD_DATE_FORMAT_TIME")}
                       </button>
                     </div>
                   </div>
                 )}
                 {selectedField.type === "keyValue" && (
                   <>
-                    <span>
-                      {languageManager.translate("FIELD_OPTIONS_TITLE")}
-                    </span>
+                    <span>{t("FIELD_OPTIONS_TITLE")}</span>
                     {options.map((item, index) => (
                       <div className="options" key={index}>
                         <div className="leftInput">
                           <input
                             type="text"
                             className="form-control"
-                            placeholder={languageManager.translate(
-                              "FIELD_OPTIONS_VALUE"
-                            )}
+                            placeholder={t("FIELD_OPTIONS_VALUE")}
                             value={options[index].value}
-                            onChange={e => handleOptionValueChanged(e, index)}
+                            onChange={(e) => handleOptionValueChanged(e, index)}
                           />
                         </div>
                         <div className="rightInput">
@@ -1851,7 +1694,7 @@ const FieldConfig = props => {
                             <i
                               className="icon-checkmark"
                               style={{
-                                opacity: item.selected ? "1" : ".2"
+                                opacity: item.selected ? "1" : ".2",
                               }}
                             />
                           </button>
@@ -1892,7 +1735,7 @@ const FieldConfig = props => {
 
 export default FieldConfig;
 
-const SingleValue = props => {
+const SingleValue = (props) => {
   const { currentLocale } = useLocale();
   const { data } = props;
   return (
@@ -1907,7 +1750,7 @@ const SingleValue = props => {
     </components.SingleValue>
   );
 };
-const MultiValueLabel = props => {
+const MultiValueLabel = (props) => {
   const { data } = props;
   const { currentLocale } = useLocale();
   return (

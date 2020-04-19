@@ -60,12 +60,12 @@ export function login() {
       var rawResponse = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: userName,
-          password: password
-        })
+          password: password,
+        }),
       });
 
       const status = rawResponse.status;
@@ -96,30 +96,30 @@ export function login() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 export function signup() {
@@ -165,14 +165,14 @@ export function signup() {
       var rawResponse = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: userName,
           password: password,
           first_name: "",
-          last_name: ""
-        })
+          last_name: "",
+        }),
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -202,30 +202,30 @@ export function signup() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 export function fortgotPassword() {
@@ -265,17 +265,17 @@ export function fortgotPassword() {
       _onConnectionErrorCallBack(result);
     }
   }
-  const _call = async username => {
+  const _call = async (username) => {
     try {
       const url = forgotPass_url;
       var rawResponse = await fetch(url, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username
-        })
+          username,
+        }),
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -299,37 +299,36 @@ export function fortgotPassword() {
           break;
       }
     } catch (error) {
-      console.log(error);
       _onServerError();
     }
   };
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 
@@ -376,12 +375,12 @@ export function verifyCode() {
       var rawResponse = await fetch(url, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: username,
-          code: code
-        })
+          code: code,
+        }),
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -411,30 +410,30 @@ export function verifyCode() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 export function resetPassword() {
@@ -481,11 +480,11 @@ export function resetPassword() {
         method: "PUT",
         headers: {
           authorization: "Bearer " + token,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          newpassword
-        })
+          newpassword,
+        }),
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -515,30 +514,30 @@ export function resetPassword() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 
@@ -579,16 +578,16 @@ export function confirmEmailFromURL() {
       _onConnectionErrorCallBack(result);
     }
   }
-  const _call = async token => {
+  const _call = async (token) => {
     try {
       const url = confirmEmailFromUrl_url;
       var rawResponse = await fetch(url, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          authorization: "Bearer " + token
+          authorization: "Bearer " + token,
         },
-        body: JSON.stringify({})
+        body: JSON.stringify({}),
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -618,30 +617,30 @@ export function confirmEmailFromURL() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 
@@ -688,9 +687,9 @@ export function logout() {
       var rawResponse = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({})
+        body: JSON.stringify({}),
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -720,30 +719,30 @@ export function logout() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 
@@ -790,9 +789,9 @@ export function getToken() {
       var rawResponse = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({})
+        body: JSON.stringify({}),
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -820,30 +819,30 @@ export function getToken() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 
@@ -905,8 +904,8 @@ export function getUserInfo() {
         method: "GET",
         headers: {
           authorization: "Bearer " + token,
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -937,38 +936,38 @@ export function getUserInfo() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
     },
-    onRequestError: function(callback) {
+    onRequestError: function (callback) {
       _onRequestErrorCallBack = callback;
       return this;
     },
-    unKnownError: function(callback) {
+    unKnownError: function (callback) {
       _unKnownErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 
@@ -1017,12 +1016,12 @@ export function updateProfile() {
         method: "PUT",
         headers: {
           authorization: "Bearer " + token,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           first_name,
-          last_name
-        })
+          last_name,
+        }),
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -1052,30 +1051,30 @@ export function updateProfile() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 
@@ -1117,7 +1116,7 @@ export function changeAvatar() {
     }
   }
 
-  const _call = async avatar => {
+  const _call = async (avatar) => {
     try {
       const url = changeAvatarURL;
       const token = storageManager.getItem("@caaser-token");
@@ -1125,11 +1124,11 @@ export function changeAvatar() {
         method: "PUT",
         headers: {
           authorization: "Bearer " + token,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          avatar
-        })
+          avatar,
+        }),
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -1157,30 +1156,30 @@ export function changeAvatar() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 
@@ -1221,7 +1220,7 @@ export function changeNotification() {
       _onConnectionErrorCallBack(result);
     }
   }
-  const _call = async notification => {
+  const _call = async (notification) => {
     try {
       const url = changeNotificationURL;
       const token = storageManager.getItem("@caaser-token");
@@ -1229,11 +1228,11 @@ export function changeNotification() {
         method: "PUT",
         headers: {
           authorization: "Bearer " + token,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          notification: notification
-        })
+          notification: notification,
+        }),
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -1261,30 +1260,30 @@ export function changeNotification() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 export function changePassword() {
@@ -1332,12 +1331,12 @@ export function changePassword() {
         method: "PUT",
         headers: {
           authorization: "Bearer " + token,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           oldpassword: oldPass,
-          newpassword: newPass
-        })
+          newpassword: newPass,
+        }),
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -1366,30 +1365,30 @@ export function changePassword() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 export function sendEmailConfirmation() {
@@ -1437,8 +1436,8 @@ export function sendEmailConfirmation() {
         method: "PUT",
         headers: {
           authorization: "Bearer " + token,
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -1469,30 +1468,30 @@ export function sendEmailConfirmation() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 
@@ -1554,8 +1553,8 @@ export function deleteAccount() {
         method: "DELETE",
         headers: {
           authorization: "Bearer " + token,
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -1586,37 +1585,37 @@ export function deleteAccount() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
     },
-    onRequestError: function(callback) {
+    onRequestError: function (callback) {
       _onRequestErrorCallBack = callback;
       return this;
     },
-    unKnownError: function(callback) {
+    unKnownError: function (callback) {
       _unKnownErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }

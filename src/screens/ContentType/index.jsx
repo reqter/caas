@@ -10,62 +10,64 @@ import {
   getContentTypes,
   deleteContentType,
   setAccessRight,
-  updateContentType
+  updateContentType,
 } from "Api/contentType-api";
 import Alert from "components/PopupAlert";
 import RowSkeleton from "components/RowSkeleton";
 import AssignRole from "components/AssignRole";
 const currentLang = languageManager.getCurrentLanguage().name;
 
-const ItemTypes = props => {
+const ItemTypes = (props) => {
   const [{ contentTypes, spaceInfo }, dispatch] = useGlobalState();
   const { currentLocale } = useLocale();
   const [spinner, setSpinner] = useState(true);
   useEffect(() => {
     let didCancel = false;
     getContentTypes()
-      .onOk(result => {
+      .onOk((result) => {
         if (!didCancel) {
           setSpinner(false);
           dispatch({
             type: "SET_CONTENT_TYPES",
-            value: result
+            value: result,
           });
         }
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         if (!didCancel) {
           setSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate("CONTENT_TYPE_ON_SERVER_ERROR")
-            }
+              message: languageManager.translate(
+                "CONTENT_TYPE_ON_SERVER_ERROR"
+              ),
+            },
           });
         }
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         if (!didCancel) {
           setSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate("CONTENT_TYPE_ON_BAD_REQUEST")
-            }
+              message: languageManager.translate("CONTENT_TYPE_ON_BAD_REQUEST"),
+            },
           });
         }
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         if (!didCancel) {
           setSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "warning",
-              message: languageManager.translate("CONTENT_TYPE_UN_AUTHORIZED")
-            }
+              message: languageManager.translate("CONTENT_TYPE_UN_AUTHORIZED"),
+            },
           });
         }
       })
@@ -115,23 +117,23 @@ const ItemTypes = props => {
       cancelTitle: "Don't remove",
       onOk: () =>
         deleteContentType()
-          .onOk(result => {
+          .onOk((result) => {
             setAlertData();
             if (selected._id === selectedContentType._id)
               toggleRightContent(false);
             dispatch({
               type: "DELETE_CONTENT_TYPE",
-              value: selected
+              value: selected,
             });
             dispatch({
               type: "ADD_NOTIFY",
               value: {
                 type: "success",
-                message: languageManager.translate("CONTENT_TYPE_REMOVE_ON_OK")
-              }
+                message: languageManager.translate("CONTENT_TYPE_REMOVE_ON_OK"),
+              },
             });
           })
-          .onServerError(result => {
+          .onServerError((result) => {
             setAlertData();
             dispatch({
               type: "ADD_NOTIFY",
@@ -139,11 +141,11 @@ const ItemTypes = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE_ON_SERVER_ERROR"
-                )
-              }
+                ),
+              },
             });
           })
-          .onBadRequest(result => {
+          .onBadRequest((result) => {
             setAlertData();
             dispatch({
               type: "ADD_NOTIFY",
@@ -151,11 +153,11 @@ const ItemTypes = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE_ON_BAD_REQUEST"
-                )
-              }
+                ),
+              },
             });
           })
-          .unAuthorized(result => {
+          .unAuthorized((result) => {
             setAlertData();
             dispatch({
               type: "ADD_NOTIFY",
@@ -163,11 +165,11 @@ const ItemTypes = props => {
                 type: "warning",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE_UN_AUTHORIZED"
-                )
-              }
+                ),
+              },
             });
           })
-          .notFound(result => {
+          .notFound((result) => {
             setAlertData();
             dispatch({
               type: "ADD_NOTIFY",
@@ -175,14 +177,14 @@ const ItemTypes = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE__NOT_FOUND"
-                )
-              }
+                ),
+              },
             });
           })
           .call(spaceInfo.id, selected._id),
       onCancel: () => {
         setAlertData();
-      }
+      },
     });
   }
   function closeRightContent() {
@@ -211,7 +213,7 @@ const ItemTypes = props => {
     }
   }
   function addNewField() {
-    toggleUpsertFieldModal(prevModal => !prevModal);
+    toggleUpsertFieldModal((prevModal) => !prevModal);
   }
   function handleRemoveField(field) {
     setAlertData({
@@ -221,10 +223,10 @@ const ItemTypes = props => {
       isAjaxCall: true,
       onOk: () => {
         let newContentType = { ...selectedContentType };
-        const restFields = fields.filter(item => item.name !== field.name);
+        const restFields = fields.filter((item) => item.name !== field.name);
         newContentType.fields = restFields;
         updateContentType()
-          .onOk(result => {
+          .onOk((result) => {
             setAlertData();
             dispatch({
               type: "ADD_NOTIFY",
@@ -232,17 +234,17 @@ const ItemTypes = props => {
                 type: "success",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE_FIELD_ON_OK"
-                )
-              }
+                ),
+              },
             });
             setFields(result.fields);
             setItemType(newContentType);
             dispatch({
               type: "UPDATE_CONTENT_TYPE",
-              value: result
+              value: result,
             });
           })
-          .onServerError(result => {
+          .onServerError((result) => {
             setAlertData();
             dispatch({
               type: "ADD_NOTIFY",
@@ -250,11 +252,11 @@ const ItemTypes = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE_FIELD_ON_SERVER_ERROR"
-                )
-              }
+                ),
+              },
             });
           })
-          .onBadRequest(result => {
+          .onBadRequest((result) => {
             setAlertData();
             dispatch({
               type: "ADD_NOTIFY",
@@ -262,11 +264,11 @@ const ItemTypes = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE_FIELD_ON_BAD_REQUEST"
-                )
-              }
+                ),
+              },
             });
           })
-          .unAuthorized(result => {
+          .unAuthorized((result) => {
             setAlertData();
             dispatch({
               type: "ADD_NOTIFY",
@@ -274,11 +276,11 @@ const ItemTypes = props => {
                 type: "warning",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE_FIELD_UN_AUTHORIZED"
-                )
-              }
+                ),
+              },
             });
           })
-          .notFound(result => {
+          .notFound((result) => {
             setAlertData();
             dispatch({
               type: "ADD_NOTIFY",
@@ -286,22 +288,22 @@ const ItemTypes = props => {
                 type: "error",
                 message: languageManager.translate(
                   "CONTENT_TYPE_REMOVE_FIELD_NOT_FOUND"
-                )
-              }
+                ),
+              },
             });
           })
           .call(spaceInfo.id, newContentType);
       },
       onCancel: () => {
         setAlertData();
-      }
+      },
     });
   }
   useEffect(() => {}, []);
   function closeFieldConfigModal(cnType, updatedField) {
     toggleShowFieldConfig(false);
     if (updatedField) {
-      const newFields = fields.map(item => {
+      const newFields = fields.map((item) => {
         if (item.name === updatedField.name) return updatedField;
         return item;
       });
@@ -443,10 +445,10 @@ const ItemTypes = props => {
                     ))}
                   </SortableContainer> */}
                   {fields &&
-                    fields.map(field => (
+                    fields.map((field) => (
                       <div
                         className="fieldItem"
-                        key={field._id}
+                        key={field.name}
                         // style={{
                         //   display: !selectedContentType.allowCustomFields
                         //     ? field.isBase
@@ -540,7 +542,7 @@ const ItemTypes = props => {
           fields={fields}
           selectedContentType={selectedContentType}
           isOpen={upsertFieldModal}
-          onCloseModal={result => closeAddFieldModal(result)}
+          onCloseModal={(result) => closeAddFieldModal(result)}
         />
       )}
       {showFieldConfig && (

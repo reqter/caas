@@ -14,17 +14,21 @@ import {
   Number,
   Reference,
   RichText,
-  String
+  String,
 } from "./components/cells";
 export const getColumns = (fields, columnWidth, lang) => {
-  let c = fields.map(f => {
+  let c = fields.map((f) => {
     return (
       <Column width={columnWidth} key={f.name} resizable sortable>
         <HeaderCell>{f.title[lang]}</HeaderCell>
-        <Cell>{rowData => <String field={f} row={rowData} />}</Cell>
+        <Cell>{(rowData) => <String field={f} row={rowData} />}</Cell>
       </Column>
     );
   });
 
   return c;
+};
+
+export const getAdvancedFilterFields = (contentTypeFields = []) => {
+  return contentTypeFields.filter((item) => item.allowFilter === true);
 };

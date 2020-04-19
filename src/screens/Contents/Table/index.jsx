@@ -6,7 +6,7 @@ import Cell from "rsuite-table/lib/Cell";
 import "rsuite-table/dist/css/rsuite-table.css";
 import useFetch from "hooks/useFetch";
 import useLocale from "hooks/useLocale";
-import { getColumns } from "./helper";
+import { getColumns, getAdvancedFilterFields } from "./helper";
 // import Item from "./Item";
 import { t } from "services/languageManager";
 import useGlobalState from "services/stateManager";
@@ -24,17 +24,23 @@ import styles from "./styles.module.scss";
 const limit = 50;
 const DataTable = ({ match, history }) => {
   const boxRef = useRef(null);
+
   const [
     { spaceInfo, selectedContentType, contentFilter },
     dispatch,
   ] = useGlobalState();
   const { currentLocale } = useLocale();
+
   const [state, setState] = useState({
     loading: selectedContentType ? false : true,
     tableLoading: selectedContentType ? true : false,
     error: false,
     allData: [],
     tableData: [],
+    advanceFilterFields: selectedContentType
+      ? getAdvancedFilterFields(selectedContentType.fields)
+      : [],
+    advanceFilterValues: contentFilter ? contentFilter.advanceFilterValues : {},
     contentType: selectedContentType ? selectedContentType : undefined,
     skip: contentFilter ? contentFilter.skip : 0,
     status: contentFilter ? contentFilter.status : null,
@@ -52,6 +58,8 @@ const DataTable = ({ match, history }) => {
     text,
     status,
     category,
+    advanceFilterValues,
+    advanceFilterFields,
   } = state;
   const updateState = (changes) => {
     setState((prevState) => ({ ...prevState, ...changes }));
@@ -63,17 +71,27 @@ const DataTable = ({ match, history }) => {
         status,
         text,
         skip,
+        advanceFilterValues,
       },
     });
   };
   useEffect(() => {
     if (selectedContentType) {
       updateState({ tableLoading: true });
-      getData(text, selectedContentType, category, status, skip, limit);
+      getData(
+        text,
+        selectedContentType,
+        category,
+        status,
+        skip,
+        limit,
+        advanceFilterValues
+      );
     } else {
       getContentTypeColumns();
     }
   }, []);
+
   const getContentTypeColumns = () => {
     getContentTypeById()
       .onOk((result) => {
@@ -81,8 +99,17 @@ const DataTable = ({ match, history }) => {
           loading: false,
           tableLoading: true,
           contentType: result,
+          advanceFilterFields: getAdvancedFilterFields(result.fields),
         });
-        getData(text, result, category, status, skip, limit);
+        getData(
+          text,
+          result,
+          category,
+          status,
+          skip,
+          limit,
+          advanceFilterValues
+        );
       })
       .onServerError((result) => {
         updateState({ loading: false, error: true });
@@ -95,7 +122,15 @@ const DataTable = ({ match, history }) => {
       })
       .call(spaceInfo.id, match.params.id);
   };
-  const getData = (text, cType, category, status, skip, limit) => {
+  const getData = (
+    text,
+    cType,
+    category,
+    status,
+    skip,
+    limit,
+    advanceFilterObject
+  ) => {
     filterContents()
       .onOk((result) => {
         const sum = skip * limit;
@@ -131,7 +166,8 @@ const DataTable = ({ match, history }) => {
         category,
         status,
         skip * limit,
-        limit
+        limit,
+        advanceFilterObject
       );
   };
   function handleStartAction(sender) {
@@ -142,7 +178,15 @@ const DataTable = ({ match, history }) => {
   function handleEndAction(result) {
     updateState({ tableLoading: false });
     if (result === "success")
-      getData(text, contentType, category, status, skip, limit);
+      getData(
+        text,
+        contentType,
+        category,
+        status,
+        skip,
+        limit,
+        advanceFilterValues
+      );
   }
   const getTableColumns = () => {
     if (!boxRef.current) return;
@@ -158,23 +202,39 @@ const DataTable = ({ match, history }) => {
   };
   const prevPage = () => {
     updateState({ tableLoading: true, skip: skip - 1 });
-    getData(text, contentType, category, status, skip - 1, limit);
+    getData(
+      text,
+      contentType,
+      category,
+      status,
+      skip - 1,
+      limit,
+      advanceFilterValues
+    );
   };
   const nextPage = () => {
     if (!tableLoading && !loading) {
       updateState({ tableLoading: true, skip: skip + 1 });
-      getData(text, contentType, category, status, skip + 1, limit);
+      getData(
+        text,
+        contentType,
+        category,
+        status,
+        skip + 1,
+        limit,
+        advanceFilterValues
+      );
     }
   };
   const handleChangedStatus = (s) => {
     if (!tableLoading && !loading) {
       updateState({ tableLoading: true, status: s, skip: 0 });
-      getData(text, contentType, category, s, 0, limit);
+      getData(text, contentType, category, s, 0, limit, advanceFilterValues);
     }
   };
   const handleChangedSearchInput = (txt) => {
     updateState({ tableLoading: true, text: txt, skip: 0 });
-    getData(txt, contentType, category, status, 0, limit);
+    getData(txt, contentType, category, status, 0, limit, advanceFilterValues);
   };
   const viewRowData = (data) => {
     saveFilter();
@@ -192,6 +252,13 @@ const DataTable = ({ match, history }) => {
     e.stopPropagation();
     window.open(window.origin + `/contents/view/${data._id}`, "_blank");
   }
+
+  const handleApplyFilterClicked = (values) => {
+    if (!tableLoading && !loading) {
+      updateState({ tableLoading: true, advanceFilterValues: values });
+      getData(text, contentType, category, status, 0, limit, values);
+    }
+  };
   return (
     <PageLayout
       title={t("HOME_SIDE_NAV_CONTENTS")}
@@ -205,9 +272,11 @@ const DataTable = ({ match, history }) => {
       )}
     >
       <Filters
+        contentFilter={contentFilter}
         onChangeStatus={handleChangedStatus}
         onChangeInput={handleChangedSearchInput}
-        contentFilter={contentFilter}
+        onApplyFilterClicked={handleApplyFilterClicked}
+        advanceFilterFields={advanceFilterFields}
       />
       <BoxLayout ref={boxRef}>
         <div className={styles.boxTop}>

@@ -334,8 +334,10 @@ export default {
   FIELD_DATE_FORMAT_TITLE_INFO: "You can have only date or both date and time",
   FIELD_DATE_FORMAT_DATE: "Date Only",
   FIELD_DATE_FORMAT_TIME: "Time",
+  FIELD_ALLOW_FILTER: "Allow Filter",
+  FIELD_ALLOW_FILTER_INFO: "This field will be as a filter item for contents",
   FIELD_INVISIBLE: "Invisible this field",
-  FIELD_INVISIBLE_INFO: "This field will be invisbile on content entry",
+  FIELD_INVISIBLE_INFO: "This field will be invisible on content entry",
   FIELD_LOCATION_LATITUDE: "Latitude",
   FIELD_LOCATION_LATITUDE_INFO: "Latitude as default value",
   FIELD_LOCATION_LONGITUDE: "Longitude",
@@ -508,5 +510,5 @@ export default {
   COMPONENTS_ASSET_BROWSER_HEADER: "Choose your asset",
   ASSIGN_ROLE_MODAL_HEADER_TITLE: "Assign role",
   ASSIGN_ROLE_SAVE_BTN: "Save Changes",
-  COMPONENT_DESCRIPTION: "Empty description"
+  COMPONENT_DESCRIPTION: "Empty description",
 };
