@@ -12,20 +12,22 @@
     padding: 5px 10px;
     border-radius: 4px;
     overflow: hidden;
-    border: 1px solid lightgray;
+    border: 2px solid lightgray;
     background-color: white;
     // background-color: rgb(237, 242, 247);
+    font-size: 13px;
     transition: all 0.3;
     font-family: inherit;
     transition: all 0.3s;
     color: inherit;
+    outline: none;
     &:focus:not(.input_error) {
-      box-shadow: 0 0 4px lightgray;
-      outline-color: var(--primary-color);
+      // box-shadow: 0 0 2px var(--primary-color);
+      border-color: var(--primary-color);
       background-color: white;
     }
     &.input_error {
-      outline-color: transparent;
+      // outline-color: transparent;
       border-color: red;
     }
   }

@@ -7,7 +7,7 @@ import { t } from "services/languageManager";
 import { filterContents } from "Api/content-api";
 import useLocale from "hooks/useLocale";
 
-const ReferenceInput = ({ field, mode, initialValue }) => {
+const ReferenceInput = ({ field, mode, initialValue, filter }) => {
   const {
     register,
     errors,
@@ -25,7 +25,7 @@ const ReferenceInput = ({ field, mode, initialValue }) => {
   const [options, setOptions] = useState();
   const [values, setValues] = useState();
 
-  // set value to selected otions
+  // set value to selected options
   useEffect(() => {
     register({ name: field.name, type: "custom" });
     if (spaceInfo && field.references && field.references.length > 0) {
@@ -37,8 +37,18 @@ const ReferenceInput = ({ field, mode, initialValue }) => {
               return item;
             });
             setOptions(r);
-            if (!initialValue) setValues(null);
-            else initValue(r);
+            if (mode === "filter") {
+              if (filter) {
+                setValue(field.name, filter);
+                initValue(r, filter);
+              }
+            }
+
+            // set selected options to select
+            if (mode === "edit" || mode === "view") {
+              if (!initialValue) setValues(null);
+              else initValue(r);
+            }
           }
         })
         .onServerError((result) => {})
@@ -48,9 +58,11 @@ const ReferenceInput = ({ field, mode, initialValue }) => {
         .call(spaceInfo.id, undefined, field.references[0]);
     }
   }, []);
-  function initValue(allData) {
+
+  // // set selected to form object if form is not in filter mode
+  function initValue(allData, f) {
+    const selectedData = f ? f : initialValue;
     if (field.isList) {
-      const selectedData = initialValue;
       const result = [];
       for (let i = 0; i < selectedData.length; i++) {
         const id = selectedData[i];
@@ -64,7 +76,7 @@ const ReferenceInput = ({ field, mode, initialValue }) => {
       }
       setValues(result.length > 0 ? result : null);
     } else {
-      const v = allData.find((item) => item.value === initialValue);
+      const v = allData.find((item) => item.value === selectedData);
       setValues(v);
     }
   }
@@ -74,7 +86,7 @@ const ReferenceInput = ({ field, mode, initialValue }) => {
     if (field.isList) {
       value = selected.map((item) => item.value);
       if (mode !== "filter") {
-        if (field.isRequired) {
+        if (field.isRequired && (!value || value.length === 0)) {
           isValid = false;
           const e = {
             type: "required",
@@ -85,8 +97,16 @@ const ReferenceInput = ({ field, mode, initialValue }) => {
         }
       }
     } else {
-      value = selected.value;
-      if (value.length === 0) isValid = false;
+      value = selected ? selected.value : "";
+      if (mode !== "filter" && field.isRequired && value.length === 0) {
+        isValid = false;
+        const e = {
+          type: "required",
+          name: field.name,
+          message: "This is required.",
+        };
+        setError([e]);
+      }
     }
 
     if (isValid) {
@@ -131,8 +151,13 @@ const ReferenceInput = ({ field, mode, initialValue }) => {
           value={values}
           onChange={handleChange}
           options={options}
+          styles={{
+            placeholder: (base) => ({
+              ...base,
+              fontSize: "13px",
+            }),
+          }}
           isMulti={field.isList}
-          // isSearchable={true}
           isDisabled={mode === "view" ? true : false}
           components={{ Option: CustomOption, MultiValueLabel, SingleValue }}
         />
@@ -238,14 +263,6 @@ const CustomOption = ({ innerProps, isDisabled, data }) => {
                   : ""
                 : ""
               : ""}
-          </span>
-        </div>
-        <div className={styles.itemBy}>
-          <span>{data.sys.issuer && data.sys.issuer.fullName}</span>
-        </div>
-        <div className={styles.itemStatus}>
-          <span>
-            {data.fields && data.fields.status && t(data.fields.status)}
           </span>
         </div>
       </div>

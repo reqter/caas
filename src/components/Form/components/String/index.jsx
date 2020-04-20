@@ -4,7 +4,7 @@ import useLocale from "hooks/useLocale";
 import { validateEmail, isUrl, isPhoneNumber, checkStringLimit } from "utils";
 import Input from "../Input";
 
-const StringInput = ({ field, mode, initialValue }) => {
+const StringInput = ({ field, mode, initialValue, filter }) => {
   const {
     register,
     errors,
@@ -15,8 +15,9 @@ const StringInput = ({ field, mode, initialValue }) => {
   } = useFormContext();
   const { currentLocale, makeLocalesValue } = useLocale();
 
-  const type = field.appearance ? field.appearance : "text";
-  const { limit } = field;
+  const type = React.useMemo(() =>
+    field.appearance ? field.appearance : "text"
+  );
 
   const _setError = (type, message) => {
     const e = { type, name: field.name, message };
@@ -26,6 +27,7 @@ const StringInput = ({ field, mode, initialValue }) => {
     const value = e.target.value;
     const length = value.length;
     let isValid = true;
+
     if (mode !== "filter") {
       if (field.isRequired) {
         if (length === 0) {
@@ -34,10 +36,11 @@ const StringInput = ({ field, mode, initialValue }) => {
         }
       }
     }
+
     if (isValid) {
       if (type === "text") {
-        if (limit) {
-          const result = checkStringLimit(limit, length);
+        if (field.limit) {
+          const result = checkStringLimit(field.limit, length);
           if (!result.isValid) {
             isValid = false;
             _setError("length", result.message);
@@ -61,16 +64,17 @@ const StringInput = ({ field, mode, initialValue }) => {
       }
     }
 
+    if (mode === "filter") if (length === 0) isValid = true;
     if (isValid) {
       clearError(field.name);
       setValue(field.name, value);
     }
   };
+
+  // set default value to form object if form is in new mode
   React.useEffect(() => {
-    if (mode !== "filter") {
-      if (!initialValue && field.defaultValue)
-        setValue(field.name, field.defaultValue);
-    }
+    if (mode === "new")
+      if (field.defaultValue) setValue(field.name, field.defaultValue);
   }, []);
 
   return React.useMemo(() => (
@@ -80,7 +84,15 @@ const StringInput = ({ field, mode, initialValue }) => {
       title={field.title ? field.title[currentLocale] : ""}
       placeholder={field.description ? field.description[currentLocale] : ""}
       type={field.appearance}
-      defaultValue={initialValue ? initialValue : ""}
+      defaultValue={
+        mode !== "filter"
+          ? initialValue
+            ? initialValue
+            : ""
+          : filter
+          ? filter
+          : ""
+      }
       onChange={handleOnChange}
       onBlur={handleOnChange}
       readOnly={mode === "view" ? true : false}
