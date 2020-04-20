@@ -4,7 +4,7 @@ import { renderFields } from "./helper";
 import "./styles.scss";
 
 const Form = (
-  { mode, rowColumns, fieldsArray = [], initialValues = {} },
+  { mode, rowColumns, fieldsArray = [], initialValues = {}, filters },
   ref
 ) => {
   const methods = useForm();
@@ -15,7 +15,7 @@ const Form = (
     <FormContext {...methods}>
       <form>
         <div className="customForm">
-          {renderFields(mode, rowColumns, fieldsArray, initialValues)}
+          {renderFields(mode, rowColumns, fieldsArray, initialValues, filters)}
         </div>
       </form>
     </FormContext>

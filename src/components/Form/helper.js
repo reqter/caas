@@ -4,7 +4,8 @@ export const renderFields = (
   mode,
   rowColumns,
   fieldsArray = [],
-  initialValues
+  initialValues,
+  filters = {}
 ) => {
   const length = fieldsArray.length;
   return fieldsArray.map((item) => {
@@ -23,6 +24,7 @@ export const renderFields = (
               field={item}
               mode={mode}
               initialValue={initialValues[item.name]}
+              filter={filters[item.name]}
             />
           </ColumnWrapper>
         );
@@ -38,6 +40,7 @@ export const renderFields = (
               field={item}
               mode={mode}
               initialValue={initialValues[item.name]}
+              filter={filters[item.name]}
             />
           </ColumnWrapper>
         );
@@ -53,6 +56,7 @@ export const renderFields = (
               field={item}
               mode={mode}
               initialValue={initialValues[item.name]}
+              filter={filters[item.name]}
             />
           </ColumnWrapper>
         );

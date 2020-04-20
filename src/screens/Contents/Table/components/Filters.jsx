@@ -141,11 +141,12 @@ const Filters = ({
             ref={formRef}
             mode="filter"
             rowColumns={3}
-            initialValues={
+            filters={
               contentFilter && contentFilter.advanceFilterValues
                 ? contentFilter.advanceFilterValues
-                : {}
+                : undefined
             }
+            initialValues={{}}
             fieldsArray={advanceFilterFields}
           />
           <div className={styles.advanceFiltersBox_submit}>
