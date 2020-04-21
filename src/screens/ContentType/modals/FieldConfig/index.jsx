@@ -335,6 +335,7 @@ const FieldConfig = (props) => {
   }
   function handleChangeTranslation(e) {
     toggleTranslation(e.target.checked);
+    if (e.target.checked === true) if (allowFilter) toggleAllowFilter(false);
   }
   function handleRequireCheckBox(e) {
     toggleRequired(e.target.checked);
@@ -1042,12 +1043,15 @@ const FieldConfig = (props) => {
                 selectedField.type === "reference") && (
                 <div className="custom_checkbox">
                   <div className="left">
-                    <label className="checkBox">
+                    <label
+                      className={"checkBox " + (translation ? "disable" : "")}
+                    >
                       <input
                         type="checkbox"
                         id="allowFilter"
                         checked={allowFilter}
                         onChange={(e) => toggleAllowFilter(e.target.checked)}
+                        disabled={translation}
                       />
                       <span className="checkmark" />
                     </label>
