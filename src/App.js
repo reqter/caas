@@ -6,7 +6,6 @@ import "animate.css";
 //
 import StateProvider from "./services/stateManager/stateProvider";
 import Notifies from "./components/Notifies";
-import RouterLocation from "./components/RouterLocation";
 //
 import PrivateRoute from "./PrivateRoute";
 //
@@ -36,7 +35,6 @@ const App = () => {
     <StateProvider>
       <BrowserRouter>
         <Suspense fallback={<div />}>
-          <RouterLocation />
           <Switch>
             <Route
               exact

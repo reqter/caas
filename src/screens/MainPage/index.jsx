@@ -3,6 +3,8 @@ import { Switch, Redirect } from "react-router-dom";
 import useGlobalState from "services/stateManager";
 import SideBar from "./components/SideBar";
 import Header from "components/Header";
+import RouterLocation from "components/RouterLocation";
+
 import "./styles.scss";
 //
 import PrivateRoute from "../../PrivateRoute";
@@ -13,11 +15,12 @@ const Profile = lazy(() => import("../Profile"));
 const Settings = lazy(() => import("../Settings"));
 const Assets = lazy(() => import("../Assets"));
 //
-const MainPage = props => {
+const MainPage = (props) => {
   const [{ userInfo }] = useGlobalState();
 
   return (
     <div className="page-wrapper">
+      <RouterLocation />
       <Header />
       <main className="main">
         {userInfo &&
@@ -33,32 +36,32 @@ const MainPage = props => {
             <PrivateRoute
               key="home"
               path="/panel/home"
-              render={props => <Home {...props} />}
+              render={(props) => <Home {...props} />}
             />
             <PrivateRoute
               key="contentType"
               path="/panel/contentType"
-              render={props => <ContentType {...props} />}
+              render={(props) => <ContentType {...props} />}
             />
             <PrivateRoute
               key="contents"
               path="/panel/contents"
-              render={props => <Contents {...props} />}
+              render={(props) => <Contents {...props} />}
             />
             <PrivateRoute
               key="profile"
               path="/panel/profile"
-              render={props => <Profile {...props} />}
+              render={(props) => <Profile {...props} />}
             />
             <PrivateRoute
               key="assets"
               path="/panel/assets"
-              render={props => <Assets {...props} />}
+              render={(props) => <Assets {...props} />}
             />
             <PrivateRoute
               key="settings"
               path="/panel/settings"
-              render={props => <Settings {...props} />}
+              render={(props) => <Settings {...props} />}
             />
           </Switch>
         </Suspense>
