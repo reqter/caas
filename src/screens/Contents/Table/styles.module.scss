@@ -1,12 +1,13 @@
 .rowIndex {
-  background: var(--primary-color);
-  color: white;
+  background: whitesmoke;
+  color: black;
   width: 30px;
   height: 25px;
   border-radius: 4px;
   font-size: 13px;
   line-height: 23px;
   text-align: center;
+  border: 1px solid lightgray;
 }
 .boxTop {
   display: flex;
