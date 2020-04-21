@@ -150,8 +150,10 @@ const ReferenceInput = ({ field, mode, initialValue, filter }) => {
           closeMenuOnSelect={!field.isList}
           menuContainerStyle={{ zIndex: 9999 }}
           value={values}
+          isClearable
           onChange={handleChange}
           options={options}
+          isSearchable={false}
           styles={{
             placeholder: (base) => ({
               ...base,

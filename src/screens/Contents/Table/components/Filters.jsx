@@ -56,9 +56,7 @@ const Filters = ({
   };
   function handleSearchInputKeyPress(e) {
     const key = e.keyCode || e.which;
-    if (key === 13) {
-      search();
-    }
+    if (key === 13) search();
   }
   function handleSearchInput(e) {
     setSearchText(e.target.value);
