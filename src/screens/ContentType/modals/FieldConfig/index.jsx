@@ -335,6 +335,7 @@ const FieldConfig = (props) => {
   }
   function handleChangeTranslation(e) {
     toggleTranslation(e.target.checked);
+    if (e.target.checked === true) if (allowFilter) toggleAllowFilter(false);
   }
   function handleRequireCheckBox(e) {
     toggleRequired(e.target.checked);
@@ -714,14 +715,9 @@ const FieldConfig = (props) => {
       } else if (selectedField.type === "reference") {
         obj["allowFilter"] = allowFilter;
         obj["isList"] = referenceChooseType === "single" ? false : true;
-        if (selectedRefContentType) {
+
+        if (referenceContentTypeChk && selectedRefContentType) {
           let arr = [];
-          // for (let i = 0; i < refContentTypes.length; i++) {
-          //   const item = refContentTypes[i];
-          //   if (item.selected === true) {
-          //     arr.push(item._id);
-          //   }
-          // }
           arr.push(selectedRefContentType._id);
           obj["references"] = arr;
           if (refVisibleFields && refVisibleFields.length > 0) {
@@ -732,6 +728,9 @@ const FieldConfig = (props) => {
             }
             obj["fields"] = arr_fields;
           }
+        } else {
+          delete obj["references"];
+          delete obj["fields"];
         }
       }
       let newContentType = { ...selectedContentType };
@@ -1042,12 +1041,15 @@ const FieldConfig = (props) => {
                 selectedField.type === "reference") && (
                 <div className="custom_checkbox">
                   <div className="left">
-                    <label className="checkBox">
+                    <label
+                      className={"checkBox " + (translation ? "disable" : "")}
+                    >
                       <input
                         type="checkbox"
                         id="allowFilter"
                         checked={allowFilter}
                         onChange={(e) => toggleAllowFilter(e.target.checked)}
+                        disabled={translation}
                       />
                       <span className="checkmark" />
                     </label>

@@ -266,7 +266,7 @@ const DataTable = ({ match, history }) => {
       renderHeader={() => (
         <div>
           <button className="btn btn-info btn-md" onClick={newContent}>
-            New Content
+            Add New
           </button>
         </div>
       )}
@@ -300,87 +300,100 @@ const DataTable = ({ match, history }) => {
         ) : error ? (
           "error"
         ) : tableData ? (
-          <Table
-            autoHeight
-            affixHeader
-            loading={tableLoading}
-            data={tableData}
-            onRowClick={viewRowData}
-          >
-            <Column width={70} fixed="left">
-              <HeaderCell>#</HeaderCell>
-              <Cell>
-                {(rowData) => {
-                  return <div className={styles.rowIndex}>{rowData.index}</div>;
-                }}
-              </Cell>
-            </Column>
-            <Column width={340} resizable>
-              <HeaderCell>Name</HeaderCell>
-              <Cell>
-                {(rowData) => {
-                  const { fields } = rowData;
-                  return (
-                    <a
-                      href=""
-                      target="_blank"
-                      className={styles.name}
-                      onClick={(e) => viewNewTab(e, rowData)}
-                    >
-                      {fields["name"]
-                        ? fields["name"][currentLocale]
+          <>
+            <Table
+              autoHeight
+              affixHeader
+              loading={tableLoading}
+              data={tableData}
+              onRowClick={viewRowData}
+            >
+              <Column width={70} fixed="left">
+                <HeaderCell>#</HeaderCell>
+                <Cell>
+                  {(rowData) => {
+                    return (
+                      <div className={styles.rowIndex}>{rowData.index}</div>
+                    );
+                  }}
+                </Cell>
+              </Column>
+              <Column width={340} resizable>
+                <HeaderCell>Name</HeaderCell>
+                <Cell>
+                  {(rowData) => {
+                    const { fields } = rowData;
+                    return (
+                      <a
+                        href=""
+                        target="_blank"
+                        className={styles.name}
+                        onClick={(e) => viewNewTab(e, rowData)}
+                      >
+                        {fields["name"]
                           ? fields["name"][currentLocale]
-                          : typeof fields["name"] === "string"
-                          ? fields["name"]
-                          : ""
-                        : ""}
-                    </a>
-                  );
-                }}
-              </Cell>
-            </Column>
-            <Column width={150}>
-              <HeaderCell>Issuer</HeaderCell>
-              <Cell>
-                {(rowData) => {
-                  const { sys } = rowData;
-                  return (
-                    <div className={styles.date}>
-                      <h6>{sys.issuer && sys.issuer.fullName}</h6>
-                      <span>
-                        <DateFormater date={sys.issueDate} />
-                      </span>
-                    </div>
-                  );
-                }}
-              </Cell>
-            </Column>
-            <Column width={150}>
-              <HeaderCell>Status</HeaderCell>
-              <Cell>
-                {(rowData) => {
-                  const { status } = rowData;
-                  return (
-                    <div className="p-contentType">
-                      <span className="badge badge-primary">{t(status)}</span>
-                    </div>
-                  );
-                }}
-              </Cell>
-            </Column>
-            <Column width={300} fixed="right" align="center">
-              <HeaderCell>Action</HeaderCell>
-              <Cell>
-                {(rowData) => (
-                  <Actions
-                    row={rowData}
-                    onStartAction={handleStartAction}
-                    onEndAction={handleEndAction}
-                  />
-                )}
-              </Cell>
-            </Column>
-          </Table>
+                            ? fields["name"][currentLocale]
+                            : typeof fields["name"] === "string"
+                            ? fields["name"]
+                            : ""
+                          : ""}
+                      </a>
+                    );
+                  }}
+                </Cell>
+              </Column>
+              <Column width={150}>
+                <HeaderCell>Issuer</HeaderCell>
+                <Cell>
+                  {(rowData) => {
+                    const { sys } = rowData;
+                    return (
+                      <div className={styles.date}>
+                        <h6>{sys.issuer && sys.issuer.fullName}</h6>
+                        <span>
+                          <DateFormater date={sys.issueDate} />
+                        </span>
+                      </div>
+                    );
+                  }}
+                </Cell>
+              </Column>
+              <Column width={150}>
+                <HeaderCell>Status</HeaderCell>
+                <Cell>
+                  {(rowData) => {
+                    const { status } = rowData;
+                    return (
+                      <div className="p-contentType">
+                        <span className="badge badge-primary">{t(status)}</span>
+                      </div>
+                    );
+                  }}
+                </Cell>
+              </Column>
+              <Column width={300} fixed="right" align="center">
+                <HeaderCell>Action</HeaderCell>
+                <Cell>
+                  {(rowData) => (
+                    <Actions
+                      row={rowData}
+                      onStartAction={handleStartAction}
+                      onEndAction={handleEndAction}
+                    />
+                  )}
+                </Cell>
+              </Column>
+            </Table>
+            <div className={styles.paginationBottom}>
+              <Pagination
+                data={tableData}
+                skip={skip}
+                limit={limit}
+                nextPage={nextPage}
+                prevPage={prevPage}
+              />
+            </div>
+          </>
         ) : (
           <EmptyListIcon />
         )}

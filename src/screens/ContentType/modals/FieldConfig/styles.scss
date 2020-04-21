@@ -47,11 +47,12 @@
         padding-top: 10px;
         button {
           margin-right: 10px;
-          min-width: calc(20% - 10px);
+          width: calc(20% - 10px);
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
           margin-bottom: 10px;
+          font-size: 12.5px;
         }
         a {
           float: left;

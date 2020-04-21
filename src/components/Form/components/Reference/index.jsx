@@ -148,6 +148,7 @@ const ReferenceInput = ({ field, mode, initialValue, filter }) => {
           menuPlacement="top"
           closeMenuOnScroll={true}
           closeMenuOnSelect={!field.isList}
+          menuContainerStyle={{ zIndex: 9999 }}
           value={values}
           onChange={handleChange}
           options={options}
