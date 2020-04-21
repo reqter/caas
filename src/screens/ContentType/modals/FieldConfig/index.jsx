@@ -715,14 +715,9 @@ const FieldConfig = (props) => {
       } else if (selectedField.type === "reference") {
         obj["allowFilter"] = allowFilter;
         obj["isList"] = referenceChooseType === "single" ? false : true;
-        if (selectedRefContentType) {
+
+        if (referenceContentTypeChk && selectedRefContentType) {
           let arr = [];
-          // for (let i = 0; i < refContentTypes.length; i++) {
-          //   const item = refContentTypes[i];
-          //   if (item.selected === true) {
-          //     arr.push(item._id);
-          //   }
-          // }
           arr.push(selectedRefContentType._id);
           obj["references"] = arr;
           if (refVisibleFields && refVisibleFields.length > 0) {
@@ -733,6 +728,9 @@ const FieldConfig = (props) => {
             }
             obj["fields"] = arr_fields;
           }
+        } else {
+          delete obj["references"];
+          delete obj["fields"];
         }
       }
       let newContentType = { ...selectedContentType };
