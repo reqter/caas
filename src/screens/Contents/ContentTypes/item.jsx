@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { t } from "services/languageManager";
 import useGlobalState from "services/stateManager";
 import utility from "services/utility";
@@ -70,9 +71,12 @@ const ContentTypeItem = ({ contentType, history }) => {
           {description && description[currentLocale]}
         </span>
       </div>
-      <button className="btn btn-light btn-sm" onClick={newContent}>
-        New Item
-      </button>
+      <Link
+        className="btn btn-light btn-sm"
+        to={`/contents/new/${contentType._id}`}
+      >
+        Add New
+      </Link>
       <button className="btn btn-light btn-sm">Browse</button>
     </div>
   );

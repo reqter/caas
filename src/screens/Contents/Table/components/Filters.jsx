@@ -54,15 +54,17 @@ const Filters = ({
       if (onChangeInput) onChangeInput(val);
     }
   };
+  function handleSearchInputKeyPress(e) {
+    const key = e.keyCode || e.which;
+    if (key === 13) {
+      search();
+    }
+  }
   function handleSearchInput(e) {
     setSearchText(e.target.value);
     if (isSearched && e.target.value.length === 0) {
       if (onChangeInput) onChangeInput("");
     }
-
-    // if (onChangeInput) {
-    //   onChangeInput(e.target.value);
-    // }
   }
   function submitAdvanceFilter() {
     const values = formRef.current.getValues();
@@ -114,6 +116,7 @@ const Filters = ({
               placeholder="Search by name"
               value={searchInput}
               ref={inputRef}
+              onKeyPress={handleSearchInputKeyPress}
               onChange={handleSearchInput}
             />
             <button className="btn btn-light searchBtn" onClick={search}>
