@@ -4,7 +4,7 @@ export const renderFields = (
   mode,
   rowColumns,
   fieldsArray = [],
-  initialValues,
+  initialValues = {},
   filters = {}
 ) => {
   const length = fieldsArray.length;
@@ -23,8 +23,8 @@ export const renderFields = (
             <String
               field={item}
               mode={mode}
-              initialValue={initialValues[item.name]}
-              filter={filters[item.name]}
+              initialValue={initialValues && initialValues[item.name]}
+              filter={filters && filters[item.name]}
             />
           </ColumnWrapper>
         );
@@ -39,8 +39,8 @@ export const renderFields = (
             <Option
               field={item}
               mode={mode}
-              initialValue={initialValues[item.name]}
-              filter={filters[item.name]}
+              initialValue={initialValues && initialValues[item.name]}
+              filter={filters && filters[item.name]}
             />
           </ColumnWrapper>
         );
@@ -55,8 +55,8 @@ export const renderFields = (
             <Reference
               field={item}
               mode={mode}
-              initialValue={initialValues[item.name]}
-              filter={filters[item.name]}
+              initialValue={initialValues && initialValues[item.name]}
+              filter={filters && filters[item.name]}
             />
           </ColumnWrapper>
         );

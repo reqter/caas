@@ -1,0 +1,44 @@
+.table {
+  padding: 0 !important;
+  min-height: 300px;
+}
+.header {
+  border-bottom: 1px solid whitesmoke;
+  padding: 10px 15px;
+  span {
+    font-size: 18px;
+  }
+}
+
+.item {
+  display: flex;
+  padding: 15px;
+  border-bottom: 1px solid whitesmoke;
+  align-items: center;
+  justify-content: space-between;
+  .index {
+    width: 25px;
+    border-radius: 4px;
+    height: 25px;
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+  }
+  .imageBox {
+    width: 50px;
+    img {
+      width: 50px;
+    }
+  }
+  .textBox {
+    span {
+      font-size: 13px;
+    }
+  }
+  .label {
+    padding: 5px 10px;
+  }
+  .date {
+    font-size: 13px;
+  }
+}

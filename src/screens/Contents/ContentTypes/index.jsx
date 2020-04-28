@@ -1,40 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import { t } from "services/languageManager";
 import useGlobalState from "services/stateManager";
-import { getContentTypes } from "Api/content-api";
-import useFetch from "hooks/useFetch";
-import styles from "./styles.module.scss";
 import PageLayout from "components/PageLayout";
 import BoxLayout from "components/BoxLayout";
-import Item from "./item";
-import EmptyListIcon from "components/Commons/ErrorsComponent/EmptyList";
-import Loading from "components/Commons/Loading";
-import useLocale from "hooks/useLocale";
+import ContentTypeList from "components/ContentTypeList";
 
 const ContentTypes = ({ history }) => {
-  const allData = useRef([]);
-  const { currentLocale } = useLocale();
-  const [{ spaceInfo }, dispatch] = useGlobalState();
-  const [loading, data, error, localSearch] = useFetch(getContentTypes, {
-    spaceId: spaceInfo.id,
-  });
-  function handleSearchText(e) {
-    const value = e.target.value;
-    if (value.length === 0) {
-      localSearch((allData) => allData);
-    } else {
-      localSearch((allData) => {
-        const d = allData.filter((item) => {
-          const title = item.title ? item.title[currentLocale] : "";
-          if (title.includes(value)) {
-            return item;
-          }
-          return false;
-        });
-        return d;
-      });
-    }
-  }
+  const [{}, dispatch] = useGlobalState();
   return (
     <PageLayout
       title={t("HOME_SIDE_NAV_CONTENTS")}
@@ -42,28 +15,36 @@ const ContentTypes = ({ history }) => {
       renderHeader={() => <div></div>}
     >
       <BoxLayout>
-        <h4 className={styles.boxTitle}>
-          Select content type to browse its data
-        </h4>
-        <div className={styles.input}>
-          <input
-            className="form-control input-lg"
-            placeholder="Search by name"
-            onChange={handleSearchText}
-          />
-          <button className="btn btn-info">Search</button>
-        </div>
-        {loading ? (
-          <Loading />
-        ) : error ? (
-          "error"
-        ) : data && data.length > 0 ? (
-          data.map((type) => (
-            <Item key={type._id} contentType={type} history={history} />
-          ))
-        ) : (
-          <EmptyListIcon />
-        )}
+        <ContentTypeList
+          title="Select content type to browse its data"
+          isLinkableName={true}
+          onClickLink={(contentType) =>
+            window.open(
+              window.origin + `/panel/contents/${contentType._id}`,
+              "_blank"
+            )
+          }
+          onClickRow={(contentType) => {
+            dispatch({
+              type: "SAVE_CONTENT_TYPE",
+              payload: contentType,
+            });
+            history.push(`/panel/contents/${contentType._id}`);
+          }}
+          renderActions={(contentType) => {
+            return (
+              <>
+                <Link
+                  className="btn btn-light btn-sm"
+                  to={`/contents/new/${contentType._id}`}
+                >
+                  Add New
+                </Link>
+                <button className="btn btn-light btn-sm">Browse</button>
+              </>
+            );
+          }}
+        />
       </BoxLayout>
     </PageLayout>
   );

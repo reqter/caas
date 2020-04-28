@@ -1,0 +1,33 @@
+.table {
+  padding: 0 !important;
+  min-height: 300px;
+}
+.header {
+  border-bottom: 1px solid whitesmoke;
+  padding: 10px 15px;
+  span {
+    font-size: 18px;
+  }
+}
+.item {
+  display: flex;
+  padding: 15px 10px;
+  border-bottom: 1px solid whitesmoke;
+  .imageBox {
+    width: 50px;
+    margin-right: 10px;
+    img {
+      width: 50px;
+    }
+  }
+  .textBox {
+    span {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    span:last-child {
+      font-weight: normal;
+    }
+  }
+}

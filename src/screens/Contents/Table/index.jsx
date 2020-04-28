@@ -19,6 +19,8 @@ import DateFormater from "components/DateFormater";
 import { Actions } from "./components/cells";
 import Filters from "./components/Filters";
 import Pagination from "./components/Pagination";
+import Pie from "components/Dashboards/Pie";
+import Line from "components/Dashboards/Line";
 import styles from "./styles.module.scss";
 
 const limit = 50;
@@ -278,6 +280,18 @@ const DataTable = ({ match, history }) => {
         onApplyFilterClicked={handleApplyFilterClicked}
         advanceFilterFields={advanceFilterFields}
       />
+      {contentType && (
+        <>
+          <div className={styles.row}>
+            <div className={styles.row__left}>
+              <Pie title="Contents by status" contentType={contentType} />
+            </div>
+            <div className={styles.row__right}>
+              <Line title="Contents on this month" contentType={contentType} />
+            </div>
+          </div>
+        </>
+      )}
       <BoxLayout ref={boxRef}>
         <div className={styles.boxTop}>
           <h4 className={styles.boxTitle}>

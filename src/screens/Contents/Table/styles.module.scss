@@ -127,3 +127,15 @@
 .paginationBottom {
   margin-top: 10px;
 }
+
+.row {
+  margin-bottom: 20px;
+  display: flex;
+  &__left {
+    width: calc(50% - 10px);
+    margin-right: 10px;
+  }
+  &__right {
+    flex: 1;
+  }
+}

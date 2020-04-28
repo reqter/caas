@@ -15,13 +15,13 @@ const HeaderProfile = ({ history }) => {
   const { currentLocale, setEditingLocale } = useLocale();
   const [dropDownVisibility, toggleVisibility] = useState(false);
   function toggle() {
-    toggleVisibility(prevState => !prevState);
+    toggleVisibility((prevState) => !prevState);
   }
   function logout() {
-    storageManager.removeItem("@caaser-token")
+    storageManager.removeItem("@caaser-token");
     dispatch({
       type: "LOGOUT",
-      value: false
+      payload: false,
     });
     history.replace("/login");
   }

@@ -570,13 +570,13 @@ export function getContentTypes() {
       _notFoundCallBack(result);
     }
   }
-  let _onConnectionErrorCallBack;
-  function _onConnectionError(result) {
-    if (_onConnectionErrorCallBack) {
-      _onConnectionErrorCallBack(result);
+  let _unKnownErrorCallBack;
+  function _unKnownError(result) {
+    if (_unKnownErrorCallBack) {
+      _unKnownErrorCallBack(result);
     }
   }
-  const _call = async ({ spaceId }) => {
+  const _call = async (spaceId) => {
     try {
       const url = getContentTypesURL;
       const token = storageManager.getItem("@caaser-token");
@@ -607,6 +607,7 @@ export function getContentTypes() {
           _onServerError();
           break;
         default:
+          _unKnownError(result);
           break;
       }
     } catch (error) {}
@@ -634,8 +635,8 @@ export function getContentTypes() {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function (callback) {
-      _onConnectionErrorCallBack = callback;
+    unKnownError: function (callback) {
+      _unKnownErrorCallBack = callback;
       return this;
     },
   };

@@ -1,0 +1,28 @@
+.columnChart {
+  padding: 0 !important;
+  min-height: 350px;
+}
+.header {
+  border-bottom: 1px solid whitesmoke;
+  padding: 10px 15px;
+  display: flex;
+  span {
+    font-size: 17px;
+    font-weight: bold;
+  }
+  .actions {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    button {
+      margin-left: 5px;
+      [class^="icon-refresh"] {
+        font-weight: bolder;
+      }
+    }
+  }
+}
+
+.content {
+  padding: 20px 0;
+}

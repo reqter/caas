@@ -32,7 +32,11 @@ const Filters = ({
   );
   const [isSearched, toggleIsSearched] = useState(false);
   const [advanceFilterBox, toggleAdvanceFilter] = useState(
-    contentFilter && contentFilter.advanceFilterValues ? true : false
+    contentFilter &&
+      contentFilter.advanceFilterValues &&
+      Object.keys(contentFilter.advanceFilterValues).length > 0
+      ? true
+      : false
   );
 
   const handleToggleAdvanceFilterBox = () => {
@@ -74,6 +78,9 @@ const Filters = ({
     reset();
     if (onApplyFilterClicked) onApplyFilterClicked({});
   }
+  // React.useEffect(() => {
+  //   if (formRef.current) console.log(formRef.current.errors);
+  // }, [formRef.current]);
   return (
     <>
       <div className={styles.filters}>
@@ -154,12 +161,9 @@ const Filters = ({
             <button
               className="btn btn-light"
               onClick={submitAdvanceFilter}
-              disabled={
-                formRef.current &&
-                Object.keys(formRef.current.errors).length > 0
-                  ? true
-                  : false
-              }
+              // disabled={
+              //   formRef.current && formRef.current.errors ? true : false
+              // }
             >
               Apply
             </button>
