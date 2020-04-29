@@ -14,32 +14,32 @@ const links = [
     name: translate("HOME_SIDE_NAV_HOME"),
     icon: "home",
     path: "/panel/home",
-    desc: translate("HOME_SIDE_NAV_HOME_DESC")
+    desc: translate("HOME_SIDE_NAV_HOME_DESC"),
   },
   {
     name: translate("HOME_SIDE_NAV_CONTENT_TYPE"),
     icon: "item-type",
     path: "/panel/contentType",
-    desc: translate("HOME_SIDE_NAV_CONTENT_TYPE_DEC")
+    desc: translate("HOME_SIDE_NAV_CONTENT_TYPE_DEC"),
   },
   {
     name: translate("HOME_SIDE_NAV_CONTENTS"),
     icon: "product",
     path: "/panel/contents",
-    desc: translate("HOME_SIDE_NAV_CONTENTS_DESC")
+    desc: translate("HOME_SIDE_NAV_CONTENTS_DESC"),
   },
   {
     name: translate("HOME_SIDE_NAV_ASSETS_MANAGER"),
     icon: "images",
     path: "/panel/assets",
-    desc: translate("HOME_SIDE_NAV_ASSETS_MANAGER_DESC")
+    desc: translate("HOME_SIDE_NAV_ASSETS_MANAGER_DESC"),
   },
   {
     name: translate("HOME_SIDE_NAV_SETTINGS"),
     icon: "cog",
     path: "/panel/settings",
-    desc: translate("HOME_SIDE_NAV_SETTINGS_DESC")
-  }
+    desc: translate("HOME_SIDE_NAV_SETTINGS_DESC"),
+  },
 ];
 
 const Header = () => {
@@ -60,6 +60,7 @@ const Header = () => {
               className="linkItem"
               activeClassName="linkItemSelected"
             >
+              <span className={"icon-" + item.icon}></span>
               {item.name}
             </NavLink>
           ))}

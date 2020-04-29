@@ -7,10 +7,20 @@
   height: 50px;
   font-size: 16px;
 }
+.failedSvg {
+  width: 100%;
+  text-align: center;
+}
 .emptyListclsWrapper {
   width: 100%;
   text-align: center;
-  svg {
+  position: relative;
+  &__msg {
+    font-size: 15px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    bottom: 0px;
   }
 }
 .emptyListcls-1 {

@@ -1,0 +1,28 @@
+.headerTop {
+}
+.center {
+  display: flex;
+  margin-top: 30px;
+  &__left {
+    width: calc(50% - 20px);
+    margin-right: 20px;
+  }
+  &__right {
+    width: calc(50% - 20px);
+    margin-right: 20px;
+  }
+}
+.row {
+  margin-top: 30px;
+  display: flex;
+  width: 100%;
+  padding-right: 20px;
+}
+
+.mediaFile {
+  width: calc(40% - 20px);
+  margin-right: 20px;
+}
+.lastContentFiles {
+  width: 60%;
+}

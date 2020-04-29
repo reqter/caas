@@ -1,6 +1,11 @@
 import React from "react";
 import styles from "./styles.module.scss";
-const BoxLayout = ({ title, description, renderHeader, children }) => {
+const BoxLayout = ({
+  title,
+  description,
+  renderHeader = () => {},
+  children,
+}) => {
   return (
     <div className={styles.p_wrapper}>
       <div className={styles.p_header}>

@@ -1,4 +1,4 @@
-import storageManager from "./../storageManager"
+import storageManager from "./../storageManager";
 
 const token = storageManager.getItem("@caaser-token");
 export const initialState = {
@@ -86,7 +86,7 @@ export const initialState = {
 export const reducer = (state, action) => {
   switch (action.type) {
     case "LOGOUT":
-      const logout = {
+      return {
         ...state,
         isAuthenticated: false,
         spaceInfo: undefined,
@@ -98,7 +98,6 @@ export const reducer = (state, action) => {
         apiKeys: [],
         webhooks: [],
       };
-      return logout;
     case "SET_EDITING_LOCALE":
       return {
         ...state,
@@ -175,7 +174,7 @@ export const reducer = (state, action) => {
     case "SET_CONTENT_TYPES":
       const s = {
         ...state,
-        contentTypes: action.value,
+        contentTypes: action.payload,
       };
       return s;
     case "ADD_CONTENT_TYPE":

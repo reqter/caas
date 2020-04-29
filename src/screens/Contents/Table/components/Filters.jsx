@@ -1,14 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "../styles.module.scss";
+import Dropdown from "reactstrap/lib/Dropdown";
+import DropdownToggle from "reactstrap/lib/DropdownToggle";
+import DropdownMenu from "reactstrap/lib/DropdownMenu";
+import DropdownItem from "reactstrap/lib/DropdownItem";
 import useGlobalState from "services/stateManager";
 import { t } from "services/languageManager";
 import Form from "components/Form";
+import { dateRanges } from "../helper";
 
 const Filters = ({
   currentFilter,
   onChangeStatus,
   onChangeInput,
   onPagingStart,
+  onDateRangeSelect,
   contentFilter,
   onApplyFilterClicked,
   advanceFilterFields = [],
@@ -32,9 +38,20 @@ const Filters = ({
   );
   const [isSearched, toggleIsSearched] = useState(false);
   const [advanceFilterBox, toggleAdvanceFilter] = useState(
-    contentFilter && contentFilter.advanceFilterValues ? true : false
+    contentFilter &&
+      contentFilter.advanceFilterValues &&
+      Object.keys(contentFilter.advanceFilterValues).length > 0
+      ? true
+      : false
   );
-
+  const [dropDownVisibility, toggleDropdown] = useState(false);
+  const [selectedTime, setTime] = useState(dateRanges[3]);
+  function handleSelectTime(item) {
+    setTime(item);
+    if (onDateRangeSelect) {
+      onDateRangeSelect(item);
+    }
+  }
   const handleToggleAdvanceFilterBox = () => {
     toggleAdvanceFilter((prev) => !prev);
   };
@@ -56,9 +73,7 @@ const Filters = ({
   };
   function handleSearchInputKeyPress(e) {
     const key = e.keyCode || e.which;
-    if (key === 13) {
-      search();
-    }
+    if (key === 13) search();
   }
   function handleSearchInput(e) {
     setSearchText(e.target.value);
@@ -76,6 +91,9 @@ const Filters = ({
     reset();
     if (onApplyFilterClicked) onApplyFilterClicked({});
   }
+  // React.useEffect(() => {
+  //   if (formRef.current) console.log(formRef.current.errors);
+  // }, [formRef.current]);
   return (
     <>
       <div className={styles.filters}>
@@ -122,6 +140,21 @@ const Filters = ({
             <button className="btn btn-light searchBtn" onClick={search}>
               Search
             </button>
+            <Dropdown
+              isOpen={dropDownVisibility}
+              toggle={() => toggleDropdown((prev) => !prev)}
+            >
+              <DropdownToggle className="btn btn-light">
+                {selectedTime.displayName} <i className="icon-caret-down" />
+              </DropdownToggle>
+              <DropdownMenu>
+                {dateRanges.map((item) => (
+                  <DropdownItem onClick={() => handleSelectTime(item)}>
+                    {item.displayName}
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
             {advanceFilterFields && advanceFilterFields.length > 0 && (
               <button
                 className="btn btn-light"
@@ -156,12 +189,9 @@ const Filters = ({
             <button
               className="btn btn-light"
               onClick={submitAdvanceFilter}
-              disabled={
-                formRef.current &&
-                Object.keys(formRef.current.errors).length > 0
-                  ? true
-                  : false
-              }
+              // disabled={
+              //   formRef.current && formRef.current.errors ? true : false
+              // }
             >
               Apply
             </button>
@@ -176,64 +206,3 @@ const Filters = ({
 };
 
 export default Filters;
-
-// [
-//   {
-//     type: "string",
-//     name: "name",
-//     appearance: "text",
-//     title: { en: "Your name", fa: "نام شما" },
-//     isRequired: true,
-//     description: {
-//       en: "Enter your name",
-//       fa: "نام خود را وارد کنید",
-//     },
-//   },
-//   {
-//     type: "string",
-//     name: "age",
-//     appearance: "text",
-//     colSpan: 2,
-//     title: { en: "Your name", fa: "سن" },
-//     isRequired: true,
-//     description: {
-//       en: "Enter your ",
-//       fa: "سن خود را وارد کنید",
-//     },
-//   },
-//   {
-//     type: "string",
-//     name: "city",
-//     appearance: "text",
-//     title: { en: "Your name", fa: "شهر" },
-//     isRequired: true,
-//     description: {
-//       en: "Enter your ",
-//       fa: "شهر خود را وارد کنید",
-//     },
-//   },
-//   {
-//     type: "string",
-//     name: "familyName",
-//     appearance: "text",
-//     title: { en: "Your name", fa: "نام خانوادکی" },
-//     colSpan: 2,
-//     isRequired: true,
-//     description: {
-//       en: "Enter your ",
-//       fa: "نام فامیلی را وارد کنید",
-//     },
-//   },
-//   {
-//     type: "string",
-//     name: "address",
-//     appearance: "text",
-//     title: { en: "Your name", fa: "آدرس" },
-//     colSpan: 2,
-//     isRequired: true,
-//     description: {
-//       en: "Enter your ",
-//       fa: "آدرس خود را وارد کنید",
-//     },
-//   },
-// ];

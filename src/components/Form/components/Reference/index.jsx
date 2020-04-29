@@ -59,7 +59,7 @@ const ReferenceInput = ({ field, mode, initialValue, filter }) => {
     }
   }, []);
 
-  // // set selected to form object if form is not in filter mode
+  // set selected to form object if form is not in filter mode
   function initValue(allData, f) {
     const selectedData = f ? f : initialValue;
     if (field.isList) {
@@ -150,8 +150,10 @@ const ReferenceInput = ({ field, mode, initialValue, filter }) => {
           closeMenuOnSelect={!field.isList}
           menuContainerStyle={{ zIndex: 9999 }}
           value={values}
+          isClearable
           onChange={handleChange}
           options={options}
+          isSearchable={false}
           styles={{
             placeholder: (base) => ({
               ...base,
@@ -170,7 +172,6 @@ const ReferenceInput = ({ field, mode, initialValue, filter }) => {
     [dirty, options, values]
   );
 };
-
 export default ReferenceInput;
 
 const SingleValue = (props) => {
@@ -184,7 +185,24 @@ const SingleValue = (props) => {
             data.contentType["media"] &&
             data.contentType["media"].length > 0 && (
               <div className={styles.selectedItemImage}>
-                <img src={data.contentType["media"][0][currentLocale]} alt="" />
+                <img
+                  src={
+                    data.contentType["media"][0][currentLocale]
+                      ? data.contentType["media"][0][currentLocale]
+                          .toString()
+                          .replace(
+                            "https://app-spanel.herokuapp.com",
+                            "https://assets.reqter.com"
+                          )
+                      : data.contentType["media"][0]
+                          .toString()
+                          .replace(
+                            "https://app-spanel.herokuapp.com",
+                            "https://assets.reqter.com"
+                          )
+                  }
+                  alt=""
+                />
               </div>
             )}
           <div className={styles.selectedItemName}>
@@ -211,7 +229,24 @@ const MultiValueLabel = (props) => {
       <div className={styles.custom_select_selected} key={data._id}>
         {data.contentType["media"] && data.contentType["media"].length > 0 && (
           <div className={styles.selectedItemName}>
-            <img src={data.contentType["media"][0][currentLocale]} alt="" />
+            <img
+              src={
+                data.contentType["media"][0][currentLocale]
+                  ? data.contentType["media"][0][currentLocale]
+                      .toString()
+                      .replace(
+                        "https://app-spanel.herokuapp.com",
+                        "https://assets.reqter.com"
+                      )
+                  : data.contentType["media"][0]
+                      .toString()
+                      .replace(
+                        "https://app-spanel.herokuapp.com",
+                        "https://assets.reqter.com"
+                      )
+              }
+              alt=""
+            />
           </div>
         )}
         <div className={styles.selectedItemName}>
@@ -229,7 +264,6 @@ const MultiValueLabel = (props) => {
     </components.MultiValueLabel>
   );
 };
-
 const CustomOption = ({ innerProps, isDisabled, data }) => {
   const { currentLocale } = useLocale();
   if (!isDisabled) {
@@ -237,7 +271,24 @@ const CustomOption = ({ innerProps, isDisabled, data }) => {
       <div {...innerProps} className={styles.custom_select_item}>
         <div className={styles.imageItem}>
           {data.contentType["media"] && data.contentType["media"].length > 0 ? (
-            <img src={data.contentType["media"][0][currentLocale]} alt="" />
+            <img
+              src={
+                data.contentType["media"][0][currentLocale]
+                  ? data.contentType["media"][0][currentLocale]
+                      .toString()
+                      .replace(
+                        "https://app-spanel.herokuapp.com",
+                        "https://assets.reqter.com"
+                      )
+                  : data.contentType["media"][0]
+                      .toString()
+                      .replace(
+                        "https://app-spanel.herokuapp.com",
+                        "https://assets.reqter.com"
+                      )
+              }
+              alt=""
+            />
           ) : (
             <div className={styles.imageItem_empty}>No Image</div>
           )}

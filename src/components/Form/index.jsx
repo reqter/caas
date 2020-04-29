@@ -8,7 +8,7 @@ const Form = (
   ref
 ) => {
   const methods = useForm();
-  const formRef = useRef(methods);
+  const formRef = React.useRef(methods);
   useImperativeHandle(ref, () => formRef.current);
 
   return (

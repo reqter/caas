@@ -104,13 +104,13 @@
 .custom_select_selected {
   display: flex;
   align-items: center;
-  height: 25px;
+  height: 20px;
   .imageItem_selected_empty {
     text-align: center;
   }
   .selectedItemImage {
     width: 30px;
-    height: 25px;
+    height: 20px;
     margin-right: 5px;
     img {
       width: 100%;
@@ -119,7 +119,7 @@
     }
   }
   .selectedItemName {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
   }
 }

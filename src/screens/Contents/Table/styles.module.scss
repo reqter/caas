@@ -52,7 +52,7 @@
   flex-wrap: wrap;
   .left {
     height: 50px;
-    flex: 2;
+    flex: 1.2;
     display: flex;
     align-items: center;
     button {
@@ -67,11 +67,17 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    flex: 1.5;
+    flex: 1;
+    input {
+      margin-right: 5px;
+    }
     .input {
       width: 100%;
       display: flex;
-      button:nth-child(2) {
+      button {
+        width: 120px;
+      }
+      button:nth-child(1) {
         margin: 0 5px;
       }
     }
@@ -126,4 +132,16 @@
 }
 .paginationBottom {
   margin-top: 10px;
+}
+
+.row {
+  margin-bottom: 20px;
+  display: flex;
+  &__left {
+    width: calc(50% - 10px);
+    margin-right: 10px;
+  }
+  &__right {
+    flex: 1;
+  }
 }
