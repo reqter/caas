@@ -32,3 +32,38 @@ export const getColumns = (fields, columnWidth, lang) => {
 export const getAdvancedFilterFields = (contentTypeFields = []) => {
   return contentTypeFields.filter((item) => item.allowFilter === true);
 };
+
+export const dateRanges = [
+  {
+    name: "today",
+    displayName: "Today",
+  },
+  {
+    name: "yesterday",
+    displayName: "Yesterday",
+  },
+  {
+    name: "last7days",
+    displayName: "Last 7 Days",
+  },
+  {
+    name: "thismonth",
+    displayName: "This Month",
+  },
+  {
+    name: "lastmonth",
+    displayName: "Last Month",
+  },
+  {
+    name: "thisyear",
+    displayName: "This Year",
+  },
+  {
+    name: "lastyear",
+    displayName: "Last Year",
+  },
+  {
+    name: "lifetime",
+    displayName: "Life Time",
+  },
+];

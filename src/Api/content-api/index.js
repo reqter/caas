@@ -1,4 +1,5 @@
 import { languageManager, storageManager } from "./../../services";
+import { makeDataParam, makeSearchFields } from "utils/makeGetDataUrlParams";
 const config = process.env;
 // const getAllURL =
 //   config.REACT_APP_CONTENT_TYPE_BASE_URL + config.REACT_APP_CONTENT_TYPE_GET_ALL
@@ -218,55 +219,23 @@ export function filterContents() {
     contentStatus,
     skip,
     limit,
-    advanceFilters = {}
+    advanceFilters = {},
+    lang,
+    dateRange
   ) => {
     try {
-      let url = filter_new_url + "?";
-      if (contentType) url = url + "contentType=" + contentType;
-
-      if (url[url.length - 1] !== "?") url = url + "&";
-
-      if (category) url = url + "category=" + category;
-
-      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
-        url = url + "&";
-      }
-
-      if (contentStatus) url = url + "status=" + contentStatus;
-
-      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
-        url = url + "&";
-      }
-
-      if (name && name.length > 0) url = url + "name=" + name;
-
-      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
-        url = url + "&";
-      }
-      if (skip || skip === 0) url = url + "skip=" + skip;
-
-      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
-        url = url + "&";
-      }
-      if (limit) url = url + "limit=" + limit;
-
-      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
-        url = url + "&";
-      }
-
-      if (url[url.length - 1] === "?") url = url.substring(0, url.length - 1);
-
-      if (url[url.length - 1] === "&") url = url.substring(0, url.length - 1);
-
-      const searchArray = Object.keys(advanceFilters);
-      const search = searchArray.reduce((obj, key) => {
-        if (advanceFilters[key] && advanceFilters[key].length > 0) {
-          obj["fields." + key] = advanceFilters[key];
-        }
-        // obj = url + `field.${key}:${advanceFilters[key]}`;
-        return obj;
-      }, {});
-
+      const url = makeDataParam(
+        filter_new_url,
+        name,
+        contentType,
+        category,
+        contentStatus,
+        skip,
+        limit,
+        lang,
+        dateRange
+      );
+      const search = makeSearchFields(advanceFilters);
       const token = storageManager.getItem("@caaser-token");
       var rawResponse = await fetch(url, {
         method: "POST",
@@ -276,7 +245,7 @@ export function filterContents() {
           spaceid: spaceId,
         },
         body: JSON.stringify({
-          search: search,
+          search,
         }),
       });
 

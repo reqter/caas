@@ -6,31 +6,21 @@ import Box from "./../../BoxLayout";
 import EmptyListIcon from "components/Commons/ErrorsComponent/EmptyList";
 import Error from "components/Commons/ErrorsComponent/Wrong";
 import Loading from "components/Commons/Loading";
-import Dropdown from "reactstrap/lib/Dropdown";
-import DropdownToggle from "reactstrap/lib/DropdownToggle";
-import DropdownMenu from "reactstrap/lib/DropdownMenu";
-import DropdownItem from "reactstrap/lib/DropdownItem";
 import { t } from "services/languageManager";
 import FilterModal from "./../../FilterModal";
 import useDashboardApi from "hooks/useDashboardApi";
 import useLocale from "hooks/useLocale";
 
-//  <Dropdown
-//                 isOpen={dropDownVisibility}
-//                 toggle={() => toggleDropdown((prev) => !prev)}
-//               >
-//                 <DropdownToggle className="btn btn-light btn-sm">
-//                   This Month <i className="icon-caret-down" />
-//                 </DropdownToggle>
-//                 <DropdownMenu>
-//                   <DropdownItem>{t("Today")}</DropdownItem>
-//                   <DropdownItem>{t("This Week")}</DropdownItem>
-//                   <DropdownItem>{t("This Month")}</DropdownItem>
-//                   <DropdownItem>{t("This Year")}</DropdownItem>
-//                 </DropdownMenu>
-//               </Dropdown>
-
-const LineChart = ({ title, contentType, height }) => {
+const LineChart = ({
+  title,
+  contentType = null,
+  height = null,
+  text = null,
+  category = null,
+  status = null,
+  advanceFilterValues = null,
+  dateRange = { name: "thismonth" },
+}) => {
   const { _getDailyInputs, _getDailyInputsByCType } = useDashboardApi();
   const { currentLocale } = useLocale();
   const chartInterval = React.useRef(null);
@@ -43,17 +33,25 @@ const LineChart = ({ title, contentType, height }) => {
   });
   const { error, loading, lineChartData, isAutoRefresh } = state;
   React.useEffect(() => {
+    if (!loading) {
+      setState((prev) => ({ ...prev, loading: true }));
+    }
     getData();
     return () => {
       if (chartInterval.current) clearInterval(chartInterval.current);
     };
-  }, []);
+  }, [text, contentType, category, status, advanceFilterValues, dateRange]);
   function getData() {
     if (contentType) getLineDataByContentType();
     else getLineData();
   }
   function getLineData() {
     _getDailyInputs(
+      text,
+      category,
+      status,
+      advanceFilterValues,
+      dateRange,
       (result) => {
         setState((prev) => {
           const d = {
@@ -72,7 +70,12 @@ const LineChart = ({ title, contentType, height }) => {
   }
   function getLineDataByContentType() {
     _getDailyInputsByCType(
+      text,
       contentType._id,
+      category,
+      status,
+      advanceFilterValues,
+      dateRange,
       (result) => {
         setState((prev) => {
           const d = {
@@ -172,8 +175,8 @@ const LineChart = ({ title, contentType, height }) => {
           ) : error ? (
             <Error
               message="Failed to load the data.try again"
-              width={250}
-              height={250}
+              width={200}
+              height={200}
             />
           ) : !lineChartData.datasets[0].data ||
             lineChartData.datasets[0].data.length === 0 ? (
@@ -187,4 +190,4 @@ const LineChart = ({ title, contentType, height }) => {
   );
 };
 
-export default LineChart;
+export default React.memo(LineChart);

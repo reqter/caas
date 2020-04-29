@@ -1,4 +1,5 @@
 import storageManager from "services/storageManager";
+import { makeDataParam, makeSearchFields } from "utils/makeGetDataUrlParams";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 const getStats_url = baseUrl + "/spaces/stats";
 const getContentsByStatus_url = baseUrl + "/contents/contentsbystatus";
@@ -147,9 +148,28 @@ export function getContentsByStatus() {
       _unKnownErrorCallBack(result);
     }
   }
-  const _call = async (spaceId) => {
+  const _call = async (
+    spaceId,
+    name,
+    category,
+    contentStatus,
+    advanceFilters = {},
+    lang,
+    dateRange
+  ) => {
     try {
-      const url = getContentsByStatus_url;
+      const url = makeDataParam(
+        getContentsByStatus_url,
+        name,
+        null,
+        category,
+        contentStatus,
+        null,
+        null,
+        lang,
+        dateRange
+      );
+      const search = advanceFilters ? makeSearchFields(advanceFilters) : {};
       const token = storageManager.getItem("@caaser-token");
       var rawResponse = await fetch(url, {
         method: "POST",
@@ -158,6 +178,9 @@ export function getContentsByStatus() {
           "Content-Type": "application/json",
           spaceId: spaceId,
         },
+        body: JSON.stringify({
+          search,
+        }),
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -249,10 +272,29 @@ export function getContentsStatusByContentType() {
       _unKnownErrorCallBack(result);
     }
   }
-  const _call = async (spaceId, contentTypeId) => {
+  const _call = async (
+    spaceId,
+    name,
+    contentType,
+    category,
+    contentStatus,
+    advanceFilters = {},
+    lang,
+    dateRange
+  ) => {
     try {
-      const url =
-        getContentsStatusByCType_url + "?contentType=" + contentTypeId;
+      const url = makeDataParam(
+        getContentsStatusByCType_url,
+        name,
+        contentType,
+        category,
+        contentStatus,
+        null,
+        null,
+        lang,
+        dateRange
+      );
+      const search = makeSearchFields(advanceFilters);
       const token = storageManager.getItem("@caaser-token");
       var rawResponse = await fetch(url, {
         method: "POST",
@@ -352,9 +394,28 @@ export function getDailyInputs() {
       _unKnownErrorCallBack(result);
     }
   }
-  const _call = async (spaceId) => {
+  const _call = async (
+    spaceId,
+    name,
+    category,
+    contentStatus,
+    advanceFilters = {},
+    lang,
+    dateRange
+  ) => {
     try {
-      const url = getDailyInputs_url;
+      const url = makeDataParam(
+        getDailyInputs_url,
+        name,
+        null,
+        category,
+        contentStatus,
+        null,
+        null,
+        lang,
+        dateRange
+      );
+      const search = advanceFilters ? makeSearchFields(advanceFilters) : {};
       const token = storageManager.getItem("@caaser-token");
       var rawResponse = await fetch(url, {
         method: "POST",
@@ -363,6 +424,9 @@ export function getDailyInputs() {
           "Content-Type": "application/json",
           spaceId: spaceId,
         },
+        body: JSON.stringify({
+          search,
+        }),
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -454,9 +518,29 @@ export function getDailyInputsByCType() {
       _unKnownErrorCallBack(result);
     }
   }
-  const _call = async (spaceId, cType) => {
+  const _call = async (
+    spaceId,
+    name,
+    contentType,
+    category,
+    contentStatus,
+    advanceFilters = {},
+    lang,
+    dateRange
+  ) => {
     try {
-      const url = getDailyInputsByCType_url + "?contentType=" + cType;
+      const url = makeDataParam(
+        getDailyInputsByCType_url,
+        name,
+        contentType,
+        category,
+        contentStatus,
+        null,
+        null,
+        lang,
+        dateRange
+      );
+      const search = makeSearchFields(advanceFilters);
       const token = storageManager.getItem("@caaser-token");
       var rawResponse = await fetch(url, {
         method: "POST",

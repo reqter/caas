@@ -1,6 +1,7 @@
 import React from "react";
 import useGlobalState from "services/stateManager";
 import storageManager from "services/storageManager";
+import useLocale from "hooks/useLocale";
 import {
   getStats,
   getContentsByStatus,
@@ -12,6 +13,7 @@ import {
 
 const useDashboardApi = () => {
   const [{ spaceInfo }, dispatch] = useGlobalState();
+  const { currentLocale } = useLocale();
   const logOut = () => {
     storageManager.removeItem("@caaser-token");
     dispatch({
@@ -41,7 +43,16 @@ const useDashboardApi = () => {
       })
       .call(spaceInfo.id);
   }
-  function _getContentsByStatus(onSuccess, onError) {
+
+  function _getContentsByStatus(
+    searchName,
+    category,
+    status,
+    advanceFilterValues,
+    dateRange,
+    onSuccess,
+    onError
+  ) {
     getContentsByStatus()
       .onOk((result) => {
         if (onSuccess) onSuccess(result);
@@ -62,9 +73,26 @@ const useDashboardApi = () => {
       .unKnownError((result) => {
         if (onError) onError();
       })
-      .call(spaceInfo.id);
+      .call(
+        spaceInfo.id,
+        searchName,
+        category,
+        status,
+        advanceFilterValues,
+        currentLocale,
+        dateRange ? dateRange.name : undefined
+      );
   }
-  function _getContentsStatusByCType(contentTypeId, onSuccess, onError) {
+  function _getContentsStatusByCType(
+    searchName,
+    contentTypeId,
+    category,
+    status,
+    advanceFilterValues,
+    dateRange,
+    onSuccess,
+    onError
+  ) {
     getContentsStatusByContentType()
       .onOk((result) => {
         if (onSuccess) onSuccess(result);
@@ -85,9 +113,27 @@ const useDashboardApi = () => {
       .unKnownError((result) => {
         if (onError) onError();
       })
-      .call(spaceInfo.id, contentTypeId);
+      .call(
+        spaceInfo.id,
+        searchName,
+        contentTypeId,
+        category,
+        status,
+        advanceFilterValues,
+        currentLocale,
+        dateRange.name
+      );
   }
-  function _getDailyInputs(onSuccess, onError) {
+  //   ===========
+  function _getDailyInputs(
+    searchName,
+    category,
+    status,
+    advanceFilterValues,
+    dateRange,
+    onSuccess,
+    onError
+  ) {
     getDailyInputs()
       .onOk((result) => {
         if (onSuccess) onSuccess(result);
@@ -108,9 +154,26 @@ const useDashboardApi = () => {
       .unKnownError((result) => {
         if (onError) onError();
       })
-      .call(spaceInfo.id);
+      .call(
+        spaceInfo.id,
+        searchName,
+        category,
+        status,
+        advanceFilterValues,
+        currentLocale,
+        dateRange ? dateRange.name : undefined
+      );
   }
-  function _getDailyInputsByCType(contentTypeId, onSuccess, onError) {
+  function _getDailyInputsByCType(
+    searchName,
+    contentTypeId,
+    category,
+    status,
+    advanceFilterValues,
+    dateRange,
+    onSuccess,
+    onError
+  ) {
     getDailyInputsByCType()
       .onOk((result) => {
         if (onSuccess) onSuccess(result);
@@ -131,7 +194,16 @@ const useDashboardApi = () => {
       .unKnownError((result) => {
         if (onError) onError();
       })
-      .call(spaceInfo.id, contentTypeId);
+      .call(
+        spaceInfo.id,
+        searchName,
+        contentTypeId,
+        category,
+        status,
+        advanceFilterValues,
+        currentLocale,
+        dateRange.name
+      );
   }
   function _getAssetsByType(onSuccess, onError) {
     getAssetsByType()

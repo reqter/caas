@@ -6,7 +6,7 @@ import Cell from "rsuite-table/lib/Cell";
 import "rsuite-table/dist/css/rsuite-table.css";
 import useFetch from "hooks/useFetch";
 import useLocale from "hooks/useLocale";
-import { getColumns, getAdvancedFilterFields } from "./helper";
+import { getColumns, getAdvancedFilterFields, dateRanges } from "./helper";
 // import Item from "./Item";
 import { t } from "services/languageManager";
 import useGlobalState from "services/stateManager";
@@ -48,6 +48,7 @@ const DataTable = ({ match, history }) => {
     status: contentFilter ? contentFilter.status : null,
     text: contentFilter ? contentFilter.text : null,
     category: null,
+    dateRange: contentFilter ? contentFilter["dateRange"] : dateRanges[3],
   });
   const {
     loading,
@@ -62,6 +63,7 @@ const DataTable = ({ match, history }) => {
     category,
     advanceFilterValues,
     advanceFilterFields,
+    dateRange,
   } = state;
   const updateState = (changes) => {
     setState((prevState) => ({ ...prevState, ...changes }));
@@ -74,6 +76,7 @@ const DataTable = ({ match, history }) => {
         text,
         skip,
         advanceFilterValues,
+        dateRange,
       },
     });
   };
@@ -87,7 +90,8 @@ const DataTable = ({ match, history }) => {
         status,
         skip,
         limit,
-        advanceFilterValues
+        advanceFilterValues,
+        dateRange
       );
     } else {
       getContentTypeColumns();
@@ -110,7 +114,8 @@ const DataTable = ({ match, history }) => {
           status,
           skip,
           limit,
-          advanceFilterValues
+          advanceFilterValues,
+          dateRange
         );
       })
       .onServerError((result) => {
@@ -131,7 +136,8 @@ const DataTable = ({ match, history }) => {
     status,
     skip,
     limit,
-    advanceFilterObject
+    advanceFilterObject,
+    dRange
   ) => {
     filterContents()
       .onOk((result) => {
@@ -169,7 +175,9 @@ const DataTable = ({ match, history }) => {
         status,
         skip * limit,
         limit,
-        advanceFilterObject
+        advanceFilterObject,
+        currentLocale,
+        dRange.name
       );
   };
   function handleStartAction(sender) {
@@ -187,7 +195,8 @@ const DataTable = ({ match, history }) => {
         status,
         skip,
         limit,
-        advanceFilterValues
+        advanceFilterValues,
+        dateRange
       );
   }
   const getTableColumns = () => {
@@ -211,7 +220,8 @@ const DataTable = ({ match, history }) => {
       status,
       skip - 1,
       limit,
-      advanceFilterValues
+      advanceFilterValues,
+      dateRange
     );
   };
   const nextPage = () => {
@@ -224,20 +234,52 @@ const DataTable = ({ match, history }) => {
         status,
         skip + 1,
         limit,
-        advanceFilterValues
+        advanceFilterValues,
+        dateRange
       );
     }
   };
   const handleChangedStatus = (s) => {
     if (!tableLoading && !loading) {
-      updateState({ tableLoading: true, status: s, skip: 0 });
-      getData(text, contentType, category, s, 0, limit, advanceFilterValues);
+      setState((prev) => ({ ...prev, tableLoading: true, status: s, skip: 0 }));
+      getData(
+        text,
+        contentType,
+        category,
+        s,
+        0,
+        limit,
+        advanceFilterValues,
+        dateRange
+      );
     }
   };
   const handleChangedSearchInput = (txt) => {
     updateState({ tableLoading: true, text: txt, skip: 0 });
-    getData(txt, contentType, category, status, 0, limit, advanceFilterValues);
+    getData(
+      txt,
+      contentType,
+      category,
+      status,
+      0,
+      limit,
+      advanceFilterValues,
+      dateRange
+    );
   };
+  function handleDateRangeSelect(dateRange) {
+    updateState({ tableLoading: true, dateRange });
+    getData(
+      text,
+      contentType,
+      category,
+      status,
+      0,
+      limit,
+      advanceFilterValues,
+      dateRange
+    );
+  }
   const viewRowData = (data) => {
     saveFilter();
     history.push({
@@ -258,7 +300,7 @@ const DataTable = ({ match, history }) => {
   const handleApplyFilterClicked = (values) => {
     if (!tableLoading && !loading) {
       updateState({ tableLoading: true, advanceFilterValues: values });
-      getData(text, contentType, category, status, 0, limit, values);
+      getData(text, contentType, category, status, 0, limit, values, dateRange);
     }
   };
   return (
@@ -278,16 +320,33 @@ const DataTable = ({ match, history }) => {
         onChangeStatus={handleChangedStatus}
         onChangeInput={handleChangedSearchInput}
         onApplyFilterClicked={handleApplyFilterClicked}
+        onDateRangeSelect={handleDateRangeSelect}
         advanceFilterFields={advanceFilterFields}
       />
       {contentType && (
         <>
           <div className={styles.row}>
             <div className={styles.row__left}>
-              <Pie title="Contents by status" contentType={contentType} />
+              <Pie
+                title={`Contents by status on ${dateRange.displayName}`}
+                contentType={contentType}
+                text={text}
+                category={category}
+                status={status}
+                advanceFilterValues={advanceFilterValues}
+                dateRange={dateRange}
+              />
             </div>
             <div className={styles.row__right}>
-              <Line title="Contents on this month" contentType={contentType} />
+              <Line
+                title={`Contents on ${dateRange.displayName}`}
+                contentType={contentType}
+                text={text}
+                category={category}
+                status={status}
+                advanceFilterValues={advanceFilterValues}
+                dateRange={dateRange}
+              />
             </div>
           </div>
         </>

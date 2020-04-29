@@ -8,7 +8,16 @@ import Loading from "components/Commons/Loading";
 import useDashboardApi from "hooks/useDashboardApi";
 import useLocale from "hooks/useLocale";
 
-const PieChart = ({ title, contentType }) => {
+const PieChart = ({
+  title,
+  contentType,
+  height,
+  text,
+  category,
+  status,
+  advanceFilterValues,
+  dateRange = { name: "thismonth" },
+}) => {
   const { _getContentsByStatus, _getContentsStatusByCType } = useDashboardApi();
   const { currentLocale } = useLocale();
   const chartInterval = React.useRef(null);
@@ -21,11 +30,14 @@ const PieChart = ({ title, contentType }) => {
   const { error, loading, pieChartData, isAutoRefresh } = state;
 
   React.useEffect(() => {
+    if (!loading) {
+      setState((prev) => ({ ...prev, loading: true }));
+    }
     getData();
     return () => {
       if (chartInterval.current) clearInterval(chartInterval.current);
     };
-  }, []);
+  }, [text, contentType, category, status, advanceFilterValues, dateRange]);
   function getCount(arr, id) {
     const item = arr.find((item) => item._id === id);
     return item ? item.count : 0;
@@ -36,37 +48,18 @@ const PieChart = ({ title, contentType }) => {
   }
   function getPieData() {
     _getContentsByStatus(
+      text,
+      category,
+      status,
+      advanceFilterValues,
+      dateRange,
       (result) => {
         setState((prev) => {
           const d = {
             ...prev,
             loading: false,
             error: false,
-            pieChartData: {
-              labels: ["Changed", "Drafts", "Published", "Archived"],
-              datasets: [
-                {
-                  backgroundColor: [
-                    "rgb(129,69,233)",
-                    "rgb(236,81,81)",
-                    "#3784ff",
-                    "rgb(30,200,136)",
-                  ],
-                  hoverBackgroundColor: [
-                    "rgb(129,69,233)",
-                    "rgb(236,81,81)",
-                    "#3784ff",
-                    "rgb(30,200,136)",
-                  ],
-                  data: [
-                    getCount(result, "changed"),
-                    getCount(result, "draft"),
-                    getCount(result, "published"),
-                    getCount(result, "changed"),
-                  ],
-                },
-              ],
-            },
+            pieChartData: makePieFromData(result),
           };
           return d;
         });
@@ -78,38 +71,19 @@ const PieChart = ({ title, contentType }) => {
   }
   function getPieDataByContentType() {
     _getContentsStatusByCType(
+      text,
       contentType._id,
+      category,
+      status,
+      advanceFilterValues,
+      dateRange,
       (result) => {
         setState((prev) => {
           const d = {
             ...prev,
             loading: false,
             error: false,
-            pieChartData: {
-              labels: ["Changed", "Drafts", "Published", "Archived"],
-              datasets: [
-                {
-                  backgroundColor: [
-                    "rgb(129,69,233)",
-                    "rgb(236,81,81)",
-                    "#3784ff",
-                    "rgb(30,200,136)",
-                  ],
-                  hoverBackgroundColor: [
-                    "rgb(129,69,233)",
-                    "rgb(236,81,81)",
-                    "#3784ff",
-                    "rgb(30,200,136)",
-                  ],
-                  data: [
-                    getCount(result, "changed"),
-                    getCount(result, "draft"),
-                    getCount(result, "published"),
-                    getCount(result, "changed"),
-                  ],
-                },
-              ],
-            },
+            pieChartData: makePieFromData(result),
           };
           return d;
         });
@@ -119,6 +93,33 @@ const PieChart = ({ title, contentType }) => {
       }
     );
   }
+  const makePieFromData = (result) => {
+    return {
+      labels: ["Changed", "Drafts", "Published", "Archived"],
+      datasets: [
+        {
+          backgroundColor: [
+            "rgb(129,69,233)",
+            "rgb(236,81,81)",
+            "#3784ff",
+            "rgb(30,200,136)",
+          ],
+          hoverBackgroundColor: [
+            "rgb(129,69,233)",
+            "rgb(236,81,81)",
+            "#3784ff",
+            "rgb(30,200,136)",
+          ],
+          data: [
+            getCount(result, "changed"),
+            getCount(result, "draft"),
+            getCount(result, "published"),
+            getCount(result, "changed"),
+          ],
+        },
+      ],
+    };
+  };
   function refresh() {
     setState((prev) => ({ ...prev, loading: true }));
     getData();

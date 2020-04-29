@@ -20,14 +20,31 @@ export default function Home(props) {
       </div>
       <div className={styles.center}>
         <div className={styles.center__left}>
-          <Pie title="Contents" />
+          <Pie
+            title="Contents"
+            contentType={undefined}
+            text={""}
+            category={undefined}
+            status={undefined}
+            advanceFilterValues={{}}
+            dateRange={{ name: "thismonth" }}
+          />
         </div>
         <div className={styles.center__right}>
           <Column title="Media Types" />
         </div>
       </div>
       <div className={styles.row}>
-        <Line title="Last 30 Days Contents" height={100} />
+        <Line
+          title="Last 30 Days Contents"
+          height={100}
+          contentType={undefined}
+          text={""}
+          category={undefined}
+          status={undefined}
+          advanceFilterValues={{}}
+          dateRange={{ name: "thismonth" }}
+        />
       </div>
       <div className={styles.row}>
         <div className={styles.mediaFile}>
