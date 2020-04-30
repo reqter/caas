@@ -67,21 +67,29 @@
   .center {
     display: flex;
     flex: 1;
-    // justify-content: space-between;
     padding: 0 20px;
     .textBox {
       flex: 1;
       span {
+        display: inline-block;
         font-size: 13px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 200px;
       }
     }
     .label {
       padding: 5px 10px;
-      margin-right: 20px;
+      margin-right: 10px;
+      font-size: 10px !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 120px;
     }
     .date {
       font-size: 12px;
-      margin-right: 20px;
     }
   }
 }
