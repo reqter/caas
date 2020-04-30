@@ -13,7 +13,7 @@ const Stats = () => {
     _getStats((data) => {
       setState((prev) => ({ ...prev, loading: false, data }));
     });
-  });
+  }, []);
   return (
     <div className={styles.statsBox}>
       <Stat

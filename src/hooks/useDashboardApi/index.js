@@ -9,6 +9,7 @@ import {
   getDailyInputs,
   getDailyInputsByCType,
   getAssetsByType,
+  getRecentAssets,
 } from "Api/dashboard";
 
 const useDashboardApi = () => {
@@ -228,6 +229,29 @@ const useDashboardApi = () => {
       })
       .call(spaceInfo.id);
   }
+  function _getRecentAssets(onSuccess, onError) {
+    getRecentAssets()
+      .onOk((result) => {
+        if (onSuccess) onSuccess(result);
+      })
+      .onServerError((result) => {
+        if (onError) onError();
+      })
+      .onBadRequest((result) => {
+        if (onError) onError();
+      })
+      .notFound((result) => {
+        if (onError) onError();
+      })
+      .unAuthorized((result) => {
+        logOut();
+        if (onError) onError();
+      })
+      .unKnownError((result) => {
+        if (onError) onError();
+      })
+      .call(spaceInfo.id);
+  }
   return {
     _getStats,
     _getContentsByStatus,
@@ -235,6 +259,7 @@ const useDashboardApi = () => {
     _getDailyInputs,
     _getDailyInputsByCType,
     _getAssetsByType,
+    _getRecentAssets,
   };
 };
 

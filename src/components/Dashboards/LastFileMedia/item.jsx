@@ -1,16 +1,54 @@
 import React from "react";
+import AssetFile from "../../AssetFile";
 import styles from "./styles.module.scss";
+import useLocale from "hooks/useLocale";
+import DateFormatter from "components/DateFormater";
 
-const Item = () => {
+const Item = ({ file }) => {
+  const { currentLocale } = useLocale();
   return (
     <div className={styles.item}>
       <div className={styles.imageBox}>
-        <img src="https://upload-icon.s3.us-east-2.amazonaws.com/uploads/icons/png/15519179861536080156-512.png" />
+        {file.fileType.toLowerCase().includes("image") ? (
+          <img
+            src={
+              file.url
+                ? file.url[currentLocale]
+                  ? file.url[currentLocale].replace(
+                      "https://app-spanel.herokuapp.com",
+                      "https://assets.reqter.com"
+                    )
+                  : file.url
+                      .toString()
+                      .replace(
+                        "https://app-spanel.herokuapp.com",
+                        "https://assets.reqter.com"
+                      )
+                : null
+            }
+            alt=""
+          />
+        ) : file.fileType.toLowerCase().includes("video") ? (
+          <i className="icon-video" />
+        ) : file.fileType.toLowerCase().includes("audio") ? (
+          <i className="icon-audio" />
+        ) : file.fileType.toLowerCase().includes("pdf") ? (
+          <i className="icon-pdf" />
+        ) : file.fileType.toLowerCase().includes("spreadsheet") ? (
+          <i className="icon-spreadsheet" />
+        ) : (
+          <AssetFile file={file} className="assetFile" />
+        )}
       </div>
       <div className={styles.textBox}>
-        <span>Image NO112</span>
-        <span>5 sec ago</span>
+        <span>{file.title && file.title[currentLocale]}</span>
+        <span>
+          <DateFormatter date={file.sys.issueDate} />
+        </span>
       </div>
+      <button className={styles.btn + " btn btn-outline-primary btn-sm"}>
+        View
+      </button>
     </div>
   );
 };

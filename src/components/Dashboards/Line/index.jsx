@@ -11,6 +11,8 @@ import FilterModal from "./../../FilterModal";
 import useDashboardApi from "hooks/useDashboardApi";
 import useLocale from "hooks/useLocale";
 
+const intervalTime = process.env.REACT_APP_AUTO_REFRESH_INTERVAL_TIME || 3000;
+
 const LineChart = ({
   title,
   contentType = null,
@@ -138,7 +140,7 @@ const LineChart = ({
     } else {
       chartInterval.current = setInterval(() => {
         getData();
-      }, 3000);
+      }, intervalTime);
     }
   }
 

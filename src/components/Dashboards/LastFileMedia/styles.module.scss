@@ -1,33 +1,68 @@
 .table {
   padding: 0 !important;
-  min-height: 300px;
+  min-height: 370px;
 }
 .header {
   border-bottom: 1px solid whitesmoke;
   padding: 10px 15px;
+  display: flex;
   span {
-    font-size: 18px;
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .actions {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    button {
+      margin-left: 5px;
+      [class^="icon-refresh"] {
+        font-weight: bolder;
+      }
+    }
   }
 }
 .item {
   display: flex;
-  padding: 15px 10px;
-  border-bottom: 1px solid whitesmoke;
+  padding: 10px;
+
+  align-items: center;
+  &:not(:last-child) {
+    border-bottom: 1px solid whitesmoke;
+  }
   .imageBox {
     width: 50px;
     margin-right: 10px;
+    width: 50px;
+    // height: 55px;
+    border: 1px solid lightgray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    background: whitesmoke;
+    border-radius: 5px;
+    color: gray;
     img {
-      width: 50px;
+      width: 45px;
+      height: 45px;
+      object-fit: cover;
+      border-radius: 5px;
     }
   }
   .textBox {
+    flex: 1;
     span {
       display: block;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: bold;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: 100%;
     }
     span:last-child {
       font-weight: normal;
+      font-size: 11px;
     }
   }
 }

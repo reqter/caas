@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./styles.module.scss";
 
-const Item = () => {
+const Item = ({ data }) => {
   return (
     <div className={styles.item}>
       <div className={styles.index}>2</div>
@@ -13,7 +13,9 @@ const Item = () => {
       </div>
       <div className={styles.label + " badge badge-light"}>Request</div>
       <div className={styles.date}>2 hours ago</div>
-      <button className={styles.btn + " btn btn-primary btn-sm"}>View</button>
+      <button className={styles.btn + " btn btn-outline-primary btn-sm"}>
+        View
+      </button>
     </div>
   );
 };

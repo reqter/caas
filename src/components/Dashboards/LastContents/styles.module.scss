@@ -1,21 +1,25 @@
 .table {
   padding: 0 !important;
-  min-height: 300px;
+  min-height: 370px;
 }
 .header {
   border-bottom: 1px solid whitesmoke;
   padding: 10px 15px;
   span {
-    font-size: 18px;
+    font-size: 17px;
+    font-weight: 500;
   }
 }
 
 .item {
   display: flex;
-  padding: 15px;
-  border-bottom: 1px solid whitesmoke;
-  align-items: center;
   justify-content: space-between;
+  display: flex;
+  padding: 10px 15px;
+  align-items: center;
+  &:not(:last-child) {
+    border-bottom: 1px solid whitesmoke;
+  }
   .index {
     width: 25px;
     border-radius: 4px;

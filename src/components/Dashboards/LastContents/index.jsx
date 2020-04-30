@@ -5,7 +5,7 @@ import styles from "./styles.module.scss";
 
 const LastContents = ({ title }) => {
   const [state, setState] = React.useState({
-    data: [{}, {}, {}, {}],
+    data: [{}, {}, {}, {}, {}],
   });
   const { data } = state;
   return (

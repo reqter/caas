@@ -159,9 +159,13 @@ const Filters = ({
               <button
                 className="btn btn-light"
                 onClick={handleToggleAdvanceFilterBox}
-                title="Advance filters"
+                title={
+                  !advanceFilterBox ? "Advance filters" : "Close filter box"
+                }
               >
-                <i className="icon-filter" />
+                <i
+                  className={!advanceFilterBox ? "icon-filter" : "icon-cross"}
+                />
               </button>
             )}
           </div>
