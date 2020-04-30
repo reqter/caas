@@ -45,7 +45,18 @@ const Item = ({ history, data, i }) => {
         </div>
       </div>
       <div className={styles.center}>
-        <div className={styles.textBox}>
+        <div
+          className={styles.textBox}
+          title={
+            fields["name"]
+              ? fields["name"][currentLocale]
+                ? fields["name"][currentLocale]
+                : typeof fields["name"] === "string"
+                ? fields["name"]
+                : ""
+              : ""
+          }
+        >
           <span>
             {fields["name"]
               ? fields["name"][currentLocale]
@@ -55,17 +66,11 @@ const Item = ({ history, data, i }) => {
                 : ""
               : ""}
           </span>
-          <span>
-            {fields["description"]
-              ? fields["description"][currentLocale]
-                ? fields["description"][currentLocale]
-                : typeof fields["description"] === "string"
-                ? fields["description"]
-                : ""
-              : ""}
-          </span>
         </div>
-        <div className={styles.label + " badge badge-light"}>
+        <div
+          className={"badge badge-light " + styles.label}
+          title={contentType["title"][currentLocale]}
+        >
           {contentType["title"][currentLocale]}
         </div>
         <div className={styles.date}>
