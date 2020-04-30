@@ -11,6 +11,8 @@ import FilterModal from "./../../FilterModal";
 import useDashboardApi from "hooks/useDashboardApi";
 import useLocale from "hooks/useLocale";
 
+const intervalTime = process.env.REACT_APP_AUTO_REFRESH_INTERVAL_TIME || 30000;
+
 const LineChart = ({
   title,
   contentType = null,
@@ -103,7 +105,7 @@ const LineChart = ({
       labels: getLabels(data),
       datasets: [
         {
-          label: "Contents per day",
+          label: "Counts",
           fill: false,
           lineTension: 0.1,
           backgroundColor: "#3784ff",
@@ -138,7 +140,7 @@ const LineChart = ({
     } else {
       chartInterval.current = setInterval(() => {
         getData();
-      }, 3000);
+      }, intervalTime);
     }
   }
 

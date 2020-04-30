@@ -13,7 +13,7 @@ const Stats = () => {
     _getStats((data) => {
       setState((prev) => ({ ...prev, loading: false, data }));
     });
-  });
+  }, []);
   return (
     <div className={styles.statsBox}>
       <Stat
@@ -40,7 +40,7 @@ const Stats = () => {
       <Stat
         title="Connected Apps"
         value={data["apps"]}
-        link=""
+        link="/panel/settings?tab=apps"
         icon="icon-shield"
         color="rgb(56,132,255)"
       />

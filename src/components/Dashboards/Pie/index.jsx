@@ -8,6 +8,8 @@ import Loading from "components/Commons/Loading";
 import useDashboardApi from "hooks/useDashboardApi";
 import useLocale from "hooks/useLocale";
 
+const intervalTime = process.env.REACT_APP_AUTO_REFRESH_INTERVAL_TIME || 30000;
+
 const PieChart = ({
   title,
   contentType,
@@ -132,7 +134,7 @@ const PieChart = ({
     } else {
       chartInterval.current = setInterval(() => {
         getData();
-      }, 3000);
+      }, intervalTime);
     }
   }
   return (

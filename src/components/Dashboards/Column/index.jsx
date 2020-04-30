@@ -7,6 +7,7 @@ import Error from "components/Commons/ErrorsComponent/Wrong";
 import Loading from "components/Commons/Loading";
 import useDashboardApi from "hooks/useDashboardApi";
 import useLocale from "hooks/useLocale";
+const intervalTime = process.env.REACT_APP_AUTO_REFRESH_INTERVAL_TIME || 30000;
 
 const ColumnChart = ({ title }) => {
   const { _getAssetsByType } = useDashboardApi();
@@ -43,7 +44,7 @@ const ColumnChart = ({ title }) => {
               labels: result.map((item) => item._id),
               datasets: [
                 {
-                  label: "My First dataset",
+                  label: "Count",
                   backgroundColor: "#3784ff",
                   borderColor: "#3784ff",
                   borderWidth: 1,
@@ -75,7 +76,7 @@ const ColumnChart = ({ title }) => {
     } else {
       chartInterval.current = setInterval(() => {
         getData();
-      }, 3000);
+      }, intervalTime);
     }
   }
   return (
