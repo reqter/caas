@@ -40,7 +40,7 @@ const Stats = () => {
       <Stat
         title="Connected Apps"
         value={data["apps"]}
-        link=""
+        link="/panel/settings?tab=apps"
         icon="icon-shield"
         color="rgb(56,132,255)"
       />

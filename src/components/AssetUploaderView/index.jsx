@@ -3,7 +3,7 @@ import "./styles.scss";
 import { useLocale } from "hooks";
 import SVGIcon from "./svg";
 
-const UploaderView = props => {
+const UploaderView = (props) => {
   const { currentLocale } = useLocale();
   const { field, formData, updateMode } = props;
   const [dropZoneFile, setDropZoneFile] = useState();
@@ -14,19 +14,36 @@ const UploaderView = props => {
     }
   }, [formData]);
   function download() {
-    window.open(dropZoneFile.url[currentLocale]);
+    const url = dropZoneFile.url[currentLocale]
+      ? dropZoneFile.url[currentLocale].replace(
+          "https://app-spanel.herokuapp.com",
+          "https://assets.reqter.com"
+        )
+      : dropZoneFile.url
+          .toString()
+          .replace(
+            "https://app-spanel.herokuapp.com",
+            "https://assets.reqter.com"
+          );
+    window.open(url);
   }
   const imgs = ["jpg", "jpeg", "gif", "bmp", "png"];
   const videos = ["mp4", "3gp", "ogg", "wmv", "flv", "avi"];
   const audios = ["wav", "mp3", "ogg"];
   function getAssetComponentByType(file, customClass) {
-    const url = file.url[currentLocale];
+    const url = file.url[currentLocale]
+      ? file.url[currentLocale].replace(
+          "https://app-spanel.herokuapp.com",
+          "https://assets.reqter.com"
+        )
+      : file.url
+          .toString()
+          .replace(
+            "https://app-spanel.herokuapp.com",
+            "https://assets.reqter.com"
+          );
     if (url) {
-      const ext = url
-        .split("/")
-        .pop()
-        .split(".")
-        .pop();
+      const ext = url.split("/").pop().split(".").pop();
       const cls = "unkownFileType " + customClass;
 
       if (!ext) {

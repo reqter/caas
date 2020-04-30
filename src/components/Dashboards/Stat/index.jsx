@@ -1,11 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import styles from "./styles.module.scss";
 import Box from "./../../BoxLayout";
 
-const Stats = ({ title, value, link, icon, color }) => {
+const Stats = ({ history, title, value, link, icon, color }) => {
   return (
-    <Box customClass={styles.statsBox}>
+    <Box customClass={styles.statsBox} onClick={() => history.push(link)}>
       <div className={styles.top}>
         <span className={styles.title}>{title}</span>
       </div>
@@ -21,4 +21,4 @@ const Stats = ({ title, value, link, icon, color }) => {
   );
 };
 
-export default Stats;
+export default withRouter(Stats);

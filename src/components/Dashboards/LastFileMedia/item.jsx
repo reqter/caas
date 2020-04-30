@@ -1,11 +1,15 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 import AssetFile from "../../AssetFile";
 import styles from "./styles.module.scss";
 import useLocale from "hooks/useLocale";
 import DateFormatter from "components/DateFormater";
 
-const Item = ({ file }) => {
+const Item = ({ history, file }) => {
   const { currentLocale } = useLocale();
+  function view() {
+    history.push(`/asset/view/${file._id}?ref=dashboard`);
+  }
   return (
     <div className={styles.item}>
       <div className={styles.imageBox}>
@@ -46,10 +50,13 @@ const Item = ({ file }) => {
           <DateFormatter date={file.sys.issueDate} />
         </span>
       </div>
-      <button className={styles.btn + " btn btn-outline-primary btn-sm"}>
+      <button
+        className={styles.btn + " btn btn-outline-primary btn-sm"}
+        onClick={view}
+      >
         View
       </button>
     </div>
   );
 };
-export default Item;
+export default withRouter(Item);

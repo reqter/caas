@@ -121,8 +121,10 @@ const UpsertContent = ({ match, history }) => {
   const { error, loading, contentType, item } = state;
   function handleBackButtonClicked() {
     const refParam = getQueryParam("ref");
-    if (contentType && refParam && refParam === "list") {
-      history.push(`/panel/contents/${contentType._id}`);
+    if (contentType && refParam) {
+      if (refParam === "list")
+        history.push(`/panel/contents/${contentType._id}`);
+      if (refParam === "dashboard") history.push(`/panel/home`);
     } else history.push("/panel/contents");
   }
   return (

@@ -51,7 +51,7 @@ export default function Home(props) {
           <LastFileMedia title="Last Files/Media" />
         </div>
         <div className={styles.lastContentFiles}>
-          <LastMediaContents title="Last Recently Content" />
+          <LastMediaContents title="Last Recent Contents" />
         </div>
       </div>
     </PageLayout>
