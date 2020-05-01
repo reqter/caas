@@ -45,7 +45,7 @@ const Filters = ({
       : false
   );
   const [dropDownVisibility, toggleDropdown] = useState(false);
-  const [selectedTime, setTime] = useState(dateRanges[3]);
+  const [selectedTime, setTime] = useState(dateRanges[6]);
   function handleSelectTime(item) {
     setTime(item);
     if (onDateRangeSelect) {

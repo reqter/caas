@@ -305,6 +305,9 @@ export function getContentsStatusByContentType() {
           "Content-Type": "application/json",
           spaceId: spaceId,
         },
+        body: JSON.stringify({
+          search,
+        }),
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -551,6 +554,9 @@ export function getDailyInputsByCType() {
           "Content-Type": "application/json",
           spaceId: spaceId,
         },
+        body: JSON.stringify({
+          search,
+        }),
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
