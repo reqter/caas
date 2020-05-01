@@ -77,6 +77,19 @@
       button {
         width: 125px;
       }
+      [class="btn-group-sm dropdown"] {
+        button {
+          height: 100%;
+        }
+      }
+
+      // align-items: center;
+      // *:(input) {
+      //   width: 125px;
+      //   font-size: 13px;
+      //   // height: 100%;
+      // }
+
       button:nth-child(1) {
         margin: 0 5px;
       }
