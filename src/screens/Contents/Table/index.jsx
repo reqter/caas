@@ -48,7 +48,7 @@ const DataTable = ({ match, history }) => {
     status: contentFilter ? contentFilter.status : null,
     text: contentFilter ? contentFilter.text : null,
     category: null,
-    dateRange: contentFilter ? contentFilter["dateRange"] : dateRanges[3],
+    dateRange: contentFilter ? contentFilter["dateRange"] : dateRanges[6],
   });
   const {
     loading,
