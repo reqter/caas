@@ -47,20 +47,16 @@ export const dateRanges = [
     displayName: "Last 7 Days",
   },
   {
-    name: "thismonth",
-    displayName: "This Month",
+    name: "last30days",
+    displayName: "Last 30 Days",
   },
   {
-    name: "lastmonth",
-    displayName: "Last Month",
+    name: "last6months",
+    displayName: "Last 6 Month",
   },
   {
     name: "thisyear",
     displayName: "This Year",
-  },
-  {
-    name: "lastyear",
-    displayName: "Last Year",
   },
   {
     name: "lifetime",

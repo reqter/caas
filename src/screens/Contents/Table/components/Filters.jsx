@@ -130,18 +130,19 @@ const Filters = ({
         <div className={styles.right}>
           <div className={styles.input}>
             <input
-              className="form-control input-lg"
+              className="form-control input-sm"
               placeholder="Search by name"
               value={searchInput}
               ref={inputRef}
               onKeyPress={handleSearchInputKeyPress}
               onChange={handleSearchInput}
             />
-            <button className="btn btn-light searchBtn" onClick={search}>
+            <button className="btn btn-light btn-sm" onClick={search}>
               Search
             </button>
             <Dropdown
               isOpen={dropDownVisibility}
+              size="sm"
               toggle={() => toggleDropdown((prev) => !prev)}
             >
               <DropdownToggle className="btn btn-light">
@@ -157,7 +158,7 @@ const Filters = ({
             </Dropdown>
             {advanceFilterFields && advanceFilterFields.length > 0 && (
               <button
-                className="btn btn-light"
+                className="btn btn-light btn-sm"
                 onClick={handleToggleAdvanceFilterBox}
                 title={
                   !advanceFilterBox ? "Advance filters" : "Close filter box"
