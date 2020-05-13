@@ -11,9 +11,13 @@ import { useLocale } from "hooks";
 import "./styles.scss";
 
 const HeaderProfile = ({ history }) => {
-  const [{ userInfo, isAuthenticated }, dispatch] = useGlobalState();
+  const [
+    { userInfo, isAuthenticated, spaceInfo, sysLocales },
+    dispatch,
+  ] = useGlobalState();
   const { currentLocale, setEditingLocale } = useLocale();
   const [dropDownVisibility, toggleVisibility] = useState(false);
+  const [langVisibility, toggleLangVisibility] = useState(false);
   function toggle() {
     toggleVisibility((prevState) => !prevState);
   }
@@ -32,9 +36,35 @@ const HeaderProfile = ({ history }) => {
   function showSettings() {
     history.push("/panel/settings");
   }
+  function getLocaleTitle(localeName, type) {
+    const locale = sysLocales.find((l) => l.name === localeName);
+    if (locale !== undefined) return locale.title;
+    return type === "name" ? "" : "none";
+  }
+  function setLang(item) {
+    setEditingLocale(item.locale);
+  }
 
   return (
     <div className="headerProfile">
+      <div className="headerProfile__languages">
+        <Dropdown
+          isOpen={langVisibility}
+          toggle={() => toggleLangVisibility((prevState) => !prevState)}
+        >
+          <DropdownToggle className="btn btn-light btn-sm">
+            {getLocaleTitle(currentLocale)}&nbsp;
+            <i className="icon-caret-down" />
+          </DropdownToggle>
+          <DropdownMenu>
+            {spaceInfo.locales.map((item) => (
+              <DropdownItem onClick={() => setLang(item)}>
+                {getLocaleTitle(item.locale, "name")}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        </Dropdown>
+      </div>
       {userInfo && userInfo.profile && userInfo.profile.avatar ? (
         userInfo.profile.avatar[currentLocale] ? (
           <div className="headerProfile__img" onClick={showProfile}>

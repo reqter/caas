@@ -61,8 +61,8 @@ const fields = [
 ];
 
 const UpsertFile = (props) => {
-  const [{ spaceInfo }, dispatch] = useGlobalState();
-  const { makeLocalesValue } = useLocale();
+  const [{ spaceInfo, sysLocales }, dispatch] = useGlobalState();
+  const { makeLocalesValue, currentLocale } = useLocale();
   // variables
   const [viewMode] = useState(props.match.url.includes("view") ? true : false);
   const [updateMode, toggleUpdateMode] = useState();
@@ -450,6 +450,11 @@ const UpsertFile = (props) => {
   function refreshCurrentPage() {
     window.location.reload();
   }
+  function getLocaleTitle(localeName, type) {
+    const locale = sysLocales.find((l) => l.name === localeName);
+    if (locale !== undefined) return locale.title;
+    return type === "name" ? "" : "none";
+  }
   return (
     <div className="up-file-wrapper">
       <div className="up-file-header">
@@ -459,6 +464,9 @@ const UpsertFile = (props) => {
         </button>
         <div className="tabItems">
           <div className="item active">Asset</div>
+        </div>
+        <div className="up-file-header__languages">
+          {getLocaleTitle(currentLocale)}
         </div>
       </div>
       <div className="up-file-content">
