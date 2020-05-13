@@ -14,11 +14,15 @@
     padding: 0 3%;
     align-items: center;
     z-index: 20;
+    &__languages {
+      color: white;
+    }
     .btn {
       i {
         margin-right: 10px;
       }
     }
+
     .tabItems {
       flex: 1;
       display: flex;

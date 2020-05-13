@@ -37,19 +37,19 @@ export const initialState = {
   sysLocales: [
     {
       name: "en",
-      title: "English (United State) (en-US)",
+      title: "English",
     },
     {
       name: "fa",
-      title: "فارسی (ایران) (fa)",
+      title: "فارسی",
     },
     {
       name: "de",
-      title: "German (Germany) (de-DE)",
+      title: "Deutsch",
     },
     {
       name: "sv",
-      title: "Swedish (Sweden) (sw-SV)",
+      title: "Swedish",
     },
   ],
   apiKeys: [],

@@ -32,16 +32,19 @@ const UploaderView = (props) => {
   const audios = ["wav", "mp3", "ogg"];
   function getAssetComponentByType(file, customClass) {
     const url = file.url[currentLocale]
-      ? file.url[currentLocale].replace(
-          "https://app-spanel.herokuapp.com",
-          "https://assets.reqter.com"
-        )
+      ? file.url[currentLocale]
+          .replace(
+            "https://app-spanel.herokuapp.com",
+            "https://assets.reqter.com"
+          )
+          .replace("https://assets.herokuapp.com", "https://assets.reqter.com")
       : file.url
           .toString()
           .replace(
             "https://app-spanel.herokuapp.com",
             "https://assets.reqter.com"
-          );
+          )
+          .replace("https://assets.herokuapp.com", "https://assets.reqter.com");
     if (url) {
       const ext = url.split("/").pop().split(".").pop();
       const cls = "unkownFileType " + customClass;
