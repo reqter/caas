@@ -11,6 +11,7 @@ import Loading from "components/Commons/Loading";
 import EmptyListIcon from "components/Commons/ErrorsComponent/EmptyList";
 import CommonErrorAlert from "components/Commons/ErrorsComponent/CommonError";
 import { filterAssets, addAsset } from "Api/asset-api";
+import useImageResize from "hooks/useImageResize";
 
 const fields = [
   {
@@ -66,6 +67,7 @@ const fields = [
 const limit = 20;
 const AssetBrowser = (props) => {
   const { currentLocale, makeLocalesValue } = useLocale();
+  const { getImage } = useImageResize();
   const [{ spaceInfo }, dispatch] = useGlobalState();
   const [isOpen, toggleModal] = useState(props.isOpen);
   const [tab, changeTab] = useState(1);
@@ -360,24 +362,7 @@ const AssetBrowser = (props) => {
                   >
                     <div className="top">
                       {file.fileType.toLowerCase().includes("image") ? (
-                        <img
-                          src={
-                            file.url
-                              ? file.url[currentLocale]
-                                ? file.url[currentLocale].replace(
-                                    "https://app-spanel.herokuapp.com",
-                                    "https://assets.reqter.com"
-                                  )
-                                : file.url
-                                    .toString()
-                                    .replace(
-                                      "https://app-spanel.herokuapp.com",
-                                      "https://assets.reqter.com"
-                                    )
-                              : null
-                          }
-                          alt=""
-                        />
+                        <img src={getImage(file.url, 150, 150)} alt="" />
                       ) : file.fileType.toLowerCase().includes("video") ? (
                         <i className="icon-video" />
                       ) : file.fileType.toLowerCase().includes("audio") ? (

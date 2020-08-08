@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import ListGroup from "reactstrap/lib/ListGroup";
-import ListGroupItem from "reactstrap/lib/ListGroupItem";
-import utility from "services/utility";
-import { t, currentLang } from "services/languageManager";
+import { t } from "services/languageManager";
 import { useLocale } from "hooks";
 import ContentTypeList from "components/ContentTypeList";
 import BoxLayout from "components/BoxLayout";
 
 const List = ({
   handleEditType,
+  handleDeleteType,
   handleShowFields,
   onVisibleToClicked,
   rightContent,
@@ -32,6 +30,13 @@ const List = ({
                 onClick={() => handleEditType(contentType)}
               >
                 <i className="icon-pencil" />
+              </button>
+              <button
+                className="btn btn-light"
+                size="xs"
+                onClick={() => handleDeleteType(contentType)}
+              >
+                <i className="icon-bin" />
               </button>
               <button
                 className="btn btn-light"

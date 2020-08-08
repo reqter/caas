@@ -1,12 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import ImageEditorRc from "./../ImageEditorRc";
 import "./styles.scss";
-import { languageManager, useGlobalState } from "../../services";
-import { uploadAssetFile } from "./../../Api/asset-api";
+import { languageManager, useGlobalState } from "services";
+import { uploadAssetFile } from "Api/asset-api";
 import CircleSpinner from "./../CircleSpinner";
 
-const ImageEditorModal = props => {
+const ImageEditorModal = (props) => {
   const [{}, dispatch] = useGlobalState();
 
   const cropper = useRef(null);
@@ -31,11 +31,11 @@ const ImageEditorModal = props => {
           width: croppedSize.width,
           height: croppedSize.width,
         })
-        .toBlob(blob => {
+        .toBlob((blob) => {
           blob.name = props.image.name;
           toggleIsUploading(true);
           uploadAssetFile()
-            .onOk(result => {
+            .onOk((result) => {
               toggleIsUploading(false);
               const { file } = result;
               dispatch({
@@ -47,7 +47,7 @@ const ImageEditorModal = props => {
               });
               props.onClose(file);
             })
-            .onServerError(result => {
+            .onServerError((result) => {
               toggleIsUploading(false);
               dispatch({
                 type: "ADD_NOTIFY",
@@ -59,7 +59,7 @@ const ImageEditorModal = props => {
                 },
               });
             })
-            .onBadRequest(result => {
+            .onBadRequest((result) => {
               toggleIsUploading(false);
               dispatch({
                 type: "ADD_NOTIFY",
@@ -71,7 +71,7 @@ const ImageEditorModal = props => {
                 },
               });
             })
-            .unAuthorized(result => {
+            .unAuthorized((result) => {
               toggleIsUploading(false);
               dispatch({
                 type: "ADD_NOTIFY",
@@ -83,12 +83,62 @@ const ImageEditorModal = props => {
                 },
               });
             })
-            .onProgress(result => {
+            .onProgress((result) => {
               setPercentage(result);
             })
             .call(blob);
         });
     }
+  }
+  function uploadOriginal() {
+    toggleIsUploading(true);
+    uploadAssetFile()
+      .onOk((result) => {
+        toggleIsUploading(false);
+        const { file } = result;
+        dispatch({
+          type: "ADD_NOTIFY",
+          value: {
+            type: "success",
+            message: languageManager.translate("ASSERS_UPLOAD_ON_OK"),
+          },
+        });
+        props.onClose(file);
+      })
+      .onServerError((result) => {
+        toggleIsUploading(false);
+        dispatch({
+          type: "ADD_NOTIFY",
+          value: {
+            type: "error",
+            message: languageManager.translate("ASSERS_UPLOAD_ON_SERVER_ERROR"),
+          },
+        });
+      })
+      .onBadRequest((result) => {
+        toggleIsUploading(false);
+        dispatch({
+          type: "ADD_NOTIFY",
+          value: {
+            type: "error",
+            message: languageManager.translate("ASSERS_UPLOAD_ON_BAD_REQUEST"),
+          },
+        });
+      })
+      .unAuthorized((result) => {
+        toggleIsUploading(false);
+        dispatch({
+          type: "ADD_NOTIFY",
+          value: {
+            type: "warning",
+            message: languageManager.translate("ASSERS_UPLOAD_UN_AUTHORIZED"),
+          },
+        });
+      })
+      .onProgress((result) => {
+        setPercentage(result);
+      })
+      .call(props.image);
   }
   function setDragMode(type) {
     cropper.current.setDragMode(type);
@@ -152,132 +202,139 @@ const ImageEditorModal = props => {
   return ReactDOM.createPortal(
     <>
       <div className="imageCropper animated fadeIn">
-      <div className="imageCropper-header">
-        <div className="imageCropper-header-left">
-          <button className="btn btn-light" onClick={backToUpsertAsset}>
-            <i className="icon-arrow-left2" />
-            {languageManager.translate("CANCEL")}
-          </button>
-        </div>
-        <div className="imageCropper-header-center">
-          {isUploading && (
-            <>
-              <CircleSpinner show={true} size="medium" />
-              <span>{progressPercentage + "%"}</span>
-            </>
-          )}
-        </div>
-        <div className="imageCropper-header-right">
-          {isCropped && (
-            <button className="btn btn-light" onClick={restore}>
-              <i className="icon-rotate-left" />
+        <div className="imageCropper-header">
+          <div className="imageCropper-header-left">
+            <button className="btn btn-light" onClick={backToUpsertAsset}>
+              <i className="icon-arrow-left2" />
+              {languageManager.translate("CANCEL")}
             </button>
-          )}
-          {cropBtnsVisbiliity && !isCropped && (
-            <>
-              <button
-                className="btn btn-light"
-                onClick={clear}
-                title={translate("ASSET_IMAGE_EDITOR_CLEAR")}
-              >
-                <i className="icon-blocked" />
+          </div>
+          <div className="imageCropper-header-center">
+            {isUploading && (
+              <>
+                <CircleSpinner show={true} size="medium" />
+                <span>{progressPercentage + "%"}</span>
+              </>
+            )}
+          </div>
+          <div className="imageCropper-header-right">
+            {isCropped && (
+              <button className="btn btn-light" onClick={restore}>
+                <i className="icon-rotate-left" />
               </button>
-              <button
-                className="btn btn-light"
-                onClick={doCrop}
-                title={translate("ASSET_IMAGE_EDITOR_CROP_IMAGE")}
-              >
-                <i className="icon-checkmark" />
-              </button>
-            </>
-          )}
-          <button className="btn btn-light uploadBtn" onClick={upload}>
-            <i className="icon-cloud-upload" />
-            Upload
-          </button>
+            )}
+            {cropBtnsVisbiliity && !isCropped && (
+              <>
+                <button
+                  className="btn btn-light"
+                  onClick={clear}
+                  title={translate("ASSET_IMAGE_EDITOR_CLEAR")}
+                >
+                  <i className="icon-blocked" />
+                </button>
+                <button
+                  className="btn btn-light"
+                  onClick={doCrop}
+                  title={translate("ASSET_IMAGE_EDITOR_CROP_IMAGE")}
+                >
+                  <i className="icon-checkmark" />
+                </button>
+              </>
+            )}
+            <button
+              className="btn btn-light uploadBtn"
+              onClick={uploadOriginal}
+            >
+              <i className="icon-cloud-upload" />
+              Upload Original
+            </button>
+            <button className="btn btn-light uploadBtn" onClick={upload}>
+              <i className="icon-cloud-upload" />
+              Upload
+            </button>
+          </div>
+        </div>
+        <div className="imageCropper-content">
+          <ImageEditorRc
+            ref={cropper}
+            crossOrigin="true" // boolean, set it to true if your image is cors protected or it is hosted on cloud like aws s3 image server
+            src={imageURL}
+            style={{ height: "100%", width: "100%" }}
+            // aspectRatio={16 / 9}
+            className="imageEditorContainer"
+            guides={true}
+            rotatable={true}
+            // aspectRatio={16 / 9}
+            imageName="image name with extension to download"
+            //  saveImage={saveImage} // it has to catch the returned data and do it whatever you want
+            responseType="blob/base64"
+            highlight={false}
+            background={false}
+            autoCrop={false}
+            dragMode="move"
+            restore={true}
+            cropend={handleCropStart}
+          />
+        </div>
+        <div className="imageActions">
+          <div
+            className="imageActions-item"
+            onClick={() => setDragMode("move")}
+            title={translate("ASSET_IMAGE_EDITOR_MOVE")}
+          >
+            <i className="icon-move" />
+          </div>
+          <div
+            className="imageActions-item"
+            onClick={() => setDragMode("crop")}
+            title={translate("ASSET_IMAGE_EDITOR_CROP")}
+          >
+            <i className="icon-crop-o" />
+          </div>
+          <div
+            className="imageActions-item"
+            onClick={() => setZoom(0.1)}
+            title={translate("ASSET_IMAGE_EDITOR_ZOOM_IN")}
+          >
+            <i className="icon-zoom-in" />
+          </div>
+          <div
+            className="imageActions-item"
+            onClick={() => setZoom(-0.1)}
+            title={translate("ASSET_IMAGE_EDITOR_ZOOM_OUT")}
+          >
+            <i className="icon-zoom-out" />
+          </div>
+          <div
+            className="imageActions-item"
+            onClick={() => rotate(-90)}
+            title={translate("ASSET_IMAGE_EDITOR_ROTATE_LEFT")}
+          >
+            <i className="icon-rotate-left" />
+          </div>
+          <div
+            className="imageActions-item"
+            onClick={() => rotate(90)}
+            title={translate("ASSET_IMAGE_EDITOR_ROTATE_RIGHT")}
+          >
+            <i className="icon-rotate-right" />
+          </div>
+          <div
+            className="imageActions-item"
+            onClick={() => flip("horizontal")}
+            title={translate("ASSET_IMAGE_EDITOR_FLIP_HORIZONTAL")}
+          >
+            <i className="icon-flip-horizontal" />
+          </div>
+          <div
+            className="imageActions-item"
+            onClick={() => flip("vertical")}
+            title={translate("ASSET_IMAGE_EDITOR_FLIP_VERTICAL")}
+          >
+            <i className="icon-flip-vertical" />
+          </div>
         </div>
       </div>
-      <div className="imageCropper-content">
-        <ImageEditorRc
-          ref={cropper}
-          crossOrigin="true" // boolean, set it to true if your image is cors protected or it is hosted on cloud like aws s3 image server
-          src={imageURL}
-          style={{ height: "100%", width: "100%" }}
-          // aspectRatio={16 / 9}
-          className="imageEditorContainer"
-          guides={true}
-          rotatable={true}
-          // aspectRatio={16 / 9}
-          imageName="image name with extension to download"
-          //  saveImage={saveImage} // it has to catch the returned data and do it whatever you want
-          responseType="blob/base64"
-          highlight={false}
-          background={false}
-          autoCrop={false}
-          dragMode="move"
-          restore={true}
-          cropend={handleCropStart}
-        />
-      </div>
-      <div className="imageActions">
-        <div
-          className="imageActions-item"
-          onClick={() => setDragMode("move")}
-          title={translate("ASSET_IMAGE_EDITOR_MOVE")}
-        >
-          <i className="icon-move" />
-        </div>
-        <div
-          className="imageActions-item"
-          onClick={() => setDragMode("crop")}
-          title={translate("ASSET_IMAGE_EDITOR_CROP")}
-        >
-          <i className="icon-crop-o" />
-        </div>
-        <div
-          className="imageActions-item"
-          onClick={() => setZoom(0.1)}
-          title={translate("ASSET_IMAGE_EDITOR_ZOOM_IN")}
-        >
-          <i className="icon-zoom-in" />
-        </div>
-        <div
-          className="imageActions-item"
-          onClick={() => setZoom(-0.1)}
-          title={translate("ASSET_IMAGE_EDITOR_ZOOM_OUT")}
-        >
-          <i className="icon-zoom-out" />
-        </div>
-        <div
-          className="imageActions-item"
-          onClick={() => rotate(-90)}
-          title={translate("ASSET_IMAGE_EDITOR_ROTATE_LEFT")}
-        >
-          <i className="icon-rotate-left" />
-        </div>
-        <div
-          className="imageActions-item"
-          onClick={() => rotate(90)}
-          title={translate("ASSET_IMAGE_EDITOR_ROTATE_RIGHT")}
-        >
-          <i className="icon-rotate-right" />
-        </div>
-        <div
-          className="imageActions-item"
-          onClick={() => flip("horizontal")}
-          title={translate("ASSET_IMAGE_EDITOR_FLIP_HORIZONTAL")}
-        >
-          <i className="icon-flip-horizontal" />
-        </div>
-        <div
-          className="imageActions-item"
-          onClick={() => flip("vertical")}
-          title={translate("ASSET_IMAGE_EDITOR_FLIP_VERTICAL")}
-        >
-          <i className="icon-flip-vertical" />
-        </div>
-      </div>
-    </div>
     </>,
     document.body
   );

@@ -35,10 +35,11 @@ const ContentTypes = ({ history }) => {
             return (
               <>
                 <Link
+                  onClick={(e) => e.stopPropagation()}
                   className="btn btn-light btn-sm"
                   to={`/contents/new/${contentType._id}`}
                 >
-                  Add New
+                  Add New 
                 </Link>
                 <button className="btn btn-light btn-sm">Browse</button>
               </>
