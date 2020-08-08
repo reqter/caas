@@ -5,7 +5,9 @@ import DropdownToggle from "reactstrap/lib/DropdownToggle";
 import DropdownItem from "reactstrap/lib/DropdownItem";
 import DropdownMenu from "reactstrap/lib/DropdownMenu";
 import AssetFile from "components/AssetFile";
-import { useLocale } from "hooks";
+import useLocale from "hooks/useLocale";
+import useImageResize from "hooks/useImageResize";
+
 export default ({
   file,
   viewAsset,
@@ -15,16 +17,17 @@ export default ({
   unPublishAsset,
   openUploaderForEdit,
   showRemoveAlert,
-  t
+  t,
 }) => {
   const { currentLocale } = useLocale();
+  const { getImage } = useImageResize();
   const [dropdownOpen, setOpen] = useState(false);
 
-  const toggle = e => {
+  const toggle = (e) => {
     e.stopPropagation();
     setOpen(!dropdownOpen);
   };
-  const actionClicked = e => {
+  const actionClicked = (e) => {
     e.stopPropagation();
   };
 
@@ -40,24 +43,7 @@ export default ({
       <td>
         <div className="as-table-image">
           {file.fileType.toLowerCase().includes("image") ? (
-            <img
-              src={
-                file.url
-                  ? file.url[currentLocale]
-                    ? file.url[currentLocale].replace(
-                        "https://app-spanel.herokuapp.com",
-                        "https://assets.reqter.com"
-                      )
-                    : file.url
-                        .toString()
-                        .replace(
-                          "https://app-spanel.herokuapp.com",
-                          "https://assets.reqter.com"
-                        )
-                  : null
-              }
-              alt=""
-            />
+            <img src={getImage(file.url, 100, 100)} alt="" />
           ) : file.fileType.toLowerCase().includes("video") ? (
             <i className="icon-video" />
           ) : file.fileType.toLowerCase().includes("audio") ? (
@@ -100,7 +86,7 @@ export default ({
               style={{
                 background: "whitesmoke",
                 color: "gray",
-                border: "none"
+                border: "none",
               }}
             >
               <span className="icon-more-h" />
@@ -108,40 +94,40 @@ export default ({
             <DropdownMenu>
               {file.status === "draft" ? (
                 <>
-                  <DropdownItem onClick={e => publishAsset(e, file)}>
+                  <DropdownItem onClick={(e) => publishAsset(e, file)}>
                     {t.translate("PUBLISH")}
                   </DropdownItem>
-                  <DropdownItem onClick={e => archiveAsset(e, file)}>
+                  <DropdownItem onClick={(e) => archiveAsset(e, file)}>
                     {t.translate("ARCHIVE")}
                   </DropdownItem>
                 </>
               ) : file.status === "changed" ? (
                 <>
-                  <DropdownItem onClick={e => publishAsset(e, file)}>
+                  <DropdownItem onClick={(e) => publishAsset(e, file)}>
                     {t.translate("PUBLISH")}
                   </DropdownItem>
-                  <DropdownItem onClick={e => archiveAsset(e, file)}>
+                  <DropdownItem onClick={(e) => archiveAsset(e, file)}>
                     {t.translate("ARCHIVE")}
                   </DropdownItem>
                 </>
               ) : file.status === "archived" ? (
-                <DropdownItem onClick={e => unArchiveAsset(e, file)}>
+                <DropdownItem onClick={(e) => unArchiveAsset(e, file)}>
                   {t.translate("UN_ARCHIVE")}
                 </DropdownItem>
               ) : file.status === "published" ? (
-                <DropdownItem onClick={e => unPublishAsset(e, file)}>
+                <DropdownItem onClick={(e) => unPublishAsset(e, file)}>
                   {t.translate("UN_PUBLISH")}
                 </DropdownItem>
               ) : (
                 ""
               )}
               {file.status !== "published" && file.status !== "archived" && (
-                <DropdownItem onClick={e => showRemoveAlert(e, file)}>
+                <DropdownItem onClick={(e) => showRemoveAlert(e, file)}>
                   Remove
                 </DropdownItem>
               )}
               <DropdownItem divider />
-              <DropdownItem onClick={e => openUploaderForEdit(e, file)}>
+              <DropdownItem onClick={(e) => openUploaderForEdit(e, file)}>
                 <i className="icon-pencil" /> Edit
               </DropdownItem>
             </DropdownMenu>
