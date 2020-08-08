@@ -7,7 +7,7 @@ import { filterContents } from "Api/content-api";
 import DateFormater from "./../DateFormater";
 import { useLocale } from "hooks";
 
-const ReferenceInput = props => {
+const ReferenceInput = (props) => {
   const [{ spaceInfo }, dispatch] = useGlobalState();
   const { currentLocale } = useLocale();
   const { field, formData, updateMode } = props;
@@ -27,9 +27,9 @@ const ReferenceInput = props => {
 
     if (spaceInfo) {
       filterContents()
-        .onOk(result => {
+        .onOk((result) => {
           if (result) {
-            const r = result.map(item => {
+            const r = result.map((item) => {
               item.value = item._id;
               return item;
             });
@@ -41,9 +41,9 @@ const ReferenceInput = props => {
             }
           }
         })
-        .onServerError(result => {})
-        .onBadRequest(result => {})
-        .unAuthorized(result => {})
+        .onServerError((result) => {})
+        .onBadRequest((result) => {})
+        .unAuthorized((result) => {})
         .notFound(() => {})
         .call(spaceInfo.id, undefined, [field.references]);
     }
@@ -64,15 +64,17 @@ const ReferenceInput = props => {
       }
       setValues(result.length > 0 ? result : null);
     } else {
-      const v = allData.find(item => item.value === formData[field.name]);
+      const v = allData.find((item) => item.value === formData[field.name]);
       setValues(v);
     }
   }
   function setValueToParentForm(input) {
     if (field.isList) {
       let s = [];
-      for (let i = 0; i < input.length; i++) {
-        s.push(input[i].value);
+      if (input) {
+        for (let i = 0; i < input.length; i++) {
+          s.push(input[i].value);
+        }
       }
       if (field.isRequired) {
         let isValid = false;
@@ -86,13 +88,13 @@ const ReferenceInput = props => {
     } else {
       if (field.isRequired) {
         let isValid = false;
-        if (input.value.length > 0) {
+        if (input && input.value.length > 0) {
           isValid = true;
         }
         if (props.onChangeValue)
-          props.onChangeValue(field, input.value, isValid);
+          props.onChangeValue(field, input ? input.value : "", isValid);
       } else {
-        if (props.onChangeValue) props.onChangeValue(field, input.value, true);
+        if (props.onChangeValue) props.onChangeValue(field, input ? input.value : "", true);
       }
     }
   }
@@ -104,14 +106,14 @@ const ReferenceInput = props => {
     return result;
   }
   function promiseOptions(inputValue) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       filterContents()
-        .onOk(result => {
+        .onOk((result) => {
           if (result) resolve(initOptions(result));
         })
-        .onServerError(result => {})
-        .onBadRequest(result => {})
-        .unAuthorized(result => {})
+        .onServerError((result) => {})
+        .onBadRequest((result) => {})
+        .unAuthorized((result) => {})
         .notFound(() => {})
         .call(spaceInfo.id, undefined, [field.references]);
     });
@@ -142,6 +144,7 @@ const ReferenceInput = props => {
         options={options}
         isMulti={field.isList}
         isSearchable={true}
+        isClearable
         isDisabled={props.viewMode}
         components={{ Option: CustomOption, MultiValueLabel, SingleValue }}
       />
@@ -154,18 +157,20 @@ const ReferenceInput = props => {
 
 export default ReferenceInput;
 
-const SingleValue = props => {
+const SingleValue = (props) => {
   const { data } = props;
   const { currentLocale } = useLocale();
   return (
     <components.SingleValue {...props}>
       <div className="options-single-selected">
         <div className="custome-select-selected">
-          {data.contentType && data.contentType["media"] && data.contentType["media"].length > 0 && (
-            <div className="selectedItemImage">
-              <img src={data.contentType["media"][0][currentLocale]} alt="" />
-            </div>
-          )}
+          {data.contentType &&
+            data.contentType["media"] &&
+            data.contentType["media"].length > 0 && (
+              <div className="selectedItemImage">
+                <img src={data.contentType["media"][0][currentLocale]} alt="" />
+              </div>
+            )}
           <div className="selectedItemName">
             {data.fields
               ? data.fields.name
@@ -182,7 +187,7 @@ const SingleValue = props => {
     </components.SingleValue>
   );
 };
-const MultiValueLabel = props => {
+const MultiValueLabel = (props) => {
   const { data } = props;
   const { currentLocale } = useLocale();
   return (

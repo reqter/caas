@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { Switch, Router, Redirect } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import PrivateRoute from "../../PrivateRoute";
 const ContentTypes = lazy(() => import("./ContentTypes"));
 const DataTable = lazy(() => import("./Table"));

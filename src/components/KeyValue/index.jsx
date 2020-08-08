@@ -3,7 +3,7 @@ import Select, { components } from "react-select";
 import "./styles.scss";
 import { useLocale } from "hooks";
 
-const KeyValueInput = props => {
+const KeyValueInput = (props) => {
   const { currentLocale } = useLocale();
   const { field, formData, updateMode } = props;
 
@@ -13,9 +13,9 @@ const KeyValueInput = props => {
   function getSelectedOption() {
     if (formData[field.name]) {
       if (field.isList) {
-        const selected = formData[field.name].map(opt => {
+        const selected = formData[field.name].map((opt) => {
           return {
-            value: opt
+            value: opt,
           };
         });
         return selected;
@@ -26,10 +26,10 @@ const KeyValueInput = props => {
       if (field.options === undefined || field.options.length === 0)
         return undefined;
       if (field.isList) {
-        const selected = field.options.filter(opt => opt.selected === true);
+        const selected = field.options.filter((opt) => opt.selected === true);
         return selected;
       } else {
-        const selected = field.options.find(opt => opt.selected === true);
+        const selected = field.options.find((opt) => opt.selected === true);
         return selected;
       }
     }
@@ -54,8 +54,10 @@ const KeyValueInput = props => {
     if (props.onChangeValue) {
       if (field.isList) {
         let s = [];
-        for (let i = 0; i < input.length; i++) {
-          s.push(input[i].value);
+        if (input) {
+          for (let i = 0; i < input.length; i++) {
+            s.push(input[i].value);
+          }
         }
         if (field.isRequired) {
           let isValid = false;
@@ -67,11 +69,11 @@ const KeyValueInput = props => {
       } else {
         if (field.isRequired) {
           let isValid = false;
-          if (input.value.length > 0) {
+          if (input && input.value.length > 0) {
             isValid = true;
           }
-          props.onChangeValue(field, input.value, isValid);
-        } else props.onChangeValue(field, input.value, true);
+          props.onChangeValue(field, input ? input.value : "", isValid);
+        } else props.onChangeValue(field, input ? input.value : "", true);
       }
     }
   }
@@ -95,11 +97,12 @@ const KeyValueInput = props => {
         options={field.options ? field.options : []}
         isMulti={field.isList}
         isSearchable={true}
+        isClearable
         isDisabled={props.viewMode}
         components={{
           Option: CustomOption,
           MultiValueLabel,
-          SingleValue
+          SingleValue,
         }}
       />
       <small className="form-text text-muted">
@@ -110,7 +113,7 @@ const KeyValueInput = props => {
     <>
       <label>{field.title[currentLocale]}</label>
       <div className="up-form-keyvalue-radio">
-        {field.options.map(option => (
+        {field.options.map((option) => (
           <div className="form-check">
             <input
               className="form-check-input"
@@ -131,7 +134,7 @@ const KeyValueInput = props => {
 
 export default KeyValueInput;
 
-const SingleValue = props => {
+const SingleValue = (props) => {
   const { data } = props;
   return (
     <components.SingleValue {...props}>
@@ -139,7 +142,7 @@ const SingleValue = props => {
     </components.SingleValue>
   );
 };
-const MultiValueLabel = props => {
+const MultiValueLabel = (props) => {
   const { data } = props;
   return (
     <components.MultiValueLabel {...props}>
