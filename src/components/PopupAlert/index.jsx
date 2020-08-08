@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Modal, ModalBody } from "reactstrap";
 import CircleSpinner from "./../CircleSpinner";
 import "./styles.scss";
-import { languageManager } from "../../services";
-const PopupAlert = props => {
+import { t } from "services/languageManager";
+const PopupAlert = (props) => {
   const okBtn = useRef(null);
   const { data } = props;
   const [spinner, toggleSpinner] = useState(false);
@@ -18,12 +18,13 @@ const PopupAlert = props => {
     data.onCancel();
     if (spinner) toggleSpinner(false);
   }
-  function okClicked() {
+  function okClicked(e) {
+    e.stopPropagation();
     if (!spinner) {
       if (data.isAjaxCall) toggleSpinner(true);
       setTimeout(() => {
         data.onOk();
-      }, 500);
+      }, 200);
     }
   }
   return data === undefined ? null : (
@@ -32,7 +33,7 @@ const PopupAlert = props => {
         <div className="popup">
           <span className="icon-cross closeIcon" onClick={closeModal} />
           <div className="popup-icon">
-            <i className="icon-audio" />
+            <i className="icon-bin" />
           </div>
           <div className="popup-messsages">
             <span className="popup-title">{data.title}</span>
@@ -40,12 +41,11 @@ const PopupAlert = props => {
           </div>
           <div className="popup-ations">
             <button className="btn btn-light" onClick={closeModal}>
-              {data.cancelTitle || languageManager.translate("DONT_REMOVE")}
+              {data.cancelTitle || t("DONT_REMOVE")}
             </button>
             <button className="btn btn-primary" onClick={okClicked} ref={okBtn}>
               {spinner && <CircleSpinner show={spinner} size="small" />}
-              {!spinner &&
-                (data.okTitle || languageManager.translate("REMOVE"))}
+              {!spinner && (data.okTitle || t("REMOVE"))}
             </button>
           </div>
         </div>

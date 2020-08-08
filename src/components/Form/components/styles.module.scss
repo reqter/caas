@@ -1,0 +1,125 @@
+.input__group {
+  width: 100%;
+  margin-bottom: 10px;
+  min-height: 90px;
+  .label {
+    display: block;
+  }
+  .input {
+    display: block;
+    width: 100%;
+    height: 38px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 2px solid lightgray;
+    background-color: white;
+    // background-color: rgb(237, 242, 247);
+    font-size: 13px;
+    transition: all 0.3;
+    font-family: inherit;
+    transition: all 0.3s;
+    color: inherit;
+    outline: none;
+    &:focus:not(.input_error) {
+      // box-shadow: 0 0 2px var(--primary-color);
+      border-color: var(--primary-color);
+      background-color: white;
+    }
+    &.input_error {
+      // outline-color: transparent;
+      border-color: red;
+    }
+  }
+
+  .info {
+    display: block;
+    font-size: 13px;
+    color: red;
+  }
+}
+.options_items {
+  padding: 6px;
+  cursor: pointer;
+  &:hover {
+    background: rgb(250, 250, 250);
+  }
+}
+
+.custom_select_item {
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  border-bottom: 1px solid whitesmoke;
+  cursor: pointer;
+  &:hover {
+    background: whitesmoke;
+  }
+  .imageItem_empty {
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+    background: lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    text-align: center;
+  }
+  .imageItem {
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .itemName {
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    flex: 1;
+    & span:first-child {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+  .itemBy {
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    flex: 1;
+    & span:first-child {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+  .itemStatus {
+    color: rgb(56, 132, 255);
+    font-size: 13px;
+    padding: 0 5px;
+  }
+}
+.custom_select_selected {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  .imageItem_selected_empty {
+    text-align: center;
+  }
+  .selectedItemImage {
+    width: 30px;
+    height: 20px;
+    margin-right: 5px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .selectedItemName {
+    font-size: 12px;
+    font-weight: 500;
+  }
+}

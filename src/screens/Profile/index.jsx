@@ -1,24 +1,25 @@
 import React, { useState, useEffect, useRef } from "react";
-
 import "./styles.scss";
-import { languageManager, useGlobalState } from "../../services";
-import { AssetBrowser, CircleSpinner, Alert } from "../../components";
-import { uploadAssetFile, addAsset } from "../../Api/asset-api";
+import useGlobalState from "services/stateManager";
+import { t } from "services/languageManager";
+import AssetBrowser from "components/AssetBrowser";
+import CircleSpinner from "components/CircleSpinner";
+import Alert from "components/PopupAlert";
+import { uploadAssetFile, addAsset } from "Api/asset-api";
 import {
   updateProfile,
   changeAvatar,
   changeNotification,
   sendEmailConfirmation,
-  deleteAccount
+  deleteAccount,
 } from "Api/account-api";
 
 import UpdatePassword from "./modals/updatePassword";
-import { useLocale } from "hooks";
-const currentLang = languageManager.getCurrentLanguage().name;
-const pageTitle = languageManager.translate("HOME_SIDE_NAV_PROFILE");
-const pageDescription = languageManager.translate("HOME_SIDE_NAV_PROFILE_DESC");
+import useLocale from "hooks/useLocale";
+const pageTitle = t("HOME_SIDE_NAV_PROFILE");
+const pageDescription = t("HOME_SIDE_NAV_PROFILE_DESC");
 
-const Profile = props => {
+const Profile = (props) => {
   const [{ userInfo, spaceInfo, sysLocales }, dispatch] = useGlobalState();
   const { currentLocale, setEditingLocale } = useLocale();
   const dropRef = useRef(null);
@@ -43,12 +44,24 @@ const Profile = props => {
     userInfo ? userInfo.profile.last_name : undefined
   );
   const [avatar, setAvatar] = useState(
- userInfo
-      ? userInfo.profile ? userInfo.profile.avatar ? userInfo.profile.avatar[currentLocale] ? 
-      userInfo.profile.avatar[currentLocale].toString().replace("https://app-spanel.herokuapp.com","https://assets.reqter.com") 
-      : userInfo.profile.avatar.toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
-      : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png" 
-      : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png" 
+    userInfo
+      ? userInfo.profile
+        ? userInfo.profile.avatar
+          ? userInfo.profile.avatar[currentLocale]
+            ? userInfo.profile.avatar[currentLocale]
+                .toString()
+                .replace(
+                  "https://app-spanel.herokuapp.com",
+                  "https://assets.reqter.com"
+                )
+            : userInfo.profile.avatar
+                .toString()
+                .replace(
+                  "https://app-spanel.herokuapp.com",
+                  "https://assets.reqter.com"
+                )
+          : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png"
+        : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png"
       : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png"
   );
 
@@ -68,9 +81,19 @@ const Profile = props => {
       setLastName(last_name ? last_name : "");
       setAvatar(
         avatar
-          ? avatar[currentLocale] ? 
-          avatar[currentLocale].toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com") 
-          : avatar.toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com") 
+          ? avatar[currentLocale]
+            ? avatar[currentLocale]
+                .toString()
+                .replace(
+                  "https://app-spanel.herokuapp.com",
+                  "https://assets.reqter.com"
+                )
+            : avatar
+                .toString()
+                .replace(
+                  "https://app-spanel.herokuapp.com",
+                  "https://assets.reqter.com"
+                )
           : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png"
       );
     }
@@ -147,33 +170,33 @@ const Profile = props => {
   function handleChooseAsset(asset) {
     toggleAssetBrowser(false);
     if (asset) {
-      uploadAvatar(asset["url"][currentLang]);
+      uploadAvatar(asset["url"][currentLocale]);
     }
   }
   function updateProfileInfo() {
     if (!updateSpinner) {
       toggleUpdateSpinner(true);
       updateProfile()
-        .onOk(result => {
+        .onOk((result) => {
           toggleUpdateSpinner(false);
           let u = { ...userInfo };
           u.profile["first_name"] = firstName;
           u.profile["last_name"] = lastName;
           dispatch({
             type: "SET_USERINFO",
-            value: u
+            value: u,
           });
         })
-        .onServerError(result => {
+        .onServerError((result) => {
           toggleUpdateSpinner(false);
         })
-        .onBadRequest(result => {
+        .onBadRequest((result) => {
           toggleUpdateSpinner(false);
         })
-        .unAuthorized(result => {
+        .unAuthorized((result) => {
           toggleUpdateSpinner(false);
         })
-        .notFound(result => {
+        .notFound((result) => {
           toggleUpdateSpinner(false);
         })
         .call(firstName, lastName);
@@ -184,15 +207,15 @@ const Profile = props => {
       toggleIsUploading(true);
 
       uploadAssetFile()
-        .onOk(result => {
+        .onOk((result) => {
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "success",
-              message: languageManager.translate(
+              message: t(
                 "Image uploaded successfully.now it is changing avatar"
-              )
-            }
+              ),
+            },
           });
           const { file } = result;
           const obj = {
@@ -200,97 +223,89 @@ const Profile = props => {
             title: file.originalname,
             description: "",
             url: {
-              [currentLang]:
-                process.env.REACT_APP_DOWNLOAD_FILE_BASE_URL + file.url
+              [currentLocale]:
+                process.env.REACT_APP_DOWNLOAD_FILE_BASE_URL + file.url,
             },
-            fileType: file.mimetype
+            fileType: file.mimetype,
           };
           addAsset()
-            .onOk(result => {
+            .onOk((result) => {
               changeAvatar()
-                .onOk(result => {
+                .onOk((result) => {
                   toggleIsUploading(false);
                   let u = { ...userInfo };
                   u.profile["avatar"] = result.profile.avatar;
                   dispatch({
                     type: "SET_USERINFO",
-                    value: u
+                    value: u,
                   });
                 })
-                .onServerError(result => {
+                .onServerError((result) => {
                   toggleIsUploading(false);
                 })
-                .onBadRequest(result => {
+                .onBadRequest((result) => {
                   toggleIsUploading(false);
                 })
-                .unAuthorized(result => {
+                .unAuthorized((result) => {
                   toggleIsUploading(false);
                 })
-                .notFound(result => {
+                .notFound((result) => {
                   toggleIsUploading(false);
                 })
-                .call(result.url[currentLang]);
+                .call(result.url[currentLocale]);
             })
-            .onServerError(result => {
+            .onServerError((result) => {
               toggleIsUploading(false);
               dispatch({
                 type: "ADD_NOTIFY",
                 value: {
                   type: "error",
-                  message: languageManager.translate(
-                    "UPSERT_ASSET_ADD_ON_SERVER_ERROR"
-                  )
-                }
+                  message: t("UPSERT_ASSET_ADD_ON_SERVER_ERROR"),
+                },
               });
             })
-            .onBadRequest(result => {
+            .onBadRequest((result) => {
               toggleIsUploading(false);
               dispatch({
                 type: "ADD_NOTIFY",
                 value: {
                   type: "error",
-                  message: languageManager.translate(
-                    "UPSERT_ASSET_ADD_ON_BAD_REQUEST"
-                  )
-                }
+                  message: t("UPSERT_ASSET_ADD_ON_BAD_REQUEST"),
+                },
               });
             })
-            .unAuthorized(result => {
+            .unAuthorized((result) => {
               toggleIsUploading(false);
               dispatch({
                 type: "ADD_NOTIFY",
                 value: {
                   type: "warning",
-                  message: languageManager.translate(
-                    "UPSERT_ASSET_ADD_UN_AUTHORIZED"
-                  )
-                }
+                  message: t("UPSERT_ASSET_ADD_UN_AUTHORIZED"),
+                },
               });
             })
-            .notFound(result => {
+            .notFound((result) => {
               toggleIsUploading(false);
               dispatch({
                 type: "ADD_NOTIFY",
                 value: {
                   type: "error",
-                  message: languageManager.translate(
-                    "UPSERT_ASSET_ADD_NOT_FOUND"
-                  )
-                }
+                  message: t("UPSERT_ASSET_ADD_NOT_FOUND"),
+                },
               });
             })
             .call(spaceInfo.id, obj);
         })
-        .onServerError(result => {
+        .onServerError((result) => {
           toggleIsUploading(false);
         })
-        .onBadRequest(result => {
+        .onBadRequest((result) => {
           toggleIsUploading(false);
         })
-        .unAuthorized(result => {
+        .unAuthorized((result) => {
           toggleIsUploading(false);
         })
-        .onProgress(result => {
+        .onProgress((result) => {
           //setPercentage(result);
         })
         .call(file);
@@ -300,25 +315,25 @@ const Profile = props => {
     if (!isUploading) {
       toggleIsUploading(true);
       changeAvatar()
-        .onOk(result => {
+        .onOk((result) => {
           toggleIsUploading(false);
           let u = { ...userInfo };
           u.profile["avatar"] = url;
           dispatch({
             type: "SET_USERINFO",
-            value: u
+            value: u,
           });
         })
-        .onServerError(result => {
+        .onServerError((result) => {
           toggleIsUploading(false);
         })
-        .onBadRequest(result => {
+        .onBadRequest((result) => {
           toggleIsUploading(false);
         })
-        .unAuthorized(result => {
+        .unAuthorized((result) => {
           toggleIsUploading(false);
         })
-        .notFound(result => {
+        .notFound((result) => {
           toggleIsUploading(false);
         })
         .call(url);
@@ -328,55 +343,47 @@ const Profile = props => {
     if (!confirmEmailSpinner) {
       toggleConfirmEmailSpinner(true);
       sendEmailConfirmation()
-        .onOk(result => {
+        .onOk((result) => {
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "success",
-              message: languageManager.translate(
-                "PROFILE_EMAIL_CONFRIMATION_ON_OK"
-              )
-            }
+              message: t("PROFILE_EMAIL_CONFRIMATION_ON_OK"),
+            },
           });
           toggleConfirmEmailSpinner(false);
         })
-        .onServerError(result => {
+        .onServerError((result) => {
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate(
-                "PROFILE_EMAIL_CONFRIMATION_ON_SERVER_ERROR"
-              )
-            }
+              message: t("PROFILE_EMAIL_CONFRIMATION_ON_SERVER_ERROR"),
+            },
           });
           toggleConfirmEmailSpinner(false);
         })
-        .onBadRequest(result => {
-          toggleConfirmEmailSpinner(false);
-          dispatch({
-            type: "ADD_NOTIFY",
-            value: {
-              type: "error",
-              message: languageManager.translate(
-                "PROFILE_EMAIL_CONFRIMATION_BAD_REQUEST"
-              )
-            }
-          });
-        })
-        .unAuthorized(result => {
-          toggleConfirmEmailSpinner(false);
-        })
-        .notFound(result => {
+        .onBadRequest((result) => {
           toggleConfirmEmailSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: languageManager.translate(
-                "PROFILE_EMAIL_CONFRIMATION_NOT_FOUND"
-              )
-            }
+              message: t("PROFILE_EMAIL_CONFRIMATION_BAD_REQUEST"),
+            },
+          });
+        })
+        .unAuthorized((result) => {
+          toggleConfirmEmailSpinner(false);
+        })
+        .notFound((result) => {
+          toggleConfirmEmailSpinner(false);
+          dispatch({
+            type: "ADD_NOTIFY",
+            value: {
+              type: "error",
+              message: t("PROFILE_EMAIL_CONFRIMATION_NOT_FOUND"),
+            },
           });
         })
         .call();
@@ -386,24 +393,24 @@ const Profile = props => {
     toggleNotification(e.target.checked);
     const value = e.target.checked;
     changeNotification()
-      .onOk(result => {
+      .onOk((result) => {
         // let u = { ...userInfo };
         // u.profile["notification"] = value;
         dispatch({
           type: "SET_USERINFO",
-          value: result
+          value: result,
         });
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         toggleNotification(!value);
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         toggleNotification(!value);
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         toggleNotification(!value);
       })
-      .notFound(result => {
+      .notFound((result) => {
         toggleNotification(!value);
       })
       .call(e.target.checked);
@@ -413,8 +420,8 @@ const Profile = props => {
       type: "ADD_NOTIFY",
       value: {
         type: type,
-        message: msg
-      }
+        message: msg,
+      },
     });
   }
   function handleDeleteAccount() {
@@ -427,36 +434,36 @@ const Profile = props => {
       cancelTitle: "Don't remove",
       onOk: () =>
         deleteAccount()
-          .onOk(result => {
+          .onOk((result) => {
             setAlertData();
             showNotify("success", "Your account deleted successfully");
             dispatch({
               type: "LOGOUT",
-              value: false
+              value: false,
             });
-            props.history.replace("login");
+            props.history.replace("/login");
           })
-          .onServerError(result => {
+          .onServerError((result) => {
             showNotify("success", "Internal server error");
             setAlertData();
           })
-          .onBadRequest(result => {
+          .onBadRequest((result) => {
             setAlertData();
           })
-          .unAuthorized(result => {
+          .unAuthorized((result) => {
             setAlertData();
           })
-          .notFound(result => {
+          .notFound((result) => {
             setAlertData();
           })
           .call(),
       onCancel: () => {
         setAlertData();
-      }
+      },
     });
   }
   function getLocaleTitle(localeName, type) {
-    const locale = sysLocales.find(l => l.name === localeName);
+    const locale = sysLocales.find((l) => l.name === localeName);
     if (locale !== undefined) return locale.title;
     return type === "name" ? "" : "none";
   }
@@ -503,7 +510,7 @@ const Profile = props => {
                     style={{
                       border: dragging
                         ? "3px dashed lightgray"
-                        : "0.5px solid lightgray"
+                        : "0.5px solid lightgray",
                     }}
                   >
                     <div className="dropText">
@@ -640,7 +647,7 @@ const Profile = props => {
             </div>
             {currentBox === 3 && (
               <div className="pro-box-content">
-                <label for="notify" className="text-switch">
+                <label htmlFor="notify" className="text-switch">
                   <div className="left-text">
                     <span className="left-text-title">Emails</span>
                     <span className="left-text-description">
@@ -675,7 +682,7 @@ const Profile = props => {
               </div>
               {currentBox === 5 && (
                 <div className="pro-box-content">
-                  {spaceInfo.locales.map(item => (
+                  {spaceInfo.locales.map((item) => (
                     <div className="languages">
                       <div className="left">
                         <span className="title">
@@ -695,7 +702,9 @@ const Profile = props => {
                           }
                           onClick={() => setLang(item)}
                         >
-                          Set As Default
+                          {item.locale === currentLocale
+                            ? "Default"
+                            : "Set As Default"}
                         </button>
                       </div>
                     </div>

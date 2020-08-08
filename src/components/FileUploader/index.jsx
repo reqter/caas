@@ -32,7 +32,7 @@ const FileUploaderInput = props => {
     return [];
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (formData[field.name]) {
       if (field.isRequired === true) props.init(field.name, true);
 
@@ -122,9 +122,7 @@ const FileUploaderInput = props => {
   }
   function onCloseEditor(result) {
     toggleEditorModal(false);
-    if (result) {
-      addToList(result);
-    }
+    if (result) addToList(result);
   }
   return (
     <>
@@ -153,10 +151,10 @@ const FileUploaderInput = props => {
                   ) : file.fileType.toLowerCase().includes("spreadsheet") ? (
                     <i className="icon-spreadsheet" />
                   ) : (
-                    <AssetFile file={file} class="fileUploader" />
+                    <AssetFile file={file} className="fileUploader" />
                   )
                 ) : (
-                  <AssetFile file={file} class="fileUploader" />
+                  <AssetFile file={file} className="fileUploader" />
                 )}
               </div>
             </div>

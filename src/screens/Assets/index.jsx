@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./styles.scss";
 import { languageManager, useGlobalState } from "services";
-import AssetFile from "components/AssetFile";
 import Alert from "components/PopupAlert";
 import CircleSpinner from "components/CircleSpinner";
+import AssetRow from "./AssetRow";
 import {
   getAssets,
   deleteAsset,
@@ -11,7 +11,7 @@ import {
   publish,
   unPublish,
   archive,
-  unArchive
+  unArchive,
 } from "Api/asset-api";
 import { useLocale } from "hooks";
 const filters = [
@@ -20,46 +20,46 @@ const filters = [
     name: "all",
     title: {
       en: "All Assets",
-      fa: "همه"
+      fa: "همه",
     },
-    icon: "icon-folder"
+    icon: "icon-folder",
   },
   {
     id: "1",
     name: "image",
     title: {
       en: "Image",
-      fa: "تصاویر"
+      fa: "تصاویر",
     },
-    icon: "icon-images"
+    icon: "icon-images",
   },
   {
     id: "2",
     name: "video",
     title: {
       en: "Video",
-      fa: "ویدیو"
+      fa: "ویدیو",
     },
-    icon: "icon-video"
+    icon: "icon-video",
   },
   {
     id: "3",
     name: "audio",
     title: {
       en: "Audio",
-      fa: "فایل صوتی"
+      fa: "فایل صوتی",
     },
-    icon: "icon-audio"
+    icon: "icon-audio",
   },
   {
     id: "4",
     name: "application/pdf",
     title: {
       en: "PDF",
-      fa: "پی دی اف"
+      fa: "پی دی اف",
     },
-    icon: "icon-pdf"
-  }
+    icon: "icon-pdf",
+  },
 ];
 
 const pageTitle = languageManager.translate("HOME_SIDE_NAV_ASSETS_MANAGER");
@@ -67,133 +67,121 @@ const pageDescription = languageManager.translate(
   "HOME_SIDE_NAV_ASSETS_MANAGER_DESC"
 );
 const currentLang = languageManager.getCurrentLanguage().name;
-const Assets = props => {
+const limit = 20;
+const Assets = (props) => {
   const { currentLocale } = useLocale();
   let didCancel = false;
 
   const [{ assets, status, spaceInfo }, dispatch] = useGlobalState();
   const [spinner, toggleSpinner] = useState(true);
-
-  useEffect(() => {
-    getAssets()
-      .onOk(result => {
-        if (!didCancel) {
-          toggleSpinner(false);
-          dispatch({
-            type: "SET_ASSETS",
-            value: result
-          });
-        }
-      })
-      .onServerError(result => {
-        if (!didCancel) {
-          toggleSpinner(false);
-          dispatch({
-            type: "ADD_NOTIFY",
-            value: {
-              type: "error",
-              message: languageManager.translate("ASSET_GET_ON_SERVER_ERROR")
-            }
-          });
-        }
-      })
-      .onBadRequest(result => {
-        if (!didCancel) {
-          toggleSpinner(false);
-          dispatch({
-            type: "ADD_NOTIFY",
-            value: {
-              type: "error",
-              message: languageManager.translate("ASSET_GET_ON_BAD_REQUEST")
-            }
-          });
-        }
-      })
-      .unAuthorized(result => {
-        if (!didCancel) {
-          props.history.replace("/login");
-          dispatch({
-            type: "ADD_NOTIFY",
-            value: {
-              type: "warning",
-              message: languageManager.translate("ASSET_GET_UN_AUTHORIZED")
-            }
-          });
-        }
-      })
-      .notFound(result => {
-        if (!didCancel) {
-          toggleSpinner(false);
-        }
-      })
-      .call(spaceInfo.id);
-
-    return () => {
-      didCancel = true;
-    };
-  }, []);
+  const [skip, setSkip] = useState(0);
 
   const [selectedFileType, setFileType] = useState(filters[0]);
   const [selectedStatus, setStatus] = useState({});
   const [alertData, setAlertData] = useState();
 
+  useEffect(() => {
+    doFilter(selectedFileType.name, undefined, skip, limit);
+    return () => {
+      didCancel = true;
+    };
+  }, []);
+
   function translate(key) {
     return languageManager.translate(key);
   }
-  function doFilter(fileType, status) {
+  const prevPage = () => {
+    setSkip((prev) => prev - 1);
+    doFilter(
+      selectedFileType.name,
+      selectedStatus.name,
+      (skip - 1) * limit,
+      limit
+    );
+  };
+  const nextPage = () => {
+    setSkip((prev) => prev + 1);
+    doFilter(
+      selectedFileType.name,
+      selectedStatus.name,
+      (skip + 1) * limit,
+      limit
+    );
+  };
+
+  function doFilter(fileType, status, skip, limit) {
     toggleSpinner(true);
     filterAssets()
-      .onOk(result => {
+      .onOk((result) => {
         toggleSpinner(false);
+        if (assets && assets.length > 0)
+          dispatch({
+            type: "SET_ASSETS",
+            value: [],
+          });
+        const data =
+          result &&
+          result.map((item, index) => {
+            return {
+              ...item,
+              index: skip + parseInt(index) + 1,
+            };
+          });
         dispatch({
           type: "SET_ASSETS",
-          value: result
+          value: data,
         });
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         toggleSpinner(false);
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("ASSET_GET_ON_SERVER_ERROR")
-          }
+            message: languageManager.translate("ASSET_GET_ON_SERVER_ERROR"),
+          },
         });
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         toggleSpinner(false);
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("ASSET_GET_ON_BAD_REQUEST")
-          }
+            message: languageManager.translate("ASSET_GET_ON_BAD_REQUEST"),
+          },
         });
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         toggleSpinner(false);
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "warning",
-            message: languageManager.translate("ASSET_GET_UN_AUTHORIZED")
-          }
+            message: languageManager.translate("ASSET_GET_UN_AUTHORIZED"),
+          },
         });
       })
-      .notFound(result => {
+      .notFound((result) => {
         toggleSpinner(false);
       })
-      .call(spaceInfo.id, fileType === "all" ? undefined : [fileType], [
-        status
-      ]);
+      .call(
+        spaceInfo.id,
+        fileType === "all" ? undefined : [fileType],
+        status ? [status] : undefined,
+        skip,
+        limit
+      );
   }
   function handleFileTypeClick(selected) {
+    setSkip(0);
     setFileType(selected);
-    doFilter(selected.name, selectedStatus.name);
+    doFilter(selected.name, selectedStatus.name, 0, limit);
   }
   function handleStatusClick(selected) {
+    setSkip(0);
     setStatus(selected);
-    doFilter(selectedFileType.name, selected.name);
+    doFilter(selectedFileType.name, selected.name, 0, limit);
   }
   function openUploader() {
     props.history.push("/asset/new");
@@ -216,7 +204,7 @@ const Assets = props => {
       onOk: () => removeAsset(e, item),
       onCancel: () => {
         setAlertData();
-      }
+      },
     });
     e.stopPropagation();
   }
@@ -224,58 +212,58 @@ const Assets = props => {
     e.stopPropagation();
     const deletedItem = item;
     deleteAsset()
-      .onOk(result => {
+      .onOk((result) => {
         setAlertData();
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "success",
-            message: languageManager.translate("ASSET_DELETE_ON_OK")
-          }
+            message: languageManager.translate("ASSET_DELETE_ON_OK"),
+          },
         });
         dispatch({
           type: "DELETE_ASSET",
-          value: deletedItem
+          value: deletedItem,
         });
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         setAlertData();
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("ASSET_DELETE_ON_SERVER_ERROR")
-          }
+            message: languageManager.translate("ASSET_DELETE_ON_SERVER_ERROR"),
+          },
         });
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         setAlertData();
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("ASSET_DELETE_ON_BAD_REQUEST")
-          }
+            message: languageManager.translate("ASSET_DELETE_ON_BAD_REQUEST"),
+          },
         });
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         setAlertData();
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "warning",
-            message: languageManager.translate("ASSET_DELETE_UN_AUTHORIZED")
-          }
+            message: languageManager.translate("ASSET_DELETE_UN_AUTHORIZED"),
+          },
         });
       })
-      .notFound(result => {
+      .notFound((result) => {
         setAlertData();
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("ASSET_DELETE_NOT_FOUND")
-          }
+            message: languageManager.translate("ASSET_DELETE_NOT_FOUND"),
+          },
         });
       })
       .call(spaceInfo ? spaceInfo.id : undefined, item._id);
@@ -283,54 +271,54 @@ const Assets = props => {
   function archiveAsset(e, file) {
     e.stopPropagation();
     archive()
-      .onOk(result => {
+      .onOk((result) => {
         doFilter(selectedFileType.name, selectedStatus.name);
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "success",
-            message: languageManager.translate("The asset is archived")
-          }
+            message: languageManager.translate("The asset is archived"),
+          },
         });
         dispatch({
           type: "ARCHIVE_ASSET",
-          value: result
+          value: result,
         });
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Internal server error")
-          }
+            message: languageManager.translate("Internal server error"),
+          },
         });
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Bad request")
-          }
+            message: languageManager.translate("Bad request"),
+          },
         });
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Un Authorized")
-          }
+            message: languageManager.translate("Un Authorized"),
+          },
         });
       })
-      .notFound(result => {
+      .notFound((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Asset not found")
-          }
+            message: languageManager.translate("Asset not found"),
+          },
         });
       })
       .call(spaceInfo.id, file._id);
@@ -338,54 +326,54 @@ const Assets = props => {
   function unArchiveAsset(e, file) {
     e.stopPropagation();
     unArchive()
-      .onOk(result => {
+      .onOk((result) => {
         doFilter(selectedFileType.name, selectedStatus.name);
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "success",
-            message: languageManager.translate("The asset is unarchived")
-          }
+            message: languageManager.translate("The asset is unarchived"),
+          },
         });
         dispatch({
           type: "UN_ARCHIVE_ASSET",
-          value: result
+          value: result,
         });
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Internal server error")
-          }
+            message: languageManager.translate("Internal server error"),
+          },
         });
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Bad request")
-          }
+            message: languageManager.translate("Bad request"),
+          },
         });
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Un Authorized")
-          }
+            message: languageManager.translate("Un Authorized"),
+          },
         });
       })
-      .notFound(result => {
+      .notFound((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Asset not found")
-          }
+            message: languageManager.translate("Asset not found"),
+          },
         });
       })
       .call(spaceInfo.id, file._id);
@@ -393,54 +381,54 @@ const Assets = props => {
   function publishAsset(e, file) {
     e.stopPropagation();
     publish()
-      .onOk(result => {
+      .onOk((result) => {
         doFilter(selectedFileType.name, selectedStatus.name);
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "success",
-            message: languageManager.translate("The asset is published")
-          }
+            message: languageManager.translate("The asset is published"),
+          },
         });
         dispatch({
           type: "PUBLISH_ASSET",
-          value: result
+          value: result,
         });
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Internal server error")
-          }
+            message: languageManager.translate("Internal server error"),
+          },
         });
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Bad request")
-          }
+            message: languageManager.translate("Bad request"),
+          },
         });
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Un Authorized")
-          }
+            message: languageManager.translate("Un Authorized"),
+          },
         });
       })
-      .notFound(result => {
+      .notFound((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Asset not found")
-          }
+            message: languageManager.translate("Asset not found"),
+          },
         });
       })
       .call(spaceInfo.id, file._id);
@@ -448,54 +436,54 @@ const Assets = props => {
   function unPublishAsset(e, file) {
     e.stopPropagation();
     unPublish()
-      .onOk(result => {
+      .onOk((result) => {
         doFilter(selectedFileType.name, selectedStatus.name);
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "success",
-            message: languageManager.translate("The asset is unpublished")
-          }
+            message: languageManager.translate("The asset is unpublished"),
+          },
         });
         dispatch({
           type: "UN_PUBLISH_ASSET",
-          value: result
+          value: result,
         });
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Internal server error")
-          }
+            message: languageManager.translate("Internal server error"),
+          },
         });
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Bad request")
-          }
+            message: languageManager.translate("Bad request"),
+          },
         });
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Un Authorized")
-          }
+            message: languageManager.translate("Un Authorized"),
+          },
         });
       })
-      .notFound(result => {
+      .notFound((result) => {
         dispatch({
           type: "ADD_NOTIFY",
           value: {
             type: "error",
-            message: languageManager.translate("Asset not found")
-          }
+            message: languageManager.translate("Asset not found"),
+          },
         });
       })
       .call(spaceInfo.id, file._id);
@@ -524,7 +512,7 @@ const Assets = props => {
                 <div className="title">
                   {translate("ASSET_FILTER_BY_TYPE_TITLE")}
                 </div>
-                {filters.map(f => (
+                {filters.map((f) => (
                   <div
                     className="filter"
                     key={f.id}
@@ -533,7 +521,7 @@ const Assets = props => {
                       color:
                         f.id === selectedFileType.id
                           ? "rgb(56,132,255)"
-                          : "black"
+                          : "black",
                     }}
                   >
                     <i className={["icon", f.icon].join(" ")} />
@@ -543,7 +531,8 @@ const Assets = props => {
                     <span
                       className="icon-circle-o iconSelected"
                       style={{
-                        display: f.id === selectedFileType.id ? "block" : "none"
+                        display:
+                          f.id === selectedFileType.id ? "block" : "none",
                       }}
                     />
                   </div>
@@ -553,14 +542,16 @@ const Assets = props => {
                 <div className="title">
                   {translate("ASSET_FILTER_BY_STATUS_TITLE")}
                 </div>
-                {status.map(f => (
+                {status.map((f) => (
                   <div
                     className="filter"
                     key={f.id}
                     onClick={() => handleStatusClick(f)}
                     style={{
                       color:
-                        f.id === selectedStatus.id ? "rgb(56,132,255)" : "black"
+                        f.id === selectedStatus.id
+                          ? "rgb(56,132,255)"
+                          : "black",
                     }}
                   >
                     <i className={["icon", f.icon].join(" ")} />
@@ -568,7 +559,7 @@ const Assets = props => {
                     <span
                       className="icon-circle-o iconSelected"
                       style={{
-                        display: f.id === selectedStatus.id ? "block" : "none"
+                        display: f.id === selectedStatus.id ? "block" : "none",
                       }}
                     />
                   </div>
@@ -577,9 +568,30 @@ const Assets = props => {
             </div>
           </div>
           <div className="as-content-right">
-            <div className="header">
+            <div className="ass__content__header">
               {translate("ASSET_TABLE_HEADER_ALL_ASSETS")}&nbsp;&nbsp;
               <CircleSpinner show={spinner} size="small" />
+              <div className="as-content-pagination">
+                {skip === 0 && assets.length < limit ? null : (
+                  <>
+                    <button
+                      className="pagination-btn btn-left"
+                      disabled={skip === 0}
+                      onClick={prevPage}
+                    >
+                      <i className="icon-circle-left" />
+                    </button>
+                    <span className="pagination-text">Page {skip + 1}</span>
+                    <button
+                      className="pagination-btn btn-right"
+                      disabled={!assets || assets.length < limit}
+                      onClick={nextPage}
+                    >
+                      <i className="icon-circle-right" />
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
             <div className="rightTable">
               <table className="table">
@@ -595,133 +607,18 @@ const Assets = props => {
                 </thead>
                 <tbody>
                   {assets.map((file, index) => (
-                    <tr key={index} onClick={() => viewAsset(file)}>
-                      <td>
-                        <div className="as-table-number">
-                          <div className="as-table-number-value">
-                            {index + 1}
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="as-table-image">
-                          {file.fileType.toLowerCase().includes("image") ? (
-                            <img
-                              src={
-                                file.url
-                                  ? file.url[currentLocale]
-                                    ? file.url[currentLocale].replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
-                                    : file.url.toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
-                                  : null
-                              }
-                              alt=""
-                            />
-                          ) : file.fileType.toLowerCase().includes("video") ? (
-                            <i className="icon-video" />
-                          ) : file.fileType.toLowerCase().includes("audio") ? (
-                            <i className="icon-audio" />
-                          ) : file.fileType.toLowerCase().includes("pdf") ? (
-                            <i className="icon-pdf" />
-                          ) : file.fileType
-                              .toLowerCase()
-                              .includes("spreadsheet") ? (
-                            <i className="icon-spreadsheet" />
-                          ) : (
-                            <AssetFile file={file} class="assetFile" />
-                          )}
-                        </div>
-                      </td>
-                      <td>
-                        <div className="as-table-name">
-                          <span className="name">
-                            {file.title && file.title[currentLocale]}
-                          </span>
-                          <span>{file.fileType}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="as-table-by">
-                          <span>
-                            {file.sys &&
-                              file.sys.issuer &&
-                              file.sys.issuer.fullName}
-                          </span>
-                          <span>{file.sys && file.sys.issueDate}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="as-table-status">
-                          <span className="adge badge-primary">
-                            {languageManager.translate(file.status)}
-                          </span>
-                        </div>
-                      </td>
-                      <td>
-                        {file.status === "draft" ? (
-                          <>
-                            <button
-                              className="btn btn-light btn-sm"
-                              onClick={e => publishAsset(e, file)}
-                            >
-                              {translate("PUBLISH")}
-                            </button>
-                            <button
-                              className="btn btn-light btn-sm"
-                              onClick={e => archiveAsset(e, file)}
-                            >
-                              {translate("ARCHIVE")}
-                            </button>
-                          </>
-                        ) : file.status === "changed" ? (
-                          <>
-                            <button
-                              className="btn btn-light btn-sm"
-                              onClick={e => publishAsset(e, file)}
-                            >
-                              {translate("PUBLISH")}
-                            </button>
-                            <button
-                              className="btn btn-light btn-sm"
-                              onClick={e => archiveAsset(e, file)}
-                            >
-                              {translate("ARCHIVE")}
-                            </button>
-                          </>
-                        ) : file.status === "archived" ? (
-                          <button
-                            className="btn btn-light btn-sm"
-                            onClick={e => unArchiveAsset(e, file)}
-                          >
-                            {translate("UN_ARCHIVE")}
-                          </button>
-                        ) : file.status === "published" ? (
-                          <button
-                            className="btn btn-light btn-sm"
-                            onClick={e => unPublishAsset(e, file)}
-                          >
-                            {translate("UN_PUBLISH")}
-                          </button>
-                        ) : (
-                          ""
-                        )}
-
-                        {file.status !== "published" &&
-                          file.status !== "archived" && (
-                            <button
-                              className="btn btn-light btn-sm"
-                              onClick={e => showRemoveAlert(e, file)}
-                            >
-                              <i className="icon-bin" />
-                            </button>
-                          )}
-                        <button
-                          className="btn btn-light btn-sm"
-                          onClick={e => openUploaderForEdit(e, file)}
-                        >
-                          <i className="icon-pencil" />
-                        </button>
-                      </td>
-                    </tr>
+                    <AssetRow
+                      key={index}
+                      file={file}
+                      viewAsset={viewAsset}
+                      publishAsset={publishAsset}
+                      archiveAsset={archiveAsset}
+                      unArchiveAsset={unArchiveAsset}
+                      unPublishAsset={unPublishAsset}
+                      openUploaderForEdit={openUploaderForEdit}
+                      showRemoveAlert={showRemoveAlert}
+                      t={languageManager}
+                    />
                   ))}
                 </tbody>
               </table>

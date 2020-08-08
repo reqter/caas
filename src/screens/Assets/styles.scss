@@ -1,6 +1,5 @@
 .as-wrapper {
   flex: 1;
-  margin: 3% 3% 1%;
   display: flex;
   flex-direction: column;
   .as-header {
@@ -26,7 +25,6 @@
     }
   }
   .as-content {
-    flex: 1;
     display: flex;
     .as-content-left {
       background-color: white;
@@ -37,7 +35,6 @@
       display: flex;
       flex-direction: column;
       padding: 20px;
-      max-height: 100%;
       .left-text {
         font-size: 13px;
         text-align: justify;
@@ -93,147 +90,159 @@
       }
     }
     .as-content-right {
-      margin-top: 0px;
       flex: 1;
+      margin-top: 0px;
       background-color: white;
       box-shadow: 0 0 3px lightgray;
       border-radius: 4px;
       display: flex;
       flex-direction: column;
-      .header {
-        height: 50px;
+      .ass__content__header {
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        padding: 0 10px;
+        padding: 10px;
         font-size: 22px;
+        .as-content-pagination {
+          flex: 1;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          .pagination-text {
+            font-size: 16px;
+            margin: 7px;
+          }
+          .pagination-btn {
+            color: gray;
+            background: whitesmoke;
+            width: 35px;
+            height: 35px;
+            border-radius: 4px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            &:hover:not(disabled) {
+              background-color: lightgray;
+              transition: color 1s;
+            }
+            &:disabled {
+              cursor: no-drop;
+            }
+          }
+        }
       }
       .rightTable {
-        display: flex;
-        flex: 1;
-        table {
-          height: calc(100% - 45px);
-        }
-        tbody {
-          height: calc(100%);
-          overflow-y: auto;
-        }
-
-        thead,
-        tbody {
-          display: block;
-        }
         thead {
           border: none !important;
-          height: 35px;
           box-shadow: 0 3px 2px -2px lightgray;
-        }
-        tr {
-          cursor: pointer;
-          display: flex;
-          transition-duration: 0.2s;
-        }
-        tr:hover {
-          background: whitesmoke;
-          transition-duration: 0.2s;
-        }
-        td,
-        th {
-          display: block; /* Needed for IE */
-          flex: 1;
-        }
-        tr th:first-child,
-        tr td:first-child {
-          flex: 0.5;
-        }
-        //tr th:last-child,
-        tr td:last-child {
-          flex: 2;
-          text-align: center;
-          justify-content: flex-end;
-        }
-        table {
-          border-collapse: collapse;
-        }
-        td {
-          padding: 10px;
-          display: flex;
-          align-items: center;
-          flex: 1;
-          .btn {
-            margin-left: 5px;
-          }
-          .as-table-number {
-            width: 30px;
-            height: 30px;
-            color: gray;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: whitesmoke;
-            .as-table-number-value {
-            }
-          }
-          .as-table-image {
-            width: 65px;
-            height: 55px;
-            border: 1px solid whitesmoke;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            background: whitesmoke;
-            border-radius: 5px;
-            color: gray;
-            img {
-              width: 60px;
-              height: 50px;
-              border-radius: 5px;
-            }
-          }
-          .as-table-name {
-            font-size: 10px;
-            display: flex;
-            flex-direction: column;
-            .name {
-              width: 100px;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              overflow: hidden;
-              height: 20px;
+          tr {
+            th {
+              border: none;
+              font-size: 14px;
+              height: 35px;
+              padding-left: 10px;
               font-weight: 500;
-              font-size: 13px;
+              border-right: 1px solid whitesmoke;
             }
           }
-          .as-table-type {
-            font-size: 12px;
+        }
+        tbody {
+          tr {
+            cursor: pointer;
+            transition-duration: 0.2s;
+          }
+          tr:hover {
+            background: whitesmoke;
+            transition-duration: 0.2s;
           }
 
-          .as-table-by {
-            font-size: 11px;
-            display: flex;
-            flex-direction: column;
-          }
-          .as-table-status {
-            font-size: 10px;
-            display: flex;
-            flex: 1;
-            span {
-              padding: 5px 15px;
-              border-radius: 3px;
+          td {
+            padding: 10px;
+            height: 55px;
+            .btn {
+              margin-left: 5px;
+            }
+            .as-table-number-wrapper {
+              height: 100%;
+              display: flex;
+              align-items: center;
+              .as-table-number {
+                width: 30px;
+                height: 30px;
+                color: gray;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: whitesmoke;
+                .as-table-number-value {
+                }
+              }
+            }
+            .as-table-image {
+              width: 65px;
+              height: 55px;
+              border: 1px solid whitesmoke;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 30px;
+              background: whitesmoke;
+              border-radius: 5px;
+              color: gray;
+              img {
+                width: 60px;
+                height: 50px;
+                border-radius: 5px;
+              }
+            }
+            .as-table-name {
+              font-size: 10px;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              height: 100%;
+              .name {
+                width: 100px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                height: 20px;
+                font-weight: 500;
+                font-size: 13px;
+              }
+            }
+            .as-table-type {
+              font-size: 12px;
+            }
+
+            .as-table-by {
+              font-size: 11px;
+              display: flex;
+              flex-direction: column;
+              height: 100%;
+              justify-content: center;
+            }
+            .as-table-status {
+              font-size: 13px;
+              display: flex;
+              flex: 1;
+              align-items: center;
+              height: 100%;
+              span {
+                padding: 5px;
+                border-radius: 3px;
+                width: 60px;
+                text-align: center;
+              }
+            }
+            .as-table-actions {
+              display: flex;
+              align-items: center;
+              height: 100%;
             }
           }
-        }
-        th {
-          border: none;
-          font-size: 14px;
-          height: 35px;
-          padding: 0;
-          display: flex;
-          align-items: center;
-          padding-left: 10px;
-          font-weight: 500;
-          border-right: 1px solid whitesmoke;
         }
       }
     }

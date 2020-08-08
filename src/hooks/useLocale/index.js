@@ -1,5 +1,5 @@
 import { useGlobalState } from "services";
-const dataDefaultLang = process.env.REACT_APP_DATA_DEFAULT_LANG || "fa";
+const dataDefaultLang = process.env.REACT_APP_DATA_DEFAULT_LANG || "en";
 //
 const useLocale = () => {
   const [{ spaceInfo, editingLocale }, dispatch] = useGlobalState();
@@ -9,17 +9,17 @@ const useLocale = () => {
     if (!locales || locales.length === 0) return dataDefaultLang;
 
     if (editingLocale) {
-      const d = locales.find(item => item.locale === editingLocale);
+      const d = locales.find((item) => item.locale === editingLocale);
       if (d) return editingLocale;
       else {
-        const d = locales.find(item => item.default === true);
+        const d = locales.find((item) => item.default === true);
         if (d) {
           _setEditingLocale(d.locale);
           return d.locale;
         } else return dataDefaultLang;
       }
     } else {
-      const d = locales.find(item => item.default === true);
+      const d = locales.find((item) => item.default === true);
       if (d) {
         _setEditingLocale(d.locale);
         return d.locale;
@@ -56,7 +56,7 @@ const useLocale = () => {
   function _setEditingLocale(lang) {
     dispatch({
       type: "SET_EDITING_LOCALE",
-      payload: lang
+      payload: lang,
     });
   }
   function setEditingLocale(loc) {
@@ -66,7 +66,7 @@ const useLocale = () => {
     currentLocale: getCurrentLocale(),
     setEditingLocale,
     locales: getLocales(),
-    makeLocalesValue
+    makeLocalesValue,
   };
 };
 

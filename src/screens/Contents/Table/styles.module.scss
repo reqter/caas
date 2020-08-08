@@ -1,0 +1,160 @@
+.rowIndex {
+  background: whitesmoke;
+  color: black;
+  width: 30px;
+  height: 25px;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 23px;
+  text-align: center;
+  border: 1px solid lightgray;
+}
+.boxTop {
+  display: flex;
+  padding-bottom: 10px;
+}
+.paginationBox {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.pagination_text {
+  font-size: 16px;
+  margin: 7px;
+}
+.pagination_btn {
+  color: rgb(150, 150, 150);
+  background: white;
+  width: 35px;
+  height: 35px;
+  border-radius: 4px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid whitesmoke;
+  &:hover:not(disabled) {
+    background-color: lightgray;
+    transition: color 1s;
+  }
+  &:disabled {
+    cursor: no-drop;
+  }
+}
+.filters {
+  min-height: 50px;
+  background: white;
+  margin-bottom: 10px;
+  box-shadow: 0 0 3px lightgray;
+  display: flex;
+  padding: 0 10px;
+  flex-wrap: wrap;
+  .left {
+    height: 50px;
+    flex: 1.2;
+    display: flex;
+    align-items: center;
+    button {
+      margin-right: 5px;
+      span:first-child {
+        margin-right: 5px;
+      }
+    }
+  }
+  .right {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
+    input {
+      margin-right: 5px;
+    }
+    .input {
+      width: 100%;
+      display: flex;
+      button {
+        width: 125px;
+      }
+      [class="btn-group-sm dropdown"] {
+        button {
+          height: 100%;
+        }
+      }
+
+      // align-items: center;
+      // *:(input) {
+      //   width: 125px;
+      //   font-size: 13px;
+      //   // height: 100%;
+      // }
+
+      button:nth-child(1) {
+        margin: 0 5px;
+      }
+    }
+  }
+}
+.advanceFiltersBox {
+  border-top: 1px solid whitesmoke;
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  background-color: white;
+  box-shadow: 0 0 3px lightgray;
+  margin-bottom: 10px;
+  &__header {
+    padding: 6px;
+    border-bottom: 1px solid whitesmoke;
+    margin-bottom: 10px;
+    h4 {
+      margin: 0;
+    }
+    span {
+      font-size: 13px;
+    }
+  }
+  .advanceFiltersBox_submit {
+    padding: 10px;
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: row-reverse;
+    button {
+      margin-left: 10px;
+    }
+  }
+}
+.isOpenAdvanceFilterBox {
+  opacity: 0.4;
+  transition-duration: 0.3s;
+}
+.isCloseAdvanceFilterBox {
+  opacity: 1;
+  transition-duration: 0.3s;
+}
+.name {
+  font-size: 13px;
+  font-weight: bold;
+}
+.description {
+  font-size: 13px;
+}
+.date {
+  font-size: 13px;
+}
+.paginationBottom {
+  margin-top: 10px;
+}
+
+.row {
+  margin-bottom: 20px;
+  display: flex;
+  &__left {
+    width: calc(50% - 10px);
+    margin-right: 10px;
+  }
+  &__right {
+    flex: 1;
+  }
+}

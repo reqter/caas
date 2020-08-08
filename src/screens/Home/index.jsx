@@ -1,21 +1,59 @@
 import React from "react";
-import "./styles.scss";
-import { languageManager } from "../../services";
-//
-const pageTitle = languageManager.translate("HOME_SIDE_NAV_HOME");
-const pageDescription = languageManager.translate("HOME_SIDE_NAV_HOME_DESC");
-//
+import styles from "./styles.module.scss";
+import { t } from "services/languageManager/";
+import PageLayout from "components/PageLayout";
+import Stats from "components/Dashboards/Stats";
+import Pie from "components/Dashboards/Pie";
+import Column from "components/Dashboards/Column";
+import Line from "components/Dashboards/Line";
+import LastFileMedia from "components/Dashboards/LastFileMedia";
+import LastMediaContents from "components/Dashboards/LastContents";
+
 export default function Home(props) {
   return (
-    <div className="h-wrapper">
-      <div className="h-header">
-        <div className="h-header-left">
-          <span className="h-header-title">{pageTitle}</span>
-          <span className="h-header-description">{pageDescription}</span>
-        </div>
-        <div className="h-header-right" />
+    <PageLayout
+      title={t("HOME_SIDE_NAV_HOME")}
+      description={t("HOME_SIDE_NAV_HOME_DESC")}
+    >
+      <div className={styles.headerTop}>
+        <Stats />
       </div>
-      <div className="h-content" />
-    </div>
+      <div className={styles.center}>
+        <div className={styles.center__left}>
+          <Pie
+            title="Contents"
+            contentType={undefined}
+            text={""}
+            category={undefined}
+            status={undefined}
+            advanceFilterValues={{}}
+            dateRange={{ name: "thismonth" }}
+          />
+        </div>
+        <div className={styles.center__right}>
+          <Column title="Media Types" />
+        </div>
+      </div>
+      <div className={styles.row}>
+        <Line
+          title="Last 30 Days Contents"
+          height={100}
+          contentType={undefined}
+          text={""}
+          category={undefined}
+          status={undefined}
+          advanceFilterValues={{}}
+          dateRange={{ name: "thismonth" }}
+        />
+      </div>
+      <div className={styles.row}>
+        <div className={styles.mediaFile}>
+          <LastFileMedia title="Last Files/Media" />
+        </div>
+        <div className={styles.lastContentFiles}>
+          <LastMediaContents title="Last Recent Contents" />
+        </div>
+      </div>
+    </PageLayout>
   );
 }

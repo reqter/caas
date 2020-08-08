@@ -1,0 +1,97 @@
+.header {
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  background: green;
+  &__top {
+    background: #3784ff;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    align-items: center;
+    svg {
+      width: 120px;
+    }
+  }
+  &__bottom {
+    background: white;
+    height: 50px;
+    box-shadow: 0 0 5px lightgray;
+  }
+}
+.header__content {
+  height: 100%;
+  max-width: 1100px;
+  padding: 0 20px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+}
+.linkItem {
+  display: flex;
+  align-items: center;
+  margin-right: 25px;
+  text-decoration: none !important;
+  color: black;
+  cursor: pointer;
+  &:hover:not(.linkItemSelected) {
+    color: gray;
+  }
+  span {
+    margin-right: 8px;
+  }
+}
+.linkItemSelected {
+  font-weight: bolder;
+  color: #3784ff;
+}
+.linkItemSelected .linkText {
+  color: rgb(56, 132, 255) !important;
+}
+.navIcon {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  display: flex;
+  background-color: rgb(56, 132, 255);
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+}
+.linkIcon {
+  font-size: 22px;
+  color: white;
+}
+.linkBody {
+  display: flex;
+  flex-direction: column;
+}
+.linkText {
+  font-size: 16px;
+  font-weight: 600;
+}
+.linkTextDesc {
+  font-size: 11px;
+  color: gray;
+}
+
+.header__svg {
+  position: absolute;
+  width: 100%;
+}
+.header-cls-1 {
+  fill: #3784ff;
+  // width: 100%;
+}
+
+.header-logo-cls-1 {
+  fill: #fff;
+}
+.header-logo-cls-2 {
+  fill: #44bbb0;
+}

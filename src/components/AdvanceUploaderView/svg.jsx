@@ -19,9 +19,9 @@ const SVGUpload = props => {
           gradientTransform="translate(29.55 152.11)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stop-color="gray" stop-opacity="0.25" />
-          <stop offset="0.54" stop-color="gray" stop-opacity="0.12" />
-          <stop offset="1" stop-color="gray" stop-opacity="0.1" />
+          <stop offset="0" stopColor="gray" stopOpacity="0.25" />
+          <stop offset="0.54" stopColor="gray" stopOpacity="0.12" />
+          <stop offset="1" stopColor="gray" stopOpacity="0.1" />
         </linearGradient>
         <linearGradient
           id="b45dc65a-d934-4006-b8a5-a3a1dfbcc07e"
@@ -53,7 +53,7 @@ const SVGUpload = props => {
         transform="translate(-98.02 -109)"
         fill="none"
         stroke="#535461"
-        stroke-miterlimit="10"
+        strokeMiterlimit="10"
       />
       <path
         d="M108.39,541.58s63.63-10.13,69.43,46.89,122.34,64.93,122.34,64.93-.76.52-2.19,1.45C201.75,718,109.76,695.09,123.62,611.21,128.78,580,128.35,548.7,108.39,541.58Z"
@@ -71,7 +71,7 @@ const SVGUpload = props => {
         transform="translate(-98.02 -109)"
         fill="none"
         stroke="#535461"
-        stroke-miterlimit="10"
+        strokeMiterlimit="10"
       />
       <polygon
         points="676.74 564.63 153.31 564.63 153.31 237.66 220.25 237.66 247.79 271.68 676.74 271.68 676.74 564.63"

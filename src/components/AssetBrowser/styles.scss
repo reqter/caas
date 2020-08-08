@@ -37,13 +37,44 @@
 .asset_browser {
   display: flex;
   padding: 20px;
+  flex-direction: column;
+  &__pagination {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0 10px 10px 0;
+    .pagination-text {
+      font-size: 16px;
+      margin: 7px;
+    }
+    .pagination-btn {
+      color: gray;
+      background: whitesmoke;
+      width: 35px;
+      height: 35px;
+      border-radius: 4px;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      &:hover:not(disabled) {
+        background-color: lightgray;
+        transition: color 1s;
+      }
+      &:disabled {
+        cursor: no-drop;
+      }
+    }
+  }
   .firstTab {
     flex: 1;
     display: flex;
     flex-wrap: wrap;
-    height: 450px;
     overflow: auto;
     align-items: flex-start;
+    min-height: 400px;
     .assetItem {
       width: calc(16.6% - 15px);
       display: flex;

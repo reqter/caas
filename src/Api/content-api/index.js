@@ -1,39 +1,178 @@
 import { languageManager, storageManager } from "./../../services";
+import { makeDataParam, makeSearchFields } from "utils/makeGetDataUrlParams";
 const config = process.env;
 // const getAllURL =
 //   config.REACT_APP_CONTENT_TYPE_BASE_URL + config.REACT_APP_CONTENT_TYPE_GET_ALL
+const baseUrl = config.REACT_APP_CONTENTS_BASE_URL;
+const getAllURL = baseUrl + config.REACT_APP_CONTENTS_GET_ALL;
+const getByIdURL = baseUrl + config.REACT_APP_CONTENTS_GET_BY_ID;
+const getByIdLINK = baseUrl + config.REACT_APP_CONTENTS_GET_BY_LINK;
+const filterURL = baseUrl + "/contents/filter";
+const filterURLByRels = baseUrl + "/contents/filterbyrels";
+const filter_new_url = baseUrl + "/contents/search";
 
-const getAllURL =
-  config.REACT_APP_CONTENTS_BASE_URL + config.REACT_APP_CONTENTS_GET_ALL;
-const getByIdURL =
-  config.REACT_APP_CONTENTS_BASE_URL + config.REACT_APP_CONTENTS_GET_BY_ID;
-const getByIdLINK =
-  config.REACT_APP_CONTENTS_BASE_URL + config.REACT_APP_CONTENTS_GET_BY_LINK;
-const filterURL =
-  config.REACT_APP_CONTENTS_BASE_URL + config.REACT_APP_CONTENTS_FILTER;
+const addURL = baseUrl + config.REACT_APP_CONTENTS_ADD;
+const updateURL = baseUrl + config.REACT_APP_CONTENTS_UPDATE;
+const updatePublishURL = baseUrl + "/contents/partialupdate";
 
-const addURL =
-  config.REACT_APP_CONTENTS_BASE_URL + config.REACT_APP_CONTENTS_ADD;
-const updateURL =
-  config.REACT_APP_CONTENTS_BASE_URL + config.REACT_APP_CONTENTS_UPDATE;
-const deleteURL =
-  config.REACT_APP_CONTENTS_BASE_URL + config.REACT_APP_CONTENTS_DELETE;
-const archiveURL =
-  config.REACT_APP_CONTENTS_BASE_URL + config.REACT_APP_CONTENTS_ARCHIVE;
-const unArchiveURL =
-  config.REACT_APP_CONTENTS_BASE_URL + config.REACT_APP_CONTENTS_UN_ARCHIVE;
-const publishURL =
-  config.REACT_APP_CONTENTS_BASE_URL + config.REACT_APP_CONTENTS_PUBLISH;
-const unPublishURL =
-  config.REACT_APP_CONTENTS_BASE_URL + config.REACT_APP_CONTENTS_UN_PUBLISH;
+const deleteURL = baseUrl + config.REACT_APP_CONTENTS_DELETE;
+const archiveURL = baseUrl + config.REACT_APP_CONTENTS_ARCHIVE;
+const unArchiveURL = baseUrl + config.REACT_APP_CONTENTS_UN_ARCHIVE;
+const publishURL = baseUrl + config.REACT_APP_CONTENTS_PUBLISH;
+const unPublishURL = baseUrl + config.REACT_APP_CONTENTS_UN_PUBLISH;
 
 const getContentTypesURL =
   config.REACT_APP_CONTENT_TYPE_BASE_URL +
   config.REACT_APP_CONTENT_TYPE_GET_ALL;
+const getContentTypeByIdURL =
+  config.REACT_APP_CONTENT_TYPE_BASE_URL + "/ctypes/getbyid";
 const getCategoriesURL =
   config.REACT_APP_CATEGORIES_BASE_URL + config.REACT_APP_CATEGORIES_GET_ALL;
 
 const data = require("./../data.json");
+
+export function filterContents_old() {
+  let _onOkCallBack;
+  function _onOk(result) {
+    if (_onOkCallBack) {
+      _onOkCallBack(result);
+    }
+  }
+  let _onServerErrorCallBack;
+  function _onServerError(result) {
+    if (_onServerErrorCallBack) {
+      _onServerErrorCallBack(result);
+    }
+  }
+  let _onBadRequestCallBack;
+  function _onBadRequest(result) {
+    if (_onBadRequestCallBack) {
+      _onBadRequestCallBack(result);
+    }
+  }
+  let _unAuthorizedCallBack;
+  function _unAuthorized(result) {
+    if (_unAuthorizedCallBack) {
+      _unAuthorizedCallBack(result);
+    }
+  }
+  let _notFoundCallBack;
+  function _notFound(result) {
+    if (_notFoundCallBack) {
+      _notFoundCallBack(result);
+    }
+  }
+  let _onConnectionErrorCallBack;
+  function _onConnectionError(result) {
+    if (_onConnectionErrorCallBack) {
+      _onConnectionErrorCallBack(result);
+    }
+  }
+  const _call = async (
+    spaceId,
+    name,
+    contentType,
+    category,
+    contentStatus,
+    skip,
+    limit
+  ) => {
+    try {
+      let url = filterURL + "?";
+      if (contentType) url = url + "contentType=" + contentType;
+
+      if (url[url.length - 1] !== "?") url = url + "&";
+
+      if (category) url = url + "category=" + category;
+
+      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
+        url = url + "&";
+      }
+
+      if (contentStatus) url = url + "status=" + contentStatus;
+
+      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
+        url = url + "&";
+      }
+
+      if (name && name.length > 0) url = url + "name=" + name;
+
+      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
+        url = url + "&";
+      }
+      if (skip || skip === 0) url = url + "skip=" + skip;
+
+      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
+        url = url + "&";
+      }
+
+      if (limit) url = url + "limit=" + limit;
+
+      if (url[url.length - 1] === "?") url = url.substring(0, url.length - 1);
+
+      if (url[url.length - 1] === "&") url = url.substring(0, url.length - 1);
+      const token = storageManager.getItem("@caaser-token");
+      var rawResponse = await fetch(url, {
+        method: "GET",
+        headers: {
+          authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+          spaceId: spaceId,
+        },
+      });
+
+      const status = rawResponse.status;
+      const result = await rawResponse.json();
+      switch (status) {
+        case 200:
+          _onOk(result);
+          break;
+        case 400:
+          _onBadRequest();
+          break;
+        case 401:
+          _unAuthorized();
+          break;
+        case 404:
+          _notFound();
+          break;
+        case 500:
+          _onServerError();
+          break;
+        default:
+          break;
+      }
+    } catch (error) {}
+  };
+
+  return {
+    call: _call,
+    onOk: function (callback) {
+      _onOkCallBack = callback;
+      return this;
+    },
+    onServerError: function (callback) {
+      _onServerErrorCallBack = callback;
+      return this;
+    },
+    onBadRequest: function (callback) {
+      _onBadRequestCallBack = callback;
+      return this;
+    },
+    notFound: function (callback) {
+      _notFoundCallBack = callback;
+      return this;
+    },
+    unAuthorized: function (callback) {
+      _unAuthorizedCallBack = callback;
+      return this;
+    },
+    onConnectionError: function (callback) {
+      _onConnectionErrorCallBack = callback;
+      return this;
+    },
+  };
+}
 
 export function filterContents() {
   let _onOkCallBack;
@@ -72,38 +211,42 @@ export function filterContents() {
       _onConnectionErrorCallBack(result);
     }
   }
-  const _call = async (spaceId, name, contentType, category, contentStatus) => {
+  const _call = async (
+    spaceId,
+    name,
+    contentType,
+    category,
+    contentStatus,
+    skip,
+    limit,
+    advanceFilters = {},
+    lang,
+    dateRange
+  ) => {
     try {
-      let url = filterURL + "?";
-      if (contentType !== undefined) url = url + "contentType=" + contentType;
-
-      if (url[url.length - 1] !== "?") url = url + "&";
-
-      if (category !== undefined) url = url + "category=" + category;
-
-      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
-        url = url + "&";
-      }
-
-      if (contentStatus !== undefined) url = url + "status=" + contentStatus;
-
-      if (url[url.length - 1] !== "?" && url[url.length - 1] !== "&") {
-        url = url + "&";
-      }
-
-      if (name !== undefined && name.length > 0) url = url + "name=" + name;
-
-      if (url[url.length - 1] === "?") url = url.substring(0, url.length - 1);
-
-      if (url[url.length - 1] === "&") url = url.substring(0, url.length - 1);
+      const url = makeDataParam(
+        filter_new_url,
+        name,
+        contentType,
+        category,
+        contentStatus,
+        skip,
+        limit,
+        lang,
+        dateRange
+      );
+      const search = makeSearchFields(advanceFilters);
       const token = storageManager.getItem("@caaser-token");
       var rawResponse = await fetch(url, {
-        method: "GET",
+        method: "POST",
         headers: {
           authorization: "Bearer " + token,
           "Content-Type": "application/json",
-          spaceId: spaceId
-        }
+          spaceid: spaceId,
+        },
+        body: JSON.stringify({
+          search,
+        }),
       });
 
       const status = rawResponse.status;
@@ -113,18 +256,15 @@ export function filterContents() {
           _onOk(result);
           break;
         case 400:
-          console.log(result);
           _onBadRequest();
           break;
         case 401:
           _unAuthorized();
           break;
         case 404:
-          console.log(result);
           _notFound();
           break;
         case 500:
-          console.log(result);
           _onServerError();
           break;
         default:
@@ -137,30 +277,30 @@ export function filterContents() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 export function getByContentTypes() {
@@ -240,30 +380,30 @@ export function getByContentTypes() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 export function getContents() {
@@ -303,7 +443,7 @@ export function getContents() {
       _onConnectionErrorCallBack(result);
     }
   }
-  const _call = async spaceId => {
+  const _call = async (spaceId) => {
     try {
       const url = getAllURL;
       const token = storageManager.getItem("@caaser-token");
@@ -312,8 +452,8 @@ export function getContents() {
         headers: {
           authorization: "Bearer " + token,
           "Content-Type": "application/json",
-          spaceId: spaceId
-        }
+          spaceId: spaceId,
+        },
       });
 
       const status = rawResponse.status;
@@ -342,30 +482,30 @@ export function getContents() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 export function getContentTypes() {
@@ -399,13 +539,13 @@ export function getContentTypes() {
       _notFoundCallBack(result);
     }
   }
-  let _onConnectionErrorCallBack;
-  function _onConnectionError(result) {
-    if (_onConnectionErrorCallBack) {
-      _onConnectionErrorCallBack(result);
+  let _unKnownErrorCallBack;
+  function _unKnownError(result) {
+    if (_unKnownErrorCallBack) {
+      _unKnownErrorCallBack(result);
     }
   }
-  const _call = async spaceId => {
+  const _call = async (spaceId) => {
     try {
       const url = getContentTypesURL;
       const token = storageManager.getItem("@caaser-token");
@@ -414,8 +554,8 @@ export function getContentTypes() {
         headers: {
           authorization: "Bearer " + token,
           "Content-Type": "application/json",
-          spaceId: spaceId
-        }
+          spaceId: spaceId,
+        },
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -436,6 +576,7 @@ export function getContentTypes() {
           _onServerError();
           break;
         default:
+          _unKnownError(result);
           break;
       }
     } catch (error) {}
@@ -443,33 +584,32 @@ export function getContentTypes() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
-      _onConnectionErrorCallBack = callback;
+    unKnownError: function (callback) {
+      _unKnownErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
-
 export function getCategories() {
   let _onOkCallBack;
   function _onOk(result) {
@@ -507,7 +647,7 @@ export function getCategories() {
       _onConnectionErrorCallBack(result);
     }
   }
-  const _call = async spaceId => {
+  const _call = async (spaceId) => {
     try {
       const url = getCategoriesURL;
       const token = storageManager.getItem("@caaser-token");
@@ -516,8 +656,8 @@ export function getCategories() {
         headers: {
           authorization: "Bearer " + token,
           "Content-Type": "application/json",
-          spaceId: spaceId
-        }
+          spaceId: spaceId,
+        },
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -545,33 +685,32 @@ export function getCategories() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
-
 export function addContent() {
   let _onOkCallBack;
   function _onOk(result) {
@@ -618,9 +757,9 @@ export function addContent() {
         headers: {
           authorization: "Bearer " + token,
           "Content-Type": "application/json",
-          spaceid: spaceId
+          spaceid: spaceId,
         },
-        body: JSON.stringify(content)
+        body: JSON.stringify(content),
       });
       const status = rawResponse.status;
       const result = await rawResponse.json();
@@ -648,30 +787,30 @@ export function addContent() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 export function updateContent() {
@@ -720,14 +859,14 @@ export function updateContent() {
         headers: {
           authorization: "Bearer " + token,
           "Content-Type": "application/json",
-          spaceId: spaceId
+          spaceId: spaceId,
         },
         body: JSON.stringify({
           id: content._id,
           contentType: content.contentType,
           category: content.category,
-          fields: content.fields
-        })
+          fields: content.fields,
+        }),
       });
 
       const status = rawResponse.status;
@@ -756,30 +895,137 @@ export function updateContent() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
+    },
+  };
+}
+export function update_PublishContent() {
+  let _onOkCallBack;
+  function _onOk(result) {
+    if (_onOkCallBack) {
+      _onOkCallBack(result);
     }
+  }
+  let _onServerErrorCallBack;
+  function _onServerError(result) {
+    if (_onServerErrorCallBack) {
+      _onServerErrorCallBack(result);
+    }
+  }
+  let _onBadRequestCallBack;
+  function _onBadRequest(result) {
+    if (_onBadRequestCallBack) {
+      _onBadRequestCallBack(result);
+    }
+  }
+  let _unAuthorizedCallBack;
+  function _unAuthorized(result) {
+    if (_unAuthorizedCallBack) {
+      _unAuthorizedCallBack(result);
+    }
+  }
+  let _notFoundCallBack;
+  function _notFound(result) {
+    if (_notFoundCallBack) {
+      _notFoundCallBack(result);
+    }
+  }
+  let _onConnectionErrorCallBack;
+  function _onConnectionError(result) {
+    if (_onConnectionErrorCallBack) {
+      _onConnectionErrorCallBack(result);
+    }
+  }
+  const _call = async (spaceId, content) => {
+    try {
+      const url = updatePublishURL;
+      const token = storageManager.getItem("@caaser-token");
+      var rawResponse = await fetch(url, {
+        method: "PUT",
+        headers: {
+          authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+          spaceId: spaceId,
+        },
+        body: JSON.stringify({
+          id: content._id,
+          contentType: content.contentType,
+          category: content.category,
+          fields: content.fields,
+        }),
+      });
+      const status = rawResponse.status;
+      const result = await rawResponse.json();
+      switch (status) {
+        case 200:
+          _onOk(result);
+          break;
+        case 400:
+          _onBadRequest();
+          break;
+        case 401:
+          _unAuthorized();
+          break;
+        case 404:
+          _notFound();
+          break;
+        case 500:
+          _onServerError();
+          break;
+        default:
+          break;
+      }
+    } catch (error) {}
+  };
+
+  return {
+    call: _call,
+    onOk: function (callback) {
+      _onOkCallBack = callback;
+      return this;
+    },
+    onServerError: function (callback) {
+      _onServerErrorCallBack = callback;
+      return this;
+    },
+    onBadRequest: function (callback) {
+      _onBadRequestCallBack = callback;
+      return this;
+    },
+    notFound: function (callback) {
+      _notFoundCallBack = callback;
+      return this;
+    },
+    unAuthorized: function (callback) {
+      _unAuthorizedCallBack = callback;
+      return this;
+    },
+    onConnectionError: function (callback) {
+      _onConnectionErrorCallBack = callback;
+      return this;
+    },
   };
 }
 export function deleteContent() {
@@ -828,11 +1074,11 @@ export function deleteContent() {
         headers: {
           authorization: "Bearer " + token,
           "Content-Type": "application/json",
-          spaceId: spaceId
+          spaceId: spaceId,
         },
         body: JSON.stringify({
-          id: contentId
-        })
+          id: contentId,
+        }),
       });
 
       const status = rawResponse.status;
@@ -863,30 +1109,30 @@ export function deleteContent() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 export function getContentById() {
@@ -942,8 +1188,8 @@ export function getContentById() {
         headers: {
           authorization: "Bearer " + token,
           "Content-Type": "application/json",
-          spaceId: spaceId
-        }
+          spaceId: spaceId,
+        },
       });
 
       const status = rawResponse.status;
@@ -972,36 +1218,150 @@ export function getContentById() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onRequestError: function(callback) {
+    onRequestError: function (callback) {
       _onRequestErrorCallBack = callback;
       return this;
     },
-    unKnownError: function(callback) {
+    unKnownError: function (callback) {
       _unKnownErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
+export function getContentTypeById() {
+  let _onOkCallBack;
+  function _onOk(result) {
+    if (_onOkCallBack) {
+      _onOkCallBack(result);
+    }
+  }
+  let _onServerErrorCallBack;
+  function _onServerError(result) {
+    if (_onServerErrorCallBack) {
+      _onServerErrorCallBack(result);
+    }
+  }
+  let _onBadRequestCallBack;
+  function _onBadRequest(result) {
+    if (_onBadRequestCallBack) {
+      _onBadRequestCallBack(result);
+    }
+  }
+  let _unAuthorizedCallBack;
+  function _unAuthorized(result) {
+    if (_unAuthorizedCallBack) {
+      _unAuthorizedCallBack(result);
+    }
+  }
+  let _notFoundCallBack;
+  function _notFound(result) {
+    if (_notFoundCallBack) {
+      _notFoundCallBack(result);
+    }
+  }
+  let _onRequestErrorCallBack;
+  function _onRequestError(result) {
+    if (_onRequestErrorCallBack) {
+      _onRequestErrorCallBack(result);
+    }
+  }
+  let _unKnownErrorCallBack;
+  function _unKnownError(result) {
+    if (_unKnownErrorCallBack) {
+      _unKnownErrorCallBack(result);
+    }
+  }
+
+  const _call = async (spaceId, contentTypeId) => {
+    try {
+      const url = getContentTypeByIdURL + "?id=" + contentTypeId;
+      const token = storageManager.getItem("@caaser-token");
+      var rawResponse = await fetch(url, {
+        method: "GET",
+        headers: {
+          authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+          spaceId: spaceId,
+        },
+      });
+
+      const status = rawResponse.status;
+      const result = await rawResponse.json();
+      switch (status) {
+        case 200:
+          _onOk(result);
+          break;
+        case 400:
+          _onBadRequest();
+          break;
+        case 401:
+          _unAuthorized();
+          break;
+        case 404:
+          _notFound();
+          break;
+        case 500:
+          _onServerError();
+          break;
+        default:
+          break;
+      }
+    } catch (error) {}
+  };
+
+  return {
+    call: _call,
+    onOk: function (callback) {
+      _onOkCallBack = callback;
+      return this;
+    },
+    onServerError: function (callback) {
+      _onServerErrorCallBack = callback;
+      return this;
+    },
+    onBadRequest: function (callback) {
+      _onBadRequestCallBack = callback;
+      return this;
+    },
+    notFound: function (callback) {
+      _notFoundCallBack = callback;
+      return this;
+    },
+    unAuthorized: function (callback) {
+      _unAuthorizedCallBack = callback;
+      return this;
+    },
+    onRequestError: function (callback) {
+      _onRequestErrorCallBack = callback;
+      return this;
+    },
+    unKnownError: function (callback) {
+      _unKnownErrorCallBack = callback;
+      return this;
+    },
+  };
+}
+
 export function getContentByLink() {
   let _onOkCallBack;
   function _onOk(result) {
@@ -1046,7 +1406,7 @@ export function getContentByLink() {
     }
   }
 
-  const _call = async link => {
+  const _call = async (link) => {
     try {
       const url = getByIdLINK + "?link=" + link;
       const token = storageManager.getItem("@caaser-token");
@@ -1054,8 +1414,8 @@ export function getContentByLink() {
         method: "GET",
         headers: {
           authorization: "Bearer " + token,
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       });
 
       const status = rawResponse.status;
@@ -1085,34 +1445,34 @@ export function getContentByLink() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onRequestError: function(callback) {
+    onRequestError: function (callback) {
       _onRequestErrorCallBack = callback;
       return this;
     },
-    unKnownError: function(callback) {
+    unKnownError: function (callback) {
       _unKnownErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 export function publish() {
@@ -1161,11 +1521,11 @@ export function publish() {
         headers: {
           authorization: "Bearer " + token,
           "Content-Type": "application/json",
-          spaceId: spaceId
+          spaceId: spaceId,
         },
         body: JSON.stringify({
-          id: assetId
-        })
+          id: assetId,
+        }),
       });
 
       const status = rawResponse.status;
@@ -1193,30 +1553,30 @@ export function publish() {
   };
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 export function unPublish() {
@@ -1265,11 +1625,11 @@ export function unPublish() {
         headers: {
           authorization: "Bearer " + token,
           "Content-Type": "application/json",
-          spaceId: spaceId
+          spaceId: spaceId,
         },
         body: JSON.stringify({
-          id: contentId
-        })
+          id: contentId,
+        }),
       });
 
       const status = rawResponse.status;
@@ -1300,30 +1660,30 @@ export function unPublish() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 export function archive() {
@@ -1372,11 +1732,11 @@ export function archive() {
         headers: {
           authorization: "Bearer " + token,
           "Content-Type": "application/json",
-          spaceId: spaceId
+          spaceId: spaceId,
         },
         body: JSON.stringify({
-          id: contentId
-        })
+          id: contentId,
+        }),
       });
 
       const status = rawResponse.status;
@@ -1405,30 +1765,30 @@ export function archive() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }
 export function unArchive() {
@@ -1477,11 +1837,11 @@ export function unArchive() {
         headers: {
           authorization: "Bearer " + token,
           "Content-Type": "application/json",
-          spaceId: spaceId
+          spaceId: spaceId,
         },
         body: JSON.stringify({
-          id: contentId
-        })
+          id: contentId,
+        }),
       });
 
       const status = rawResponse.status;
@@ -1512,29 +1872,29 @@ export function unArchive() {
 
   return {
     call: _call,
-    onOk: function(callback) {
+    onOk: function (callback) {
       _onOkCallBack = callback;
       return this;
     },
-    onServerError: function(callback) {
+    onServerError: function (callback) {
       _onServerErrorCallBack = callback;
       return this;
     },
-    onBadRequest: function(callback) {
+    onBadRequest: function (callback) {
       _onBadRequestCallBack = callback;
       return this;
     },
-    notFound: function(callback) {
+    notFound: function (callback) {
       _notFoundCallBack = callback;
       return this;
     },
-    unAuthorized: function(callback) {
+    unAuthorized: function (callback) {
       _unAuthorizedCallBack = callback;
       return this;
     },
-    onConnectionError: function(callback) {
+    onConnectionError: function (callback) {
       _onConnectionErrorCallBack = callback;
       return this;
-    }
+    },
   };
 }

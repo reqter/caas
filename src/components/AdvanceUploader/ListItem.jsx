@@ -3,7 +3,7 @@ import ProgressiveSpinner from "./../ProgressiveSpinner";
 import { storageManager, utility, useGlobalState } from "../../services";
 
 let xhr;
-const ListItem = props => {
+const ListItem = (props) => {
   const [{ spaceInfo }, dispatch] = useGlobalState();
 
   const [spinner, toggleSpinner] = useState(true);
@@ -45,7 +45,7 @@ const ListItem = props => {
         formdata.append("file", props.file.data, props.file.data.name);
 
         if (xhr.upload) {
-          xhr.upload.onprogress = event => {
+          xhr.upload.onprogress = (event) => {
             if (event.lengthComputable) {
               setProgressPercentage(
                 Math.round((event.loaded / event.total) * 100).toString()
@@ -83,7 +83,6 @@ const ListItem = props => {
     return utility.getMediaLocalFile(props.file.data, "unkownFile");
   }
   function handleCancel() {
-    console.log(xhr);
     xhr.abort();
     remove();
   }
