@@ -21,48 +21,48 @@ const ForgotPasswordCode = ({ history, onSuccessVerifyCode, email }) => {
     if (!spinner) {
       toggleSpinner(true);
       verifyCode()
-        .onOk(result => {
+        .onOk((result) => {
           const { access_token } = result;
           if (onSuccessVerifyCode) onSuccessVerifyCode(access_token);
         })
-        .onServerError(result => {
+        .onServerError((result) => {
           toggleSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: t("LOGIN_ON_SERVER_ERROR")
-            }
+              message: t("LOGIN_ON_SERVER_ERROR"),
+            },
           });
         })
-        .onBadRequest(result => {
+        .onBadRequest((result) => {
           toggleSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: t("LOGIN_ON_BAD_REQUEST")
-            }
+              message: t("LOGIN_ON_BAD_REQUEST"),
+            },
           });
         })
-        .unAuthorized(result => {
+        .unAuthorized((result) => {
           toggleSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: t("LOGIN_UN_AUTHORIZED")
-            }
+              message: t("LOGIN_UN_AUTHORIZED"),
+            },
           });
         })
-        .notFound(result => {
+        .notFound((result) => {
           toggleSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: t("LOGIN_NOT_FOUND")
-            }
+              message: t("LOGIN_NOT_FOUND"),
+            },
           });
         })
         .call(email, code);
@@ -83,6 +83,7 @@ const ForgotPasswordCode = ({ history, onSuccessVerifyCode, email }) => {
       <h2 className="fogotPass_content_header">
         {t("FORGOT_PASS_CONTENT_TITLE")}
       </h2>
+      <h5 className="fogotPass_content_desc">{t("FORGOT_PASS_CODE_DESC")}</h5>
       <Input
         title={t("FORGOT_PASS_CONTENT_CODE_INPUT")}
         type="text"
@@ -103,7 +104,7 @@ const ForgotPasswordCode = ({ history, onSuccessVerifyCode, email }) => {
       </div>
       <div className="fogotPass_content_footer">
         <span>{t("SIGNUP_HAVE_ACCOUNT")}</span>
-        <Link to="/login" className="link">
+        <Link to="/login">
           {t("LOGIN").toUpperCase()}
         </Link>
       </div>

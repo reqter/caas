@@ -4,19 +4,19 @@
   height: 100vh;
   &__left {
     flex: 1;
-    flex-shrink: 0;
     display: flex;
+    flex-shrink: 0;
     flex-direction: column;
     background-color: white;
     padding: 1rem 3.5rem;
-    max-width: 800px;
-    min-width: 550px;
+    max-width: 35rem;
     @include respond(tab-port) {
       min-width: 100%;
     }
   }
   &__right {
     flex: 1.5;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -28,7 +28,7 @@
   }
 }
 .authLayout__text {
-  max-width: 32rem;
+  max-width: 35rem;
   margin: 0 auto;
 }
 .authLayout__title {
@@ -42,7 +42,7 @@
   line-height: 1.5;
 }
 .authLayout__img {
-  margin: 20px auto 0  auto;
+  margin: 20px auto 0 auto;
   svg {
     width: 250px;
     height: 250px;

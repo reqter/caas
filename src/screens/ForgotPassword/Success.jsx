@@ -9,10 +9,7 @@ const ChangePassSuccess = React.memo(({ history }) => {
   }
   return (
     <div className="forgetPassForm forgetPassSuccess animate fadeIn">
-      <h3>{t("CHANGE_PASS_SUCCESS_CONTENT_TITLE")}</h3>
-      <div className="forgetPassSuccess__icon">
-        <i className="icon-checkmark" />
-      </div>
+      <h3>{t("FORGOT_PASS_CONTENT_TITLE")}</h3>
       <h3 className="forgetPassSuccess__message">
         {t("CHANGE_PASS_SUCCESS_CONTENT_MSG")}
       </h3>

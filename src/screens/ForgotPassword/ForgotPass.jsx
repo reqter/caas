@@ -21,38 +21,38 @@ const ForgotPassword = ({ history, onSuccessEmail }) => {
     if (!spinner) {
       toggleSpinner(true);
       fortgotPassword()
-        .onOk(result => {
+        .onOk((result) => {
           toggleSpinner(false);
           if (onSuccessEmail) onSuccessEmail(email);
         })
-        .onServerError(result => {
+        .onServerError((result) => {
           toggleSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: t("LOGIN_ON_SERVER_ERROR")
-            }
+              message: t("LOGIN_ON_SERVER_ERROR"),
+            },
           });
         })
-        .onBadRequest(result => {
+        .onBadRequest((result) => {
           toggleSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: t("LOGIN_ON_BAD_REQUEST")
-            }
+              message: t("LOGIN_ON_BAD_REQUEST"),
+            },
           });
         })
-        .notFound(result => {
+        .notFound((result) => {
           toggleSpinner(false);
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: t("LOGIN_NOT_FOUND")
-            }
+              message: t("LOGIN_NOT_FOUND"),
+            },
           });
         })
         .call(email);
@@ -73,6 +73,7 @@ const ForgotPassword = ({ history, onSuccessEmail }) => {
       <h2 className="fogotPass_content_header">
         {t("FORGOT_PASS_CONTENT_TITLE")}
       </h2>
+      <h5 className="fogotPass_content_desc">{t("FORGOT_PASS_EMAIL_DESC")}</h5>
       <Input
         title={t("EMAIL_ADDRESS")}
         type="email"
@@ -97,7 +98,7 @@ const ForgotPassword = ({ history, onSuccessEmail }) => {
       </div>
       <div className="fogotPass_content_footer">
         <span>{t("SIGNUP_HAVE_ACCOUNT")}</span>
-        <Link to="/login" className="link">
+        <Link to="/login">
           {t("LOGIN").toUpperCase()}
         </Link>
       </div>

@@ -14,7 +14,7 @@ const ConfirmEmail = ({ match }) => {
     <AuthLayout
       image={<SvgImage />}
       title={t("CONFIRM_EMAIL_TITLE")}
-      description={t("CONFIMR_EMAIL_DESCRIPTION")}
+      description={t("CONFIRM_EMAIL_DESCRIPTION")}
       render={() => <Success />}
     />
   );
