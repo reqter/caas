@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { t } from "services/languageManager";
 import { confirmEmailFromURL } from "Api/account-api";
-import AuthLayout from "components/AuthLayout";
+import AuthLayout from "shared/layouts/AuthLayout";
 import Success from "./success";
 import SvgImage from "./svgImage";
 import "./styles.scss";

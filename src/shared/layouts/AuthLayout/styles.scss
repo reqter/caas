@@ -1,0 +1,84 @@
+@import "./../../../styles/mixins";
+.authLayout {
+  display: flex;
+  height: 100vh;
+  &__left {
+    flex: 1;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 1rem 3.5rem;
+    max-width: 800px;
+    min-width: 550px;
+    @include respond(tab-port) {
+      min-width: 100%;
+    }
+  }
+  &__right {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    background-color: var(--primary-color);
+    @include respond(tab-port) {
+      display: none;
+    }
+  }
+}
+.authLayout__text {
+  max-width: 32rem;
+  margin: 0 auto;
+}
+.authLayout__title {
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.authLayout__desc {
+  font-size: 17px;
+  font-weight: normal;
+  line-height: 1.5;
+}
+.authLayout__img {
+  margin: 20px auto 0  auto;
+  svg {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+.authLayout__logo {
+  width: 100px;
+  height: 100px;
+  svg {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.link {
+  font-size: 12px;
+  text-align: right;
+}
+
+// ======
+.logo-cls-1 {
+  fill: #3784ff;
+}
+.logo-cls-2,
+.logo-cls-3 {
+  fill: none;
+  stroke: #fff;
+  strokemiterlimit: 10;
+}
+.logo-cls-2 {
+  stroke-width: 8.44px;
+}
+.logo-cls-3 {
+  stroke-width: 4.22px;
+}
+.logo-cls-4 {
+  fill: #44bcb1;
+}

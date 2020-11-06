@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom";
 import { t } from "services/languageManager";
 
 const SignupSuccess = ({ history }) => {
-  //#region second tab
   function navToLogin() {
     history.push("login");
   }

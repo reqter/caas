@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { t } from "services/languageManager";
-import AuthLayout from "components/AuthLayout";
+import AuthLayout from "shared/layouts/AuthLayout";
 import Registeration from "./signup";
 import Success from "./success";
 import SvgImage from "./svgImage";
 import "./styles.scss";
 
-const Signup = props => {
-  const [tab, changeTab] = useState(1);
+const Signup = (props) => {
+  const [tab, changeTab] = useState(2);
   const handleSignupSuccess = () => changeTab(2);
   return (
     <AuthLayout

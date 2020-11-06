@@ -1,19 +1,28 @@
 @import "./../../styles/mixins";
 .login_content_header {
-  margin: 40px 0;
 }
 
+.login_content_desc {
+  font-weight: normal;
+  margin: 10px 0 30px 0;
+  font-size: 16px;
+}
+.login_content_signup {
+  text-align: center;
+  span {
+    margin-right: 10px;
+  }
+}
 .login_content_buttons {
   display: flex;
+  flex-direction: column;
   margin: 40px 0;
   button {
+    min-height: 40px;
     flex: 1;
-    border-radius: 20px;
     display: flex;
     justify-content: center;
-    &:not(:last-child) {
-      margin-right: 20px;
-    }
+    margin-bottom: 10px;
   }
   @include respond(tab-land) {
     margin: 20px 0;

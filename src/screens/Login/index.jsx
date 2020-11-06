@@ -5,7 +5,7 @@ import { t } from "services/languageManager";
 import { login } from "Api/account-api";
 import CircleSpinner from "components/CircleSpinner";
 import Input from "components/AuthInput";
-import AuthLayout from "components/AuthLayout";
+import AuthLayout from "shared/layouts/AuthLayout";
 import SvgImage from "./svgImage";
 import "./styles.scss";
 
@@ -103,6 +103,7 @@ const Login = ({ location, history }) => {
         return (
           <form id="loginForm" onSubmit={loginUser} className="animated fadeIn">
             <h2 className="login_content_header">{t("LOGIN_CONTENT_TITLE")}</h2>
+            <h5 className="login_content_desc">{t("LOGIN_CONTENT_DESC")}</h5>
             <Input
               title={t("LOGIN_EMAIL_INPUT_TITLE")}
               type="email"
@@ -118,7 +119,7 @@ const Login = ({ location, history }) => {
               required
               onChange={handlePasswordChanged}
             />
-            <Link to="/forgotPassword" className="link">
+            <Link to="/forgotPassword">
               {t("LOGIN_FORGET_PASS")}
             </Link>
             <div className="login_content_buttons">
@@ -141,14 +142,10 @@ const Login = ({ location, history }) => {
                   <CircleSpinner show={spinner} size="small" />
                 )}
               </button>
-              <button
-                type="submit"
-                className="btn btn-outline-info"
-                form="loginForm"
-                onClick={() => history.push("/signup")}
-              >
-                {t("LOGIN_SIGNUP_LINK")}
-              </button>
+              <div className="login_content_signup">
+                <span>{t("LOGIN_SIGNUP_LINK_TITLE")}</span>
+                <Link to="/signup">{t("LOGIN_SIGNUP_LINK")}</Link>
+              </div>
             </div>
           </form>
         );

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { t } from "services/languageManager";
 import "./styles.scss";
-import AuthLayout from "components/AuthLayout";
+import AuthLayout from "shared/layouts/AuthLayout";
 import ForgotPass from "./ForgotPass";
 import VerifyCode from "./UserCode";
 import ResetPassword from "./NewPass";

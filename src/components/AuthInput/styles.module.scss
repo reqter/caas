@@ -2,27 +2,17 @@
   &:not(:last-child) {
     margin-bottom: 20px;
   }
-  &__title {
-    padding: 0;
-    margin: 0;
+  width: 100%;
+  color: inherit;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 10px !important;
+  border: none;
+  background-color: whitesmoke;
+  &:focus {
+    outline: none;
   }
-
-  &__element {
-    display: block;
-    width: 100%;
-    border: 0;
-    border-bottom: 2px solid black;
-    color: inherit;
-    font-family: inherit;
-    padding: 0.5rem 0;
-    font-size: 1rem;
-    transition: all 0.3s;
-    &:focus {
-      outline: none;
-      border-bottom: 3px solid black;
-    }
-    &:focus:invalid {
-      // border-bottom: 3px solid red;
-    }
+  &:focus:invalid {
+    // border-bottom: 3px solid red;
   }
 }
