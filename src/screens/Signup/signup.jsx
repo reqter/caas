@@ -30,8 +30,8 @@ const Register = ({ onSuccessSignup }) => {
       type: "ADD_NOTIFY",
       value: {
         type: "error",
-        message: t("SIGNUP_ERROR_TITLE")
-      }
+        message: t("SIGNUP_ERROR_TITLE"),
+      },
     });
   };
   function signupUser(e) {
@@ -39,22 +39,22 @@ const Register = ({ onSuccessSignup }) => {
     if (!spinner) {
       toggleSpinner(true);
       signup()
-        .onOk(result => {
+        .onOk((result) => {
           if (onSuccessSignup) onSuccessSignup();
         })
-        .onServerError(result => {
+        .onServerError((result) => {
           toggleSpinner(false);
           showwError();
         })
-        .onBadRequest(result => {
+        .onBadRequest((result) => {
           toggleSpinner(false);
           showwError();
         })
-        .unAuthorized(result => {
+        .unAuthorized((result) => {
           toggleSpinner(false);
           showwError();
         })
-        .notFound(result => {
+        .notFound((result) => {
           toggleSpinner(false);
           showwError();
         })
@@ -65,6 +65,7 @@ const Register = ({ onSuccessSignup }) => {
   return (
     <form id="signupForm" onSubmit={signupUser} className="animated fadeIn">
       <h2 className="siguup_content_header">{t("SIGNUP_CONTENT_TITLE")}</h2>
+      <h5 className="signup_content_desc">{t("LOGIN_CONTENT_DESC")}</h5>
       <Input
         title={t("SIGNUP_EMAIL_INPUT_TITLE")}
         type="email"
@@ -83,7 +84,7 @@ const Register = ({ onSuccessSignup }) => {
       <Input
         title={t("SIGNUP_CONFIRM_PASSWORD_INPUT")}
         type="password"
-        placeholder={t("SIGNUP_CONFIRM_PASSWORD_INPUT_PLACEHOLDER")}
+        placeholder={t("SIGNUP_CONFIRM_PASSWORD_INPUT")}
         required
         onChange={handleRepPasswordChanged}
       />
@@ -109,7 +110,7 @@ const Register = ({ onSuccessSignup }) => {
       </div>
       <div className="siguup_content_footer">
         <span>{t("SIGNUP_HAVE_ACCOUNT")}</span>
-        <Link to="/login" className="link">
+        <Link to="/login">
           {t("LOGIN").toUpperCase()}
         </Link>
       </div>

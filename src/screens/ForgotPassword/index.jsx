@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { t } from "services/languageManager";
 import "./styles.scss";
-import AuthLayout from "components/AuthLayout";
+import AuthLayout from "shared/layouts/AuthLayout";
 import ForgotPass from "./ForgotPass";
 import VerifyCode from "./UserCode";
 import ResetPassword from "./NewPass";
@@ -9,42 +9,16 @@ import Success from "./Success";
 import SvgImage from "./svgImage";
 import SvgImageSuccess from "./svgImageSuccess";
 
-const ForgotPassword = props => {
+const ForgotPassword = (props) => {
   const [tab, changeTab] = useState(1);
   const [email, setEmail] = useState("");
   const [token, setToken] = useState("");
-  const getTitle = useMemo(() => {
-    switch (tab) {
-      case 1:
-        return t("FORGOT_PASS_EMAIL_TITLE");
-      case 2:
-        return t("FORGOT_PASS_CODE_TITLE");
-      case 3:
-        return t("FORGOT_PASS_CHANGE_TITLE");
-      case 4:
-        return t("FORGOT_PASS_SUCCESS_TITLE");
-      default:
-    }
-  });
-  const getDescription = useMemo(() => {
-    switch (tab) {
-      case 1:
-        return t("FORGOT_PASS_EMAIL_DESC");
-      case 2:
-        return t("FORGOT_PASS_CODE_DESC");
-      case 3:
-        return t("FORGOT_PASS_CHANGE_DESC");
-      case 4:
-        return t("FORGOT_PASS_SUCCESS_DESC");
-      default:
-    }
-  });
 
-  const handleSuccessEmail = email => {
+  const handleSuccessEmail = (email) => {
     setEmail(email);
     changeTab(2);
   };
-  const handleSuccessVerifyCode = token => {
+  const handleSuccessVerifyCode = (token) => {
     setToken(token);
     changeTab(3);
   };
@@ -75,8 +49,8 @@ const ForgotPassword = props => {
   return (
     <AuthLayout
       image={tab === 4 ? <SvgImageSuccess /> : <SvgImage />}
-      title={getTitle}
-      description={getDescription}
+      title={t("FORGOT_PASS_INFO_TITLE")}
+      description={t("FORGOT_PASS_INFO_DESC")}
       render={renderComponent}
     />
   );

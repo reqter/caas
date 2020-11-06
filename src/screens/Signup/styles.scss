@@ -1,15 +1,18 @@
 .siguup_content_header {
-  margin: 30px 0;
+}
+
+.signup_content_desc {
+  font-weight: normal;
+  margin: 10px 0 30px 0;
+  font-size: 16px;
 }
 
 .signup_content_buttons {
-  display: flex;
-  margin: 30px 0;
+  margin: 10px 0;
   button {
-    border-radius: 20px;
     display: flex;
     justify-content: center;
-    width: 150px;
+    width: 100%;
   }
 }
 .siguup_content_footer {
@@ -18,7 +21,6 @@
   align-items: center;
   padding: 5px 0;
   span {
-    font-size: 13px;
     padding: 0 5px;
   }
 }
@@ -27,33 +29,142 @@
   padding: 50px 0;
   display: flex;
   flex-direction: column;
-  h1 {
-  }
-  &__icon {
-    border-radius: 100%;
-    color: white;
-    margin: 30px 0;
-    align-self: center;
-    width: 50px;
-    height: 50px;
-    background: green;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-  }
   &__message {
-    font-size: 13px;
+    font-size: 15px;
     text-align: justify;
-    line-height: 20px;
-    border-bottom: 1px solid black;
-    padding-bottom: 10px;
+    line-height: 1.7;
+    padding: 10px 0;
     color: gray;
   }
   button {
     align-self: center;
-    width: 150px;
-    border-radius: 25px;
+    width: 100%;
     margin-top: 40px;
   }
+}
+
+.login-cls-1 {
+  fill: none;
+}
+.login-cls-2 {
+  isolation: isolate;
+}
+.login-cls-3 {
+  fill: #002d75;
+}
+.login-cls-4 {
+  fill: #605aca;
+}
+.login-cls-11,
+.login-cls-21,
+.login-cls-27,
+.login-cls-4 {
+  opacity: 0.5;
+}
+.login-cls-13,
+.login-cls-16,
+.login-cls-20,
+.login-cls-21,
+.login-cls-24,
+.login-cls-25,
+.login-cls-27,
+.login-cls-29,
+.login-cls-33,
+.login-cls-35,
+.login-cls-4,
+.login-cls-9 {
+  mix-blend-mode: multiply;
+}
+.login-cls-5 {
+  fill: #f5f5f5;
+}
+.login-cls-6 {
+  fill: #b0ceff;
+}
+.login-cls-7 {
+  clip-path: url(#clip-path);
+}
+.login-cls-8 {
+  fill: #629eff;
+}
+.login-cls-9 {
+  opacity: 0.09;
+}
+.login-cls-10,
+.login-cls-11 {
+  fill: #94ebff;
+}
+.login-cls-10,
+.login-cls-20,
+.login-cls-24,
+.login-cls-25,
+.login-cls-35 {
+  opacity: 0.3;
+}
+.login-cls-12 {
+  fill: #1a4a46;
+}
+.login-cls-13,
+.login-cls-30,
+.login-cls-35 {
+  fill: #f9714e;
+}
+.login-cls-13,
+.login-cls-16 {
+  opacity: 0.4;
+}
+.login-cls-14 {
+  fill: #29766f;
+}
+.login-cls-15 {
+  fill: #001d4c;
+}
+.login-cls-16 {
+  fill: #ffb255;
+}
+.login-cls-17,
+.login-cls-25 {
+  fill: #ffc2d3;
+}
+.login-cls-18 {
+  fill: #5084da;
+}
+.login-cls-19 {
+  fill: #33938a;
+}
+.login-cls-21 {
+  fill: #2e2c84;
+}
+.login-cls-22 {
+  fill: #001f64;
+}
+.login-cls-23 {
+  fill: #102d2b;
+}
+.login-cls-24 {
+  fill: #8fc2ff;
+}
+.login-cls-26 {
+  fill: #39a298;
+}
+.login-cls-27 {
+  fill: #ffc87c;
+}
+.login-cls-28 {
+  fill: #f9acc8;
+}
+.login-cls-29 {
+  opacity: 0.1;
+}
+.login-cls-31 {
+  fill: #568edb;
+}
+.login-cls-32 {
+  fill: #5e9ce4;
+}
+.login-cls-33 {
+  opacity: 0.16;
+}
+.login-cls-34 {
+  fill: #4e84d9;
 }

@@ -12,77 +12,77 @@ const ForgotPassword = ({ history, onSuccessChangePassword, token }) => {
   const [state, setState] = useState({
     spinner: false,
     newPass: "",
-    confirmPass: ""
+    confirmPass: "",
   });
 
   //#region first tab
   function handleInputChanged(e) {
     const name = e.target.name;
     const value = e.target.value;
-    setState(prevState => ({ ...prevState, [name]: value }));
+    setState((prevState) => ({ ...prevState, [name]: value }));
   }
   function handleResetPassword(e) {
     e.preventDefault();
     if (!spinner) {
       const { newPass } = state;
-      setState(prevState => ({
+      setState((prevState) => ({
         ...prevState,
-        spinner: true
+        spinner: true,
       }));
       resetPassword()
-        .onOk(result => {
+        .onOk((result) => {
           if (onSuccessChangePassword) onSuccessChangePassword();
         })
-        .onServerError(result => {
-          setState(prevState => ({
+        .onServerError((result) => {
+          setState((prevState) => ({
             ...prevState,
-            spinner: !prevState.spinner
+            spinner: !prevState.spinner,
           }));
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: t("LOGIN_ON_SERVER_ERROR")
-            }
+              message: t("LOGIN_ON_SERVER_ERROR"),
+            },
           });
         })
-        .onBadRequest(result => {
-          setState(prevState => ({
+        .onBadRequest((result) => {
+          setState((prevState) => ({
             ...prevState,
-            spinner: !prevState.spinner
+            spinner: !prevState.spinner,
           }));
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: t("LOGIN_ON_BAD_REQUEST")
-            }
+              message: t("LOGIN_ON_BAD_REQUEST"),
+            },
           });
         })
-        .unAuthorized(result => {
-          setState(prevState => ({
+        .unAuthorized((result) => {
+          setState((prevState) => ({
             ...prevState,
-            spinner: !prevState.spinner
+            spinner: !prevState.spinner,
           }));
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: t("LOGIN_UN_AUTHORIZED")
-            }
+              message: t("LOGIN_UN_AUTHORIZED"),
+            },
           });
         })
-        .notFound(result => {
-          setState(prevState => ({
+        .notFound((result) => {
+          setState((prevState) => ({
             ...prevState,
-            spinner: !prevState.spinner
+            spinner: !prevState.spinner,
           }));
           dispatch({
             type: "ADD_NOTIFY",
             value: {
               type: "error",
-              message: t("LOGIN_NOT_FOUND")
-            }
+              message: t("LOGIN_NOT_FOUND"),
+            },
           });
         })
         .call(token, newPass);
@@ -103,8 +103,9 @@ const ForgotPassword = ({ history, onSuccessChangePassword, token }) => {
       className="animated fadeIn forgetPassForm"
     >
       <h2 className="fogotPass_content_header">
-        {t("FORGOT_PASS_CONTENT_CHANGE_TITLE")}
+        {t("FORGOT_PASS_CONTENT_TITLE")}
       </h2>
+      <h5 className="fogotPass_content_desc">{t("FORGOT_PASS_CHANGE_DESC")}</h5>
       <Input
         title={t("NEW_PASS_INPUT")}
         type="password"
@@ -144,7 +145,7 @@ const ForgotPassword = ({ history, onSuccessChangePassword, token }) => {
       </div>
       <div className="fogotPass_content_footer">
         <span>{t("SIGNUP_HAVE_ACCOUNT")}</span>
-        <Link to="/login" className="link">
+        <Link to="/login">
           {t("LOGIN").toUpperCase()}
         </Link>
       </div>
