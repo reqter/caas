@@ -1,6 +1,11 @@
 import storageManager from "./../storageManager";
-
-const token = storageManager.getItem("@caaser-token");
+import getParameterByName from "../../utils/getQueryParam";
+let token = storageManager.getItem("@caaser-token");
+const tokenParam = getParameterByName("token");
+if (tokenParam) {
+  token = tokenParam;
+  storageManager.setItem("@caaser-token", tokenParam);
+}
 export const initialState = {
   isAuthenticated: token ? true : false,
   spaceInfo: undefined,
