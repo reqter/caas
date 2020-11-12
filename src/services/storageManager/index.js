@@ -1,13 +1,14 @@
 "use strict";
-// import Cookies from "js-cookie";
-function setItem(key, value) {
-  localStorage.setItem(key, value);
+import Cookies from "js-cookie";
+function setItem(name, value) {
+  Cookies.set(name, value);
 }
-function removeItem(key) {
-  localStorage.removeItem(key);
+function removeItem(name) {
+  Cookies.remove(name);
 }
-function getItem(key) {
-  return localStorage.getItem(key);
+function getItem(name) {
+  return Cookies.get(name);
 }
+
 const storage = { setItem, getItem, removeItem };
 export default storage;
