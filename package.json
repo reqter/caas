@@ -10,6 +10,7 @@
     "draft-js": "^0.10.5",
     "draftjs-to-html": "^0.8.4",
     "html-to-draftjs": "^1.4.0",
+    "js-cookie": "^2.2.1",
     "moment-timezone": "^0.5.25",
     "node-sass": "^4.13.1",
     "react": "^16.8.1",

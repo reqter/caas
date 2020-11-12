@@ -1,16 +1,14 @@
-function setItem (name, value, days = 1) {
-  var d = new Date()
-  d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days)
-  document.cookie = name + '=' + value + ';path=/;expires=' + d.toGMTString()
+"use strict";
+import Cookies from "js-cookie";
+function setItem(name, value) {
+  Cookies.set(name, value);
 }
-function getItem (name) {
-  const v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)')
-
-  return v ? v[2] : null
+function removeItem(name) {
+  Cookies.remove(name);
 }
-function removeItem (name) {
-  setItem(name, '', -1)
+function getItem(name) {
+  return Cookies.get(name);
 }
 
-const storage = { setItem, getItem, removeItem }
-export default storage
+const storage = { setItem, getItem, removeItem };
+export default storage;
