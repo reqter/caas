@@ -61,7 +61,7 @@ const ForgotPassword = ({ history, onSuccessEmail }) => {
   //#endregion first tab
   //#region second tab
   function navToLogin() {
-    history.push("login");
+    history.push("/app/login");
   }
 
   return (
@@ -98,7 +98,7 @@ const ForgotPassword = ({ history, onSuccessEmail }) => {
       </div>
       <div className="fogotPass_content_footer">
         <span>{t("SIGNUP_HAVE_ACCOUNT")}</span>
-        <Link to="/login">
+        <Link to="/app/login">
           {t("LOGIN").toUpperCase()}
         </Link>
       </div>

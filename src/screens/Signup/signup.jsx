@@ -110,9 +110,7 @@ const Register = ({ onSuccessSignup }) => {
       </div>
       <div className="siguup_content_footer">
         <span>{t("SIGNUP_HAVE_ACCOUNT")}</span>
-        <Link to="/login">
-          {t("LOGIN").toUpperCase()}
-        </Link>
+        <Link to="/app/login">{t("LOGIN").toUpperCase()}</Link>
       </div>
     </form>
   );

@@ -393,7 +393,7 @@ const UpsertContent = (props) => {
     }
   }
   function backToProducts() {
-    props.history.push("/panel/contents");
+    props.history.push("/app/panel/contents");
   }
   function changeTab(tab) {
     if (tab === 2) {

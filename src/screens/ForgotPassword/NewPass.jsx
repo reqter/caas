@@ -91,7 +91,7 @@ const ForgotPassword = ({ history, onSuccessChangePassword, token }) => {
   //#endregion first tab
   //#region second tab
   function navToLogin() {
-    history.push("login");
+    history.push("l/app/ogin");
   }
 
   const { spinner, newPass, confirmPass } = state;
@@ -145,7 +145,7 @@ const ForgotPassword = ({ history, onSuccessChangePassword, token }) => {
       </div>
       <div className="fogotPass_content_footer">
         <span>{t("SIGNUP_HAVE_ACCOUNT")}</span>
-        <Link to="/login">
+        <Link to="/app/login">
           {t("LOGIN").toUpperCase()}
         </Link>
       </div>

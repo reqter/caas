@@ -31,10 +31,10 @@ const HeaderProfile = ({ history }) => {
   }
 
   function showProfile() {
-    history.push("/panel/profile");
+    history.push("/app/panel/profile");
   }
   function showSettings() {
-    history.push("/panel/settings");
+    history.push("/app/panel/settings");
   }
   function getLocaleTitle(localeName, type) {
     const locale = sysLocales.find((l) => l.name === localeName);

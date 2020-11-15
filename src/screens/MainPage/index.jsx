@@ -35,32 +35,32 @@ const MainPage = (props) => {
           <Switch>
             <PrivateRoute
               key="home"
-              path="/panel/home"
+              path="/app/panel/home"
               render={(props) => <Home {...props} />}
             />
             <PrivateRoute
               key="contentType"
-              path="/panel/contentType"
+              path="/app/panel/contentType"
               render={(props) => <ContentType {...props} />}
             />
             <PrivateRoute
               key="contents"
-              path="/panel/contents"
+              path="/app/panel/contents"
               render={(props) => <Contents {...props} />}
             />
             <PrivateRoute
               key="profile"
-              path="/panel/profile"
+              path="/app/panel/profile"
               render={(props) => <Profile {...props} />}
             />
             <PrivateRoute
               key="assets"
-              path="/panel/assets"
+              path="/app/panel/assets"
               render={(props) => <Assets {...props} />}
             />
             <PrivateRoute
               key="settings"
-              path="/panel/settings"
+              path="/app/panel/settings"
               render={(props) => <Settings {...props} />}
             />
           </Switch>

@@ -39,65 +39,65 @@ const App = () => {
             <Route
               exact
               key="login"
-              path="/login"
+              path="/app/login"
               render={(props) => <Login {...props} />}
             />
             <Route
               key="signup"
-              path="/signup"
+              path="/app/signup"
               render={(props) => <Signup {...props} />}
             />
             <Route
               key="forgotPassword"
-              path="/forgotPassword"
+              path="/app/forgotPassword"
               render={(props) => <ForgotPassword {...props} />}
             />
             <Route
               key="confirmEmail"
-              path="/confirmEmail/:token"
+              path="/app/confirmEmail/:token"
               render={(props) => <ConfirmEmail {...props} />}
             />
             <Route
               key="contentViewByLink"
-              path="/contentView/:link"
+              path="/app/contentView/:link"
               render={(props) => <ContentViewByLink {...props} />}
             />
             <PrivateRoute
               key="panel"
-              path="/panel"
+              path="/app/panel"
               render={(props) => <MainPage {...props} />}
             />
             <PrivateRoute
               key="addAsset"
-              path="/asset/new"
+              path="/app/asset/new"
               render={(props) => <AddAsset {...props} />}
             />
             <PrivateRoute
               key="editAsset"
-              path="/asset/edit/:id"
+              path="/app/asset/edit/:id"
               render={(props) => <EditAsset {...props} />}
             />
             <PrivateRoute
               key="viewAsset"
-              path="/asset/view/:id"
+              path="/app/asset/view/:id"
               render={(props) => <ViewAsset {...props} />}
             />
             <PrivateRoute
               key="addContent"
-              path="/contents/new/:id?"
+              path="/app/contents/new/:id?"
               render={(props) => <AddContent {...props} />}
             />
             <PrivateRoute
               key="editContent"
-              path="/contents/edit/:id"
+              path="/app/contents/edit/:id"
               render={(props) => <EditContent {...props} />}
             />
             <PrivateRoute
               key="viewContent"
-              path="/contents/view/:id"
+              path="/app/contents/view/:id"
               render={(props) => <ViewContent {...props} />}
             />
-            <Redirect from="/" to="/panel/home" exact />
+            <Redirect from="/" to="/app/panel/home" exact />
           </Switch>
         </Suspense>
       </BrowserRouter>

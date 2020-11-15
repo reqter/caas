@@ -184,14 +184,14 @@ const Assets = (props) => {
     doFilter(selectedFileType.name, selected.name, 0, limit);
   }
   function openUploader() {
-    props.history.push("/asset/new");
+    props.history.push("/app/asset/new");
   }
   function openUploaderForEdit(e, file) {
-    props.history.push(`/asset/edit/${file._id}`);
+    props.history.push(`/app/asset/edit/${file._id}`);
     e.stopPropagation();
   }
   function viewAsset(file) {
-    props.history.push(`/asset/view/${file._id}`);
+    props.history.push(`/app/asset/view/${file._id}`);
   }
   function showRemoveAlert(e, item) {
     setAlertData({

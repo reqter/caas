@@ -26,10 +26,10 @@ const ProfileWidget = props => {
   }
 
   function showProfile() {
-    history.push("/panel/profile");
+    history.push("/app/panel/profile");
   }
   function showSettings() {
-    history.push("/panel/settings");
+    history.push("/app/panel/settings");
   }
   return (
     <div className="profile-widget">

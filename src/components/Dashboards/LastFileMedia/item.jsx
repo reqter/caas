@@ -8,7 +8,7 @@ import DateFormatter from "components/DateFormater";
 const Item = ({ history, file }) => {
   const { currentLocale } = useLocale();
   function view() {
-    history.push(`/asset/view/${file._id}?ref=dashboard`);
+    history.push(`/app/asset/view/${file._id}?ref=dashboard`);
   }
   return (
     <div className={styles.item}>
