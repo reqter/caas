@@ -10,7 +10,7 @@ const Item = ({ history, data, i }) => {
   const { fields, contentType, status } = data;
   function view() {
     history.push({
-      pathname: `/contents/view/${data._id}?ref=dashboard`,
+      pathname: `/app/contents/view/${data._id}?ref=dashboard`,
     });
   }
   return (

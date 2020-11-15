@@ -20,7 +20,7 @@ const ContentTypes = ({ history }) => {
           isLinkableName={true}
           onClickLink={(contentType) =>
             window.open(
-              window.origin + `/panel/contents/${contentType._id}`,
+              window.origin + `/app/panel/contents/${contentType._id}`,
               "_blank"
             )
           }
@@ -29,7 +29,7 @@ const ContentTypes = ({ history }) => {
               type: "SAVE_CONTENT_TYPE",
               payload: contentType,
             });
-            history.push(`/panel/contents/${contentType._id}`);
+            history.push(`/app/panel/contents/${contentType._id}`);
           }}
           renderActions={(contentType) => {
             return (
@@ -37,7 +37,7 @@ const ContentTypes = ({ history }) => {
                 <Link
                   onClick={(e) => e.stopPropagation()}
                   className="btn btn-light btn-sm"
-                  to={`/contents/new/${contentType._id}`}
+                  to={`/app/contents/new/${contentType._id}`}
                 >
                   Add New 
                 </Link>

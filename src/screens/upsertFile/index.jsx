@@ -249,9 +249,9 @@ const UpsertFile = (props) => {
   function backToAssets() {
     const refParam = getQueryParam("ref");
     if (refParam) {
-      if (refParam === "dashboard") props.history.push(`/panel/home`);
-      else props.history.push("/panel/assets");
-    } else props.history.push("/panel/assets");
+      if (refParam === "dashboard") props.history.push(`/app/panel/home`);
+      else props.history.push("/app/panel/assets");
+    } else props.history.push("/app/panel/assets");
   }
 
   function upsertItem(closePage) {

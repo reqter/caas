@@ -3,7 +3,7 @@ import "./styles.scss";
 import {
   languageManager,
   useGlobalState,
-  storageManager
+  storageManager,
 } from "../../services";
 import { getContentByLink } from "../../Api/content-api";
 import { getUserInfo } from "../../Api/account-api";
@@ -18,10 +18,10 @@ import {
   RichText,
   Reference,
   JsonObject,
-  AdvanceUploaderView
+  AdvanceUploaderView,
 } from "../../components";
 const currentLang = languageManager.getCurrentLanguage().name;
-const ViewRequest = props => {
+const ViewRequest = (props) => {
   const viewMode = true;
   const [{ spaceInfo }, dispatch] = useGlobalState();
   const [tab, changeTab] = useState(1);
@@ -50,7 +50,7 @@ const ViewRequest = props => {
       const obj = {
         type: "WRONG_URL",
         title: "Wrong Url!",
-        message: "Url is wrong.It has not request id"
+        message: "Url is wrong.It has not request id",
       };
       setError(obj);
       toggleSpinner(false);
@@ -77,7 +77,7 @@ const ViewRequest = props => {
 
   function fetchUserInfo() {
     getUserInfo()
-      .onOk(result => {
+      .onOk((result) => {
         // if (result.profile && result.profile.avatar) {
         //   result.profile.avatar =
         //     process.env.REACT_APP_DOWNLOAD_FILE_BASE_URL +
@@ -85,12 +85,12 @@ const ViewRequest = props => {
         // }
         setUserInfo(result);
       })
-      .onServerError(result => {})
-      .onBadRequest(result => {})
-      .unAuthorized(result => {})
-      .notFound(result => {})
-      .onRequestError(result => {})
-      .unKnownError(result => {})
+      .onServerError((result) => {})
+      .onBadRequest((result) => {})
+      .unAuthorized((result) => {})
+      .notFound((result) => {})
+      .onRequestError((result) => {})
+      .unKnownError((result) => {})
       .call();
   }
   useEffect(() => {
@@ -101,24 +101,24 @@ const ViewRequest = props => {
   }, [item]);
   function getItemById(link) {
     getContentByLink()
-      .onOk(result => {
+      .onOk((result) => {
         if (result) {
           if (!result.contentType) {
             const obj = {
               type: "CONTENT_TYPE",
               title: "Not Found!",
-              message: "There is not content type for this content."
+              message: "There is not content type for this content.",
             };
             setError(obj);
           } else {
             const space = { id: result.sys.spaceId };
             dispatch({
               type: "SET_SPACEINFO",
-              value: space
+              value: space,
             });
             result.settings = {
               showHeader: true,
-              showRequestInfo: true
+              showRequestInfo: true,
             };
             setFormData(result.fields);
             setItem(result);
@@ -127,29 +127,29 @@ const ViewRequest = props => {
         } else setItem({});
         toggleSpinner(false);
       })
-      .onServerError(result => {
+      .onServerError((result) => {
         const obj = {
           type: "ON_SERVER_ERROR",
           title: "Server Error!",
-          message: "Internal server error."
+          message: "Internal server error.",
         };
         setError(obj);
         toggleSpinner(false);
       })
-      .onBadRequest(result => {
+      .onBadRequest((result) => {
         const obj = {
           type: "ON_SERVER_ERROR",
           title: "Bad Request",
-          message: languageManager.translate("Bad Request")
+          message: languageManager.translate("Bad Request"),
         };
         setError(obj);
         toggleSpinner(false);
       })
-      .unAuthorized(result => {
+      .unAuthorized((result) => {
         const obj = {
           type: "ON_SERVER_ERROR",
           sender: "getItemById",
-          message: languageManager.translate("")
+          message: languageManager.translate(""),
         };
         setError(obj);
         toggleSpinner(false);
@@ -158,7 +158,7 @@ const ViewRequest = props => {
         const obj = {
           type: "NOT_FOUND",
           title: "Not Found!",
-          message: languageManager.translate("Request not found.")
+          message: languageManager.translate("Request not found."),
         };
         setError(obj);
         toggleSpinner(false);
@@ -169,7 +169,7 @@ const ViewRequest = props => {
           title: "Request error",
           message: languageManager.translate(
             "There is an error like connection error."
-          )
+          ),
         };
         setError(obj);
         toggleSpinner(false);
@@ -180,7 +180,7 @@ const ViewRequest = props => {
           title: "Error has occured",
           message: languageManager.translate(
             "There is an error in your request"
-          )
+          ),
         };
         setError(obj);
         toggleSpinner(false);
@@ -231,13 +231,13 @@ const ViewRequest = props => {
   function showProfile() {
     dispatch({
       type: "SET_USERINFO",
-      value: null
+      value: null,
     });
     // dispatch({
     //   type: "SET_SPACEINFO",
     //   value: spaceInfo
     // });
-    props.history.push("/panel/profile");
+    props.history.push("/app/panel/profile");
   }
 
   return spinner ? (
@@ -293,7 +293,7 @@ const ViewRequest = props => {
         className="viewRequest--body"
         style={{
           paddingTop:
-            item && item.settings && item.settings.showHeader === true ? 60 : 0
+            item && item.settings && item.settings.showHeader === true ? 60 : 0,
         }}
       >
         {error ? (
@@ -347,11 +347,11 @@ const ViewRequest = props => {
                     item.settings.showHeader === true &&
                     !item.settings.showRequestInfo
                       ? 20
-                      : 0
+                      : 0,
                 }}
               >
                 {fields &&
-                  fields.map(field => (
+                  fields.map((field) => (
                     <div key={field.id} className="rowItem">
                       {getFieldItem(field)}
                     </div>

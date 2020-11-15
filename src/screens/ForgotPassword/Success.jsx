@@ -5,7 +5,7 @@ import { t } from "services/languageManager";
 const ChangePassSuccess = React.memo(({ history }) => {
   //#region second tab
   function navToLogin() {
-    history.push("login");
+    history.push("/app/login");
   }
   return (
     <div className="forgetPassForm forgetPassSuccess animate fadeIn">

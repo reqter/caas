@@ -283,18 +283,18 @@ const DataTable = ({ match, history }) => {
   const viewRowData = (data) => {
     saveFilter();
     history.push({
-      pathname: `/contents/view/${data._id}?ref=list`,
+      pathname: `/app/contents/view/${data._id}?ref=list`,
       viewMode: true,
     });
   };
   function newContent() {
-    history.push(`/contents/new/${contentType._id}?ref=list`);
+    history.push(`/app/contents/new/${contentType._id}?ref=list`);
     saveFilter();
   }
   function viewNewTab(e, data) {
     e.preventDefault();
     e.stopPropagation();
-    window.open(window.origin + `/contents/view/${data._id}`, "_blank");
+    window.open(window.origin + `/app/contents/view/${data._id}`, "_blank");
   }
 
   const handleApplyFilterClicked = (values) => {

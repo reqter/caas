@@ -116,16 +116,16 @@ const UpsertContent = ({ match, history }) => {
       .call(spaceInfo.id, contentTypeId);
   }
   function backToProducts() {
-    history.push("/panel/contents");
+    history.push("/app/panel/contents");
   }
   const { error, loading, contentType, item } = state;
   function handleBackButtonClicked() {
     const refParam = getQueryParam("ref");
     if (contentType && refParam) {
       if (refParam === "list")
-        history.push(`/panel/contents/${contentType._id}`);
-      if (refParam === "dashboard") history.push(`/panel/home`);
-    } else history.push("/panel/contents");
+        history.push(`/app/panel/contents/${contentType._id}`);
+      if (refParam === "dashboard") history.push(`/app/panel/home`);
+    } else history.push("/app/panel/contents");
   }
   return (
     <div className={styles.wrapper}>

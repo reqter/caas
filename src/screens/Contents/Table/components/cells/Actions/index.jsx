@@ -44,7 +44,7 @@ const Actions = ({ row, onStartAction, onEndAction, history }) => {
         if (onEndAction) onEndAction("error");
       })
       .unAuthorized((result) => {
-        history.push("/login");
+        history.push("/app/login");
       })
       .notFound((result) => {
         showwMsg("Error occurred", "error");
@@ -69,7 +69,7 @@ const Actions = ({ row, onStartAction, onEndAction, history }) => {
         if (onEndAction) onEndAction("error");
       })
       .unAuthorized((result) => {
-        history.push("/login");
+        history.push("/app/login");
       })
       .notFound((result) => {
         showwMsg("Error occurred", "error");
@@ -94,7 +94,7 @@ const Actions = ({ row, onStartAction, onEndAction, history }) => {
         if (onEndAction) onEndAction("error");
       })
       .unAuthorized((result) => {
-        history.push("/login");
+        history.push("/app/login");
       })
       .notFound((result) => {
         showwMsg("Error occurred", "error");
@@ -119,7 +119,7 @@ const Actions = ({ row, onStartAction, onEndAction, history }) => {
         if (onEndAction) onEndAction("error");
       })
       .unAuthorized((result) => {
-        history.push("/login");
+        history.push("/app/login");
       })
       .notFound((result) => {
         showwMsg("Error occurred", "error");
@@ -132,7 +132,7 @@ const Actions = ({ row, onStartAction, onEndAction, history }) => {
     if (onStartAction) onStartAction("edit");
     e.stopPropagation();
     history.push({
-      pathname: `/contents/edit/${row._id}?ref=list`,
+      pathname: `/app/contents/edit/${row._id}?ref=list`,
     });
   };
   const remove = (e) => {

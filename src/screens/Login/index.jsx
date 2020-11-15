@@ -119,7 +119,7 @@ const Login = ({ location, history }) => {
               required
               onChange={handlePasswordChanged}
             />
-            <Link to="/forgotPassword">
+            <Link to="/app/forgotPassword">
               {t("LOGIN_FORGET_PASS")}
             </Link>
             <div className="login_content_buttons">
@@ -144,7 +144,7 @@ const Login = ({ location, history }) => {
               </button>
               <div className="login_content_signup">
                 <span>{t("LOGIN_SIGNUP_LINK_TITLE")}</span>
-                <Link to="/signup">{t("LOGIN_SIGNUP_LINK")}</Link>
+                <Link to="/app/signup">{t("LOGIN_SIGNUP_LINK")}</Link>
               </div>
             </div>
           </form>
