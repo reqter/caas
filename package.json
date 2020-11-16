@@ -2,7 +2,7 @@
   "name": "react-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://admin.reqter.com",
+  "homepage": "https://reqter.com/app/",
   "dependencies": {
     "animate.css": "^3.7.0",
     "bootstrap": "^4.3.1",
