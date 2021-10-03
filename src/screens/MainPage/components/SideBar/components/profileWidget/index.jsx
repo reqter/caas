@@ -35,11 +35,11 @@ const ProfileWidget = props => {
     <div className="profile-widget">
       {userInfo && userInfo.profile && userInfo.profile.avatar ? userInfo.profile.avatar[currentLocale] ? (
         <div className="userImage">
-          <img src={userInfo.profile.avatar[currentLocale].replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com") } alt="" />
+          <img src={userInfo.profile.avatar[currentLocale].replace("https://app-spanel.herokuapp.com", "https://assets.iran.liara.run") } alt="" />
         </div>
       ) : (
         <div className="userImage">
-          <img src={userInfo.profile.avatar.toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com") } alt="" />
+          <img src={userInfo.profile.avatar.toString().replace("https://app-spanel.herokuapp.com", "https://assets.iran.liara.run") } alt="" />
         </div>
       ) : (
         <div className="left">

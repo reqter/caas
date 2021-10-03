@@ -71,8 +71,8 @@ const UploaderView = props => {
               {utility.getRequestMediaComponentByURL(
                 dropZoneFile.url
                   ? dropZoneFile.url[currentLocale]
-                    ? dropZoneFile.url[currentLocale].replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
-                    : dropZoneFile.url.toString().replace("https://app-spanel.herokuapp.com", "https://assets.reqter.com")
+                    ? dropZoneFile.url[currentLocale].replace("https://app-spanel.herokuapp.com", "https://assets.iran.liara.run")
+                    : dropZoneFile.url.toString().replace("https://app-spanel.herokuapp.com", "https://assets.iran.liara.run")
                   : null,
                 "unknowIcon"
               )}

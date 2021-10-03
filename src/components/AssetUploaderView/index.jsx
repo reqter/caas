@@ -17,13 +17,13 @@ const UploaderView = (props) => {
     const url = dropZoneFile.url[currentLocale]
       ? dropZoneFile.url[currentLocale].replace(
           "https://app-spanel.herokuapp.com",
-          "https://assets.reqter.com"
+          "https://assets.iran.liara.run"
         )
       : dropZoneFile.url
           .toString()
           .replace(
             "https://app-spanel.herokuapp.com",
-            "https://assets.reqter.com"
+            "https://assets.iran.liara.run"
           );
     window.open(url);
   }
@@ -35,16 +35,16 @@ const UploaderView = (props) => {
       ? file.url[currentLocale]
           .replace(
             "https://app-spanel.herokuapp.com",
-            "https://assets.reqter.com"
+            "https://assets.iran.liara.run"
           )
-          .replace("https://assets.herokuapp.com", "https://assets.reqter.com")
+          .replace("https://assets.herokuapp.com", "https://assets.iran.liara.run")
       : file.url
           .toString()
           .replace(
             "https://app-spanel.herokuapp.com",
-            "https://assets.reqter.com"
+            "https://assets.iran.liara.run"
           )
-          .replace("https://assets.herokuapp.com", "https://assets.reqter.com");
+          .replace("https://assets.herokuapp.com", "https://assets.iran.liara.run");
     if (url) {
       const ext = url.split("/").pop().split(".").pop();
       const cls = "unkownFileType " + customClass;

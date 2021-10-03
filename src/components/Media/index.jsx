@@ -56,11 +56,11 @@ const MediaInput = props => {
           asset.url && asset.url[currentLocale]
             ? asset.url[currentLocale].toString().replace(
               "https://app-spanel.herokuapp.com",
-              "https://assets.reqter.com"
+              "https://assets.iran.liara.run"
             )
             : asset.url.toString().replace(
               "https://app-spanel.herokuapp.com",
-              "https://assets.reqter.com"
+              "https://assets.iran.liara.run"
             )
         );
       } else
@@ -68,11 +68,11 @@ const MediaInput = props => {
           asset.url && asset.url[currentLocale]
             ? asset.url[currentLocale].toString().replace(
               "https://app-spanel.herokuapp.com",
-              "https://assets.reqter.com"
+              "https://assets.iran.liara.run"
             )
             : asset.url.toString().replace(
               "https://app-spanel.herokuapp.com",
-              "https://assets.reqter.com"
+              "https://assets.iran.liara.run"
             );
       if (field.isList !== undefined && field.isList) {
         const newFiles = [...files, obj];
@@ -127,11 +127,11 @@ const MediaInput = props => {
                           ? file.url[currentLocale]
                             ? file.url[currentLocale].toString().replace(
                               "https://app-spanel.herokuapp.com",
-                              "https://assets.reqter.com"
+                              "https://assets.iran.liara.run"
                             )
                             : file.url.toString().replace(
                               "https://app-spanel.herokuapp.com",
-                              "https://assets.reqter.com"
+                              "https://assets.iran.liara.run"
                             )
                           : null
                       }
@@ -151,11 +151,11 @@ const MediaInput = props => {
                         ? file.url[currentLocale]
                           ? file.url[currentLocale].toString().replace(
                             "https://app-spanel.herokuapp.com",
-                            "https://assets.reqter.com"
+                            "https://assets.iran.liara.run"
                           )
                           : file.url.toString().replace(
                             "https://app-spanel.herokuapp.com",
-                            "https://assets.reqter.com"
+                            "https://assets.iran.liara.run"
                           )
                         : null
                     )

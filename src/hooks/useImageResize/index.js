@@ -1,5 +1,5 @@
 import { useLocale } from "hooks";
-const imageDownloadBaseUrl = "https://assets.reqter.com/asset/image/download/";
+const imageDownloadBaseUrl = "https://assets.iran.liara.run/asset/image/download/";
 
 const useImageResize = () => {
   const { currentLocale } = useLocale();
@@ -13,7 +13,7 @@ const useImageResize = () => {
         .toString()
         .replace("https://app-spanel.herokuapp.com", imageDownloadBaseUrl)
         .replace(
-          "https://assets.reqter.com/asset/download/",
+          "https://assets.iran.liara.run/asset/download/",
           imageDownloadBaseUrl
         ) + `?w=${width}&h=${height}`
     );

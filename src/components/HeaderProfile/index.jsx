@@ -71,7 +71,7 @@ const HeaderProfile = ({ history }) => {
             <img
               src={userInfo.profile.avatar[currentLocale].replace(
                 "https://app-spanel.herokuapp.com",
-                "https://assets.reqter.com"
+                "https://assets.iran.liara.run"
               )}
               alt=""
             />
@@ -83,7 +83,7 @@ const HeaderProfile = ({ history }) => {
                 .toString()
                 .replace(
                   "https://app-spanel.herokuapp.com",
-                  "https://assets.reqter.com"
+                  "https://assets.iran.liara.run"
                 )}
               alt=""
             />

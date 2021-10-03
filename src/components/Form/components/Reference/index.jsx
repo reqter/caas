@@ -192,13 +192,13 @@ const SingleValue = (props) => {
                           .toString()
                           .replace(
                             "https://app-spanel.herokuapp.com",
-                            "https://assets.reqter.com"
+                            "https://assets.iran.liara.run"
                           )
                       : data.contentType["media"][0]
                           .toString()
                           .replace(
                             "https://app-spanel.herokuapp.com",
-                            "https://assets.reqter.com"
+                            "https://assets.iran.liara.run"
                           )
                   }
                   alt=""
@@ -236,13 +236,13 @@ const MultiValueLabel = (props) => {
                       .toString()
                       .replace(
                         "https://app-spanel.herokuapp.com",
-                        "https://assets.reqter.com"
+                        "https://assets.iran.liara.run"
                       )
                   : data.contentType["media"][0]
                       .toString()
                       .replace(
                         "https://app-spanel.herokuapp.com",
-                        "https://assets.reqter.com"
+                        "https://assets.iran.liara.run"
                       )
               }
               alt=""
@@ -278,13 +278,13 @@ const CustomOption = ({ innerProps, isDisabled, data }) => {
                       .toString()
                       .replace(
                         "https://app-spanel.herokuapp.com",
-                        "https://assets.reqter.com"
+                        "https://assets.iran.liara.run"
                       )
                   : data.contentType["media"][0]
                       .toString()
                       .replace(
                         "https://app-spanel.herokuapp.com",
-                        "https://assets.reqter.com"
+                        "https://assets.iran.liara.run"
                       )
               }
               alt=""

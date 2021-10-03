@@ -172,12 +172,12 @@
       "id": "5",
       "name": "users",
       "title": {
-        "en": "Users",
-        "fa": "کاربران"
+        "en": "Team",
+        "fa": "اعضای تیم"
       },
       "description": {
-        "en": "system users",
-        "fa": "کاربران سیستم"
+        "en": "team users",
+        "fa": "اعضای تیم"
       },
       "icon": "icon-users",
       "allowCustomFields": true,

@@ -44,13 +44,13 @@ const ContentTypeItem = ({
                 ? media[0][currentLocale]
                   ? media[0][currentLocale].replace(
                       "https://app-spanel.herokuapp.com",
-                      "https://assets.reqter.com"
+                      "https://assets.iran.liara.run"
                     )
                   : media[0]
                       .toString()
                       .replace(
                         "https://app-spanel.herokuapp.com",
-                        "https://assets.reqter.com"
+                        "https://assets.iran.liara.run"
                       )
                 : null
             )}

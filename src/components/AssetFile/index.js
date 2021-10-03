@@ -24,15 +24,15 @@ const AssetFile = props => {
             file.url
               ? file.url[currentLocale]
                 ? file.url[currentLocale].replace(
-                    "https://app-spanel.herokuapp.com",
-                    "https://assets.reqter.com"
-                  )
+                  "https://app-spanel.herokuapp.com",
+                  "https://assets.iran.liara.run"
+                )
                 : file.url
-                    .toString()
-                    .replace(
-                      "https://app-spanel.herokuapp.com",
-                      "https://assets.reqter.com"
-                    )
+                  .toString()
+                  .replace(
+                    "https://app-spanel.herokuapp.com",
+                    "https://assets.iran.liara.run"
+                  )
               : null
           }
           alt=""

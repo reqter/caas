@@ -26,13 +26,13 @@ const Item = ({ history, data, i }) => {
                       .toString()
                       .replace(
                         "https://app-spanel.herokuapp.com",
-                        "https://assets.reqter.com"
+                        "https://assets.iran.liara.run"
                       )
                   : data.contentType["media"][0]
                       .toString()
                       .replace(
                         "https://app-spanel.herokuapp.com",
-                        "https://assets.reqter.com"
+                        "https://assets.iran.liara.run"
                       )
               }
               alt=""

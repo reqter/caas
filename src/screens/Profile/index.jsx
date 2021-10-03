@@ -52,13 +52,13 @@ const Profile = (props) => {
                 .toString()
                 .replace(
                   "https://app-spanel.herokuapp.com",
-                  "https://assets.reqter.com"
+                  "https://assets.iran.liara.run"
                 )
             : userInfo.profile.avatar
                 .toString()
                 .replace(
                   "https://app-spanel.herokuapp.com",
-                  "https://assets.reqter.com"
+                  "https://assets.iran.liara.run"
                 )
           : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png"
         : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png"
@@ -86,13 +86,13 @@ const Profile = (props) => {
                 .toString()
                 .replace(
                   "https://app-spanel.herokuapp.com",
-                  "https://assets.reqter.com"
+                  "https://assets.iran.liara.run"
                 )
             : avatar
                 .toString()
                 .replace(
                   "https://app-spanel.herokuapp.com",
-                  "https://assets.reqter.com"
+                  "https://assets.iran.liara.run"
                 )
           : "http://arunoommen.com/wp-content/uploads/2017/01/man-2_icon-icons.com_55041.png"
       );

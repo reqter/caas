@@ -20,13 +20,13 @@ const Item = ({ history, file }) => {
                 ? file.url[currentLocale]
                   ? file.url[currentLocale].replace(
                       "https://app-spanel.herokuapp.com",
-                      "https://assets.reqter.com"
+                      "https://assets.iran.liara.run"
                     )
                   : file.url
                       .toString()
                       .replace(
                         "https://app-spanel.herokuapp.com",
-                        "https://assets.reqter.com"
+                        "https://assets.iran.liara.run"
                       )
                 : null
             }
