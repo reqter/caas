@@ -12,7 +12,7 @@
     "html-to-draftjs": "^1.4.0",
     "js-cookie": "^2.2.1",
     "moment-timezone": "^0.5.25",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "react": "^16.8.1",
     "react-chartjs-2": "^2.9.0",
     "react-cropper-image-editor": "^1.0.9",
